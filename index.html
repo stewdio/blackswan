@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Blackswan</title>
+		<meta charset="utf-8">
+		<meta name="viewport"             content="width=device-width,initial-scale=1.0">
+		<!-- <meta name="description"          content="Quantum computing in your browser."> -->
+		<meta name="copyright"            content="Stewart Smith 2020">
+		
+<!-- 		<meta name="twitter:card"         content="summary_large_image">
+		<meta name="twitter:site"         content="@stew_rtsmith">
+		<meta name="twitter:creator"      content="@stew_rtsmith">
+		<meta name="twitter:title"        content="Quantum JavaScript (Q.js)">
+		<meta name="twitter:description"  content="Quantum computing in your browser.">
+		<meta name="twitter:image"        content="https://quantumjavascript.app/assets/Q-website-preview.jpg">
+		
+		<meta property="og:type"          content="website">
+		<meta property="og:title"         content="Quantum JavaScript (Q.js)">
+		<meta property="og:description"   content="Quantum computing in your browser.">
+		<meta property="og:image"         content="https://quantumjavascript.app/assets/Q-website-preview.jpg">
+		<meta property="og:url"           content="https://quantumjavascript.app/">
+		
+		<link rel="canonical" href="https://quantumjavascript.app/">
+		<link href="assets/Q-favicon-064.png" rel="icon" type="image/png">
+		<link href="assets/Q-favicon-144.png" rel="apple-touch-icon"> -->
+		
+		<link rel="stylesheet" href="blackswan.css">
+		<script src="blackswan.js"></script>
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<main>
+			<div class="keyboard">
+				<div class="row">
+					<div class="key key-tick punctuation">
+						<div class="default">`</div>
+						<div class="shift">~</div>
+						<div class="option">`</div>
+						<div class="shift-option">`</div>
+					</div>
+					<div class="key key-1 digit">
+						<div class="default">1</div>
+						<div class="shift">!</div>
+						<div class="option">¡</div>
+						<div class="shift-option">⁄</div>
+					</div>
+					<div class="key key-2 digit">
+						<div class="default">2</div>
+						<div class="shift">@</div>
+						<div class="option">™</div>
+						<div class="shift-option">€</div>
+					</div>
+					<div class="key key-3 digit">
+						<div class="default">3</div>
+						<div class="shift">#</div>
+						<div class="option">£</div>
+						<div class="shift-option">‹</div>
+					</div>
+					<div class="key key-4 digit">
+						<div class="default">4</div>
+						<div class="shift">$</div>
+						<div class="option">¢</div>
+						<div class="shift-option">›</div>
+					</div>
+					<div class="key key-5 digit">
+						<div class="default">5</div>
+						<div class="shift">%</div>
+						<div class="option">∞</div>
+						<div class="shift-option">ﬁ</div>
+					</div>
+					<div class="key key-6 digit">
+						<div class="default">6</div>
+						<div class="shift">^</div>
+						<div class="option">§</div>
+						<div class="shift-option">ﬂ</div>
+					</div>
+					<div class="key key-7 digit">
+						<div class="default">7</div>
+						<div class="shift">&</div>
+						<div class="option">¶</div>
+						<div class="shift-option">‡</div>
+					</div>
+					<div class="key key-8 digit">
+						<div class="default">8</div>
+						<div class="shift">*</div>
+						<div class="option">•</div>
+						<div class="shift-option">°</div>
+					</div>
+					<div class="key key-9 digit">
+						<div class="default">9</div>
+						<div class="shift">(</div>
+						<div class="option">ª</div>
+						<div class="shift-option">·</div>
+					</div>
+					<div class="key key-0 digit">
+						<div class="default">0</div>
+						<div class="shift">)</div>
+						<div class="option">º</div>
+						<div class="shift-option">‚</div>
+					</div>
+					<div class="key key-minus">
+						<div class="default">-</div>
+						<div class="shift">_</div>
+						<div class="option">–</div>
+						<div class="shift-option">—</div>
+					</div>
+					<div class="key key-equals">
+						<div class="default">=</div>
+						<div class="shift">+</div>
+						<div class="option">≠</div>
+						<div class="shift-option">±</div>
+					</div>
+					<div class="key key-delete word right">delete</div>
+				</div>
+				<div class="row">
+					<div class="key key-tab word left">tab</div>
+					<div class="key key-Q letter">
+						<div class="default">q</div>
+						<div class="shift">Q</div>
+						<div class="option">œ</div>
+						<div class="shift-option">Œ</div>
+					</div>
+					<div class="key key-W letter">
+						<div class="default">w</div>
+						<div class="shift">W</div>
+						<div class="option">∑</div>
+						<div class="shift-option">„</div>
+					</div>
+					<div class="key key-E letter">
+						<div class="default">e</div>
+						<div class="shift">E</div>
+						<div class="option">´</div>
+						<div class="shift-option">´</div>
+					</div>
+					<div class="key key-R letter">
+						<div class="default">r</div>
+						<div class="shift">R</div>
+						<div class="option">®</div>
+						<div class="shift-option">‰</div>
+					</div>
+					<div class="key key-T letter">
+						<div class="default">t</div>
+						<div class="shift">T</div>
+						<div class="option">†</div>
+						<div class="shift-option">ˇ</div>
+					</div>
+					<div class="key key-Y letter">
+						<div class="default">y</div>
+						<div class="shift">Y</div>
+						<div class="option">¥</div>
+						<div class="shift-option">Á</div>
+					</div>
+					<div class="key key-U letter">
+						<div class="default">u</div>
+						<div class="shift">U</div>
+						<div class="option">¨</div>
+						<div class="shift-option">¨</div>
+					</div>
+					<div class="key key-I letter">
+						<div class="default">i</div>
+						<div class="shift">I</div>
+						<div class="option">ˆ</div>
+						<div class="shift-option">ˆ</div>
+					</div>
+					<div class="key key-O letter">
+						<div class="default">o</div>
+						<div class="shift">O</div>
+						<div class="option">ø</div>
+						<div class="shift-option">Ø</div>
+					</div>
+					<div class="key key-P letter">
+						<div class="default">p</div>
+						<div class="shift">P</div>
+						<div class="option">π</div>
+						<div class="shift-option">∏</div>
+					</div>
+					<div class="key key-bracket-open">
+						<div class="default">[</div>
+						<div class="shift">{</div>
+						<div class="option">“</div>
+						<div class="shift-option">”</div>
+					</div>
+					<div class="key key-bracket-close">
+						<div class="default">]</div>
+						<div class="shift">}</div>
+						<div class="option">‘</div>
+						<div class="shift-option">’</div>
+					</div>
+					<div class="key key-slash-backward">
+						<div class="default">\</div>
+						<div class="shift">|</div>
+						<div class="option">«</div>
+						<div class="shift-option">»</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="key key-caps-lock word left">
+						caps lock
+						<div class="caps-lock-indicator"></div>
+					</div>
+					<div class="key key-A letter">
+						<div class="default">a</div>
+						<div class="shift">A</div>
+						<div class="option">å</div>
+						<div class="shift-option">Å</div>
+					</div>
+					<div class="key key-S letter">
+						<div class="default">s</div>
+						<div class="shift">S</div>
+						<div class="option">ß</div>
+						<div class="shift-option">Í</div>
+					</div>
+					<div class="key key-D letter">
+						<div class="default">d</div>
+						<div class="shift">D</div>
+						<div class="option">∂</div>
+						<div class="shift-option">Î</div>
+					</div>
+					<div class="key key-F letter">
+						<div class="default">f</div>
+						<div class="shift">F</div>
+						<div class="option">ƒ</div>
+						<div class="shift-option">Ï</div>
+					</div>
+					<div class="key key-G letter">
+						<div class="default">g</div>
+						<div class="shift">G</div>
+						<div class="option">©</div>
+						<div class="shift-option">˝</div>
+					</div>
+					<div class="key key-H letter">
+						<div class="default">h</div>
+						<div class="shift">H</div>
+						<div class="option">˙</div>
+						<div class="shift-option">Ó</div>
+					</div>
+					<div class="key key-J letter">
+						<div class="default">j</div>
+						<div class="shift">J</div>
+						<div class="option">∆</div>
+						<div class="shift-option">Ô</div>
+					</div>
+					<div class="key key-K letter">
+						<div class="default">k</div>
+						<div class="shift">K</div>
+						<div class="option">˚</div>
+						<div class="shift-option"></div>
+					</div>
+					<div class="key key-L letter">
+						<div class="default">l</div>
+						<div class="shift">L</div>
+						<div class="option">¬</div>
+						<div class="shift-option">Ò</div>
+					</div>
+					<div class="key key-semicolon">
+						<div class="default">;</div>
+						<div class="shift">:</div>
+						<div class="option">…</div>
+						<div class="shift-option">Ú</div>
+					</div>
+					<div class="key key-quote-single">
+						<div class="default">’</div>
+						<div class="shift">”</div>
+						<div class="option">æ</div>
+						<div class="shift-option">Æ</div>
+					</div>
+					<div class="key key-return word right">return</div>
+				</div>
+				<div class="row">
+					<div class="key key-shift-left key-shift word left">shift</div>
+					<div class="key key-Z letter">
+						<div class="default">z</div>
+						<div class="shift">Z</div>
+						<div class="option">Ω</div>
+						<div class="shift-option">¸</div>
+					</div>
+					<div class="key key-X letter">
+						<div class="default">x</div>
+						<div class="shift">X</div>
+						<div class="option">≈</div>
+						<div class="shift-option">˛</div>
+					</div>
+					<div class="key key-C letter">
+						<div class="default">c</div>
+						<div class="shift">C</div>
+						<div class="option">ç</div>
+						<div class="shift-option">Ç</div>
+					</div>
+					<div class="key key-V letter">
+						<div class="default">v</div>
+						<div class="shift">V</div>
+						<div class="option">√</div>
+						<div class="shift-option">◊</div>
+					</div>
+					<div class="key key-B letter">
+						<div class="default">b</div>
+						<div class="shift">B</div>
+						<div class="option">∫</div>
+						<div class="shift-option">ı</div>
+					</div>
+					<div class="key key-N letter">
+						<div class="default">n</div>
+						<div class="shift">N</div>
+						<div class="option">˜</div>
+						<div class="shift-option">˜</div>
+					</div>
+					<div class="key key-M letter">
+						<div class="default">m</div>
+						<div class="shift">M</div>
+						<div class="option">µ</div>
+						<div class="shift-option">Â</div>
+					</div>
+					<div class="key key-comma">
+						<div class="default">,</div>
+						<div class="shift">&lt;</div>
+						<div class="option">≤</div>
+						<div class="shift-option">¯</div>
+					</div>
+					<div class="key key-period">
+						<div class="default">.</div>
+						<div class="shift">&gt;</div>
+						<div class="option">≥</div>
+						<div class="shift-option">˘</div>
+					</div>
+					<div class="key key-slash-forward">
+						<div class="default">/</div>
+						<div class="shift">?</div>
+						<div class="option">÷</div>
+						<div class="shift-option">¿</div>
+					</div>
+					<div class="key key-shift-right key-shift word right">shift</div>
+				</div>
+				<div class="row">
+					<div class="key key-function word left">fn</div>
+					<div class="key key-control word">control</div>
+					<div class="key key-option-left key-option word">option</div>
+					<div class="key key-command-left word">command</div>
+					<div class="key key-space"></div>
+					<div class="key key-command-right word">command</div>
+					<div class="key key-option-right key-option word">option</div>
+					<div class="key key-arrow-left arrow">&larr;</div>
+					<div class="arrow-up-down-container">
+						<div class="key key-arrow-up arrow">&uarr;</div>
+						<div class="key key-arrow-down arrow">&darr;</div>
+					</div>
+					<div class="key key-arrow-right arrow">&rarr;</div>
+				</div>
+
+			</div>
+		</main>
+	</body>
+</html>
