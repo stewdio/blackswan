@@ -582,7 +582,7 @@ main {
 
 
 
-.keyboard.shift .key-shift,
+/*.keyboard.shift .key-shift,*/
 .keyboard.option .key-option,
 .key.press,
 .key:hover {
@@ -651,10 +651,34 @@ main {
 
 
 
+body {
 
+	perspective: 600px;
+}
+.keyboard {
 
+	transition-property: transform;
+	transition-duration: 10s;
+	transition-timing-function: ease-in-out;
+	transform-style: preserve-3d;
+}
+.keyboard.wtf {
 
+	transform: rotate3d( 1, 1, 1, 45deg ) scale( 1.2 );
+}
+.key-W.wtf {
 
+	transform: perspective( 600px ) translate3d( 0, 20px, 60px );
+}
+.key-T.wtf {
+
+	transform: perspective( 600px ) translate3d( 0, 20px, 60px );
+}
+.key-F.wtf {
+
+	transform: perspective( 600px ) translate3d( 0, 20px, 60px );
+	/*transform: perspective( 600px ) translate3d( 0, 20px, 100px ) rotate3d( 0, 0, 1, 45deg );*/
+}
 
 
 

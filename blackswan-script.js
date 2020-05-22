@@ -41,15 +41,15 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	}, 'Reset!' )
 
 
-	script.add( 1 )
-	type( 'this is normal text' )
-	type( 'THIS IS A TEST OF TYPING WITH CAPS' )
+	// script.add( 1 )
+	// type( 'this is normal text' )
+	// type( 'THIS IS A TEST OF TYPING WITH CAPS' )
 
-/*
 
-	riff( false, 1 )
-	riff( true, script.beat / 2 )
-	riff( true, script.beat / 2 )
+
+	riff( 1, false )
+	riff( script.beat / 2, true )
+	riff( script.beat / 2, true )
 
 	script.add( 0, function(){ keyboard.switchToMode( 'caps-lock' )}, 'caps-lock ON' )
 	fuckedUp()
@@ -94,10 +94,17 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	type( 'With your fingers you can touch me' )
 
 
-	lastPerformanceMark = performance.now()
+
+
+
+
+
+
+
+
+
 	render()
 	script.play()
-	*/
 })
 
 

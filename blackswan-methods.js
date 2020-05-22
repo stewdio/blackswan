@@ -1,94 +1,14 @@
 
 
-let 
-clock = 0
-lastPerformanceMark = -1,
-isRunning = true,
-script = [{
-
-	time: 0
-}],
-scriptIndex = 0
-
-
-
-
-script.set = function( timeAbsolute, action, comment ){
-
-	script.push({
-
-		time: timeAbsolute,
-		action,
-		comment
-	})
-	script = script.sort( function( a, b ){
-
-		return a.time - b.time
-	})
-	return script
-}
-script.add = function( timeRelative, action, comment ){
-
-	script.push({
-
-		time: script[ script.length - 1 ].time + timeRelative,
-		action,
-		comment
-	})
-	return script
-}
-
-
-
-
-function render(){
-
-	if( isRunning ){
-
-		const 
-		now   = performance.now(),
-		delta = now - lastPerformanceMark
-		
-		clock += delta
-		
-		const seconds = clock / 1000
-		while( scriptIndex < script.length &&
-			script[ scriptIndex ].time <= seconds ){
-
-			if( typeof script[ scriptIndex ].action === 'function' ){
-
-				// console.log(
-
-				// 	( new Date ).getSeconds(),
-				// 	Math.round( seconds ),
-				// 	script[ scriptIndex ].time,
-				// 	script[ scriptIndex ].comment
-				// )
-				script[ scriptIndex ].action()
-			}
-			scriptIndex ++
-		}
-		lastPerformanceMark = now
-	}
-	requestAnimationFrame( render )
-}
 
 
 
 
 
-const characterToName = {
-
-	' ': 'space',
-	'.': 'period',
-	',': 'comma',
-	"'": 'quote-single'
-}
 
 
 
-
-function riff( addGuitar, delay ){
+function riff( delay, addGuitar ){
 
 	if( typeof delay !== 'number' ) delay = 0
 	const timeStart = script[ script.length - 1 ].time + delay
@@ -158,6 +78,15 @@ function riff( addGuitar, delay ){
 
 
 
+
+
+const characterToName = {
+
+	' ': 'space',
+	'.': 'period',
+	',': 'comma',
+	"'": 'quote'
+}
 function type( text ){
 
 	const timeStart = script[ script.length - 1 ].time
@@ -171,8 +100,6 @@ function type( text ){
 		const 
 		cssName = character.length > 1 ? character : character.toUpperCase(),
 		keyElement = document.querySelector( '.key-'+ cssName ),
-		// isLetter = character.match( /[a-z]/i ),
-		// isMajuscule = isLetter && character === character.toUpperCase()
 		isMajuscule = character.match( /[A-Z]/ )
 
 		if( keyElement instanceof HTMLElement ){
@@ -185,11 +112,36 @@ function type( text ){
 			)
 			if( isMajuscule ){
 
+				const side = Math.random() >= 0.5 ? 'left' : 'right'
 				script.set(
 
 					timeStart + i * 0.1,
-					function(){ keyboard.classList.add( 'shift' )},
+					function(){ 
+
+						keyboard.classList.add( 'shift' )
+						Array
+						.from( document.querySelectorAll( '.key-shift-'+ side ))
+						.forEach( function( element ){
+
+							element.classList.add( 'press' )
+						})
+					},
 					'shift ON'
+				)
+				script.set(
+
+					timeStart + i * 0.1 + 0.3,
+					function(){ 
+
+						keyboard.classList.remove( 'shift' )
+						Array
+						.from( document.querySelectorAll( '.key-shift-'+ side ))
+						.forEach( function( element ){
+
+							element.classList.remove( 'press' )
+						})
+					},
+					'shift OFF'
 				)
 			}
 			script.set(
@@ -198,15 +150,6 @@ function type( text ){
 				function(){ keyElement.classList.remove( 'press' )},
 				'Type OFF: '+ cssName
 			)
-			if( isMajuscule ){
-
-				script.set(
-
-					timeStart + i * 0.1 + 0.3,
-					function(){ keyboard.classList.remove( 'shift' )},
-					'shift OFF'
-				)
-			}
 		}
 	})
 }
@@ -274,46 +217,6 @@ function blackSwanOff(){
 }
 
 
-
-
-let 
-keyboards,
-keyboard
-
-window.addEventListener( 'DOMContentLoaded', function(){
-
-	keyboards = Array.from( document.querySelectorAll( '.keyboard' ))
-	keyboards.forEach( function( keyboard ){
-
-		keyboard.switchToMode = function( mode ){
-
-			keyboard.classList.remove( 'default', 'shift', 'option', 'shift-option', 'caps-lock' )
-			keyboard.classList.add( mode )
-		}
-	})
-	keyboard = keyboards[ 0 ]
-})
-window.addEventListener( 'keydown', function( event ){
-
-	if( !!event.key.match( /[A-Z]|[0-9]/i )){
-
-		const keyElement = document.querySelector( '.key-'+ event.key.toUpperCase() )
-		if( keyElement instanceof HTMLElement ) keyElement.classList.add( 'press' )
-	}
-	// console.log( '>', event.code, clock, event )
-	// console.log( 'event.ctrlKey', event.ctrlKey )
-	// console.log( 'event.shiftKey', event.shiftKey )
-	// console.log( 'event.altKey', event.altKey )
-	// console.log( 'event.metaKey', event.metaKey )
-})
-window.addEventListener( 'keyup', function( event ){
-
-	if( !!event.key.match( /[A-Z]|[0-9]/i )){
-
-		const keyElement = document.querySelector( '.key-'+ event.key.toUpperCase() )
-		if( keyElement instanceof HTMLElement ) keyElement.classList.remove( 'press' )
-	}
-})
 
 
 
