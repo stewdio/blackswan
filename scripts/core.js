@@ -12,8 +12,9 @@
 
 
 const script = [{ time: 0 }]
-script.time  = 0
-script.index = 0
+script.time  =  0
+script.index =  0
+script.endAt = 60
 script.set = function( timeAbsolute, action, comment ){
 
 	script.push({
@@ -62,6 +63,7 @@ script.seek = function( time ){
 		}
 		script.index ++
 	}
+	audioElement.currentTime = time
 }
 
 
@@ -96,11 +98,23 @@ function render(){
 		}
 		script.clockMarkLast = now
 	}
+
+	const progressElement = document.getElementById( 'progress' )
+	progressElement.style.width = ( script.time / script.endAt * 100 ) +'%'
+
 	requestAnimationFrame( render )
 }
 
 
 
+
+
+
+    //////////////////
+   //              //
+  //   Keyboard   //
+ //              //
+//////////////////
 
 
 let 
@@ -112,14 +126,65 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	keyboards = Array.from( document.querySelectorAll( '.keyboard' ))
 	keyboards.forEach( function( keyboard ){
 
-		keyboard.switchToMode = function( mode ){
+		Object.assign( keyboard, {
 
-			keyboard.classList.remove( 'default', 'shift', 'option', 'shift-option', 'caps-lock' )
-			keyboard.classList.add( mode )
-		}
+			channels: {},
+			channelAdd: function( cssName, requesterName ){
+
+				if( keyboard.channels[ cssName ] === undefined ){
+
+					keyboard.channels[ cssName ] = {}
+				}
+				keyboard.channels[ cssName ][ requesterName ] = true
+				keyboard.classList.add( cssName )
+			},
+			channelRemove: function( cssName, requesterName ){
+
+				if( keyboard.channels[ cssName ] === undefined ){
+
+					keyboard.channels[ cssName ] = {}
+				}
+				if( keyboard.channels[ cssName ][ requesterName ]){
+
+					delete keyboard.channels[ cssName ][ requesterName ]
+				}
+				if( Object.keys( keyboard.channels[ cssName ]).length === 0 ){
+
+					keyboard.classList.remove( cssName )
+				}
+			},
+			reset: function(){
+				
+				Object.keys( keyboard.channels ).forEach( function( cssName ){
+
+					Object.keys( keyboard.channels[ cssName ]).forEach( function( requesterName ){
+
+						keyboard.classList.remove( cssName )
+						delete keyboard.channels[ cssName ][ requesterName ]
+					})
+				})
+			}
+		})
 	})
 	keyboard = keyboards[ 0 ]
+
+
+
+	const timeline = document.getElementById( 'timeline' )
+	seekByGui = function( event ){
+
+		script.seek( event.pageX / timeline.clientWidth * script.endAt )
+	}
+	timeline.addEventListener( 'mousedown',  seekByGui )
+	timeline.addEventListener( 'touchstart', seekByGui )
 })
+
+
+
+
+
+
+
 
 
 
@@ -192,10 +257,14 @@ window.addEventListener( 'keydown', function( event ){
 			else script.play()
 		}
 
-		if( event.key === 'Shift'   ) keyboard.switchToMode( 'shift'   )
-		if( event.key === 'Control' ) keyboard.switchToMode( 'control' )
-		if( event.key === 'Alt'     ) keyboard.switchToMode( 'option'  )
-		if( event.key === 'Meta'    ) keyboard.switchToMode( 'command' )
+		if( event.code === 'ShiftLeft'    ) keyboard.channelAdd( 'shift',   'user left'  )
+		if( event.code === 'ShiftRight'   ) keyboard.channelAdd( 'shift',   'user right' )
+		if( event.code === 'ControlLeft'  ) keyboard.channelAdd( 'control', 'user left'  )
+		if( event.code === 'ControlRight' ) keyboard.channelAdd( 'control', 'user right' )
+		if( event.code === 'AltLeft'      ) keyboard.channelAdd( 'option',  'user left'  )
+		if( event.code === 'AltRight'     ) keyboard.channelAdd( 'option',  'user right' )
+		if( event.code === 'MetaLeft'     ) keyboard.channelAdd( 'command', 'user left'  )
+		if( event.code === 'MetaRight'    ) keyboard.channelAdd( 'command', 'user right' )
 
 		const cssQuery = eventCodeToCssQuery[ event.code ]
 		if( event.code === 'CapsLock' ){
@@ -212,15 +281,18 @@ window.addEventListener( 'keydown', function( event ){
 			if( keyElement instanceof HTMLElement ) keyElement.classList.add( 'press' )
 		}
 	}
-	console.log( event.code )
+	// console.log( event.code )
 })
 window.addEventListener( 'keyup', function( event ){
 
-
-	if( event.key === 'Shift'   ||
-		event.key === 'Control' ||
-		event.key === 'Alt'     ||
-		event.key === 'Meta'    ) keyboard.switchToMode( 'default' )
+	if( event.code === 'ShiftLeft'    ) keyboard.channelRemove( 'shift',   'user left'  )
+	if( event.code === 'ShiftRight'   ) keyboard.channelRemove( 'shift',   'user right' )
+	if( event.code === 'ControlLeft'  ) keyboard.channelRemove( 'control', 'user left'  )
+	if( event.code === 'ControlRight' ) keyboard.channelRemove( 'control', 'user right' )
+	if( event.code === 'AltLeft'      ) keyboard.channelRemove( 'option',  'user left'  )
+	if( event.code === 'AltRight'     ) keyboard.channelRemove( 'option',  'user right' )
+	if( event.code === 'MetaLeft'     ) keyboard.channelRemove( 'command', 'user left'  )
+	if( event.code === 'MetaRight'    ) keyboard.channelRemove( 'command', 'user right' )
 
 	const cssQuery = eventCodeToCssQuery[ event.code ]
 	if( event.code === 'CapsLock' ){
@@ -237,12 +309,6 @@ window.addEventListener( 'keyup', function( event ){
 		if( keyElement instanceof HTMLElement ) keyElement.classList.remove( 'press' )
 	}
 })
-
-
-
-
-
-
 
 
 

@@ -179,7 +179,7 @@ function fuckedUp(){
 }
 function blackSwanOn(){
 
-	script.add( 0, function(){ keyboard.switchToMode( 'caps-lock' )}, 'caps-lock ON' )
+	script.add( 0, function(){ keyboard.channelAdd( 'caps-lock', 'blackSwan' )}, 'caps-lock ON' )
 	;[ ...new Set( 'blackswan'.split( '' ))]
 	.forEach( function( letter, i ){
 
@@ -213,7 +213,7 @@ function blackSwanOff(){
 			'Black OFF: '+ letter
 		)
 	})
-	script.add( 0, function(){ keyboard.switchToMode( 'default' )}, 'caps-lock OFF' )
+	script.add( 0, function(){ keyboard.channelRemove( 'caps-lock', 'blackSwan' )}, 'caps-lock OFF' )
 }
 
 

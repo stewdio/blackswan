@@ -18,10 +18,11 @@ bpm = 102
 
 */
 
+const audioElement = new Audio( 'media/blackswan.m4a' )
 
 
 script.beat = 0.5882352941//  What fraction of a second does a beat last for?
-
+script.endAt = 60
 
 window.addEventListener( 'DOMContentLoaded', function(){
 
@@ -29,8 +30,10 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	script.set( 0, function(){
 
-		keyboard.switchToMode( 'default' )
-		
+		audioElement.play()
+		keyboard.reset()
+		keyboard.classList.remove( 'wtf' )
+
 		Array
 		.from( document.querySelectorAll( '.key' ))
 		.forEach( function( element ){
@@ -51,11 +54,13 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	riff( script.beat / 2, true )
 	riff( script.beat / 2, true )
 
-	script.add( 0, function(){ keyboard.switchToMode( 'caps-lock' )}, 'caps-lock ON' )
+
+
+	script.add( 0, function(){ keyboard.channelAdd( 'caps-lock', 'fuckedUp' )}, 'caps-lock ON' )
 	fuckedUp()
 	script.add( 1 )
 	fuckedUp()
-	script.add( 1, function(){ keyboard.switchToMode( 'default' )}, 'caps-lock OFF' )
+	script.add( 1, function(){ keyboard.channelRemove( 'caps-lock', 'fuckedUp' )}, 'caps-lock OFF' )
 
 
 	script.add( 1 )

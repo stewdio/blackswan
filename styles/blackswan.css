@@ -415,13 +415,13 @@ main {
 
 
 
-.keyboard.shift-option .default,
-.keyboard.shift-option .shift,
-.keyboard.shift-option .option {
+.keyboard.shift.option .default,
+.keyboard.shift.option .shift,
+.keyboard.shift.option .option {
 
 	display: none;
 }
-.keyboard.shift-option .shift-option {
+.keyboard.shift.option .shift-option {
 
 	display: block;
 }
@@ -451,10 +451,14 @@ main {
 
 
 
-.row {
 
-	display: inline-block;
-}
+
+
+
+
+
+
+.row {}
 .key {
 
 	display: inline-block;
