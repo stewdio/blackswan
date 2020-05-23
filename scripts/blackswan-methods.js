@@ -8,71 +8,72 @@
 
 
 
-function riff( delay, addGuitar ){
+function riff( addGuitar, addLastHit ){
 
-	if( typeof delay !== 'number' ) delay = 0
-	const timeStart = script[ script.length - 1 ].time + delay
+	if( addLastHit === undefined ) addLastHit === true 
+	const timeStart = script[ script.length - 1 ].time
 	let timeMark = timeStart
 
-	const unit = script.beat//0.15
-	const beat = script.beat
 
+	function hit( durationToOccupy, cssName, durationVisible ){
 
-	function press( delay, cssName ){
-
-		if( typeof delay !== 'number' ) delay = 0
-		timeMark += delay
+		if( typeof durationVisible !== 'number' ) durationVisible = 1/4
 		script.set(
 
 			timeMark,
 			function(){ document.querySelector( '.key-'+ cssName ).classList.add( 'press' )},
-			'Type ON: '+ cssName
+			'Riff. Turn ON: '+ cssName
 		)
 		script.set(
 
-			timeMark + beat * 0.45,
+			timeMark + script.beat * durationVisible * 0.9,
 			function(){ document.querySelector( '.key-'+ cssName ).classList.remove( 'press' )},
-			'Type ON: '+ cssName
+			'Riff. Turn OFF: '+ cssName
 		)
-		timeMark += delay
+		timeMark += script.beat * durationToOccupy
 	}
 
 
-
-
-
-	if( addGuitar ){
-
-		script.set( timeMark, function(){
-
-			document.querySelector( '.keyboard' ).classList.add( 'option' )
-		})
-		script.set( timeMark + beat / 3, function(){
-
-			document.querySelector( '.keyboard' ).classList.remove( 'option' )
-		})
-	}
-	if( addGuitar ){
-
-		script.set( timeMark + beat / 2, function(){
-
-			document.querySelector( '.keyboard' ).classList.add( 'option' )
-		})
-		script.set( timeMark + beat / 2 + beat / 3, function(){
-
-			document.querySelector( '.keyboard' ).classList.remove( 'option' )
-		})
-	}
-	press( 0, 'space' )
-	press( beat / 2, 'space' )
-	press( beat / 8, 'period' )
-	press( beat / 4, 'space' )
+	hit( 2/4, 'space'  )
+	hit( 2/4, 'space'  )
+	hit( 1/4, 'period' )
+	hit( 2/4, 'space', 2/4 )
 	
-	press( beat / 4, 'tab' )
-	press( beat / 2, 'period' )
-	press( beat / 4, 'space' )
-	press( beat / 8, 'period' )
-	press( beat / 8, 'space' )
+	hit( 2/4, 'tab'    )
+	hit( 2/4, 'period' )
+	hit( 1/4, 'space'  )
+	hit( 1/4, 'period' )
+	hit( 2/4, 'space', 2/4 )
+	
+	if( addLastHit ){
+		
+		hit( 1/4, 'space', 1/8 )
+		script.add( script.beat * 1/4 )//  Register that last beat to the outside world.
+	}
+	else script.add( script.beat * 1/4 )//  Does this need to be 2/4 ??
+
+
+
+
+	if( addGuitar ){
+
+		script.set( timeStart + script.beat * 0/8, function(){
+
+			document.querySelector( '.keyboard' ).classList.add( 'option' )
+		})
+		script.set( timeStart + script.beat * 2/8, function(){
+
+			document.querySelector( '.keyboard' ).classList.remove( 'option' )
+		})
+		script.set( timeStart + script.beat * 4/8, function(){
+
+			document.querySelector( '.keyboard' ).classList.add( 'option' )
+		})
+		script.set( timeStart + script.beat * 8/8, function(){
+
+			document.querySelector( '.keyboard' ).classList.remove( 'option' )
+		})
+	}
 }
 
 

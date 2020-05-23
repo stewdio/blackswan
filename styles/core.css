@@ -97,12 +97,14 @@ body {
 
 	margin: 0;
 	background-color: hsl( 0, 0%, 90% );
+	background-color: hsl( 220, 7%, 90% );
 	padding: 0;
 	color: black;
 	font-weight: 400;
 	font-family: 'SF Pro Text', system-ui, -apple-system, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 	hanging-punctuation: first;
 	perspective: 600px;
+	overflow: hidden;
 }
 img {
 
@@ -588,11 +590,8 @@ main {
 
 
 
-
-
-
 /*.keyboard.shift .key-shift,*/
-.keyboard.option .key-option,
+/*.keyboard.option .key-option,*/
 .key.press,
 .key:hover {
 
@@ -620,6 +619,30 @@ main {
 
 
 
+.keyboard.option .key-tick,
+.keyboard.option .key-E,
+.keyboard.option .key-U,
+.keyboard.option .key-I,
+.keyboard.option .key-N {
+
+	background: linear-gradient(
+
+		0.45turn,
+		
+		hsl( 25, 100%, 50% ),
+		hsl( 25, 100%, 55% )
+	);
+	color: white;
+}
+.option {
+
+	background-color: 
+}
+
+
+
+
+
 
 
 #timeline {
@@ -629,21 +652,23 @@ main {
 	bottom: 0;
 	left:   0;
 	height: 60px;
-	background-color: rgba( 255, 255, 255, 0.5 );
+	background-color: rgba( 0, 0, 0, 0.03 );
 }
 #progress {
 
-	/*min-width: 20px;*/
+	position: relative;
 	height: 100%;
-	border-right: 4px solid hsl( 0, 0%, 90% );
 	background-color: white;
 }
+#seeker {
 
-
-
-
-
-
+	position: absolute;
+	top:  0;
+	left: 0;
+	width: 2px;
+	height: 100%;
+	background-color: hsl( 25, 100%, 50% );
+}
 
 
 

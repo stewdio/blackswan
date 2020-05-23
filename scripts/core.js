@@ -15,6 +15,7 @@ const script = [{ time: 0 }]
 script.time  =  0
 script.index =  0
 script.endAt = 60
+script.playbackSpeed = 1
 script.set = function( timeAbsolute, action, comment ){
 
 	script.push({
@@ -44,11 +45,18 @@ script.play = function(){
 	script.clockMarkLast = performance.now() / 1000
 	script.isPlaying = true
 	script.isPaused  = false
+	audioElement.play()
 }
 script.pause = function(){
 
 	script.isPlaying = false
 	script.isPaused  = true
+	audioElement.pause()
+}
+script.toggle = function(){
+
+	if( script.isPlaying ) script.pause()
+	else script.play()
 }
 script.seek = function( time ){
 
@@ -86,7 +94,7 @@ function render(){
 		now   = performance.now() / 1000,
 		delta = now - script.clockMarkLast
 		
-		script.time += delta
+		script.time += delta * script.playbackSpeed
 		while( script.index < script.length &&
 			script[ script.index ].time <= script.time ){
 
@@ -102,6 +110,13 @@ function render(){
 	const progressElement = document.getElementById( 'progress' )
 	progressElement.style.width = ( script.time / script.endAt * 100 ) +'%'
 
+
+	if( isSeeking !== true ){
+
+		const seekerElement = document.getElementById( 'seeker' )
+		seekerElement.style.left = ( script.time / script.endAt * 100 ) +'%'
+	}
+
 	requestAnimationFrame( render )
 }
 
@@ -110,16 +125,12 @@ function render(){
 
 
 
-    //////////////////
-   //              //
-  //   Keyboard   //
- //              //
-//////////////////
 
 
 let 
 keyboards,
-keyboard
+keyboard,
+isSeeking = false
 
 window.addEventListener( 'DOMContentLoaded', function(){
 
@@ -177,6 +188,23 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	}
 	timeline.addEventListener( 'mousedown',  seekByGui )
 	timeline.addEventListener( 'touchstart', seekByGui )
+	timeline.addEventListener( 'mouseover', function( event ){
+
+		isSeeking = true
+		// find mouse position!
+	})
+	timeline.addEventListener( 'mouseout', function(){
+
+		isSeeking = false
+	})
+
+
+
+	keyboard.addEventListener( 'mousedown', script.toggle )
+	keyboard.addEventListener( 'touchstart', script.toggle )
+
+
+	render()
 })
 
 
@@ -251,12 +279,7 @@ window.addEventListener( 'keydown', function( event ){
 
 	if( event.repeat !== true ){
 
-		if( event.code === 'Space' ){
-
-			if( script.isPlaying ) script.pause()
-			else script.play()
-		}
-
+		if( event.code === 'Space'        ) script.toggle()
 		if( event.code === 'ShiftLeft'    ) keyboard.channelAdd( 'shift',   'user left'  )
 		if( event.code === 'ShiftRight'   ) keyboard.channelAdd( 'shift',   'user right' )
 		if( event.code === 'ControlLeft'  ) keyboard.channelAdd( 'control', 'user left'  )

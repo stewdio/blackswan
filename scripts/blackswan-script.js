@@ -1,66 +1,101 @@
-/*
-
-
-some say
-bpm = 101
-
-others say
-bpm = 102
-
-
-60 seconds = 102 beats
-
-1 second = 1.7 beats
-
-0.5882352941 seconds = 1 beat
 
 
 
-*/
+
+script.bpm   = 101
+script.beat  = 60 / script.bpm
+script.endAt = 4 * 60 + 50
+// script.playbackSpeed = 0.25
+
 
 const audioElement = new Audio( 'media/blackswan.m4a' )
+audioElement.playbackRate = script.playbackSpeed
 
 
-script.beat = 0.5882352941//  What fraction of a second does a beat last for?
-script.endAt = 60
+
+
+function reset(){
+
+	audioElement.play()
+	keyboard.reset()
+	keyboard.classList.remove( 'wtf' )
+
+	Array
+	.from( document.querySelectorAll( '.key' ))
+	.forEach( function( element ){
+
+		element.classList.remove( 'press', 'black', 'wtf' )
+	})
+}
+function applyCssClass( cssQuery, className ){
+
+	Array
+	.from( document.querySelectorAll( cssQuery ))
+	.forEach( function( element ){
+
+		element.classList.add( className )
+	})
+}
+
+
+
 
 window.addEventListener( 'DOMContentLoaded', function(){
 
+	script.set( 0, reset, 'Reset!' )
 
 
-	script.set( 0, function(){
-
-		audioElement.play()
-		keyboard.reset()
-		keyboard.classList.remove( 'wtf' )
-
-		Array
-		.from( document.querySelectorAll( '.key' ))
-		.forEach( function( element ){
-
-			element.classList.remove( 'press', 'black', 'wtf' )
-		})
-
-	}, 'Reset!' )
-
-
-	// script.add( 1 )
-	// type( 'this is normal text' )
-	// type( 'THIS IS A TEST OF TYPING WITH CAPS' )
+	//  Intro.
+	
+	script.add( script.beat * 7/8 )
+	riff( false )
+	riff( false )
+	riff( true )
+	riff( true )
+	riff( true )
+	riff( true )
+	riff( true )
+	riff( true )
+	riff( true )
+	riff( true, false )
 
 
+	//  First verse.
 
-	riff( 1, false )
-	riff( script.beat / 2, true )
-	riff( script.beat / 2, true )
+	type( `What will grow crooked, you can't make straight` )
+	type( `It's the price that you gotta pay` )
+	riff( true )
+	type( `Do yourself a favour and pack your bags` )
+	type( `Buy a ticket and get on the train` )
+	type( `Buy a ticket and get on the train` )//  EXTEND 'train'
+	riff( true )
+	riff( true )
 
 
+	//  Chorus.
 
 	script.add( 0, function(){ keyboard.channelAdd( 'caps-lock', 'fuckedUp' )}, 'caps-lock ON' )
 	fuckedUp()
 	script.add( 1 )
 	fuckedUp()
 	script.add( 1, function(){ keyboard.channelRemove( 'caps-lock', 'fuckedUp' )}, 'caps-lock OFF' )
+
+
+
+
+
+
+
+	// script.add( 1 )
+	// type( 'this is normal text' )
+	// type( 'THIS IS A TEST OF TYPING WITH CAPS' )
+	// applyCssClass( '.key-H', 'press' )
+	// applyCssClass( '.key-I', 'press' )
+
+
+
+
+
 
 
 	script.add( 1 )
@@ -97,24 +132,10 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	type( 'Cause I\'m right here, and I\'m today' )
 	script.add( 1 )
 	type( 'With your fingers you can touch me' )
-
-
-
-
-
-
-
-
-
-
-
-	render()
-	script.play()
 })
 
 
 /*
-
 
 
 What will grow crooked, you can't make straight
@@ -123,31 +144,26 @@ Do yourself a favour and pack your bags
 Buy a ticket and get on the train
 Buy a ticket and get on the train
 
-[Chorus]
 'Cause this is fucked up, fucked up
 'Cause this is fucked up, fucked up
 
-[Verse 2]
 People get crushed like biscuit crumbs
 And laid down in the bitumen
 You have tried your best to please everyone
 But it just isn't happening
 No, it just isn't happening
 
-[Chorus]
 And it's fucked up, fucked up
 And this is fucked up, fucked up
 This your blind spot, blind spot
 It should be obvious, but it's not
 
-[Verse 3]
 You cannot kick-start a dead horse
 You just cross yourself and walk away
 I don't care what the future holds
 'Cause I'm right here, and I'm today
 With your fingers you can touch me
 
-[Chorus]
 I am your black swan, black swan
 (But I made it to the top, made it to the top)
 And this is fucked up, fucked up
@@ -160,5 +176,9 @@ We are black swans, black swans
 And for spare parts, we're broken up
 
 
-
 */
+
+
+
+
+
