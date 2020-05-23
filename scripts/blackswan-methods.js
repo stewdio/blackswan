@@ -106,7 +106,7 @@ const characterToName = {
 function type( text, durationInBeats, holdUntilDone ){
 
 	text = text.replace( /\s/g, '' )
-	if( typeof durationInBeats !== 'number' ) durationInBeats = 6
+	if( typeof durationInBeats !== 'number' ) durationInBeats = 5
 	if( typeof holdUntilDone !== 'boolean' ) holdUntilDone = false
 
 	let frameIndex = script.length - 1
@@ -117,7 +117,8 @@ function type( text, durationInBeats, holdUntilDone ){
 	}
 
 	const 
-	timeStart = script[ frameIndex ].time,
+	lastFrame = script[ frameIndex ],
+	timeStart = lastFrame.time + lastFrame.duration,
 	durationPerCharacter = durationInBeats / text.length
 
 	text.split( '' ).forEach( function( character, i ){
@@ -196,13 +197,19 @@ function type( text, durationInBeats, holdUntilDone ){
 
 
 
-function fuckedUp(){
+function fuckedUp( durationInBeats ){
 
-	'fuckedup'.split( '' ).forEach( function( letter, i ){
+	if( typeof durationInBeats !== 'number' ) durationInBeats = 2/4
+
+	const 
+	fuckedUp = 'fuckedup'.split( '' ),
+	durationPerCharacter = durationInBeats / fuckedUp.length 
+
+	fuckedUp.forEach( function( letter, i ){
 
 		script.add(
 
-			0.2,
+			durationPerCharacter * i,
 			function(){
 		
 				const key = document.querySelector( '.key-'+ letter.toUpperCase() )
@@ -212,7 +219,7 @@ function fuckedUp(){
 				}
 				else key.classList.add( 'press' )
 			},
-			letter
+			'Fucked up: '+ letter
 		)
 	})
 }

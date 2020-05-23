@@ -6,7 +6,7 @@
 
 
 
-script.bpm   = 100
+script.bpm   = 101
 script.beat  = 60 / script.bpm
 script.endAt = 4 * 60 + 50
 // script.playbackSpeed = 0.25
@@ -68,11 +68,12 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	//  First verse.
 
-	type( `What will grow crooked, you can't make straight` )
-	type( `It's the price that you gotta pay` )
+	type( `What will grow crooked, you can't make straight`, 6 )
+	script.add( 1 )
+	type( `It's the price that you gotta pay`, 5 )
 	riff()
-	type( `Do yourself a favour and pack your bags` )
-	type( `Buy a ticket and get on the train` )
+	type( `Do yourself a favour and pack your bags`, 6 )
+	type( `Buy a ticket and get on the train`, 5 )
 	riff()
 	type( `Buy a ticket and get on the`, 4 )
 	type( `train`, 4, true )//  Extend the TRAAAAAAAIIIIIIINNN
@@ -82,16 +83,51 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	//  Chorus.
 
-	script.add( 0, function(){ keyboard.channelAdd( 'caps-lock' )}, 'Fucked up. Caps-lock ON.' )
-	// type( 'fuckedup', 4, true )	
-	fuckedUp()
-	script.add( 1 )
-	// type( 'fuckedup', 4, true )
-	fuckedUp()
-	script.add( 0, function(){ keyboard.channelRemove( 'caps-lock' )}, 'Fucked up. Caps-lock OFF.' )
+	script.add( 
+
+		0, 
+		function(){ keyboard.channelAdd( 'caps-lock' )}, 
+		'Fucked up. Caps-lock ON.' 
+	)
+	fuckedUp( 2/4 )
+	// riff()//  re-write this so can do HALF a riff (2 beats) instead of only 4!
+	script.add( 2 )
+	script.add( 1/4 )
+	fuckedUp( 3/4 )
+	script.add(
+
+		0, 
+		function(){ keyboard.channelRemove( 'caps-lock' )}, 
+		'Fucked up. Caps-lock OFF.' 
+	)
+	script.add( 5/4 )
+	riff()
+	riff()
 
 
 
+
+
+	script.add( 
+
+		0, 
+		function(){ keyboard.channelAdd( 'caps-lock' )}, 
+		'Fucked up. Caps-lock ON.' 
+	)
+	fuckedUp( 2/4 )
+	// riff()//  re-write this so can do HALF a riff (2 beats) instead of only 4!
+	script.add( 2 )
+	script.add( 1/4 )
+	fuckedUp( 3/4 )
+	script.add(
+
+		0, 
+		function(){ keyboard.channelRemove( 'caps-lock' )}, 
+		'Fucked up. Caps-lock OFF.' 
+	)
+	script.add( 5/4 )
+	riff()
+	riff()
 
 
 

@@ -228,8 +228,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-	// keyboard.addEventListener( 'mousedown',  script.toggle )
-	// keyboard.addEventListener( 'touchstart', script.toggle )
+	keyboard.addEventListener( 'mousedown',  script.toggle )
+	keyboard.addEventListener( 'touchstart', script.toggle )
 
 
 	render()

@@ -96,7 +96,7 @@ html {
 body {
 
 	margin: 0;
-	background-color: hsl( 220, 7%, 90% );
+	background-color: hsl( 220, 7%, 88% );
 	padding: 0;
 	color: black;
 	font-weight: 400;
@@ -668,6 +668,7 @@ main {
 	position: relative;
 	height: 100%;
 	background-color: white;
+	/*transition: width 0.25s ease-out;*/
 }
 #seeker {
 
@@ -677,6 +678,7 @@ main {
 	width: 1px;
 	height: 100%;
 	background-color: hsl( 25, 100%, 50% );
+	/*transition: left 0.5s ease-out;*/
 }
 
 
