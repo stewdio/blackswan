@@ -1,22 +1,28 @@
 
+//  Copyright © 2020, Stewart Smith. See LICENSE for details.
 
 
 
-script.bpm   = 101
+
+
+
+script.bpm   = 100
 script.beat  = 60 / script.bpm
 script.endAt = 4 * 60 + 50
 // script.playbackSpeed = 0.25
 
 
-const audioElement = new Audio( 'media/blackswan.m4a' )
-audioElement.playbackRate = script.playbackSpeed
 
+const audioElement = new Audio( 'media/blackswan.m4a' )
+audioElement.pause()
+audioElement.playbackRate = script.playbackSpeed
+audioElement.volume = 0.4
 
 
 
 function reset(){
 
-	audioElement.play()
+	// audioElement.play()
 	keyboard.reset()
 	keyboard.classList.remove( 'wtf' )
 
@@ -42,43 +48,47 @@ function applyCssClass( cssQuery, className ){
 
 window.addEventListener( 'DOMContentLoaded', function(){
 
-	script.set( 0, reset, 'Reset!' )
+	script.set( 0, 0, reset, 'Reset!' )
 
 
 	//  Intro.
 	
-	script.add( script.beat * 7/8 )
-	riff( false )
-	riff( false )
+	script.add()
 	riff( true )
 	riff( true )
-	riff( true )
-	riff( true )
-	riff( true )
-	riff( true )
-	riff( true )
-	riff( true, false )
+	riff()
+	riff()
+	riff()
+	riff()
+	riff()
+	riff()
+	riff()
+	riff( false, false )
 
 
 	//  First verse.
 
 	type( `What will grow crooked, you can't make straight` )
 	type( `It's the price that you gotta pay` )
-	riff( true )
+	riff()
 	type( `Do yourself a favour and pack your bags` )
 	type( `Buy a ticket and get on the train` )
-	type( `Buy a ticket and get on the train` )//  EXTEND 'train'
-	riff( true )
-	riff( true )
+	riff()
+	type( `Buy a ticket and get on the`, 4 )
+	type( `train`, 4, true )//  Extend the TRAAAAAAAIIIIIIINNN
+	riff()
+	riff()
 
 
 	//  Chorus.
 
-	script.add( 0, function(){ keyboard.channelAdd( 'caps-lock', 'fuckedUp' )}, 'caps-lock ON' )
+	script.add( 0, function(){ keyboard.channelAdd( 'caps-lock' )}, 'Fucked up. Caps-lock ON.' )
+	// type( 'fuckedup', 4, true )	
 	fuckedUp()
 	script.add( 1 )
+	// type( 'fuckedup', 4, true )
 	fuckedUp()
-	script.add( 1, function(){ keyboard.channelRemove( 'caps-lock', 'fuckedUp' )}, 'caps-lock OFF' )
+	script.add( 0, function(){ keyboard.channelRemove( 'caps-lock' )}, 'Fucked up. Caps-lock OFF.' )
 
 
 
@@ -133,6 +143,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	script.add( 1 )
 	type( 'With your fingers you can touch me' )
 })
+
+
 
 
 /*

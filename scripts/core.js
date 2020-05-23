@@ -1,4 +1,6 @@
 
+//  Copyright © 2020, Stewart Smith. See LICENSE for details.
+
 
 
 
@@ -11,16 +13,19 @@
 ////////////////
 
 
-const script = [{ time: 0 }]
+const script = [{ time: 0, duration: 0 }]
 script.time  =  0
 script.index =  0
 script.endAt = 60
 script.playbackSpeed = 1
-script.set = function( timeAbsolute, action, comment ){
+script.set = function( time, durationInSeconds, action, comment ){
 
+	if( typeof time !== 'number' ) console.error( `A+ for creativity, but “time” ought to be a number.`, time )
+	if( typeof durationInSeconds !== 'number' ) console.error( `A+ for creativity, but “durationInSeconds” ought to be a number.`, durationInSeconds )
 	script.push({
 
-		time: timeAbsolute,
+		time,
+		duration: durationInSeconds,
 		action,
 		comment
 	})
@@ -30,11 +35,21 @@ script.set = function( timeAbsolute, action, comment ){
 	})
 	return script
 }
-script.add = function( timeRelative, action, comment ){
+script.add = function( durationInBeats, action, comment ){
 
+	if( typeof durationInBeats !== 'number' ) durationInBeats = 1
+
+	let frameIndex = script.length - 1
+	while( script[ frameIndex ].duration === 0 && 
+		frameIndex > 0 ){
+
+		frameIndex --
+	}
+	const lastFrame = script[ frameIndex ]
 	script.push({
 
-		time: script[ script.length - 1 ].time + timeRelative,
+		time: lastFrame.time + lastFrame.duration,
+		duration: durationInBeats * script.beat,
 		action,
 		comment
 	})
@@ -181,18 +196,31 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-	const timeline = document.getElementById( 'timeline' )
+	const 
+	timeline = document.getElementById( 'timeline' ),
 	seekByGui = function( event ){
 
 		script.seek( event.pageX / timeline.clientWidth * script.endAt )
+	},
+	updateSeekerFromPointer = function( event ){
+		
+		isSeeking = true
+		
+		const 
+		timeline  = document.getElementById( 'timeline' ),
+		rectangle = timeline.getBoundingClientRect(),
+		x = event.clientX - rectangle.left,
+		seekerElement = document.getElementById( 'seeker' )
+
+		seekerElement.style.left = x +'px'
 	}
+	
 	timeline.addEventListener( 'mousedown',  seekByGui )
 	timeline.addEventListener( 'touchstart', seekByGui )
-	timeline.addEventListener( 'mouseover', function( event ){
-
-		isSeeking = true
-		// find mouse position!
-	})
+	timeline.addEventListener( 'touchmove',  seekByGui )
+	
+	timeline.addEventListener( 'mouseover', updateSeekerFromPointer )
+	timeline.addEventListener( 'mousemove', updateSeekerFromPointer )
 	timeline.addEventListener( 'mouseout', function(){
 
 		isSeeking = false
@@ -200,8 +228,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-	keyboard.addEventListener( 'mousedown', script.toggle )
-	keyboard.addEventListener( 'touchstart', script.toggle )
+	// keyboard.addEventListener( 'mousedown',  script.toggle )
+	// keyboard.addEventListener( 'touchstart', script.toggle )
 
 
 	render()
