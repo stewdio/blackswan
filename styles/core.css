@@ -96,7 +96,7 @@ html {
 body {
 
 	margin: 0;
-	background-color: hsl( 220, 7%, 88% );
+	background-color: hsl( 220, 7%, 85% );
 	padding: 0;
 	color: black;
 	font-weight: 400;
@@ -490,12 +490,13 @@ main {
 	font-size:   calc( var( --size ) * 2 );
 	line-height: calc( var( --size ) * 5.8 );
 	color: hsl( 0, 0%, 50% );
+	color: hsl( 220, 7%, 55% );
 	overflow: hidden;
-	box-shadow: 
+/*	box-shadow: 
 		calc( var( --size ) * 0.2 ) 
 		calc( var( --size ) * 0.2 )
-		calc( var( --size ) * 0.3 )
-		rgba( 0, 0, 0, 0.1 );
+		calc( var( --size ) * 0.2 )
+		rgba( 0, 0, 0, 0.2 );*/
 	cursor: pointer;
 
 /*	transition-property: background;
@@ -579,6 +580,8 @@ main {
 
 
 
+
+
 .caps-lock-indicator {
 
 	display: none;
@@ -616,8 +619,8 @@ main {
 
 		0.45turn,
 		
-		hsl( 0, 0%, 55% ),
-		hsl( 0, 0%, 65% )
+		hsl( 0, 0%, 50% ),
+		hsl( 0, 0%, 60% )
 	);
 	color: white;
 	box-shadow: none;
@@ -651,6 +654,24 @@ main {
 
 
 
+#play-pause {
+
+	position: absolute;
+	left:   0;
+	bottom: 0;
+	width:  calc( var( --size ) * 8 );
+	height: calc( var( --size ) * 8 );
+	background-color: hsl( 25, 100%, 50% );
+	text-align: center;
+	cursor: pointer;
+	color: white;
+	line-height: calc( var( --size ) * 7.9 );
+}
+#play-pause:hover {
+
+	background-color: white;
+	color: hsl( 25, 100%, 50% );
+}
 
 
 
@@ -659,9 +680,18 @@ main {
 	position: absolute;
 	right:  0;
 	bottom: 0;
-	left:   0;
+	left:   calc( var( --size ) * 8 );
 	height: calc( var( --size ) * 8 );
-	background-color: hsl( 220, 7%, 94% );
+	background-color: hsl( 220, 7%, 93% );
+	background-color: hsl( 220, 7%, 80% );
+	/*background-color: rgba( 255, 255, 255, 0.3 );*/
+
+
+	/*filter:blur(4px);
+	-o-filter:blur(4px);
+	-ms-filter:blur(4px);
+	-moz-filter:blur(4px);
+	-webkit-filter:blur(4px);*/
 }
 #progress {
 
@@ -675,10 +705,24 @@ main {
 	position: absolute;
 	top:  0;
 	left: 0;
-	width: 1px;
+	width: 2px;
 	height: 100%;
 	background-color: hsl( 25, 100%, 50% );
 	/*transition: left 0.5s ease-out;*/
+}
+#overhang {
+
+	display: none;
+	position: absolute;
+	top:   0;
+	right: 0;
+	left:  0;
+	height: calc( var( --size ) / 2 );
+	background: linear-gradient(
+
+		rgba( 0, 0, 0, 0.2 ),
+		rgba( 0, 0, 0, 0 )
+	);
 }
 
 
@@ -687,3 +731,12 @@ main {
 
 
 
+.word, .arrow {
+	
+	color: transparent;
+}
+.word:hover, .arrow:hover,
+.word.press, .arrow.press {
+	
+	color: transparent;
+}

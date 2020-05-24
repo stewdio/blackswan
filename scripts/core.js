@@ -6,85 +6,86 @@
 
 
 
-    ////////////////
-   //            //
-  //   Script   //
- //            //
-////////////////
+    /////////////////////
+   //                 //
+  //   Composition   //
+ //                 //
+/////////////////////
 
 
-const script = [{ time: 0, duration: 0 }]
-script.time  =  0
-script.index =  0
-script.endAt = 60
-script.playbackSpeed = 1
-script.set = function( time, durationInSeconds, action, comment ){
+const comp = [{ time: 0, duration: 0 }]
+comp.audio = new Audio()
+comp.time  =  0
+comp.index =  0
+comp.endAt = 60
+comp.playbackSpeed = 1
+comp.set = function( time, durationInSeconds, action, comment ){
 
 	if( typeof time !== 'number' ) console.error( `A+ for creativity, but “time” ought to be a number.`, time )
 	if( typeof durationInSeconds !== 'number' ) console.error( `A+ for creativity, but “durationInSeconds” ought to be a number.`, durationInSeconds )
-	script.push({
+	comp.push({
 
 		time,
 		duration: durationInSeconds,
 		action,
 		comment
 	})
-	script.sort( function( a, b ){
+	comp.sort( function( a, b ){
 
 		return a.time - b.time
 	})
-	return script
+	return this
 }
-script.add = function( durationInBeats, action, comment ){
+comp.add = function( durationInBeats, action, comment ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 1
 
-	let frameIndex = script.length - 1
-	while( script[ frameIndex ].duration === 0 && 
+	let frameIndex = comp.length - 1
+	while( comp[ frameIndex ].duration === 0 && 
 		frameIndex > 0 ){
 
 		frameIndex --
 	}
-	const lastFrame = script[ frameIndex ]
-	script.push({
+	const lastFrame = comp[ frameIndex ]
+	comp.push({
 
 		time: lastFrame.time + lastFrame.duration,
-		duration: durationInBeats * script.beat,
+		duration: durationInBeats * comp.beat,
 		action,
 		comment
 	})
-	return script
+	return this
 }
-script.play = function(){
+comp.play = function(){
 
-	script.clockMarkLast = performance.now() / 1000
-	script.isPlaying = true
-	script.isPaused  = false
+	comp.clockMarkLast = performance.now() / 1000
+	comp.isPlaying = true
+	comp.isPaused  = false
 	audioElement.play()
 }
-script.pause = function(){
+comp.pause = function(){
 
-	script.isPlaying = false
-	script.isPaused  = true
+	comp.isPlaying = false
+	comp.isPaused  = true
 	audioElement.pause()
 }
-script.toggle = function(){
+comp.toggle = function(){
 
-	if( script.isPlaying ) script.pause()
-	else script.play()
+	if( comp.isPlaying ) comp.pause()
+	else comp.play()
 }
-script.seek = function( time ){
+comp.seek = function( time ){
 
-	script.index = 0
-	script.time = time
-	while( script.index < script.length &&
-		script[ script.index ].time <= script.time ){
+	comp.index = 0
+	comp.time = time
+	while( comp.index < comp.length &&
+		comp[ comp.index ].time <= comp.time ){
 
-		if( typeof script[ script.index ].action === 'function' ){
+		if( typeof comp[ comp.index ].action === 'function' ){
 
-			script[ script.index ].action()
+			comp[ comp.index ].action()
 		}
-		script.index ++
+		comp.index ++
 	}
 	audioElement.currentTime = time
 }
@@ -103,33 +104,33 @@ script.seek = function( time ){
 
 function render(){
 
-	if( script.isPlaying ){
+	if( comp.isPlaying ){
 
 		const 
 		now   = performance.now() / 1000,
-		delta = now - script.clockMarkLast
+		delta = now - comp.clockMarkLast
 		
-		script.time += delta * script.playbackSpeed
-		while( script.index < script.length &&
-			script[ script.index ].time <= script.time ){
+		comp.time += delta * comp.playbackSpeed
+		while( comp.index < comp.length &&
+			comp[ comp.index ].time <= comp.time ){
 
-			if( typeof script[ script.index ].action === 'function' ){
+			if( typeof comp[ comp.index ].action === 'function' ){
 
-				script[ script.index ].action()
+				comp[ comp.index ].action()
 			}
-			script.index ++
+			comp.index ++
 		}
-		script.clockMarkLast = now
+		comp.clockMarkLast = now
 	}
 
 	const progressElement = document.getElementById( 'progress' )
-	progressElement.style.width = ( script.time / script.endAt * 100 ) +'%'
+	progressElement.style.width = ( comp.time / comp.endAt * 100 ) +'%'
 
 
 	if( isSeeking !== true ){
 
 		const seekerElement = document.getElementById( 'seeker' )
-		seekerElement.style.left = ( script.time / script.endAt * 100 ) +'%'
+		seekerElement.style.left = ( comp.time / comp.endAt * 100 ) +'%'
 	}
 
 	requestAnimationFrame( render )
@@ -196,11 +197,16 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-	const 
+	const
 	timeline = document.getElementById( 'timeline' ),
 	seekByGui = function( event ){
 
-		script.seek( event.pageX / timeline.clientWidth * script.endAt )
+		const 
+		timeline  = document.getElementById( 'timeline' ),
+		rectangle = timeline.getBoundingClientRect(),
+		x = event.clientX - rectangle.left
+		
+		comp.seek( x / timeline.clientWidth * comp.endAt )
 	},
 	updateSeekerFromPointer = function( event ){
 		
@@ -228,8 +234,9 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-	keyboard.addEventListener( 'mousedown',  script.toggle )
-	keyboard.addEventListener( 'touchstart', script.toggle )
+	const playPauseElement = document.getElementById( 'play-pause' )
+	playPauseElement.addEventListener( 'mousedown',  comp.toggle )
+	playPauseElement.addEventListener( 'touchstart', comp.toggle )
 
 
 	render()
@@ -307,7 +314,7 @@ window.addEventListener( 'keydown', function( event ){
 
 	if( event.repeat !== true ){
 
-		if( event.code === 'Space'        ) script.toggle()
+		// if( event.code === 'Space'        ) comp.toggle()
 		if( event.code === 'ShiftLeft'    ) keyboard.channelAdd( 'shift',   'user left'  )
 		if( event.code === 'ShiftRight'   ) keyboard.channelAdd( 'shift',   'user right' )
 		if( event.code === 'ControlLeft'  ) keyboard.channelAdd( 'control', 'user left'  )

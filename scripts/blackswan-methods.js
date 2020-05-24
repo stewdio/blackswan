@@ -11,34 +11,34 @@ function riff( drumSolo, addLastHit ){
 	if( typeof drumSolo !== 'boolean' ) drumSolo = false
 	if( typeof addLastHit !== 'boolean' ) addLastHit = true
 	
-	let frameIndex = script.length - 1
-	while( script[ frameIndex ].duration === 0 && 
+	let frameIndex = comp.length - 1
+	while( comp[ frameIndex ].duration === 0 && 
 		frameIndex > 0 ){
 
 		frameIndex --
 	}
 	
 	const 
-	lastFrame = script[ frameIndex ],
+	lastFrame = comp[ frameIndex ],
 	timeStart = lastFrame.time + lastFrame.duration,
 	hit = function( durationToOccupy, cssName, durationVisible ){
 
 		if( typeof durationVisible !== 'number' ) durationVisible = durationToOccupy
-		script.set(
+		comp.set(
 
 			timeMark,
-			script.beat * durationToOccupy,
+			comp.beat * durationToOccupy,
 			function(){ document.querySelector( '.key-'+ cssName ).classList.add( 'press' )},
 			'Riff. Hit ON: '+ cssName
 		)
-		script.set(
+		comp.set(
 
-			timeMark + script.beat * durationVisible * 15/16,
+			timeMark + comp.beat * durationVisible * 15/16,
 			0,
 			function(){ document.querySelector( '.key-'+ cssName ).classList.remove( 'press' )},
 			'Riff. Hit OFF: '+ cssName
 		)
-		timeMark += script.beat * durationToOccupy
+		timeMark += comp.beat * durationToOccupy
 	}
 
 	let timeMark = timeStart
@@ -55,36 +55,36 @@ function riff( drumSolo, addLastHit ){
 	hit( 2/4, 'space'  )
 
 	if( addLastHit ) hit( 1/4, 'space', 1/8 )
-	else script.add( 1/4 )
+	else comp.add( 1/4 )
 
 
 	if( drumSolo !== true ){
 
-		script.set( 
+		comp.set( 
 
-			timeStart + script.beat * 0/8,
-			script.beat * 2/8,
+			timeStart + comp.beat * 0/8,
+			comp.beat * 2/8,
 			function(){ keyboard.classList.add( 'option' )},
 			'Riff. Guitar ON.'
 		)
-		script.set( 
+		comp.set( 
 
-			timeStart + script.beat * 2/8, 
-			script.beat * 1/4,
+			timeStart + comp.beat * 2/8, 
+			comp.beat * 1/4,
 			function(){ keyboard.classList.remove( 'option' )},
 			'Riff. Guitar ON.'
 		)
-		script.set( 
+		comp.set( 
 
-			timeStart + script.beat * 4/8, 
-			script.beat * 2/8,
+			timeStart + comp.beat * 4/8, 
+			comp.beat * 2/8,
 			function(){ keyboard.classList.add( 'option' )},
 			'Riff. Guitar ON.'
 		)
-		script.set(
+		comp.set(
 
-			timeStart + script.beat * 8/8,
-			script.beat * 2/8,
+			timeStart + comp.beat * 8/8,
+			comp.beat * 2/8,
 			function(){ keyboard.classList.remove( 'option' )},
 			'Riff. Guitar OFF.'
 		)
@@ -109,15 +109,15 @@ function type( text, durationInBeats, holdUntilDone ){
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 5
 	if( typeof holdUntilDone !== 'boolean' ) holdUntilDone = false
 
-	let frameIndex = script.length - 1
-	while( script[ frameIndex ].duration === 0 && 
+	let frameIndex = comp.length - 1
+	while( comp[ frameIndex ].duration === 0 && 
 		frameIndex > 0 ){
 
 		frameIndex --
 	}
 
 	const 
-	lastFrame = script[ frameIndex ],
+	lastFrame = comp[ frameIndex ],
 	timeStart = lastFrame.time + lastFrame.duration,
 	durationPerCharacter = durationInBeats / text.length
 
@@ -135,9 +135,9 @@ function type( text, durationInBeats, holdUntilDone ){
 
 		if( keyElement instanceof HTMLElement ){
 		
-			script.set(
+			comp.set(
 
-				timeStart + script.beat * i * durationPerCharacter,
+				timeStart + comp.beat * i * durationPerCharacter,
 				durationPerCharacter,
 				function(){ keyElement.classList.add( 'press' )},
 				'Type ON: '+ cssName
@@ -145,9 +145,9 @@ function type( text, durationInBeats, holdUntilDone ){
 			if( isMajuscule ){
 
 				const side = Math.random() >= 0.5 ? 'left' : 'right'
-				script.set(
+				comp.set(
 
-					timeStart + script.beat * i * durationPerCharacter,
+					timeStart + comp.beat * i * durationPerCharacter,
 					durationPerCharacter,
 					function(){ 
 
@@ -161,9 +161,9 @@ function type( text, durationInBeats, holdUntilDone ){
 					},
 					'shift ON'
 				)
-				script.set(
+				comp.set(
 
-					timeStart + script.beat * i * durationPerCharacter + durationPerCharacter,//  Is EXACT so can be overridden by a subsequent ON command!
+					timeStart + comp.beat * i * durationPerCharacter + durationPerCharacter,//  Is EXACT so can be overridden by a subsequent ON command!
 					0,
 					function(){ 
 
@@ -180,10 +180,10 @@ function type( text, durationInBeats, holdUntilDone ){
 			}
 
 			const releaseAfterDuration = holdUntilDone ? 
-				durationInBeats * script.beat :
-				script.beat * i * durationPerCharacter + durationPerCharacter * 15/16			
+				durationInBeats * comp.beat :
+				comp.beat * i * durationPerCharacter + durationPerCharacter * 15/16			
 			
-			script.set(
+			comp.set(
 
 				timeStart + releaseAfterDuration,
 				0,
@@ -207,7 +207,7 @@ function fuckedUp( durationInBeats ){
 
 	fuckedUp.forEach( function( letter, i ){
 
-		script.add(
+		comp.add(
 
 			durationPerCharacter * i,
 			function(){
@@ -225,11 +225,11 @@ function fuckedUp( durationInBeats ){
 }
 function blackSwanOn(){
 
-	script.add( 0, function(){ keyboard.channelAdd( 'caps-lock', 'blackSwan' )}, 'caps-lock ON' )
+	comp.add( 0, function(){ keyboard.channelAdd( 'caps-lock', 'blackSwan' )}, 'caps-lock ON' )
 	;[ ...new Set( 'blackswan'.split( '' ))]
 	.forEach( function( letter, i ){
 
-		script.add(
+		comp.add(
 
 			0.2,
 			function(){
@@ -247,7 +247,7 @@ function blackSwanOff(){
 	;[ ...new Set( 'blackswan'.split( '' ))]
 	.forEach( function( letter, i ){
 
-		script.add(
+		comp.add(
 		
 			0.2,	
 			function(){
@@ -259,11 +259,38 @@ function blackSwanOff(){
 			'Black OFF: '+ letter
 		)
 	})
-	script.add( 0, function(){ keyboard.channelRemove( 'caps-lock', 'blackSwan' )}, 'caps-lock OFF' )
+	comp.add( 0, function(){ keyboard.channelRemove( 'caps-lock', 'blackSwan' )}, 'caps-lock OFF' )
 }
 
 
 
+
+function blowApart(){
+
+
+	//  For consistency -- 
+	//  we need to determine these values AT LOAD TIME
+	//  so onSeek we don’t create new values every single seek!!!
+
+	Array
+	.from( document.querySelectorAll( '.key' ))
+	.forEach( function( element ){
+
+		const
+		tx = Math.random() * 60,
+		ty = Math.random() * 60,
+		tz = Math.random() * 60,
+		translate = `translate3d( ${tx}px, ${ty}px, ${tz}px )`,
+		rx = Math.random(),
+		ry = Math.random(),
+		rz = Math.random(),
+		rotate = `rotate3d( ${rx}, ${ry}, ${rz}, 180deg )`,
+		transform = translate +' '+ rotate
+
+		// console.log( transform )
+		element.style.transform = transform
+	})
+}
 
 
 
