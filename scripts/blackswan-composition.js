@@ -86,14 +86,14 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	// riff()//  re-write this so can do HALF a riff (2 beats) instead of only 4!
 	comp.add( 2 )
 	comp.add( 1/4 )
-	fuckedUp( 3/4 )
+	fuckedUp( 2/4 )
 	comp.add(
 
 		0, 
 		function(){ keyboard.channelRemove( 'caps-lock' )}, 
 		'Fucked up. Caps-lock OFF.' 
 	)
-	comp.add( 5/4 )
+	comp.add( 6/4 )
 	riff()
 	riff()
 
@@ -150,8 +150,13 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
+	type( 'People get crushed like biscuit crumbs', 6 )
 	comp.add( 1 )
-	type( 'People get crushed like biscuit crumbs' )
+	type( `And laid down in the bitumen`, 5 )
+	riff()
+
+
+
 
 
 
@@ -174,8 +179,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 		blowApart()
 	})
 
-	type( 'People get crushed like biscuit crumbs' )
-	comp.add( 1 )
 	type( 'You cannot kick-start a dead horse' )
 	comp.add( 1 )
 	type( 'You just cross yourself and walk away' )
@@ -202,6 +205,8 @@ Buy a ticket and get on the train
 'Cause this is fucked up, fucked up
 'Cause this is fucked up, fucked up
 
+--------
+
 People get crushed like biscuit crumbs
 And laid down in the bitumen
 You have tried your best to please everyone
@@ -213,11 +218,17 @@ And this is fucked up, fucked up
 This your blind spot, blind spot
 It should be obvious, but it's not
 
+
+----
+
 You cannot kick-start a dead horse
 You just cross yourself and walk away
 I don't care what the future holds
 'Cause I'm right here, and I'm today
 With your fingers you can touch me
+
+
+----
 
 I am your black swan, black swan
 (But I made it to the top, made it to the top)

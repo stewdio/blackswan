@@ -61,17 +61,24 @@ comp.play = function(){
 	comp.isPlaying = true
 	comp.isPaused  = false
 	comp.audio.play()
+	const playPauseButton = document.getElementById( 'play-pause' )
+	playPauseButton.classList.add( 'playing' )
+	return this
 }
 comp.pause = function(){
 
 	comp.isPlaying = false
 	comp.isPaused  = true
 	comp.audio.pause()
+	const playPauseButton = document.getElementById( 'play-pause' )
+	playPauseButton.classList.remove( 'playing' )
+	return this
 }
 comp.toggle = function(){
 
 	if( comp.isPlaying ) comp.pause()
 	else comp.play()
+	return this
 }
 comp.seek = function( time ){
 
@@ -86,6 +93,7 @@ comp.seek = function( time ){
 		}
 		comp.frameIndex ++
 	}
+	return this
 }
 
 
@@ -223,7 +231,27 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	const playPauseElement = document.getElementById( 'play-pause' )
 	playPauseElement.addEventListener( 'mousedown',  comp.toggle )
-	playPauseElement.addEventListener( 'touchstart', comp.toggle )
+	const returnToStartElement = document.getElementById( 'return-to-start' )
+	returnToStartElement.addEventListener( 'mousedown', function(){
+
+		comp.seek( 0 )//.play()
+	})
+
+
+
+	comp.audio.addEventListener( 'loadeddata', function( event ){
+
+		// let duration = audioElement.duration;
+		// The duration variable now holds the duration (in seconds) of the audio clip 
+		// console.log( 'shit loaded', event )
+		const controlsElement = document.getElementById( 'controls' )
+		controlsElement.classList.add( 'show' )
+	})
+	comp.audio.addEventListener( 'ended', function( event ){
+
+		console.log( 'Generate receipt...' )
+		comp.pause().seek( 0 )
+	})
 
 
 	render()
@@ -299,6 +327,7 @@ const eventCodeToCssQuery = {
 }
 window.addEventListener( 'keydown', function( event ){
 
+	if( event.code === 'Space' ) comp.toggle()
 	if( event.repeat !== true ){
 
 		if( event.code === 'ShiftLeft'    ) keyboard.channelAdd( 'shift',   'user left'  )
@@ -328,7 +357,7 @@ window.addEventListener( 'keydown', function( event ){
 	// console.log( event.code )
 })
 window.addEventListener( 'keyup', function( event ){
-
+	
 	if( event.code === 'ShiftLeft'    ) keyboard.channelRemove( 'shift',   'user left'  )
 	if( event.code === 'ShiftRight'   ) keyboard.channelRemove( 'shift',   'user right' )
 	if( event.code === 'ControlLeft'  ) keyboard.channelRemove( 'control', 'user left'  )

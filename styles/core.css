@@ -378,7 +378,7 @@ main {
 	margin: auto;
 
 	width:  calc( var( --size ) * 106 );
-	height: calc( var( --size ) *  43 );
+	height: calc( var( --size ) *  46 );
 	border-radius: calc( var( --size ) * 1 );
 	/*background-color: black;*/
 	padding: calc( var( --size ) * 4 ) 0;
@@ -492,21 +492,13 @@ main {
 	color: hsl( 0, 0%, 50% );
 	color: hsl( 220, 7%, 55% );
 	overflow: hidden;
-/*	box-shadow: 
-		calc( var( --size ) * 0.2 ) 
-		calc( var( --size ) * 0.2 )
-		calc( var( --size ) * 0.2 )
-		rgba( 0, 0, 0, 0.2 );*/
 	cursor: pointer;
-
-/*	transition-property: background;
-	transition-duration: 0s;
-	transition-delay: 4s;*/
 }
-/*.key:hover {
 
-	background-color: hsl( 0, 0%, 95% );
-}*/
+
+
+
+
 .key.word {
 
 	font-size:   calc( var( --size ) * 1 );
@@ -562,17 +554,27 @@ main {
 
 	position: relative;
 	display: inline-block;
-
 }
 .key-arrow-up, 
 .key-arrow-down {
 
 	display: block;
 }
-/*.key-arrow-down { display: none; }*/
+.key-arrow-up {
+
+	margin-bottom: 0;
+	border-bottom-left-radius:  0;
+	border-bottom-right-radius: 0;
+}
+.key-arrow-down {
+
+	margin-top: 0;
+	border-top-left-radius:  0;
+	border-top-right-radius: 0;
+}
 .arrow {
 
-	height:      calc( var( --size ) * 2.8 );
+	height:      calc( var( --size ) * 3.0 );
 	font-size:   calc( var( --size ) * 1.5 );
 	line-height: calc( var( --size ) * 2.8 );
 }
@@ -654,80 +656,6 @@ main {
 
 
 
-#play-pause {
-
-	position: absolute;
-	left:   0;
-	bottom: 0;
-	width:  calc( var( --size ) * 8 );
-	height: calc( var( --size ) * 8 );
-	background-color: hsl( 25, 100%, 50% );
-	text-align: center;
-	cursor: pointer;
-	color: white;
-	line-height: calc( var( --size ) * 7.9 );
-}
-#play-pause:hover {
-
-	background-color: white;
-	color: hsl( 25, 100%, 50% );
-}
-
-
-
-#timeline {
-
-	position: absolute;
-	right:  0;
-	bottom: 0;
-	left:   calc( var( --size ) * 8 );
-	height: calc( var( --size ) * 8 );
-	background-color: hsl( 220, 7%, 93% );
-	background-color: hsl( 220, 7%, 80% );
-	/*background-color: rgba( 255, 255, 255, 0.3 );*/
-
-
-	/*filter:blur(4px);
-	-o-filter:blur(4px);
-	-ms-filter:blur(4px);
-	-moz-filter:blur(4px);
-	-webkit-filter:blur(4px);*/
-}
-#progress {
-
-	position: relative;
-	height: 100%;
-	background-color: white;
-	/*transition: width 0.25s ease-out;*/
-}
-#seeker {
-
-	position: absolute;
-	top:  0;
-	left: 0;
-	width: 2px;
-	height: 100%;
-	background-color: hsl( 25, 100%, 50% );
-	/*transition: left 0.5s ease-out;*/
-}
-#overhang {
-
-	display: none;
-	position: absolute;
-	top:   0;
-	right: 0;
-	left:  0;
-	height: calc( var( --size ) / 2 );
-	background: linear-gradient(
-
-		rgba( 0, 0, 0, 0.2 ),
-		rgba( 0, 0, 0, 0 )
-	);
-}
-
-
-
-
 
 
 
@@ -740,3 +668,132 @@ main {
 	
 	color: transparent;
 }
+
+
+
+
+
+
+
+
+
+
+
+    /****************/
+   /*              */
+  /*   Controls   */
+ /*              */
+/****************/
+
+
+#controls, 
+#timeline {
+
+	position: fixed;
+	right:  0;
+	bottom: 0;
+	left:   0;
+	height: calc( var( --size ) * 8 );
+	text-align: center;
+	cursor: pointer;
+}
+#controls {
+	
+	bottom: calc( var( --size ) * -8 );
+	background-color: hsl( 220, 7%, 75% );
+	transition: bottom 0.25s ease-in-out;
+}
+#controls.show {
+
+	bottom: 0;
+}
+#timeline,
+#progress,
+#seeker,
+#return-to-start,
+#play-pause {
+
+	position: absolute;
+	height: 100%;
+}
+#timeline {
+
+	right:  calc( var( --size ) * 16 );
+	cursor: ew-resize;
+}
+#progress {
+
+	background-color: white;
+}
+#seeker {
+
+	top:  0;
+	left: 0;
+	width: 2px;
+	background-color: hsl( 25, 100%, 50% );
+}
+#return-to-start,
+#play-pause {
+
+	bottom: 0;
+	width:  calc( var( --size ) * 8 );
+	color: white;
+	line-height: calc( var( --size ) * 7.9 );
+}
+#return-to-start {
+
+	right: calc( var( --size ) * 8 );
+}
+#play-pause {
+
+	right: 0;
+	
+}
+#play, #pause {
+
+	width:  100%;
+	height: 100%;
+}
+#play {
+
+	display: block;
+	background-color: hsl( 25, 100%, 50% );
+	animation-duration: 1.188118811881188s;
+	animation-name: pulse;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+	animation-timing-function: ease-in-out;
+}
+#play:hover {
+
+	background-color: white;
+	color: hsl( 25, 100%, 50% );
+	animation: none;
+}
+#pause {
+
+	display: none;
+}
+#play-pause.playing #play {
+
+	display: none;
+}
+#play-pause.playing #pause {
+
+	display: block;
+}
+#return-to-start:hover,
+#pause:hover {
+
+	background-color: hsl( 220, 7%, 60% );
+}
+@keyframes pulse {
+
+	from { background-color: hsl( 25, 100%, 50% ); }
+	to   { background-color: hsl( 25, 100%, 30% ); }
+}
+
+
+
+
+
