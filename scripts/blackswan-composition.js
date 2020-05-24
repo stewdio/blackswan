@@ -6,23 +6,15 @@
 
 
 
-comp.bpm   = 101
-comp.beat  = 60 / comp.bpm
-comp.endAt = 4 * 60 + 50
-// comp.playbackSpeed = 0.25
+comp.bpm  = 101
+comp.beat = 60 / comp.bpm
+comp.audio.src = 'media/blackswan.m4a'
 
-
-
-const audioElement = new Audio( 'media/blackswan.m4a' )
-audioElement.pause()
-audioElement.playbackRate = comp.playbackSpeed
-audioElement.volume = 0.4
 
 
 
 function reset(){
 
-	// audioElement.play()
 	keyboard.reset()
 	keyboard.classList.remove( 'wtf', 'caps-lock' )
 
@@ -109,6 +101,18 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
+	blackSwanOn( 2/4 )
+	comp.add( 2 )
+	comp.add( 1/4 )
+	blackSwanOff( 3/4 )
+	comp.add( 5/4 )
+	riff()
+	riff()
+
+
+
+/*
+
 	comp.add( 
 
 		0, 
@@ -129,7 +133,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	comp.add( 5/4 )
 	riff()
 	riff()
-
+*/
 
 
 
@@ -145,10 +149,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-	comp.add( 1 )
-	blackSwanOn()
-	comp.add( 1 )
-	blackSwanOff()
 
 	comp.add( 1 )
 	type( 'People get crushed like biscuit crumbs' )

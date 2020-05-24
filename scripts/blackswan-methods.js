@@ -223,38 +223,47 @@ function fuckedUp( durationInBeats ){
 		)
 	})
 }
-function blackSwanOn(){
+function blackSwanOn( durationInBeats ){
+
+	if( typeof durationInBeats !== 'number' ) durationInBeats = 2/4
+
+	const 
+	text = [ ...new Set( 'blackswan'.split( '' ))],
+	durationPerCharacter = durationInBeats / text.length 
 
 	comp.add( 0, function(){ keyboard.channelAdd( 'caps-lock', 'blackSwan' )}, 'caps-lock ON' )
-	;[ ...new Set( 'blackswan'.split( '' ))]
-	.forEach( function( letter, i ){
+	text.forEach( function( letter, i ){
 
 		comp.add(
 
-			0.2,
+			durationPerCharacter * i,
 			function(){
 		
 				const key = document.querySelector( '.key-'+ letter.toUpperCase() )
 				key.classList.add( 'black' )
-
 			},
 			'Black ON: '+ letter
 		)
 	})
 }
-function blackSwanOff(){
+function blackSwanOff( durationInBeats ){
 
-	;[ ...new Set( 'blackswan'.split( '' ))]
-	.forEach( function( letter, i ){
+	if( typeof durationInBeats !== 'number' ) durationInBeats = 2/4
+
+	const 
+	text = [ ...new Set( 'blackswan'.split( '' ))],
+	durationPerCharacter = durationInBeats / text.length 
+
+	comp.add( 0, function(){ keyboard.channelAdd( 'caps-lock', 'blackSwan' )}, 'caps-lock ON' )
+	text.forEach( function( letter, i ){
 
 		comp.add(
-		
-			0.2,	
+
+			durationPerCharacter * i,
 			function(){
 		
 				const key = document.querySelector( '.key-'+ letter.toUpperCase() )
 				key.classList.remove( 'black' )
-
 			},
 			'Black OFF: '+ letter
 		)

@@ -14,11 +14,11 @@
 
 
 const comp = [{ time: 0, duration: 0 }]
+comp.frameIndex = 0
 comp.audio = new Audio()
-comp.time  =  0
-comp.index =  0
-comp.endAt = 60
-comp.playbackSpeed = 1
+comp.audio.pause()
+comp.audio.playbackRate = 1.0
+comp.audio.volume = 0.4
 comp.set = function( time, durationInSeconds, action, comment ){
 
 	if( typeof time !== 'number' ) console.error( `A+ for creativity, but “time” ought to be a number.`, time )
@@ -58,16 +58,15 @@ comp.add = function( durationInBeats, action, comment ){
 }
 comp.play = function(){
 
-	comp.clockMarkLast = performance.now() / 1000
 	comp.isPlaying = true
 	comp.isPaused  = false
-	audioElement.play()
+	comp.audio.play()
 }
 comp.pause = function(){
 
 	comp.isPlaying = false
 	comp.isPaused  = true
-	audioElement.pause()
+	comp.audio.pause()
 }
 comp.toggle = function(){
 
@@ -76,18 +75,17 @@ comp.toggle = function(){
 }
 comp.seek = function( time ){
 
-	comp.index = 0
-	comp.time = time
-	while( comp.index < comp.length &&
-		comp[ comp.index ].time <= comp.time ){
+	comp.frameIndex = 0
+	comp.audio.currentTime = time
+	while( comp.frameIndex < comp.length &&
+		comp[ comp.frameIndex ].time <= comp.audio.currentTime ){
 
-		if( typeof comp[ comp.index ].action === 'function' ){
+		if( typeof comp[ comp.frameIndex ].action === 'function' ){
 
-			comp[ comp.index ].action()
+			comp[ comp.frameIndex ].action()
 		}
-		comp.index ++
+		comp.frameIndex ++
 	}
-	audioElement.currentTime = time
 }
 
 
@@ -106,33 +104,23 @@ function render(){
 
 	if( comp.isPlaying ){
 
-		const 
-		now   = performance.now() / 1000,
-		delta = now - comp.clockMarkLast
-		
-		comp.time += delta * comp.playbackSpeed
-		while( comp.index < comp.length &&
-			comp[ comp.index ].time <= comp.time ){
+		while( comp.frameIndex < comp.length &&
+			comp[ comp.frameIndex ].time <= comp.audio.currentTime ){
 
-			if( typeof comp[ comp.index ].action === 'function' ){
+			if( typeof comp[ comp.frameIndex ].action === 'function' ){
 
-				comp[ comp.index ].action()
+				comp[ comp.frameIndex ].action()
 			}
-			comp.index ++
+			comp.frameIndex ++
 		}
-		comp.clockMarkLast = now
 	}
-
 	const progressElement = document.getElementById( 'progress' )
-	progressElement.style.width = ( comp.time / comp.endAt * 100 ) +'%'
-
-
+	progressElement.style.width = ( comp.audio.currentTime / comp.audio.duration * 100 ) +'%'
 	if( isSeeking !== true ){
 
 		const seekerElement = document.getElementById( 'seeker' )
-		seekerElement.style.left = ( comp.time / comp.endAt * 100 ) +'%'
+		seekerElement.style.left = ( comp.audio.currentTime / comp.audio.duration * 100 ) +'%'
 	}
-
 	requestAnimationFrame( render )
 }
 
@@ -206,7 +194,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 		rectangle = timeline.getBoundingClientRect(),
 		x = event.clientX - rectangle.left
 		
-		comp.seek( x / timeline.clientWidth * comp.endAt )
+		comp.seek( x / timeline.clientWidth * comp.audio.duration )
 	},
 	updateSeekerFromPointer = function( event ){
 		
@@ -231,7 +219,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 		isSeeking = false
 	})
-
 
 
 	const playPauseElement = document.getElementById( 'play-pause' )
@@ -314,7 +301,6 @@ window.addEventListener( 'keydown', function( event ){
 
 	if( event.repeat !== true ){
 
-		// if( event.code === 'Space'        ) comp.toggle()
 		if( event.code === 'ShiftLeft'    ) keyboard.channelAdd( 'shift',   'user left'  )
 		if( event.code === 'ShiftRight'   ) keyboard.channelAdd( 'shift',   'user right' )
 		if( event.code === 'ControlLeft'  ) keyboard.channelAdd( 'control', 'user left'  )

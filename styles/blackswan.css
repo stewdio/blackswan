@@ -35,7 +35,7 @@ body {
 .keyboard {
 
 	transition-property: transform;
-	transition-duration: 10s;
+	transition-duration: 1s;
 	transition-timing-function: ease-in-out;
 	transform-style: preserve-3d;
 }

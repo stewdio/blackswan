@@ -2,13 +2,15 @@
 
 
 
-- maybe use audioElement.currentTime to drive the timing instead of performance.now???
+
+- handle audio src loading / disable play button until loaded. show loading animation.
+(users can still play w keyboard tho!)
 
 - mouse events that use location need touch compatibility.
 
-- rewrite "blackswan" routine to use duration.
-
 - re-write riff() so can do HALF a riff (2 beats) instead of always 4 beats!
+
+
 
 
 - PLAY button needs to slowly pulse orange when isPlaying === false
@@ -30,7 +32,9 @@ actually this requires deeper investigation...
 so maybe capture key.classList.add('press') and :hover events behind a logging function.
 this logging function should assess whether shift / caps / option etc is pressed and retrieve appropriate symbol by diong a querySelector on the key itself!
 
+- maybe cannot use translate() for hover because conflicts with later crazy transformations. (is that why it blinks rapidly on mouse over??)
 
+— should visual aesthetic evolve over song to desaturate completely / go high contrast and for orange to become red and match the record's artwork??
 
 
 
