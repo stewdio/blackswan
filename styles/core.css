@@ -98,7 +98,7 @@ body {
 	margin: 0;
 	background-color: hsl( 220, 7%, 85% );
 	padding: 0;
-	color: black;
+	color: hsl( 220, 7%, 40% );
 	font-weight: 400;
 	font-family: 'SF Pro Text', system-ui, -apple-system, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 	hanging-punctuation: first;
@@ -736,6 +736,17 @@ main {
 	left: 0;
 	width: 2px;
 	background-color: hsl( 25, 100%, 50% );
+}
+#clock {
+
+	display: none;
+	position: absolute;
+	transform: translate( -50%, -150% );
+	color: hsl( 25, 100%, 50% );
+}
+#timeline:hover #clock {
+
+	display: block;
 }
 #return-to-start,
 #play-pause {

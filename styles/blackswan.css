@@ -79,7 +79,8 @@ body {
 
 
 
-.keyboard.push-out .key.press {
+.keyboard.push-out .key.press,
+.keyboard.push-out .key:hover {
 	
 	/*transform: translateZ( calc( var( --size ) * 10 ));*/
 	/*transition: transform 0s;*/
@@ -99,7 +100,8 @@ body {
 		background-color var( --beat ) ease-in,
 		transform var( --beat-eighth ) ease-out;
 }
-.keyboard.long-sustain .key.press {
+.keyboard.long-sustain .key.press,
+.keyboard.long-sustain .key:hover {
 
 	transition: none;
 }
@@ -108,7 +110,8 @@ body {
 
 
 
-.keyboard.crazy .key.press {
+.keyboard.crazy .key.press
+.keyboard.crazy .key:hover {
 
 	transition: none;
 	transform: 

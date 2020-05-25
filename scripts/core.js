@@ -188,6 +188,19 @@ window.addEventListener( 'DOMContentLoaded', function(){
 				})
 			}
 		})
+		
+		Array
+		.from( document.querySelectorAll( '.row' ))
+		.forEach( function( row, y ){
+
+			Array
+			.from( row.querySelectorAll( '.key' ))
+			.forEach( function( key, x ){
+
+				key.setAttribute( 'x', x )
+				key.setAttribute( 'y', y )
+			})
+		})
 	})
 	keyboard = keyboards[ 0 ]
 
@@ -206,15 +219,25 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	},
 	updateSeekerFromPointer = function( event ){
 		
-		isSeeking = true
-		
 		const 
 		timeline  = document.getElementById( 'timeline' ),
 		rectangle = timeline.getBoundingClientRect(),
-		x = event.clientX - rectangle.left,
-		seekerElement = document.getElementById( 'seeker' )
+		x = event.clientX - rectangle.left
 
-		seekerElement.style.left = x +'px'
+		if( x <= rectangle.right ){
+
+			isSeeking = true
+
+			const
+			seekerElement = document.getElementById( 'seeker' ),
+			clockElement  = document.getElementById( 'clock' ),
+			time = x / rectangle.width * comp.audio.duration,
+			minutes = Math.floor( time / 60 ),
+			seconds = Math.floor( time - ( minutes * 60 ))
+
+			seekerElement.style.left = x +'px'
+			clock.innerText = minutes +':'+ seconds.toString().padStart( 2, '0' )
+		}
 	}
 	
 	timeline.addEventListener( 'mousedown',  seekByGui )

@@ -195,9 +195,9 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	comp.add( 1 )
 	type( `and laid down in the bitumen`, 4.5 )
 	riff()
-	type( `You have tried your best to please everyone`, 6 )
-	type( `But it just isn't happening`, 5.75 )
-	riff()
+	// type( `You have tried your best to please everyone`, 6 )
+	// type( `But it just isn't happening`, 5.75 )
+	// riff()
 	/*
 	
 	But it just isn't happening
@@ -206,13 +206,57 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
+	//  we can do grid stuff. big pixel type?
+/*
+
+
+####  #  #   ###  #  #  ####  ###    #  #  ###
+###   #  #  #     ###   ###   #  #   #  #  ###
+#      ##    ###  #  #  ####  ###     ##   #
+
+
+
+*/
+
+
+	comp.add( 0, function(){
+
+		Array
+		.from( keyboard.querySelectorAll( '[x="3"]' ))
+		.forEach( function( key ){
+
+			key.classList.add( 'press' )
+		})
+	})
 
 
 
 
-	comp.add( 1, function(){
 
-		//keyboard.classList.add( 'wtf' )
+	comp.add( 4 )
+
+
+
+
+
+
+
+	const timeStart = comp[ comp.length - 1 ].time
+
+	Array
+	.from( keyboard.querySelectorAll( '.key' ))
+	.forEach( function( key, i ){
+
+		comp.set( timeStart + i * 0.02, 0, function(){ key.classList.add( 'press' )})
+		comp.set( timeStart + 0.5 + i * 0.02, 0, function(){ key.classList.remove( 'press' )})
+	})
+
+
+
+	comp.add( 8, function(){
+
+		// keyboard.classList.add( 'wtf' )
+		// keyboard.classList.add( 'crazy' )
 	})
 
 	comp.add( 4, function(){
