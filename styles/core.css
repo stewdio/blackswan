@@ -493,6 +493,8 @@ main {
 	color: hsl( 220, 7%, 55% );
 	overflow: hidden;
 	cursor: pointer;
+
+	transition: all 0.25s ease-out;
 }
 
 
@@ -617,13 +619,14 @@ main {
 		calc( var( --size ) * 0.2 ),
 		calc( var( --size ) * 0.2 )
 	);*/
-	background: linear-gradient(
+	/*background: linear-gradient(
 
 		0.45turn,
 		
 		hsl( 0, 0%, 50% ),
 		hsl( 0, 0%, 60% )
-	);
+	);*/
+	background-color: hsl( 0, 0%, 50% );
 	color: white;
 	box-shadow: none;
 
@@ -639,14 +642,16 @@ main {
 .keyboard.option .key-I,
 .keyboard.option .key-N {
 
-	background: linear-gradient(
+/*	background: linear-gradient(
 
 		0.45turn,
 		
 		hsl( 25, 100%, 50% ),
 		hsl( 25, 100%, 55% )
-	);
+	);*/
+	background-color: hsl( 25, 100%, 50% );
 	color: white;
+	transition: none;
 }
 .option {
 
@@ -790,8 +795,10 @@ main {
 @keyframes pulse {
 
 	from { background-color: hsl( 25, 100%, 50% ); }
-	to   { background-color: hsl( 25, 100%, 30% ); }
+	to   { background-color: hsl( 25, 100%, 60% ); }
 }
+
+
 
 
 

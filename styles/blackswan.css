@@ -8,9 +8,7 @@
 .black {
 
 	background: linear-gradient(
-
 		0.45turn,
-		
 		hsl( 0, 0%, 10% ),
 		hsl( 0, 0%, 30% )
 	);
@@ -28,7 +26,14 @@
 
 
 
+
 body {
+
+	--bpm: 101;
+	--beat:         calc( 60s / var( --bpm ));
+	--beat-half:    calc( var( --beat ) / 2 );
+	--beat-quarter: calc( var( --beat ) / 4 );
+	--beat-eighth:  calc( var( --beat ) / 8 );
 
 	perspective: 600px;
 }
@@ -56,6 +61,73 @@ body {
 	transform: perspective( 600px ) translate3d( 0, 20px, 60px );
 	/*transform: perspective( 600px ) translate3d( 0, 20px, 100px ) rotate3d( 0, 0, 1, 45deg );*/
 }
+
+
+
+
+
+
+
+.key {
+	
+	transition: 
+		background-color var( --beat-eighth ) linear,
+		transform var( --beat ) ease-out;
+	transform-origin: center center;
+}
+
+
+
+
+.keyboard.push-out .key.press {
+	
+	/*transform: translateZ( calc( var( --size ) * 10 ));*/
+	/*transition: transform 0s;*/
+	transform: translateZ( 120px ) !important;
+	/*background: initial;*/
+	transition: none;
+}
+
+
+
+
+
+
+.keyboard.long-sustain .key {
+
+	transition: 
+		background-color var( --beat ) ease-in,
+		transform var( --beat-eighth ) ease-out;
+}
+.keyboard.long-sustain .key.press {
+
+	transition: none;
+}
+
+
+
+
+
+.keyboard.crazy .key.press {
+
+	transition: none;
+	transform: 
+		translate3d( 
+		
+			var( --tx ),
+			var( --ty ),
+			var( --tz )
+		)
+		rotate3d( 
+
+			var( --rx ),
+			var( --ry ),
+			var( --rz ),
+			180deg
+		) !important;
+}
+
+
 
 
 

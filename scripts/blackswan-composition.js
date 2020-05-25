@@ -16,7 +16,23 @@ comp.audio.src = 'media/blackswan.m4a'
 function reset(){
 
 	keyboard.reset()
-	keyboard.classList.remove( 'wtf', 'caps-lock' )
+	keyboard.classList.remove( 
+
+		'caps-lock',
+		'push-out',
+		'long-sustain',
+		'wtf'
+	)
+
+	function getRandomBetween( a, b ){
+
+		const 
+		range = b - a,
+		r = Math.random() * range
+
+		return a + r
+	}
+
 
 	Array
 	.from( document.querySelectorAll( '.key' ))
@@ -24,6 +40,14 @@ function reset(){
 
 		element.classList.remove( 'press', 'black', 'wtf' )
 		element.style.transform = 'none'
+		
+		element.style.setProperty( '--tx', getRandomBetween( -100, 100 ) +'px' )
+		element.style.setProperty( '--ty', getRandomBetween( -100, 100 ) +'px' )
+		element.style.setProperty( '--tz', getRandomBetween( -100, 100 ) +'px' )
+
+		element.style.setProperty( '--rx', getRandomBetween( -1, 1 ))
+		element.style.setProperty( '--ry', getRandomBetween( -1, 1 ))
+		element.style.setProperty( '--rz', getRandomBetween( -1, 1 ))
 	})
 }
 function applyCssClass( cssQuery, className ){
@@ -41,7 +65,13 @@ function applyCssClass( cssQuery, className ){
 
 window.addEventListener( 'DOMContentLoaded', function(){
 
+	reset()
+
 	comp.set( 0, 0, reset, 'Reset!' )
+
+
+
+
 
 
 	//  Intro.
@@ -63,13 +93,21 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	type( `What will grow crooked, you can't make straight`, 6 )
 	comp.add( 1 )
-	type( `It's the price that you gotta pay`, 5 )
+	type( `It's the price that you gotta pay`, 4.5 )
 	riff()
 	type( `Do yourself a favour and pack your bags`, 6 )
-	type( `Buy a ticket and get on the train`, 5 )
+	type( `Buy a ticket and get on the train`, 5.75 )
 	riff()
 	type( `Buy a ticket and get on the`, 4 )
-	type( `train`, 4, true )//  Extend the TRAAAAAAAIIIIIIINNN
+	comp.add( 0, function(){
+
+		keyboard.classList.add( 'long-sustain' )
+	})
+	type( `train`, 3.5, true )//  Extend the TRAAAAAAAIIIIIIINNN
+	comp.add( 0, function(){
+
+		keyboard.classList.remove( 'long-sustain' )
+	})
 	riff()
 	riff()
 
@@ -86,7 +124,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	// riff()//  re-write this so can do HALF a riff (2 beats) instead of only 4!
 	comp.add( 2 )
 	comp.add( 1/4 )
-	fuckedUp( 2/4 )
+	fuckedUp( 3/4 )
 	comp.add(
 
 		0, 
@@ -147,14 +185,24 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
+	comp.add( 0, function(){
 
+		//keyboard.classList.add( 'crazy' )
+		keyboard.classList.add( 'push-out' )
+	})
 
-
-	type( 'People get crushed like biscuit crumbs', 6 )
+	type( `People get crushed like biscuit crumbs`, 6 )
 	comp.add( 1 )
-	type( `And laid down in the bitumen`, 5 )
+	type( `and laid down in the bitumen`, 4.5 )
 	riff()
-
+	type( `You have tried your best to please everyone`, 6 )
+	type( `But it just isn't happening`, 5.75 )
+	riff()
+	/*
+	
+	But it just isn't happening
+	No, it just isn't happening
+	*/
 
 
 
@@ -164,7 +212,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	comp.add( 1, function(){
 
-		keyboard.classList.add( 'wtf' )
+		//keyboard.classList.add( 'wtf' )
 	})
 
 	comp.add( 4, function(){
@@ -174,10 +222,10 @@ window.addEventListener( 'DOMContentLoaded', function(){
 		document.querySelector( '.key-F' ).classList.add( 'wtf' )
 	})
 
-	comp.add( 12, function(){
+	// comp.add( 12, function(){
 
-		blowApart()
-	})
+	// 	blowApart()
+	// })
 
 	type( 'You cannot kick-start a dead horse' )
 	comp.add( 1 )
