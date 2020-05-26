@@ -28,7 +28,16 @@ function riff( drumSolo, addLastHit ){
 
 			timeMark,
 			comp.beat * durationToOccupy,
-			function(){ document.querySelector( '.key-'+ cssName ).classList.add( 'press' )},
+			function(){ 
+
+				const key = document.querySelector( '.key-'+ cssName )
+				key.classList.add( 'press' )
+				
+				if( cssName === 'space' ) comp.log( ' ' )
+				else if( cssName === 'period' ) comp.log( key.innerText )
+				else if( cssName === 'tab' ) comp.log( '	' )
+				else comp.log( cssName )
+			},
 			'Riff. Hit ON: '+ cssName
 		)
 		comp.set(
@@ -135,13 +144,6 @@ function type( text, durationInBeats, holdUntilDone ){
 
 		if( keyElement instanceof HTMLElement ){
 		
-			comp.set(
-
-				timeStart + comp.beat * i * durationPerCharacter,
-				durationPerCharacter,
-				function(){ keyElement.classList.add( 'press' )},
-				'Type ON: '+ cssName
-			)
 			if( isMajuscule ){
 
 				const side = Math.random() >= 0.5 ? 'left' : 'right'
@@ -158,12 +160,14 @@ function type( text, durationInBeats, holdUntilDone ){
 
 							element.classList.add( 'press' )
 						})
+						comp.log( 'Shift' )
 					},
 					'shift ON'
 				)
 				comp.set(
 
-					timeStart + comp.beat * i * durationPerCharacter + durationPerCharacter,//  Is EXACT so can be overridden by a subsequent ON command!
+					//timeStart + comp.beat * i * durationPerCharacter + durationPerCharacter,//  Is EXACT so can be overridden by a subsequent ON command!
+					timeStart + comp.beat * i * durationPerCharacter + durationPerCharacter * 1/2,
 					0,
 					function(){ 
 
@@ -178,10 +182,21 @@ function type( text, durationInBeats, holdUntilDone ){
 					'shift OFF'
 				)
 			}
+			comp.set(
+
+				timeStart + comp.beat * i * durationPerCharacter,
+				durationPerCharacter,
+				function(){ 
+
+					keyElement.classList.add( 'press' )
+					comp.log( keyElement.innerText )
+				},
+				'Type ON: '+ cssName
+			)
 
 			const releaseAfterDuration = holdUntilDone ? 
 				durationInBeats * comp.beat :
-				comp.beat * i * durationPerCharacter + durationPerCharacter * 15/16			
+				comp.beat * i * durationPerCharacter + durationPerCharacter * 15/16
 			
 			comp.set(
 
@@ -269,6 +284,50 @@ function blackSwanOff( durationInBeats ){
 		)
 	})
 	comp.add( 0, function(){ keyboard.channelRemove( 'caps-lock', 'blackSwan' )}, 'caps-lock OFF' )
+}
+
+
+
+
+function blindspot( durationInBeats ){
+
+	if( typeof durationInBeats !== 'number' ) durationInBeats = 2
+
+	let frameIndex = comp.length - 1
+	while( comp[ frameIndex ].duration === 0 && 
+		frameIndex > 0 ){
+
+		frameIndex --
+	}
+
+	const 
+	lastFrame = comp[ frameIndex ],
+	timeStart = lastFrame.time + lastFrame.duration,
+	durationPerKey = durationInBeats / 14
+
+	Array
+	.from( document.querySelectorAll( '.key' ))
+	.forEach( function( key ){
+
+		if( key.innerText.length > 0 && 
+			'blindspot'.indexOf( key.innerText ) < 0 ){
+
+			const 
+			x = +key.getAttribute( 'x' ),
+			y = +key.getAttribute( 'y' )
+
+			comp.set(
+				
+				timeStart + comp.beat * x * durationPerKey,
+				durationPerKey,
+				function(){
+
+					key.classList.add( 'press' )
+				},
+				'Blindspot.'
+			)
+		}
+	})
 }
 
 

@@ -89,6 +89,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	riff( false, false )
 
 
+
+
 	//  First verse.
 
 	type( `What will grow crooked, you can't make straight`, 6 )
@@ -112,7 +114,86 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	riff()
 
 
-	//  Chorus.
+
+
+	//  First chorus.
+
+	comp.add( 
+
+		0, 
+		function(){ keyboard.channelAdd( 'caps-lock' )}, 
+		'Fucked up. Caps-lock ON.' 
+	)
+	fuckedUp( 2/4 )
+	// riff()//  re-write this so can do HALF a riff (2 beats) instead of only 4!
+	comp.add( 2 )
+	comp.add( 1/4 )
+	fuckedUp( 3/4 )
+	comp.add(
+
+		0, 
+		function(){ keyboard.channelRemove( 'caps-lock' )}, 
+		'Fucked up. Caps-lock OFF.' 
+	)
+	comp.add( 6/4 )
+	riff()
+	riff()
+
+
+	comp.add( 
+
+		0, 
+		function(){ keyboard.channelAdd( 'caps-lock' )}, 
+		'Fucked up. Caps-lock ON.' 
+	)
+	fuckedUp( 2/4 )
+	// riff()//  re-write this so can do HALF a riff (2 beats) instead of only 4!
+	comp.add( 2 )
+	comp.add( 1/4 )
+	fuckedUp( 3/4 )
+	comp.add(
+
+		0, 
+		function(){ keyboard.channelRemove( 'caps-lock' )}, 
+		'Fucked up. Caps-lock OFF.' 
+	)
+	comp.add( 5/4 )
+	riff()
+	riff()
+
+
+
+
+	//  Second verse.
+
+	comp.add( 0, function(){
+
+		keyboard.classList.add( 'push-out' )
+	})
+	type( `People get crushed like biscuit crumbs`, 6 )
+	comp.add( 1 )
+	type( `and laid down in the bitumen`, 4.5 )
+	riff()
+	type( `You have tried your best to please everyone`, 6 )
+	type( `But it just isn't happening`, 5.75 )
+	riff()
+	type( `No, it just isn't`, 4 )
+	comp.add( 0, function(){
+
+		keyboard.classList.add( 'long-sustain' )
+	})
+	type( `happening`, 3.5, true )
+	comp.add( 0, function(){
+
+		keyboard.classList.remove( 'long-sustain' )
+	})
+	riff()
+	riff()
+
+
+
+
+	//  Second chorus.
 
 	comp.add( 
 
@@ -139,72 +220,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-	blackSwanOn( 2/4 )
-	comp.add( 2 )
-	comp.add( 1/4 )
-	blackSwanOff( 3/4 )
-	comp.add( 5/4 )
-	riff()
-	riff()
-
-
-
-/*
-
-	comp.add( 
-
-		0, 
-		function(){ keyboard.channelAdd( 'caps-lock' )}, 
-		'Fucked up. Caps-lock ON.' 
-	)
-	fuckedUp( 2/4 )
-	// riff()//  re-write this so can do HALF a riff (2 beats) instead of only 4!
-	comp.add( 2 )
-	comp.add( 1/4 )
-	fuckedUp( 3/4 )
-	comp.add(
-
-		0, 
-		function(){ keyboard.channelRemove( 'caps-lock' )}, 
-		'Fucked up. Caps-lock OFF.' 
-	)
-	comp.add( 5/4 )
-	riff()
-	riff()
-*/
-
-
-
-	// comp.add( 1 )
-	// type( 'this is normal text' )
-	// type( 'THIS IS A TEST OF TYPING WITH CAPS' )
-	// applyCssClass( '.key-H', 'press' )
-	// applyCssClass( '.key-I', 'press' )
-
-
-
-
-
-	comp.add( 0, function(){
-
-		//keyboard.classList.add( 'crazy' )
-		keyboard.classList.add( 'push-out' )
-	})
-
-	type( `People get crushed like biscuit crumbs`, 6 )
-	comp.add( 1 )
-	type( `and laid down in the bitumen`, 4.5 )
-	riff()
-	// type( `You have tried your best to please everyone`, 6 )
-	// type( `But it just isn't happening`, 5.75 )
-	// riff()
-	/*
-	
-	But it just isn't happening
-	No, it just isn't happening
-	*/
-
-
 
 	//  we can do grid stuff. big pixel type?
 /*
@@ -218,6 +233,23 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 */
 
+
+
+	blackSwanOn( 2/4 )
+	comp.add( 2 )
+	comp.add( 1/4 )
+	blackSwanOff( 3/4 )
+	comp.add( 5/4 )
+	riff()
+	riff()
+
+
+
+
+	blindspot()
+
+
+	comp.add( 4 )
 
 	comp.add( 0, function(){
 
@@ -234,6 +266,16 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 	comp.add( 4 )
+
+
+
+
+	// comp.add( 1 )
+	// type( 'this is normal text' )
+	// type( 'THIS IS A TEST OF TYPING WITH CAPS' )
+	// applyCssClass( '.key-H', 'press' )
+	// applyCssClass( '.key-I', 'press' )
+
 
 
 

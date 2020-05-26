@@ -71,14 +71,20 @@ body {
 .key {
 	
 	transition: 
-		background-color var( --beat-eighth ) linear,
+		background-color var( --beat-quarter ) linear,
 		transform var( --beat ) ease-out;
 	transform-origin: center center;
 }
 
 
 
+.keyboard.push-out .key {
 
+	transition: 
+		background-color var( --beat-half ) linear,
+		text-shadow var( --beat-half ) linear,
+		transform var( --beat ) ease-out;
+}
 .keyboard.push-out .key.press,
 .keyboard.push-out .key:hover {
 	

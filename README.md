@@ -7,22 +7,24 @@ THE ART
 
 - use keyboard as tilted pixel grid for drawing to.
 
-- 'BIG press': the .press class on a .key but modifier on .keyboard that causes keys to fly up into air. ease-out.
+- debug "blindspot" fuction.
+
+- is "blackswan" function nicer with key text visible? or better when whole key vanishes?
 
 - re-write riff() so can do HALF a riff (2 beats) instead of always 4 beats!
 
 - animation needs to end such that looping back to beginning is not visually distracting; so must end with keyboard reassembled and ready.
 
-- it should actually output the text somewhere. even if just in the console. like a receipt of thex experience you can take with you. this can INCLUDE user input too.
-so maybe capture key.classList.add('press') and :hover events behind a logging function.
-this logging function should assess whether shift / caps / option etc is pressed and retrieve appropriate symbol by diong a querySelector on the key itself!
+- hover / click on SHIFT, OPTION, CAPS, etc should activate those things just like hitting the real buttons.
 
-- maybe cannot use translate() for hover because conflicts with later crazy transformations. (is that why it blinks rapidly on mouse over??)
+- RECEIPT. comp.generateReport() now outputs a receipt of the experience. Need to capture hover events as well tho. Needs more debugging too. 
+
 
 
 
 CONTROLS
 
+- WHY NO APPEAR ON MOBILE?!
 - mouse events that use location need touch compatibility.
 - SVG icons for Play, Pause, Return-to-start buttons.
 - shoud #seeker always be orange? or should be full white whille progress is slightly dimmer?

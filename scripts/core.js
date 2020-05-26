@@ -14,87 +14,103 @@
 
 
 const comp = [{ time: 0, duration: 0 }]
-comp.frameIndex = 0
-comp.audio = new Audio()
+Object.assign( comp, {
+
+	frameIndex: 0,
+	audio: new Audio(),
+	logs: [],
+	set: function( time, durationInSeconds, action, comment ){
+
+		if( typeof time !== 'number' ) console.error( `A+ for creativity, but “time” ought to be a number.`, time )
+		if( typeof durationInSeconds !== 'number' ) console.error( `A+ for creativity, but “durationInSeconds” ought to be a number.`, durationInSeconds )
+		comp.push({
+
+			time,
+			duration: durationInSeconds,
+			action,
+			comment
+		})
+		comp.sort( function( a, b ){
+
+			return a.time - b.time
+		})
+		return this
+	},
+	add: function( durationInBeats, action, comment ){
+
+		if( typeof durationInBeats !== 'number' ) durationInBeats = 1
+
+		let frameIndex = comp.length - 1
+		while( comp[ frameIndex ].duration === 0 && 
+			frameIndex > 0 ){
+
+			frameIndex --
+		}
+		const lastFrame = comp[ frameIndex ]
+		comp.push({
+
+			time: lastFrame.time + lastFrame.duration,
+			duration: durationInBeats * comp.beat,
+			action,
+			comment
+		})
+		return this
+	},
+	play: function(){
+
+		comp.isPlaying = true
+		comp.isPaused  = false
+		comp.audio.play()
+		const playPauseButton = document.getElementById( 'play-pause' )
+		playPauseButton.classList.add( 'playing' )
+		return this
+	},
+	pause: function(){
+
+		comp.isPlaying = false
+		comp.isPaused  = true
+		comp.audio.pause()
+		const playPauseButton = document.getElementById( 'play-pause' )
+		playPauseButton.classList.remove( 'playing' )
+		return this
+	},
+	toggle: function(){
+
+		if( comp.isPlaying ) comp.pause()
+		else comp.play()
+		return this
+	},
+	seek: function( time ){
+
+		comp.frameIndex = 0
+		comp.audio.currentTime = time
+		while( comp.frameIndex < comp.length &&
+			comp[ comp.frameIndex ].time <= comp.audio.currentTime ){
+
+			if( typeof comp[ comp.frameIndex ].action === 'function' ){
+
+				comp[ comp.frameIndex ].action()
+			}
+			comp.frameIndex ++
+		}
+		return this
+	},
+	log: function( text ){
+
+		if( text.length === 1 ) this.logs.push( text )
+		else this.logs.push( `\n<${ text.toUpperCase() }>\n` )
+		return this
+	},
+	generateReceipt: function(){
+
+		return this.logs.join( '' )
+	}
+})
 comp.audio.pause()
 comp.audio.playbackRate = 1.0
 comp.audio.volume = 0.4
-comp.set = function( time, durationInSeconds, action, comment ){
 
-	if( typeof time !== 'number' ) console.error( `A+ for creativity, but “time” ought to be a number.`, time )
-	if( typeof durationInSeconds !== 'number' ) console.error( `A+ for creativity, but “durationInSeconds” ought to be a number.`, durationInSeconds )
-	comp.push({
 
-		time,
-		duration: durationInSeconds,
-		action,
-		comment
-	})
-	comp.sort( function( a, b ){
-
-		return a.time - b.time
-	})
-	return this
-}
-comp.add = function( durationInBeats, action, comment ){
-
-	if( typeof durationInBeats !== 'number' ) durationInBeats = 1
-
-	let frameIndex = comp.length - 1
-	while( comp[ frameIndex ].duration === 0 && 
-		frameIndex > 0 ){
-
-		frameIndex --
-	}
-	const lastFrame = comp[ frameIndex ]
-	comp.push({
-
-		time: lastFrame.time + lastFrame.duration,
-		duration: durationInBeats * comp.beat,
-		action,
-		comment
-	})
-	return this
-}
-comp.play = function(){
-
-	comp.isPlaying = true
-	comp.isPaused  = false
-	comp.audio.play()
-	const playPauseButton = document.getElementById( 'play-pause' )
-	playPauseButton.classList.add( 'playing' )
-	return this
-}
-comp.pause = function(){
-
-	comp.isPlaying = false
-	comp.isPaused  = true
-	comp.audio.pause()
-	const playPauseButton = document.getElementById( 'play-pause' )
-	playPauseButton.classList.remove( 'playing' )
-	return this
-}
-comp.toggle = function(){
-
-	if( comp.isPlaying ) comp.pause()
-	else comp.play()
-	return this
-}
-comp.seek = function( time ){
-
-	comp.frameIndex = 0
-	comp.audio.currentTime = time
-	while( comp.frameIndex < comp.length &&
-		comp[ comp.frameIndex ].time <= comp.audio.currentTime ){
-
-		if( typeof comp[ comp.frameIndex ].action === 'function' ){
-
-			comp[ comp.frameIndex ].action()
-		}
-		comp.frameIndex ++
-	}
-	return this
-}
 
 
 
@@ -377,7 +393,7 @@ window.addEventListener( 'keydown', function( event ){
 			if( keyElement instanceof HTMLElement ) keyElement.classList.add( 'press' )
 		}
 	}
-	// console.log( event.code )
+	comp.log( event.code.startsWith( 'Key' ) ? event.key : event.code )
 })
 window.addEventListener( 'keyup', function( event ){
 	
