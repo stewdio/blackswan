@@ -534,8 +534,8 @@ main {
 }
 #controls {
 	
-	bottom: calc( var( --size ) * -8 );
-	background-color: hsl( 220, 7%, 75% );
+	/*bottom: calc( var( --size ) * -8 );*/
+	/*background-color: hsl( 220, 7%, 75% );*/
 	transition: bottom 0.25s ease-in-out;
 }
 #controls.show {
@@ -544,7 +544,8 @@ main {
 }
 #timeline,
 #progress,
-#seeker,
+#progress-head,
+#seeker-head,
 #return-to-start,
 #play-pause {
 
@@ -555,34 +556,73 @@ main {
 
 	right:  calc( var( --size ) * 16 );
 	cursor: ew-resize;
+	background-color: hsl( 25, 5%, 10% );
 }
+
+
+
+
 #progress {
 
-	background-color: white;
+	background-color: hsl( 25, 5%, 20% );
 }
-#seeker {
+#progress-head,
+#seeker-head {
 
 	top:  0;
+	width: 1px;
+}
+#progress-head {
+
+	right: 0;
+	background-color: hsl( 25, 5%, 50% );
+}
+#seeker-head {
+
 	left: 0;
-	width: 2px;
 	background-color: hsl( 25, 100%, 50% );
 }
-#clock {
+#progress-clock,
+#seeker-clock {
 
-	display: none;
 	position: absolute;
 	transform: translate( -50%, -150% );
+}
+#progress-clock {
+
+	color: hsl( 25, 5%, 50% );
+}
+#seeker-clock {
+
 	color: hsl( 25, 100%, 50% );
 }
-#timeline:hover #clock {
 
-	display: block;
+
+#progress-heead,
+#progress-clock,
+#seeker-head,
+#seeker-clock {
+
+	opacity: 0;
+	transition: opacity 0.5s;
 }
+#timeline:hover #progress-heead,
+#timeline:hover #progress-clock,
+#timeline:hover #seeker-head,
+#timeline:hover #seeker-clock {
+
+	opacity: 1;
+}
+
+
+
+
 #return-to-start,
 #play-pause {
 
 	bottom: 0;
 	width:  calc( var( --size ) * 8 );
+	background-color: hsl( 25, 5%, 20% );
 	color: white;
 	line-height: calc( var( --size ) * 7.9 );
 }
@@ -593,7 +633,6 @@ main {
 #play-pause {
 
 	right: 0;
-	
 }
 #play, #pause {
 
@@ -605,6 +644,7 @@ main {
 	display: block;
 	background-color: hsl( 25, 100%, 50% );
 	animation-duration: 1.188118811881188s;
+	animation-duration: var( --beat );
 	animation-name: pulse;
 	animation-iteration-count: infinite;
 	animation-direction: alternate;
@@ -631,12 +671,13 @@ main {
 #return-to-start:hover,
 #pause:hover {
 
-	background-color: hsl( 220, 7%, 60% );
+	background-color: white;
+	color: hsl( 25, 5%, 50% );
 }
 @keyframes pulse {
 
 	from { background-color: hsl( 25, 100%, 50% ); }
-	to   { background-color: hsl( 25, 100%, 60% ); }
+	to   { background-color: hsl( 25, 100%, 40% ); }
 }
 
 

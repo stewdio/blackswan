@@ -4,61 +4,10 @@
 
 
 
-
-
+comp.audio.src = 'media/blackswan.m4a'
+// comp.audio.playbackRate = 0.5
 comp.bpm  = 101
 comp.beat = 60 / comp.bpm
-comp.audio.src = 'media/blackswan.m4a'
-
-
-
-
-function reset(){
-
-	keyboard.reset()
-	keyboard.classList.remove( 
-
-		'caps-lock',
-		'push-out',
-		'long-sustain',
-		'wtf'
-	)
-
-	function getRandomBetween( a, b ){
-
-		const 
-		range = b - a,
-		r = Math.random() * range
-
-		return a + r
-	}
-
-
-	Array
-	.from( document.querySelectorAll( '.key' ))
-	.forEach( function( element ){
-
-		element.classList.remove( 'press', 'black', 'wtf' )
-		element.style.transform = 'none'
-		
-		element.style.setProperty( '--tx', getRandomBetween( -100, 100 ) +'px' )
-		element.style.setProperty( '--ty', getRandomBetween( -100, 100 ) +'px' )
-		element.style.setProperty( '--tz', getRandomBetween( -100, 100 ) +'px' )
-
-		element.style.setProperty( '--rx', getRandomBetween( -1, 1 ))
-		element.style.setProperty( '--ry', getRandomBetween( -1, 1 ))
-		element.style.setProperty( '--rz', getRandomBetween( -1, 1 ))
-	})
-}
-function applyCssClass( cssQuery, className ){
-
-	Array
-	.from( document.querySelectorAll( cssQuery ))
-	.forEach( function( element ){
-
-		element.classList.add( className )
-	})
-}
 
 
 
@@ -66,16 +15,15 @@ function applyCssClass( cssQuery, className ){
 window.addEventListener( 'DOMContentLoaded', function(){
 
 	reset()
-
 	comp.set( 0, 0, reset, 'Reset!' )
 
 
 
 
+	//  Instrumental intro.
+	//  b1 – b40
+	//  0:00 – 0:23
 
-
-	//  Intro.
-	
 	comp.add()
 	riff( true )
 	riff( true )
@@ -96,10 +44,14 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	type( `What will grow crooked, you can't make straight`, 6 )
 	comp.add( 1 )
 	type( `It's the price that you gotta pay`, 4.5 )
+	comp.add( 1/2 )
 	riff()
+	
 	type( `Do yourself a favour and pack your bags`, 6 )
-	type( `Buy a ticket and get on the train`, 5.75 )
-	riff()
+	comp.add( 1 )
+	type( `Buy a ticket and get on the train`, 4 )
+	comp.add( 1/2 )
+	riff()// should be HALF RIFF!
 	type( `Buy a ticket and get on the`, 4 )
 	comp.add( 0, function(){
 
@@ -135,7 +87,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 		function(){ keyboard.channelRemove( 'caps-lock' )}, 
 		'Fucked up. Caps-lock OFF.' 
 	)
-	comp.add( 6/4 )
+	comp.add( 7/4 )
 	riff()
 	riff()
 
@@ -222,18 +174,15 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 	//  we can do grid stuff. big pixel type?
-/*
+
+	//		####  #  #   ###  #  #  ####  ###    #  #  ###
+	//		###   #  #  #     ###   ###   #  #   #  #  ###
+	//		#      ##    ###  #  #  ####  ###     ##   #
 
 
-####  #  #   ###  #  #  ####  ###    #  #  ###
-###   #  #  #     ###   ###   #  #   #  #  ###
-#      ##    ###  #  #  ####  ###     ##   #
 
 
-
-*/
-
-
+/// ~ 1:44
 
 	blackSwanOn( 2/4 )
 	comp.add( 2 )
@@ -244,22 +193,33 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	riff()
 
 
-
+// ~ 2:00
 
 	blindspot()
 
 
 	comp.add( 4 )
 
-	comp.add( 0, function(){
 
-		Array
-		.from( keyboard.querySelectorAll( '[x="3"]' ))
-		.forEach( function( key ){
+// ~ 2:03
 
-			key.classList.add( 'press' )
-		})
-	})
+	ekg()
+	comp.add( 1 )
+	ekg()
+	comp.add( 1 )
+	ekg()
+	comp.add( 1 )
+	ekg()
+
+	// comp.add( 0, function(){
+
+	// 	Array
+	// 	.from( keyboard.querySelectorAll( '[x="3"]' ))
+	// 	.forEach( function( key ){
+
+	// 		key.classList.add( 'press' )
+	// 	})
+	// })
 
 
 
@@ -283,45 +243,101 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-	const timeStart = comp[ comp.length - 1 ].time
+	// const timeStart = comp[ comp.length - 1 ].time
 
-	Array
-	.from( keyboard.querySelectorAll( '.key' ))
-	.forEach( function( key, i ){
+	// Array
+	// .from( keyboard.querySelectorAll( '.key' ))
+	// .forEach( function( key, i ){
 
-		comp.set( timeStart + i * 0.02, 0, function(){ key.classList.add( 'press' )})
-		comp.set( timeStart + 0.5 + i * 0.02, 0, function(){ key.classList.remove( 'press' )})
-	})
+	// 	comp.set( timeStart + i * 0.02, 0, function(){ key.classList.add( 'press' )})
+	// 	comp.set( timeStart + 0.5 + i * 0.02, 0, function(){ key.classList.remove( 'press' )})
+	// })
 
 
 
-	comp.add( 8, function(){
+	// comp.add( 8, function(){
 
 		// keyboard.classList.add( 'wtf' )
 		// keyboard.classList.add( 'crazy' )
-	})
+	// })
 
-	comp.add( 4, function(){
+	// comp.add( 4, function(){
 
-		document.querySelector( '.key-W' ).classList.add( 'wtf' )
-		document.querySelector( '.key-T' ).classList.add( 'wtf' )
-		document.querySelector( '.key-F' ).classList.add( 'wtf' )
-	})
+	// 	document.querySelector( '.key-W' ).classList.add( 'wtf' )
+	// 	document.querySelector( '.key-T' ).classList.add( 'wtf' )
+	// 	document.querySelector( '.key-F' ).classList.add( 'wtf' )
+	// })
 
 	// comp.add( 12, function(){
 
 	// 	blowApart()
 	// })
 
-	type( 'You cannot kick-start a dead horse' )
+
+
+	comp.set( 156.7, comp.beat )
+
+
+
+	//  Third verse.
+
+	type( 'You cannot kick-start a dead horse', 6 )
 	comp.add( 1 )
-	type( 'You just cross yourself and walk away' )
-	comp.add( 1 )
-	type( 'I don\'t care what the future holds' )
-	comp.add( 1 )
-	type( 'Cause I\'m right here, and I\'m today' )
-	comp.add( 1 )
-	type( 'With your fingers you can touch me' )
+	type( 'You just cross yourself and walk away', 4.5 )
+	riff()
+	type( 'I don\'t care what the future holds', 6 )
+	type( 'Cause I\'m right here, and I\'m today', 5.75 )
+	riff()
+	type( 'With your fingers you can touch', 4 )
+	comp.add( 0, function(){
+
+		keyboard.classList.add( 'long-sustain' )
+	})
+	type( `measdfghjkl`, 3.5, true )
+	comp.add( 0, function(){
+
+		keyboard.classList.remove( 'long-sustain' )
+	})
+	riff()
+	riff()
+
+
+
+
+	//  Third chorus.
+
+	blackSwanOn( 2/4 )
+	comp.add( 2 )
+	comp.add( 1/4 )
+	blackSwanOff( 3/4 )
+	comp.add( 5/4 )
+	riff()
+	riff()
+
+
+	comp.add( 
+
+		0, 
+		function(){ keyboard.channelAdd( 'caps-lock' )}, 
+		'Fucked up. Caps-lock ON.' 
+	)
+	fuckedUp( 2/4 )
+	// riff()//  re-write this so can do HALF a riff (2 beats) instead of only 4!
+	comp.add( 2 )
+	comp.add( 1/4 )
+	fuckedUp( 3/4 )
+	comp.add(
+
+		0, 
+		function(){ keyboard.channelRemove( 'caps-lock' )}, 
+		'Fucked up. Caps-lock OFF.' 
+	)
+	comp.add( 6/4 )
+	riff()
+	riff()
+
+
+
 })
 
 

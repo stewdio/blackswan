@@ -7,6 +7,8 @@ THE ART
 
 - use keyboard as tilted pixel grid for drawing to.
 
+- radial shit? pick a point and then ripple starts from them using radius?
+
 - debug "blindspot" fuction.
 
 - is "blackswan" function nicer with key text visible? or better when whole key vanishes?
@@ -24,10 +26,9 @@ THE ART
 
 CONTROLS
 
-- WHY NO APPEAR ON MOBILE?!
-- mouse events that use location need touch compatibility.
 - SVG icons for Play, Pause, Return-to-start buttons.
-- shoud #seeker always be orange? or should be full white whille progress is slightly dimmer?
+- finese audio file loading experience for mobile. perhaps while loading audio file start with timeline being 0% width, then use comp.audio.addEventListener( 'progress', ... ) to fill it up all the way?
+- mouse events that use location need touch compatibility.
 
 
 FINISHING

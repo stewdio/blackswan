@@ -82,18 +82,76 @@ Object.assign( comp, {
 	},
 	seek: function( time ){
 
+		keyboard.style.setProperty( 'transition', 'none', 'important' )
+		Array
+		.from( document.querySelectorAll( '.key' ))
+		.forEach( function( key ){
+
+			key.style.setProperty( 'transition', 'none', 'important' )
+		})
+		
 		comp.frameIndex = 0
 		comp.audio.currentTime = time
 		while( comp.frameIndex < comp.length &&
 			comp[ comp.frameIndex ].time <= comp.audio.currentTime ){
 
-			if( typeof comp[ comp.frameIndex ].action === 'function' ){
+			const frame = comp[ comp.frameIndex ]
+			if( frame.time >= comp.audio.currentTime - 20 &&//  Is 20 seconds enough?!?
+				typeof frame.action === 'function' ){
 
-				comp[ comp.frameIndex ].action()
+				frame.action()
 			}
 			comp.frameIndex ++
 		}
+		
+		setTimeout( function(){
+
+			keyboard.style.transition = ''
+			Array
+			.from( document.querySelectorAll( '.key' ))
+			.forEach( function( key ){
+
+				key.style.transition = ''
+			})
+		})
 		return this
+	},
+	report: function( includeSiblings ){
+
+		if( typeof includeSiblings !== 'boolean' ) includeSiblings = true
+
+		function construct( frameIndex, name ){
+
+			const frame = comp[ frameIndex ]
+			let output = '\n'
+			if( includeSiblings ) output += name.padEnd( 10, ' ' )
+			output += '#'+ frameIndex +'  '
+			output += '@ '+ frame.time +'s '
+			output += 'for '+ frame.duration +'s  '
+			output += frame.comment
+			//output += frame.action
+			return output
+		}
+		const output = []
+		if( includeSiblings && comp.frameIndex > 0 ){
+
+			output.push( construct( comp.frameIndex - 1, 'PREVIOUS' ))
+		}
+		if( comp.frameIndex < comp.length - 1 ){
+
+			output.push( construct( comp.frameIndex, 'CURRENT' ))
+			if( includeSiblings ){
+
+				output.push( construct( comp.frameIndex + 1, 'NEXT' ))
+			}
+		}
+		if( includeSiblings ) output.push( '\n\n' )
+		return output
+	},
+	reportAll: function(){
+
+		//  Usage: console.log( ...comp.reportAll() )
+		// return comp.reduce( comp.report.bind( comp, false ))
 	},
 	log: function( text ){
 
@@ -107,8 +165,12 @@ Object.assign( comp, {
 	}
 })
 comp.audio.pause()
-comp.audio.playbackRate = 1.0
-comp.audio.volume = 0.4
+Object.assign( comp.audio, {
+
+	preload: 'auto',
+	playbackRate: 1.0,
+	volume: 0.4
+})
 
 
 
@@ -138,13 +200,21 @@ function render(){
 			comp.frameIndex ++
 		}
 	}
-	const progressElement = document.getElementById( 'progress' )
-	progressElement.style.width = ( comp.audio.currentTime / comp.audio.duration * 100 ) +'%'
-	if( isSeeking !== true ){
 
-		const seekerElement = document.getElementById( 'seeker' )
-		seekerElement.style.left = ( comp.audio.currentTime / comp.audio.duration * 100 ) +'%'
-	}
+	const
+	timelineElement      = document.getElementById( 'timeline' ),
+	progressElement      = document.getElementById( 'progress' ),
+	progressClockElement = document.getElementById( 'progress-clock' ),
+	progressMinutes      = Math.floor( comp.audio.currentTime / 60 ),
+	progressSeconds      = Math.floor( comp.audio.currentTime - ( progressMinutes * 60 )),
+	progressXConstrained = Math.min( Math.max( progressElement.offsetWidth, 60 ), timelineElement.offsetWidth )
+	
+	progressElement.style.width = ( comp.audio.currentTime / comp.audio.duration * 100 ) +'%'
+	progressClockElement.style.left = progressXConstrained +'px'
+	progressClockElement.innerText = 
+		progressMinutes +':'+ 
+		progressSeconds.toString().padStart( 2, '0' )
+
 	requestAnimationFrame( render )
 }
 
@@ -242,17 +312,18 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 		if( x <= rectangle.right ){
 
-			isSeeking = true
-
 			const
-			seekerElement = document.getElementById( 'seeker' ),
-			clockElement  = document.getElementById( 'clock' ),
-			time = x / rectangle.width * comp.audio.duration,
-			minutes = Math.floor( time / 60 ),
-			seconds = Math.floor( time - ( minutes * 60 ))
+			seekerElement = document.getElementById( 'seeker-head' ),
+			seekerClockElement = document.getElementById( 'seeker-clock' ),
+			seekerTime = x / rectangle.width * comp.audio.duration,
+			seekerMinutes = Math.floor( seekerTime / 60 ),
+			seekerSeconds = Math.floor( seekerTime - ( seekerMinutes * 60 ))
 
 			seekerElement.style.left = x +'px'
-			clock.innerText = minutes +':'+ seconds.toString().padStart( 2, '0' )
+			seekerClockElement.style.left = x +'px'
+			seekerClockElement.innerText = 
+				seekerMinutes +':'+ 
+				seekerSeconds.toString().padStart( 2, '0' )
 		}
 	}
 	
@@ -262,11 +333,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	
 	timeline.addEventListener( 'mouseover', updateSeekerFromPointer )
 	timeline.addEventListener( 'mousemove', updateSeekerFromPointer )
-	timeline.addEventListener( 'mouseout', function(){
-
-		isSeeking = false
-	})
-
 
 	const playPauseElement = document.getElementById( 'play-pause' )
 	playPauseElement.addEventListener( 'mousedown',  comp.toggle )
@@ -278,7 +344,27 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-	comp.audio.addEventListener( 'loadeddata', function( event ){
+
+
+/*
+
+
+ok.... we need to fix this:
+on mobile
+user has to hit play button BEFORE we can load the file!
+so 'canplaythrough' will never get fired ahead of time. 
+
+do we hide the timeline instead?
+or use it as a loader progress bar?
+
+
+*/
+
+
+
+
+
+	comp.audio.addEventListener( 'canplaythrough', function( event ){
 
 		// let duration = audioElement.duration;
 		// The duration variable now holds the duration (in seconds) of the audio clip 
@@ -288,7 +374,12 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	})
 	comp.audio.addEventListener( 'ended', function( event ){
 
-		console.log( 'Generate receipt...' )
+		console.log( 
+
+			'\nGenerate receipt...',
+			'\n\n',
+			 comp.generateReceipt()
+		)		
 		comp.pause().seek( 0 )
 	})
 

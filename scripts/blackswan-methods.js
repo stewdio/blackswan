@@ -5,6 +5,55 @@
 
 
 
+function reset(){
+
+	keyboard.reset()
+	keyboard.classList.remove( 
+
+		'caps-lock',
+		'push-out',
+		'long-sustain',
+		'wtf'
+	)
+
+	function getRandomBetween( a, b ){
+
+		const 
+		range = b - a,
+		r = Math.random() * range
+
+		return a + r
+	}
+
+
+	Array
+	.from( document.querySelectorAll( '.key' ))
+	.forEach( function( element ){
+
+		element.classList.remove( 'press', 'black', 'wtf' )
+		element.style.transform = 'none'
+		
+		element.style.setProperty( '--tx', getRandomBetween( -100, 100 ) +'px' )
+		element.style.setProperty( '--ty', getRandomBetween( -100, 100 ) +'px' )
+		element.style.setProperty( '--tz', getRandomBetween( -100, 100 ) +'px' )
+
+		element.style.setProperty( '--rx', getRandomBetween( -1, 1 ))
+		element.style.setProperty( '--ry', getRandomBetween( -1, 1 ))
+		element.style.setProperty( '--rz', getRandomBetween( -1, 1 ))
+	})
+}
+function applyCssClass( cssQuery, className ){
+
+	Array
+	.from( document.querySelectorAll( cssQuery ))
+	.forEach( function( element ){
+
+		element.classList.add( className )
+	})
+}
+
+
+
 
 function riff( drumSolo, addLastHit ){
 
@@ -310,6 +359,8 @@ function blindspot( durationInBeats ){
 	.forEach( function( key ){
 
 		if( key.innerText.length > 0 && 
+			key.classList.contains( 'word' ) !== true &&
+			key.classList.contains( 'arrow' ) !== true &&
 			'blindspot'.indexOf( key.innerText ) < 0 ){
 
 			const 
@@ -326,10 +377,83 @@ function blindspot( durationInBeats ){
 				},
 				'Blindspot.'
 			)
+			comp.set(
+				
+				timeStart + durationInBeats + comp.beat * x * durationPerKey,
+				durationPerKey,
+				function(){
+
+					key.classList.remove( 'press' )
+				},
+				'Blindspot.'
+			)
 		}
 	})
 }
 
+
+
+
+function ekg( durationInBeats ){//  Jed reference.
+
+	if( typeof durationInBeats !== 'number' ) durationInBeats = 1
+
+	let frameIndex = comp.length - 1
+	while( comp[ frameIndex ].duration === 0 && 
+		frameIndex > 0 ){
+
+		frameIndex --
+	}
+
+	const 
+	text      = ` ASDFT6YJM .;' `,
+	// text      = ` ASDR5THNKL;' `,
+	lastFrame = comp[ frameIndex ],
+	timeStart = lastFrame.time + lastFrame.duration,
+	durationPerCharacter = durationInBeats / text.length
+
+	text.split( '' ).forEach( function( character, i ){
+
+		let cssName = character.toUpperCase()
+		if( character === ' ' ){
+
+			if( i === 0 ) cssName = 'caps-lock'
+			else if( i === text.length - 1 ) cssName = 'return'
+			else cssName = 'command-right'
+		}
+		else if( character === '.' ){
+
+			cssName = 'period'
+		}
+		else if( character === ';' ){
+
+			cssName = 'semicolon'
+		}
+		else if( character === "'" ){
+
+			cssName = 'quote'
+		}
+		const key = keyboard.querySelector( '.key-'+ cssName )
+		comp.set(
+
+			timeStart + i * durationPerCharacter * comp.beat,
+			durationPerCharacter,
+			function(){
+
+				key.classList.add( 'press' )
+			}
+		)
+		comp.set(
+
+			timeStart + durationInBeats / 2 + i * durationPerCharacter * comp.beat,
+			durationPerCharacter,
+			function(){
+
+				key.classList.remove( 'press' )
+			}
+		)
+	})
+}
 
 
 

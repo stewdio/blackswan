@@ -10,16 +10,13 @@ body {
 
 .key {
 
-	background-color: hsl( 25, 3%, 15% );
+	background-color: hsl( 25, 10%, 15% );
 	box-shadow: 
 		0
 		0
 		calc( var( --size ) * 1 )
 		hsla( 25, 50%, 0%, 0.2 )
 		inset;
-}
-.key {
-
 	color: hsl( 25, 3%, 60% );
 	text-shadow:
 		0
@@ -46,43 +43,6 @@ body {
 
 
 
-
-#timeline {
-
-	background-color: hsl( 0, 0%, 10% );
-}
-#progress {
-
-	background-color: hsl( 0, 0%, 20% );	
-}
-#seeker {
-
-	background-color: white;
-}
-#clock {
-
-	color: white;
-}
-#return-to-start,
-#play-pause {
-
-	background-color: hsl( 0, 0%, 20% );
-}
-#return-to-start:hover,
-#pause:hover {
-
-	background-color: white;
-	color: black;
-}
-#play {
-
-	background-color: color: hsl( 25, 100%, 50% );
-	animation: none;
-}
-#play:hover {
-
-	color: hsl( 25, 100%, 50% );
-}
 
 
 
