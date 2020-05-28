@@ -157,3 +157,15 @@ body {
 
 
 
+.key-period.press,
+.key-period:hover {
+
+	background-color: hsl( 220, 50%, 90% );
+	box-shadow: 
+		0
+		0
+		calc( var( --size ) * 4 )
+		hsla( 220, 50%, 90%, 0.5 );
+}
+
+

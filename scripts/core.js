@@ -200,6 +200,58 @@ function append( durationInBeats, action, comment ){
 
 
 
+    ///////////////
+   //           //
+  //   Debug   //
+ //           //
+///////////////
+
+
+function formatTime( timeInSeconds, includeMillis ){
+
+	if( typeof includeMillis !== 'boolean' ) includeMillis = false
+
+	const 
+	minutes = Math.floor( timeInSeconds / 60 ),
+	seconds = Math.floor( timeInSeconds - minutes * 60 ),
+	millis  = Math.round((( timeInSeconds % 60 ) - seconds ) * 1000 ) / 1000,
+	output  = minutes.toString() +':'+ 
+		seconds.toString().padStart( 2, '0' )
+
+	if( includeMillis ){
+		
+		return output +'.'+ millis.toString().substr( 2 ).padStart( 4, '0' )
+	}
+	return output
+}
+function assessDuration( timeStart, timeEnd, name, expectedBeats ){
+
+	if( typeof name !== 'string' ) name = 'Untitled'
+
+	const
+	durationInSeconds = timeEnd - timeStart,
+	durationInBeats = Math.round( durationInSeconds / comp.beat * 1000000 ) / 1000000,
+	looksGoodToMe = durationInBeats === expectedBeats
+
+	console.log( 
+
+		'\n'+
+		 formatTime( timeStart, true ) +' to '+
+		 formatTime( timeEnd, true ) +' is '+
+		 formatTime( durationInSeconds, true ) +' ('+
+		 durationInBeats +' beats) for “'+
+		 name +'”  '+
+		 ( looksGoodToMe ? '👍' : '❌❌❌ ⚠️  EXPECTED '+ expectedBeats +' beats!' ) +
+		 '\n\n'
+	)
+	return { durationInSeconds, durationInBeats }
+}
+
+
+
+
+
+
     //////////////////
    //              //
   //   Playback   //

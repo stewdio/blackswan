@@ -57,7 +57,7 @@ function applyCssClass( cssQuery, className ){
 
 function riff( durationInBeats, drumSolo, addLastHit ){
 
-	if( typeof durationInBeats !== 'number' ) dudurationInBeats = 4
+	if( typeof durationInBeats !== 'number' ) durationInBeats = 4
 	if( typeof drumSolo !== 'boolean' ) drumSolo = false
 	if( typeof addLastHit !== 'boolean' ) addLastHit = true
 	
@@ -169,6 +169,7 @@ function riff( durationInBeats, drumSolo, addLastHit ){
 			'Riff. Guitar OFF.'
 		)
 	}
+	assessDuration( timeStart, findLastBeat(), 'Riff', durationInBeats )
 }
 function riffHalf( durationInBeats ){
 
@@ -212,6 +213,8 @@ function riffHalf( durationInBeats ){
 	hit( 1/4, 'space'  )
 	hit( 1/4, 'period' )
 	hit( 2/4, 'space'  )
+
+	// assessDuration( timeStart, findLastBeat(), 'Riff Half', durationInBeats )
 }
 
 
@@ -230,7 +233,7 @@ const characterToName = {
 }
 function type( durationInBeats, text, holdUntilDone ){
 
-	if( typeof durationInBeats !== 'number' ) durationInBeats = 5
+	if( typeof durationInBeats !== 'number' ) durationInBeats = 6
 	text = text.replace( /\s/g, '' )
 	if( typeof holdUntilDone !== 'boolean' ) holdUntilDone = false
 
@@ -246,8 +249,8 @@ function type( durationInBeats, text, holdUntilDone ){
 		}
 
 		const 
-		cssName = character.length > 1 ? character : character.toUpperCase(),
-		keyElement = document.querySelector( '.key-'+ cssName ),
+		cssName     = character.length > 1 ? character : character.toUpperCase(),
+		keyElement  = document.querySelector( '.key-'+ cssName ),
 		isMajuscule = character.match( /[A-Z]/ )
 
 		if( keyElement instanceof HTMLElement ){
@@ -258,7 +261,7 @@ function type( durationInBeats, text, holdUntilDone ){
 				insert(
 
 					timeStart + comp.beat * i * durationPerCharacter,
-					durationPerCharacter,
+					0,
 					function(){ 
 
 						keyboard.classList.add( 'shift' )
@@ -293,7 +296,7 @@ function type( durationInBeats, text, holdUntilDone ){
 			insert(
 
 				timeStart + comp.beat * i * durationPerCharacter,
-				durationPerCharacter,
+				comp.beat * durationPerCharacter,
 				function(){ 
 
 					keyElement.classList.add( 'press' )
@@ -315,6 +318,7 @@ function type( durationInBeats, text, holdUntilDone ){
 			)
 		}
 	})
+	assessDuration( timeStart, findLastBeat(), `Type (${ text })`, durationInBeats )
 }
 
 
@@ -336,7 +340,7 @@ function train( durationInBeats ){
 		const key = keyboard.querySelector( '.key-'+ letter.toUpperCase() )
 		insert( 
 			
-			timeStart + i * 1/8 * comp.beat,
+			timeStart + i *1/4 * comp.beat,
 			0,//1/8 * comp.beat,
 			function(){ key.classList.add( 'press' )},
 			'Train ON: '+ letter
@@ -396,28 +400,7 @@ function train( durationInBeats ){
 			}	
 		}
 	}
-
-
-
-
-
-
-// Y x=6 y=1
-// S x=2 y=2
-// M x=7 y=3
-
-
-
-	/*
-
-    TyuIop[]\
-Asdfghjkl;'RETURN
-      Nm,./SHIFT
-
-
-
-	*/
-
+	assessDuration( timeStart, findLastBeat(), 'Traaaaiiiin', durationInBeats )
 }
 
 
@@ -432,14 +415,15 @@ function fuckedUp( durationInBeats ){
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 2/4
 
 	const 
-	fuckedUp = 'fuckedup'.split( '' ),
-	durationPerCharacter = durationInBeats / fuckedUp.length 
+	timeStart = findLastBeat(),
+	fuckedUp  = 'fuckedup',
+	durationPerCharacter = durationInBeats / fuckedUp.length
 
-	fuckedUp.forEach( function( letter, i ){
+	fuckedUp.split( '' ).forEach( function( letter, i ){
 
 		append(
 
-			durationPerCharacter * i,
+			durationPerCharacter,
 			function(){
 		
 				const key = document.querySelector( '.key-'+ letter.toUpperCase() )
@@ -452,12 +436,14 @@ function fuckedUp( durationInBeats ){
 			'Fucked up: '+ letter
 		)
 	})
+	assessDuration( timeStart, findLastBeat(), 'Fucked up', durationInBeats )
 }
 function blackSwanOn( durationInBeats ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 2/4
 
 	const 
+	timeStart = findLastBeat(),
 	text = [ ...new Set( 'blackswan'.split( '' ))],
 	durationPerCharacter = durationInBeats / text.length 
 
@@ -466,7 +452,7 @@ function blackSwanOn( durationInBeats ){
 
 		append(
 
-			durationPerCharacter * i,
+			durationPerCharacter,
 			function(){
 		
 				const key = document.querySelector( '.key-'+ letter.toUpperCase() )
@@ -475,12 +461,14 @@ function blackSwanOn( durationInBeats ){
 			'Black ON: '+ letter
 		)
 	})
+	assessDuration( timeStart, findLastBeat(), 'Black swan ON', durationInBeats )
 }
 function blackSwanOff( durationInBeats ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 2/4
 
 	const 
+	timeStart = findLastBeat(),
 	text = [ ...new Set( 'blackswan'.split( '' ))],
 	durationPerCharacter = durationInBeats / text.length 
 
@@ -489,7 +477,7 @@ function blackSwanOff( durationInBeats ){
 
 		append(
 
-			durationPerCharacter * i,
+			durationPerCharacter,
 			function(){
 		
 				const key = document.querySelector( '.key-'+ letter.toUpperCase() )
@@ -499,6 +487,7 @@ function blackSwanOff( durationInBeats ){
 		)
 	})
 	append( 0, function(){ keyboard.channelRemove( 'caps-lock', 'blackSwan' )}, 'caps-lock OFF' )
+	assessDuration( timeStart, findLastBeat(), 'Black swan OFF', durationInBeats )
 }
 
 
@@ -528,7 +517,7 @@ function blindspot( durationInBeats ){
 			insert(
 				
 				timeStart + comp.beat * x * durationPerKey,
-				durationPerKey,
+				comp.beat * durationPerKey,
 				function(){
 
 					key.classList.add( 'press' )
@@ -538,7 +527,7 @@ function blindspot( durationInBeats ){
 			insert(
 				
 				timeStart + durationInBeats + comp.beat * x * durationPerKey,
-				durationPerKey,
+				0,//comp.beat * durationPerKey,
 				function(){
 
 					key.classList.remove( 'press' )
@@ -547,6 +536,7 @@ function blindspot( durationInBeats ){
 			)
 		}
 	})
+	assessDuration( timeStart, findLastBeat(), 'Blind spot', durationInBeats )
 }
 
 
@@ -587,7 +577,7 @@ function ekg( durationInBeats ){//  Jed reference.
 		insert(
 
 			timeStart + i * durationPerCharacter * comp.beat,
-			durationPerCharacter,
+			comp.beat * durationPerCharacter,
 			function(){
 
 				key.classList.add( 'press' )
@@ -596,13 +586,14 @@ function ekg( durationInBeats ){//  Jed reference.
 		insert(
 
 			timeStart + durationInBeats / 2 + i * durationPerCharacter * comp.beat,
-			durationPerCharacter,
+			0,// durationPerCharacter,
 			function(){
 
 				key.classList.remove( 'press' )
 			}
 		)
 	})
+	assessDuration( timeStart, findLastBeat(), 'EKG', durationInBeats )
 }
 
 

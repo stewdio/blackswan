@@ -22,9 +22,9 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	//  SILENCE
 
-	//  Duration:   1 beat
-	//  Beat range: 0 – 1
-	//  Time range: 0:00 – 0:01
+	//  Duration:    1 beat
+	//  Beat range: -1 – 0
+	//  Time range:  0:00 – 0:01
 
 	insert( 0, 0, reset, 'Reset!' )
 	append( 0.9 )
@@ -35,7 +35,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  INSTRUMENTAL INTRO
 	
 	//  Duration    40 beats
-	//  Beat range  1 – 40
+	//  Beat range  0 – 39
 	//  Time range  0:01 – 0:24
 	
 	riff( 4, true )
@@ -54,137 +54,126 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	//  FIRST VERSE
 	
-	//  Duration    47.5 beats  ←── wtf?!
-	//  Beat range  41 – 88
+	//  Duration    48 beats
+	//  Beat range  40 – 88
 	//  Time range  0:24 – 0:52
 
-	type(     6, `What will grow crooked, you can't make straight` )
-	append(   0.75 )
-	type(     4.5, `It's the price that you gotta pay` )
-	append(   0.5 )
-	riff(     4 )
-	type(     5.75, `Do yourself a favour and pack your bags` )
-	riffHalf( 2 )
-	type(     4, `Buy a ticket and get on the train` )
-	riff(     4 )
-	type(     3, `Buy a ticket and get on the` )
-	append(   0, function(){ keyboard.classList.add( 'long-sustain' )})
-	train(    5 )
-	append(   0, function(){ keyboard.classList.remove( 'long-sustain' )})
-	riff(     4 )
-	riff(     4 )
+	type(   6,   `What will grow crooked, you can't make straight` )
+	append( 1    )
+	type(   4.5, `It's the price that you gotta pay` )
+	append( 0.5  )
+	riff(   4    )
+	
+	type(   6,   `Do yourself a favour and pack your bags` )
+	append( 1    )
+	type(   4.5, `Buy a ticket and get on the train` )
+	append( 0.5  )
+	riff(   3    )
+	
+	type(   4,   `Buy a ticket and get on the` )
+	append( 0,    function(){ keyboard.classList.add( 'long-sustain' )})
+	train(  5    )
+	append( 0,    function(){ keyboard.classList.remove( 'long-sustain' )})
+	riff(   4    )
+	riff(   4    )
 
 
 
 
 	//  FIRST CHORUS
 	
-	//  Duration    27.75 beats  ←── wtf?!?!?!?!
-	//  Beat range  
-	//  Time range  0:52
+	//  Duration    32 beats
+	//  Beat range  89 – 120
+	//  Time range  0:52 – 1:11
 
-	append(   0, 
-		
-		function(){ keyboard.channelAdd( 'caps-lock' )}, 
-		'Fucked up. Caps-lock ON.' 
-	)
-	fuckedUp( 0.5 )
+	append(   0, function(){ keyboard.channelAdd( 'caps-lock' )}, 'Fucked up. Caps-lock ON.' )
+	fuckedUp( 2 )
 	append(   2 )
-	append(   0.25 )
-	fuckedUp( 0.75 )
-	append(   0, 
-		
-		function(){ keyboard.channelRemove( 'caps-lock' )}, 
-		'Fucked up. Caps-lock OFF.' 
-	)
-	append(  1.5 )
-	riff(    4 )
-	riff(    4 )
-	append(  0, 
-		
-		function(){ keyboard.channelAdd( 'caps-lock' )}, 
-		'Fucked up. Caps-lock ON.' 
-	)
-	fuckedUp( 0.5 )
+	fuckedUp( 2 )
 	append(   2 )
-	append(   0.25 )
-	fuckedUp( 0.75 )
-	append(   0, 
-		
-		function(){ keyboard.channelRemove( 'caps-lock' )}, 
-		'Fucked up. Caps-lock OFF.' 
-	)
-	append(  1.25 )
-	riff(    4 )
-	riff(    4 )
+	append(   0, function(){ keyboard.channelRemove( 'caps-lock' )}, 'Fucked up. Caps-lock OFF.' )
+	riff(     4 )
+	riff(     4 )
+
+	append(   0, function(){ keyboard.channelAdd( 'caps-lock' )}, 'Fucked up. Caps-lock ON.' )
+	fuckedUp( 2 )
+	append(   2 )
+	fuckedUp( 2 )
+	append(   2 )
+	append(   0, function(){ keyboard.channelRemove( 'caps-lock' )}, 'Fucked up. Caps-lock OFF.' )
+	riff(     4 )
+	riff(     4 )
 
 
 
 
 	//  SECOND VERSE
-
 	
+	//  Duration    48 beats
+	//  Beat range  121 – 168
+	//  Time range  1:11 – 1:40
 
 	append( 0, function(){ keyboard.classList.add( 'push-out' )})
-	type(   6, `People get crushed like biscuit crumbs` )
-	append( 1 )
-	type(   4.5,  `and laid down in the bitumen` )
-	riff(   4 )
-	type(   6, `You have tried your best to please everyone` )
-	type(   5.75, `But it just isn't happening` )
-	riff(   4 )
-	type(   4, `No, it just isn't` )
-	append( 0, function(){ keyboard.classList.add( 'long-sustain' )})
-	type(   3.5, `happening` )
-	append( 0, function(){ keyboard.classList.remove( 'long-sustain' )})
-	riff( 4 )
-	riff( 4 )
+
+	type(   6,   `People get crushed like biscuit crumbs` )
+	append( 1    )
+	type(   4.5, `and laid down in the bitumen` )
+	append( 0.5  )
+	riff(   4    )
+	
+	type(   6,   `You have tried your best to please everyone` )
+	append( 1    )
+	type(   4.5, `But it just isn't happening` )
+	append( 0.5  )
+	riff(   3    )
+	
+	type(   4,   `No, it just isn't` )
+	append( 0,    function(){ keyboard.classList.add( 'long-sustain' )})
+	type(   5,   `happening`, true )
+	append( 0,    function(){ keyboard.classList.remove( 'long-sustain' )})
+	riff(   4    )
+	riff(   4    )
 
 
 
 
 	//  SECOND CHORUS
 
-	//  Duration    27.75 beats  ←── wtf?!?!?!?!
-	//  Beat range  
-	//  Time range  ??
+	//  Duration    32 beats
+	//  Beat range  169 – 200
+	//  Time range  1:40 – 1:59
 
-	append(   0, 
-		
-		function(){ keyboard.channelAdd( 'caps-lock' )}, 
-		'Fucked up. Caps-lock ON.' 
-	)
-	fuckedUp( 0.5 )
+	append(   0, function(){ keyboard.channelAdd( 'caps-lock' )}, 'Fucked up. Caps-lock ON.' )
+	fuckedUp( 2 )
 	append(   2 )
-	append(   0.25 )
-	fuckedUp( 0.75 )
-	append(   0, 
-		
-		function(){ keyboard.channelRemove( 'caps-lock' )}, 
-		'Fucked up. Caps-lock OFF.' 
-	)
-	append(  1.5 )
-	riff(    4 )
-	riff(    4 )
-	append(  0, 
-		
-		function(){ keyboard.channelAdd( 'caps-lock' )}, 
-		'Fucked up. Caps-lock ON.' 
-	)
-	fuckedUp( 0.5 )
+	fuckedUp( 2 )
 	append(   2 )
-	append(   0.25 )
-	fuckedUp( 0.75 )
-	append(   0, 
-		
-		function(){ keyboard.channelRemove( 'caps-lock' )}, 
-		'Fucked up. Caps-lock OFF.' 
-	)
-	append(  1.25 )
-	riff(    4 )
-	riff(    4 )
+	append(   0, function(){ keyboard.channelRemove( 'caps-lock' )}, 'Fucked up. Caps-lock OFF.' )
+	riff(     4 )
+	riff(     4 )
+	
+	append(   0, function(){ keyboard.channelAdd( 'caps-lock' )}, 'Fucked up. Caps-lock ON.' )
+	fuckedUp( 2 )
+	append(   2 )
+	fuckedUp( 2 )
+	append(   2 )
+	append(   0, function(){ keyboard.channelRemove( 'caps-lock' )}, 'Fucked up. Caps-lock OFF.' )
+	riff(     4 )
+	riff(     4 )
 
 
+
+
+	//  CHORUS EXTENDED
+
+	//  Duration    ? beats
+	//  Beat range  201 – ?
+	//  Time range  1:59 – ?
+
+
+	blindspot( 4 )
+	append( 6 )
+	//obvious()
 
 
 
@@ -211,10 +200,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 // ~ 2:00
 
-	blindspot( 4 )
-
-
-	append( 4 )
 
 
 // ~ 2:03
@@ -239,8 +224,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-
-
 	append( 4 )
 
 
@@ -251,12 +234,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	// type( 'THIS IS A TEST OF TYPING WITH CAPS' )
 	// applyCssClass( '.key-H', 'press' )
 	// applyCssClass( '.key-I', 'press' )
-
-
-
-
-
-
 
 
 	// const timeStart = comp[ comp.length - 1 ].time
@@ -295,32 +272,57 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-	//  Third verse.
-
-	type( 6, 'You cannot kick-start a dead horse' )
-	append( 1 )
-	type( 4.5, 'You just cross yourself and walk away' )
-	riff()
-	type( 6, 'I don\'t care what the future holds' )
-	type( 5.75, 'Cause I\'m right here, and I\'m today' )
-	riff( 4 )
-	type( 4, 'With your fingers you can touch' )
-	append( 0, function(){
-
-		keyboard.classList.add( 'long-sustain' )
-	})
-	type( 3.5, `measdfghjkl`, true )
-	append( 0, function(){
-
-		keyboard.classList.remove( 'long-sustain' )
-	})
-	riff( 4 )
-	riff( 4 )
 
 
 
+	//  THIRD VERSE
+	
+	//  Duration    48 beats
+	//  Beat range  ?
+	//  Time range  ~ 2:36 – ?
 
-	//  Third chorus.
+
+	append( 0, function(){ keyboard.classList.add( 'push-out' )})
+
+	type(   6,   `You cannot kick-start a dead horse` )
+	append( 1    )
+	type(   4.5, `You just cross yourself and walk away` )
+	append( 0.5  )
+	riff(   4    )
+	
+	type(   6,   `I don't care what the future holds` )
+	append( 1    )
+	type(   4.5, `Cause I'm right here, and I'm today` )
+	append( 0.5  )
+	riff(   3    )
+	
+	type(   4,   `With your fingers you can touch` )
+	append( 0,    function(){ keyboard.classList.add( 'long-sustain' )})
+	type(   5,   `measdfghjkl`, true )
+	append( 0,    function(){ keyboard.classList.remove( 'long-sustain' )})
+	riff(   4    )
+	riff(   4    )
+
+
+
+
+	//  THIRD CHORUS
+
+	//  Duration    ??32 beats
+	//  Beat range  ?
+	//  Time range  ?
+
+	// I am your black swan, black swan
+	// (But I made it to the top, made it to the top)
+	// And this is fucked up, fucked up
+	// Be your black swan, be your black swan
+	// (But I made it to the top, made it to the top)
+	// And for spare parts, we're broken up
+	// You are fucked up, fucked up
+	// This is fucked up, fucked up
+	// We are black swans, black swans
+	// And for spare parts, we're broken up
+
 
 	blackSwanOn( 2/4 )
 	append( 2 )
@@ -329,83 +331,42 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	append( 5/4 )
 	riff( 4 )
 	riff( 4 )
+	
 
-
-	append( 
-
-		0, 
+	append(  0, 
+		
 		function(){ keyboard.channelAdd( 'caps-lock' )}, 
 		'Fucked up. Caps-lock ON.' 
 	)
-	fuckedUp( 2/4 )
-	// riff()//  re-write this so can do HALF a riff (2 beats) instead of only 4!
-	append( 2 )
-	append( 1/4 )
-	fuckedUp( 3/4 )
-	append(
-
-		0, 
+	fuckedUp( 2 )
+	append(   2 )
+	fuckedUp( 2 )
+	append(   0, 
+		
 		function(){ keyboard.channelRemove( 'caps-lock' )}, 
 		'Fucked up. Caps-lock OFF.' 
 	)
-	append( 6/4 )
-	riff( 4 )
-	riff( 4 )
+	append(  2 )
+	riff(    4 )
+	riff(    4 )
+
+	//spareParts()
+
+
+	//  EXTENDED
+
+	//  BREAKDOWN
+
+	//  FOURTH CHORUS
+	//  ~ 4m
+
+
+	//  EXIT
+
+
 })
 
 
-
-
-/*
-
-
-What will grow crooked, you can't make straight
-It's the price that you gotta pay
-Do yourself a favour and pack your bags
-Buy a ticket and get on the train
-Buy a ticket and get on the train
-
-'Cause this is fucked up, fucked up
-'Cause this is fucked up, fucked up
-
---------
-
-People get crushed like biscuit crumbs
-And laid down in the bitumen
-You have tried your best to please everyone
-But it just isn't happening
-No, it just isn't happening
-
-And it's fucked up, fucked up
-And this is fucked up, fucked up
-This your blind spot, blind spot
-It should be obvious, but it's not
-
-
-----
-
-You cannot kick-start a dead horse
-You just cross yourself and walk away
-I don't care what the future holds
-'Cause I'm right here, and I'm today
-With your fingers you can touch me
-
-
-----
-
-I am your black swan, black swan
-(But I made it to the top, made it to the top)
-And this is fucked up, fucked up
-Be your black swan, be your black swan
-(But I made it to the top, made it to the top)
-And for spare parts, we're broken up
-You are fucked up, fucked up
-This is fucked up, fucked up
-We are black swans, black swans
-And for spare parts, we're broken up
-
-
-*/
 
 
 
