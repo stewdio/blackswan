@@ -598,7 +598,7 @@ main {
 }
 
 
-#progress-heead,
+#progress-head,
 #progress-clock,
 #seeker-head,
 #seeker-clock {
@@ -606,7 +606,7 @@ main {
 	opacity: 0;
 	transition: opacity 0.5s;
 }
-#timeline:hover #progress-heead,
+#timeline:hover #progress-head,
 #timeline:hover #progress-clock,
 #timeline:hover #seeker-head,
 #timeline:hover #seeker-clock {

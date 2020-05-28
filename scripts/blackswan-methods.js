@@ -318,7 +318,7 @@ function type( durationInBeats, text, holdUntilDone ){
 			)
 		}
 	})
-	assessDuration( timeStart, findLastBeat(), `Type (${ text })`, durationInBeats )
+	// assessDuration( timeStart, findLastBeat(), `Type (${ text })`, durationInBeats )
 }
 
 
@@ -400,7 +400,7 @@ function train( durationInBeats ){
 			}	
 		}
 	}
-	assessDuration( timeStart, findLastBeat(), 'Traaaaiiiin', durationInBeats )
+	// assessDuration( timeStart, findLastBeat(), 'Traaaaiiiin', durationInBeats )
 }
 
 
@@ -436,7 +436,7 @@ function fuckedUp( durationInBeats ){
 			'Fucked up: '+ letter
 		)
 	})
-	assessDuration( timeStart, findLastBeat(), 'Fucked up', durationInBeats )
+	// assessDuration( timeStart, findLastBeat(), 'Fucked up', durationInBeats )
 }
 function blackSwanOn( durationInBeats ){
 
@@ -461,7 +461,7 @@ function blackSwanOn( durationInBeats ){
 			'Black ON: '+ letter
 		)
 	})
-	assessDuration( timeStart, findLastBeat(), 'Black swan ON', durationInBeats )
+	// assessDuration( timeStart, findLastBeat(), 'Black swan ON', durationInBeats )
 }
 function blackSwanOff( durationInBeats ){
 
@@ -487,7 +487,7 @@ function blackSwanOff( durationInBeats ){
 		)
 	})
 	append( 0, function(){ keyboard.channelRemove( 'caps-lock', 'blackSwan' )}, 'caps-lock OFF' )
-	assessDuration( timeStart, findLastBeat(), 'Black swan OFF', durationInBeats )
+	// assessDuration( timeStart, findLastBeat(), 'Black swan OFF', durationInBeats )
 }
 
 
@@ -536,8 +536,39 @@ function blindspot( durationInBeats ){
 			)
 		}
 	})
-	assessDuration( timeStart, findLastBeat(), 'Blind spot', durationInBeats )
+	// assessDuration( timeStart, findLastBeat(), 'Blind spot', durationInBeats )
 }
+
+
+
+
+
+
+function surfRider( durationInBeats ){
+
+	const 
+	timeStart = findLastBeat()
+
+	insert(
+
+		timeStart,
+		0,
+		function(){
+	
+			keyboard.classList.add( 'surf-rider' )
+		}
+	)
+
+
+
+	// assessDuration( timeStart, findLastBeat(), 'Blind spot', durationInBeats )
+}
+
+
+
+
+
+
 
 
 
@@ -593,7 +624,7 @@ function ekg( durationInBeats ){//  Jed reference.
 			}
 		)
 	})
-	assessDuration( timeStart, findLastBeat(), 'EKG', durationInBeats )
+	// assessDuration( timeStart, findLastBeat(), 'EKG', durationInBeats )
 }
 
 

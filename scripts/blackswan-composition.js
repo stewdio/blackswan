@@ -228,6 +228,9 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
+	surfRider()
+
+
 
 	// append( 1 )
 	// type( 'this is normal text' )
@@ -250,8 +253,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	// append( 8, function(){
 
-		// keyboard.classList.add( 'wtf' )
-		// keyboard.classList.add( 'crazy' )
+	// 	keyboard.classList.add( 'wtf' )
+	// 	keyboard.classList.add( 'crazy' )
 	// })
 
 	// append( 4, function(){
@@ -261,10 +264,10 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	// 	document.querySelector( '.key-F' ).classList.add( 'wtf' )
 	// })
 
-	// append( 12, function(){
+	append( 2, function(){
 
-	// 	blowApart()
-	// })
+		blowApart()
+	})
 
 
 

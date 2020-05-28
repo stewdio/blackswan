@@ -33,6 +33,7 @@ THE ART
 CODE
 
 - Button hover / tap on mobile. Looks like OPTION key etc are not engaging w touch?
+- Re-confirm yet again that it is 101bpm by eye-testing strenuously ;)
 
 
 

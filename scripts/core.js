@@ -282,7 +282,7 @@ function render(){
 	progressSeconds      = Math.floor( comp.audio.currentTime - ( progressMinutes * 60 )),
 	progressXConstrained = Math.min( Math.max( progressElement.offsetWidth, 60 ), timelineElement.offsetWidth )
 	
-	progressElement.style.width = ( comp.audio.currentTime / comp.audio.duration * 100 ) +'%'
+	progressElement.style.width = ( comp.audio.currentTime / comp.audio.duration * timelineElement.offsetWidth ) +'px'
 	progressClockElement.style.left = progressXConstrained +'px'
 	progressClockElement.innerText = 
 		progressMinutes +':'+ 

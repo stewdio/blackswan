@@ -63,6 +63,7 @@ body {
 
 	background-color: hsl( 25, 50%, 90% );
 	color: white;
+	/*color: hsl( 25, 7%, 10% );*/
 	box-shadow: 
 		0
 		0
@@ -160,12 +161,24 @@ body {
 .key-period.press,
 .key-period:hover {
 
-	background-color: hsl( 220, 50%, 90% );
+	background-color: hsl( 220, 0%, 100% );
 	box-shadow: 
 		0
 		0
-		calc( var( --size ) * 4 )
-		hsla( 220, 50%, 90%, 0.5 );
+		calc( var( --size ) * 6 )
+		hsla( 220, 0%, 100%, 0.8 );
 }
+
+
+
+
+.keyboard.surf-rider {
+
+	transform: 
+		translate3d( 0, 0, 100px )
+		rotate3d( 0, 0, -1, 80deg ) 
+		rotate3d( 0, 1,  0, 60deg );
+}
+
 
 
