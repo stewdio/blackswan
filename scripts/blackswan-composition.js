@@ -12,161 +12,177 @@ comp.beat = 60 / comp.bpm
 
 
 
+
 window.addEventListener( 'DOMContentLoaded', function(){
 
-	reset()
-	comp.set( 0, 0, reset, 'Reset!' )
+	reset()	
 
 
 
 
-	//  Instrumental intro.
-	//  b1 – b40
-	//  0:00 – 0:23
+	//  SILENCE
 
-	comp.add()
-	riff( true )
-	riff( true )
-	riff()
-	riff()
-	riff()
-	riff()
-	riff()
-	riff()
-	riff()
-	riff( false, false )
+	//  Duration:   1 beat
+	//  Beat range: 0 – 1
+	//  Time range: 0:00 – 0:01
+
+	insert( 0, 0, reset, 'Reset!' )
+	append( 0.9 )
 
 
 
 
-	//  First verse.
-
-	type( `What will grow crooked, you can't make straight`, 6 )
-	comp.add( 1 )
-	type( `It's the price that you gotta pay`, 4.5 )
-	comp.add( 1/2 )
-	riff()
+	//  INSTRUMENTAL INTRO
 	
-	type( `Do yourself a favour and pack your bags`, 6 )
-	comp.add( 1 )
-	type( `Buy a ticket and get on the train`, 4 )
-	comp.add( 1/2 )
-	riff()// should be HALF RIFF!
-	type( `Buy a ticket and get on the`, 4 )
-	comp.add( 0, function(){
-
-		keyboard.classList.add( 'long-sustain' )
-	})
-	type( `train`, 3.5, true )//  Extend the TRAAAAAAAIIIIIIINNN
-	comp.add( 0, function(){
-
-		keyboard.classList.remove( 'long-sustain' )
-	})
-	riff()
-	riff()
+	//  Duration    40 beats
+	//  Beat range  1 – 40
+	//  Time range  0:01 – 0:24
+	
+	riff( 4, true )
+	riff( 4, true )
+	riff( 4 )
+	riff( 4 )
+	riff( 4 )
+	riff( 4 )
+	riff( 4 )
+	riff( 4 )
+	riff( 4 )
+	riff( 4, false, false )
 
 
 
 
-	//  First chorus.
+	//  FIRST VERSE
+	
+	//  Duration    47.5 beats  ←── wtf?!
+	//  Beat range  41 – 88
+	//  Time range  0:24 – 0:52
 
-	comp.add( 
+	type(     6, `What will grow crooked, you can't make straight` )
+	append(   0.75 )
+	type(     4.5, `It's the price that you gotta pay` )
+	append(   0.5 )
+	riff(     4 )
+	type(     5.75, `Do yourself a favour and pack your bags` )
+	riffHalf( 2 )
+	type(     4, `Buy a ticket and get on the train` )
+	riff(     4 )
+	type(     3, `Buy a ticket and get on the` )
+	append(   0, function(){ keyboard.classList.add( 'long-sustain' )})
+	train(    5 )
+	append(   0, function(){ keyboard.classList.remove( 'long-sustain' )})
+	riff(     4 )
+	riff(     4 )
 
-		0, 
+
+
+
+	//  FIRST CHORUS
+	
+	//  Duration    27.75 beats  ←── wtf?!?!?!?!
+	//  Beat range  
+	//  Time range  0:52
+
+	append(   0, 
+		
 		function(){ keyboard.channelAdd( 'caps-lock' )}, 
 		'Fucked up. Caps-lock ON.' 
 	)
-	fuckedUp( 2/4 )
-	// riff()//  re-write this so can do HALF a riff (2 beats) instead of only 4!
-	comp.add( 2 )
-	comp.add( 1/4 )
-	fuckedUp( 3/4 )
-	comp.add(
-
-		0, 
+	fuckedUp( 0.5 )
+	append(   2 )
+	append(   0.25 )
+	fuckedUp( 0.75 )
+	append(   0, 
+		
 		function(){ keyboard.channelRemove( 'caps-lock' )}, 
 		'Fucked up. Caps-lock OFF.' 
 	)
-	comp.add( 7/4 )
-	riff()
-	riff()
-
-
-	comp.add( 
-
-		0, 
+	append(  1.5 )
+	riff(    4 )
+	riff(    4 )
+	append(  0, 
+		
 		function(){ keyboard.channelAdd( 'caps-lock' )}, 
 		'Fucked up. Caps-lock ON.' 
 	)
-	fuckedUp( 2/4 )
-	// riff()//  re-write this so can do HALF a riff (2 beats) instead of only 4!
-	comp.add( 2 )
-	comp.add( 1/4 )
-	fuckedUp( 3/4 )
-	comp.add(
-
-		0, 
+	fuckedUp( 0.5 )
+	append(   2 )
+	append(   0.25 )
+	fuckedUp( 0.75 )
+	append(   0, 
+		
 		function(){ keyboard.channelRemove( 'caps-lock' )}, 
 		'Fucked up. Caps-lock OFF.' 
 	)
-	comp.add( 5/4 )
-	riff()
-	riff()
+	append(  1.25 )
+	riff(    4 )
+	riff(    4 )
 
 
 
 
-	//  Second verse.
+	//  SECOND VERSE
 
-	comp.add( 0, function(){
+	
 
-		keyboard.classList.add( 'push-out' )
-	})
-	type( `People get crushed like biscuit crumbs`, 6 )
-	comp.add( 1 )
-	type( `and laid down in the bitumen`, 4.5 )
-	riff()
-	type( `You have tried your best to please everyone`, 6 )
-	type( `But it just isn't happening`, 5.75 )
-	riff()
-	type( `No, it just isn't`, 4 )
-	comp.add( 0, function(){
-
-		keyboard.classList.add( 'long-sustain' )
-	})
-	type( `happening`, 3.5, true )
-	comp.add( 0, function(){
-
-		keyboard.classList.remove( 'long-sustain' )
-	})
-	riff()
-	riff()
+	append( 0, function(){ keyboard.classList.add( 'push-out' )})
+	type(   6, `People get crushed like biscuit crumbs` )
+	append( 1 )
+	type(   4.5,  `and laid down in the bitumen` )
+	riff(   4 )
+	type(   6, `You have tried your best to please everyone` )
+	type(   5.75, `But it just isn't happening` )
+	riff(   4 )
+	type(   4, `No, it just isn't` )
+	append( 0, function(){ keyboard.classList.add( 'long-sustain' )})
+	type(   3.5, `happening` )
+	append( 0, function(){ keyboard.classList.remove( 'long-sustain' )})
+	riff( 4 )
+	riff( 4 )
 
 
 
 
-	//  Second chorus.
+	//  SECOND CHORUS
 
-	comp.add( 
+	//  Duration    27.75 beats  ←── wtf?!?!?!?!
+	//  Beat range  
+	//  Time range  ??
 
-		0, 
+	append(   0, 
+		
 		function(){ keyboard.channelAdd( 'caps-lock' )}, 
 		'Fucked up. Caps-lock ON.' 
 	)
-	fuckedUp( 2/4 )
-	// riff()//  re-write this so can do HALF a riff (2 beats) instead of only 4!
-	comp.add( 2 )
-	comp.add( 1/4 )
-	fuckedUp( 3/4 )
-	comp.add(
-
-		0, 
+	fuckedUp( 0.5 )
+	append(   2 )
+	append(   0.25 )
+	fuckedUp( 0.75 )
+	append(   0, 
+		
 		function(){ keyboard.channelRemove( 'caps-lock' )}, 
 		'Fucked up. Caps-lock OFF.' 
 	)
-	comp.add( 6/4 )
-	riff()
-	riff()
+	append(  1.5 )
+	riff(    4 )
+	riff(    4 )
+	append(  0, 
+		
+		function(){ keyboard.channelAdd( 'caps-lock' )}, 
+		'Fucked up. Caps-lock ON.' 
+	)
+	fuckedUp( 0.5 )
+	append(   2 )
+	append(   0.25 )
+	fuckedUp( 0.75 )
+	append(   0, 
+		
+		function(){ keyboard.channelRemove( 'caps-lock' )}, 
+		'Fucked up. Caps-lock OFF.' 
+	)
+	append(  1.25 )
+	riff(    4 )
+	riff(    4 )
 
 
 
@@ -185,33 +201,33 @@ window.addEventListener( 'DOMContentLoaded', function(){
 /// ~ 1:44
 
 	blackSwanOn( 2/4 )
-	comp.add( 2 )
-	comp.add( 1/4 )
+	append( 2 )
+	append( 1/4 )
 	blackSwanOff( 3/4 )
-	comp.add( 5/4 )
-	riff()
-	riff()
+	append( 5/4 )
+	riff( 4 )
+	riff( 4 )
 
 
 // ~ 2:00
 
-	blindspot()
+	blindspot( 4 )
 
 
-	comp.add( 4 )
+	append( 4 )
 
 
 // ~ 2:03
 
-	ekg()
-	comp.add( 1 )
-	ekg()
-	comp.add( 1 )
-	ekg()
-	comp.add( 1 )
-	ekg()
+	ekg( 1 )
+	append( 1 )
+	ekg( 1 )
+	append( 1 )
+	ekg( 1 )
+	append( 1 )
+	ekg( 1 )
 
-	// comp.add( 0, function(){
+	// append( 0, function(){
 
 	// 	Array
 	// 	.from( keyboard.querySelectorAll( '[x="3"]' ))
@@ -225,12 +241,12 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-	comp.add( 4 )
+	append( 4 )
 
 
 
 
-	// comp.add( 1 )
+	// append( 1 )
 	// type( 'this is normal text' )
 	// type( 'THIS IS A TEST OF TYPING WITH CAPS' )
 	// applyCssClass( '.key-H', 'press' )
@@ -249,57 +265,57 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	// .from( keyboard.querySelectorAll( '.key' ))
 	// .forEach( function( key, i ){
 
-	// 	comp.set( timeStart + i * 0.02, 0, function(){ key.classList.add( 'press' )})
-	// 	comp.set( timeStart + 0.5 + i * 0.02, 0, function(){ key.classList.remove( 'press' )})
+	// 	insert( timeStart + i * 0.02, 0, function(){ key.classList.add( 'press' )})
+	// 	insert( timeStart + 0.5 + i * 0.02, 0, function(){ key.classList.remove( 'press' )})
 	// })
 
 
 
-	// comp.add( 8, function(){
+	// append( 8, function(){
 
 		// keyboard.classList.add( 'wtf' )
 		// keyboard.classList.add( 'crazy' )
 	// })
 
-	// comp.add( 4, function(){
+	// append( 4, function(){
 
 	// 	document.querySelector( '.key-W' ).classList.add( 'wtf' )
 	// 	document.querySelector( '.key-T' ).classList.add( 'wtf' )
 	// 	document.querySelector( '.key-F' ).classList.add( 'wtf' )
 	// })
 
-	// comp.add( 12, function(){
+	// append( 12, function(){
 
 	// 	blowApart()
 	// })
 
 
 
-	comp.set( 156.7, comp.beat )
+	insert( 156.7, comp.beat )
 
 
 
 	//  Third verse.
 
-	type( 'You cannot kick-start a dead horse', 6 )
-	comp.add( 1 )
-	type( 'You just cross yourself and walk away', 4.5 )
+	type( 6, 'You cannot kick-start a dead horse' )
+	append( 1 )
+	type( 4.5, 'You just cross yourself and walk away' )
 	riff()
-	type( 'I don\'t care what the future holds', 6 )
-	type( 'Cause I\'m right here, and I\'m today', 5.75 )
-	riff()
-	type( 'With your fingers you can touch', 4 )
-	comp.add( 0, function(){
+	type( 6, 'I don\'t care what the future holds' )
+	type( 5.75, 'Cause I\'m right here, and I\'m today' )
+	riff( 4 )
+	type( 4, 'With your fingers you can touch' )
+	append( 0, function(){
 
 		keyboard.classList.add( 'long-sustain' )
 	})
-	type( `measdfghjkl`, 3.5, true )
-	comp.add( 0, function(){
+	type( 3.5, `measdfghjkl`, true )
+	append( 0, function(){
 
 		keyboard.classList.remove( 'long-sustain' )
 	})
-	riff()
-	riff()
+	riff( 4 )
+	riff( 4 )
 
 
 
@@ -307,15 +323,15 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Third chorus.
 
 	blackSwanOn( 2/4 )
-	comp.add( 2 )
-	comp.add( 1/4 )
+	append( 2 )
+	append( 1/4 )
 	blackSwanOff( 3/4 )
-	comp.add( 5/4 )
-	riff()
-	riff()
+	append( 5/4 )
+	riff( 4 )
+	riff( 4 )
 
 
-	comp.add( 
+	append( 
 
 		0, 
 		function(){ keyboard.channelAdd( 'caps-lock' )}, 
@@ -323,21 +339,18 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	)
 	fuckedUp( 2/4 )
 	// riff()//  re-write this so can do HALF a riff (2 beats) instead of only 4!
-	comp.add( 2 )
-	comp.add( 1/4 )
+	append( 2 )
+	append( 1/4 )
 	fuckedUp( 3/4 )
-	comp.add(
+	append(
 
 		0, 
 		function(){ keyboard.channelRemove( 'caps-lock' )}, 
 		'Fucked up. Caps-lock OFF.' 
 	)
-	comp.add( 6/4 )
-	riff()
-	riff()
-
-
-
+	append( 6/4 )
+	riff( 4 )
+	riff( 4 )
 })
 
 

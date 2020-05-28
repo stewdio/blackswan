@@ -19,43 +19,6 @@ Object.assign( comp, {
 	frameIndex: 0,
 	audio: new Audio(),
 	logs: [],
-	set: function( time, durationInSeconds, action, comment ){
-
-		if( typeof time !== 'number' ) console.error( `A+ for creativity, but “time” ought to be a number.`, time )
-		if( typeof durationInSeconds !== 'number' ) console.error( `A+ for creativity, but “durationInSeconds” ought to be a number.`, durationInSeconds )
-		comp.push({
-
-			time,
-			duration: durationInSeconds,
-			action,
-			comment
-		})
-		comp.sort( function( a, b ){
-
-			return a.time - b.time
-		})
-		return this
-	},
-	add: function( durationInBeats, action, comment ){
-
-		if( typeof durationInBeats !== 'number' ) durationInBeats = 1
-
-		let frameIndex = comp.length - 1
-		while( comp[ frameIndex ].duration === 0 && 
-			frameIndex > 0 ){
-
-			frameIndex --
-		}
-		const lastFrame = comp[ frameIndex ]
-		comp.push({
-
-			time: lastFrame.time + lastFrame.duration,
-			duration: durationInBeats * comp.beat,
-			action,
-			comment
-		})
-		return this
-	},
 	play: function(){
 
 		comp.isPlaying = true
@@ -80,7 +43,7 @@ Object.assign( comp, {
 		else comp.play()
 		return this
 	},
-	seek: function( time ){
+	seek: function( time ){	
 
 		keyboard.style.setProperty( 'transition', 'none', 'important' )
 		Array
@@ -90,6 +53,7 @@ Object.assign( comp, {
 			key.style.setProperty( 'transition', 'none', 'important' )
 		})
 		
+		if( typeof window.reset === 'function' ) window.reset()
 		comp.frameIndex = 0
 		comp.audio.currentTime = time
 		while( comp.frameIndex < comp.length &&
@@ -116,8 +80,9 @@ Object.assign( comp, {
 		})
 		return this
 	},
-	report: function( includeSiblings ){
+	report: function( frameIndex, includeSiblings ){
 
+		if( typeof frameIndex !== 'number' ) frameIndex = comp.frameIndex
 		if( typeof includeSiblings !== 'boolean' ) includeSiblings = true
 
 		function construct( frameIndex, name ){
@@ -133,16 +98,16 @@ Object.assign( comp, {
 			return output
 		}
 		const output = []
-		if( includeSiblings && comp.frameIndex > 0 ){
+		if( includeSiblings && frameIndex > 0 ){
 
 			output.push( construct( comp.frameIndex - 1, 'PREVIOUS' ))
 		}
-		if( comp.frameIndex < comp.length - 1 ){
+		if( frameIndex < comp.length - 1 ){
 
-			output.push( construct( comp.frameIndex, 'CURRENT' ))
+			output.push( construct( frameIndex, 'CURRENT' ))
 			if( includeSiblings ){
 
-				output.push( construct( comp.frameIndex + 1, 'NEXT' ))
+				output.push( construct( frameIndex + 1, 'NEXT' ))
 			}
 		}
 		if( includeSiblings ) output.push( '\n\n' )
@@ -151,7 +116,13 @@ Object.assign( comp, {
 	reportAll: function(){
 
 		//  Usage: console.log( ...comp.reportAll() )
-		// return comp.reduce( comp.report.bind( comp, false ))
+		
+		return comp.reduce( function( output, frame, frameIndex ){
+
+			output.concat( frameIndex, false )
+
+		}, [] )
+
 	},
 	log: function( text ){
 
@@ -173,6 +144,56 @@ Object.assign( comp.audio, {
 })
 
 
+
+
+
+
+    /////////////////
+   //             //
+  //   Compose   //
+ //             //
+/////////////////
+
+
+function insert( time, durationInSeconds, action, comment ){
+
+	if( typeof time !== 'number' ) console.error( `A+ for creativity, but “time” ought to be a number.`, time )
+	if( typeof durationInSeconds !== 'number' ) console.error( `A+ for creativity, but “durationInSeconds” ought to be a number.`, durationInSeconds )
+	comp.push({
+
+		time,
+		duration: durationInSeconds,
+		action,
+		comment
+	})
+	comp.sort( function( a, b ){
+
+		return a.time - b.time
+	})
+	return this
+}
+function findLastBeat(){
+
+	let frameIndex = comp.length - 1
+	while( comp[ frameIndex ].duration === 0 && 
+		frameIndex > 0 ){
+
+		frameIndex --
+	}
+	return comp[ frameIndex ].time + comp[ frameIndex ].duration
+}
+function append( durationInBeats, action, comment ){
+
+	if( typeof durationInBeats !== 'number' ) durationInBeats = 1
+	comp.push({
+
+		time: findLastBeat(),
+		duration: durationInBeats * comp.beat,
+		action,
+		comment
+	})
+	return this
+}
 
 
 
@@ -289,6 +310,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 		})
 	})
 	keyboard = keyboards[ 0 ]
+
 
 
 
@@ -455,19 +477,39 @@ const eventCodeToCssQuery = {
 	ArrowDown:    'arrow-down',
 	ArrowRight:   'arrow-right'
 }
+function addChannelToggles( key, cssName, side ){
+
+	const channel = 'user pointer '+ side
+	key.addEventListener( 'mouseover', function(){
+
+		keyboard.channelAdd( cssName, channel )
+	})
+	key.addEventListener( 'mousedown', function(){
+
+		keyboard.channelAdd( cssName, channel )
+	})
+	key.addEventListener( 'mouseout', function(){
+
+		keyboard.channelRemove( cssName, channel )
+	})
+	key.addEventListener( 'mouseup', function(){
+
+		keyboard.channelRemove( cssName, channel )
+	})
+}
 window.addEventListener( 'keydown', function( event ){
 
 	if( event.code === 'Space' ) comp.toggle()
 	if( event.repeat !== true ){
 
-		if( event.code === 'ShiftLeft'    ) keyboard.channelAdd( 'shift',   'user left'  )
-		if( event.code === 'ShiftRight'   ) keyboard.channelAdd( 'shift',   'user right' )
-		if( event.code === 'ControlLeft'  ) keyboard.channelAdd( 'control', 'user left'  )
-		if( event.code === 'ControlRight' ) keyboard.channelAdd( 'control', 'user right' )
-		if( event.code === 'AltLeft'      ) keyboard.channelAdd( 'option',  'user left'  )
-		if( event.code === 'AltRight'     ) keyboard.channelAdd( 'option',  'user right' )
-		if( event.code === 'MetaLeft'     ) keyboard.channelAdd( 'command', 'user left'  )
-		if( event.code === 'MetaRight'    ) keyboard.channelAdd( 'command', 'user right' )
+		if( event.code === 'ShiftLeft'    ) keyboard.channelAdd( 'shift',   'user keyboard left'  )
+		if( event.code === 'ShiftRight'   ) keyboard.channelAdd( 'shift',   'user keyboard right' )
+		if( event.code === 'ControlLeft'  ) keyboard.channelAdd( 'control', 'user keyboard left'  )
+		if( event.code === 'ControlRight' ) keyboard.channelAdd( 'control', 'user keyboard right' )
+		if( event.code === 'AltLeft'      ) keyboard.channelAdd( 'option',  'user keyboard left'  )
+		if( event.code === 'AltRight'     ) keyboard.channelAdd( 'option',  'user keyboard right' )
+		if( event.code === 'MetaLeft'     ) keyboard.channelAdd( 'command', 'user keyboard left'  )
+		if( event.code === 'MetaRight'    ) keyboard.channelAdd( 'command', 'user keyboard right' )
 
 		const cssQuery = eventCodeToCssQuery[ event.code ]
 		if( event.code === 'CapsLock' ){
@@ -488,14 +530,14 @@ window.addEventListener( 'keydown', function( event ){
 })
 window.addEventListener( 'keyup', function( event ){
 	
-	if( event.code === 'ShiftLeft'    ) keyboard.channelRemove( 'shift',   'user left'  )
-	if( event.code === 'ShiftRight'   ) keyboard.channelRemove( 'shift',   'user right' )
-	if( event.code === 'ControlLeft'  ) keyboard.channelRemove( 'control', 'user left'  )
-	if( event.code === 'ControlRight' ) keyboard.channelRemove( 'control', 'user right' )
-	if( event.code === 'AltLeft'      ) keyboard.channelRemove( 'option',  'user left'  )
-	if( event.code === 'AltRight'     ) keyboard.channelRemove( 'option',  'user right' )
-	if( event.code === 'MetaLeft'     ) keyboard.channelRemove( 'command', 'user left'  )
-	if( event.code === 'MetaRight'    ) keyboard.channelRemove( 'command', 'user right' )
+	if( event.code === 'ShiftLeft'    ) keyboard.channelRemove( 'shift',   'user keyboard left'  )
+	if( event.code === 'ShiftRight'   ) keyboard.channelRemove( 'shift',   'user keyboard right' )
+	if( event.code === 'ControlLeft'  ) keyboard.channelRemove( 'control', 'user keyboard left'  )
+	if( event.code === 'ControlRight' ) keyboard.channelRemove( 'control', 'user keyboard right' )
+	if( event.code === 'AltLeft'      ) keyboard.channelRemove( 'option',  'user keyboard left'  )
+	if( event.code === 'AltRight'     ) keyboard.channelRemove( 'option',  'user keyboard right' )
+	if( event.code === 'MetaLeft'     ) keyboard.channelRemove( 'command', 'user keyboard left'  )
+	if( event.code === 'MetaRight'    ) keyboard.channelRemove( 'command', 'user keyboard right' )
 
 	const cssQuery = eventCodeToCssQuery[ event.code ]
 	if( event.code === 'CapsLock' ){
@@ -511,6 +553,27 @@ window.addEventListener( 'keyup', function( event ){
 		const keyElement = document.querySelector( '.key-'+ event.key.toUpperCase() )
 		if( keyElement instanceof HTMLElement ) keyElement.classList.remove( 'press' )
 	}
+})
+window.addEventListener( 'DOMContentLoaded', function(){
+
+
+	function addChannelTogglesGeneric( cssQuery, cssName, side ){
+
+		Array
+		.from( document.querySelectorAll( cssQuery ))
+		.forEach( function( key ){
+
+			addChannelToggles( key, cssName, side )
+		})
+	}
+	addChannelTogglesGeneric( '.key-shift-left',    'shift',   'left'  )
+	addChannelTogglesGeneric( '.key-shift-right',   'shift',   'right' )
+	addChannelTogglesGeneric( '.key-control-left',  'control', 'left'  )
+	addChannelTogglesGeneric( '.key-control-right', 'control', 'right' )
+	addChannelTogglesGeneric( '.key-option-left',   'option',  'left'  )
+	addChannelTogglesGeneric( '.key-option-right',  'option',  'right' )
+	addChannelTogglesGeneric( '.key-command-left',  'command', 'left'  )
+	addChannelTogglesGeneric( '.key-command-right', 'command', 'right' )
 })
 
 

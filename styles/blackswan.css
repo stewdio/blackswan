@@ -5,21 +5,6 @@
 */
 
 
-.black {
-
-	background: linear-gradient(
-		0.45turn,
-		hsl( 0, 0%, 10% ),
-		hsl( 0, 0%, 30% )
-	);
-	color: transparent;
-	transition: none;
-}
-.invisible {
-
-	color: transparent;
-	transition: none;
-}
 
 
 
@@ -35,6 +20,7 @@ body {
 	--beat-quarter: calc( var( --beat ) / 4 );
 	--beat-eighth:  calc( var( --beat ) / 8 );
 
+	background-color: black;
 	perspective: 600px;
 }
 .keyboard {
@@ -44,23 +30,6 @@ body {
 	transition-timing-function: ease-in-out;
 	transform-style: preserve-3d;
 }
-.keyboard.wtf {
-
-	transform: rotate3d( 1, 1, 1, 45deg ) scale( 1.2 );
-}
-.key-W.wtf {
-
-	transform: perspective( 600px ) translate3d( 0, 20px, 60px );
-}
-.key-T.wtf {
-
-	transform: perspective( 600px ) translate3d( 0, 20px, 60px );
-}
-.key-F.wtf {
-
-	transform: perspective( 600px ) translate3d( 0, 20px, 60px );
-	/*transform: perspective( 600px ) translate3d( 0, 20px, 100px ) rotate3d( 0, 0, 1, 45deg );*/
-}
 
 
 
@@ -69,11 +38,48 @@ body {
 
 
 .key {
-	
+
+	background-color: hsl( 25, 10%, 15% );
+	box-shadow: 
+		0
+		0
+		calc( var( --size ) * 1 )
+		hsla( 25, 50%, 0%, 0.2 )
+		inset;
+	color: hsl( 25, 3%, 60% );
+	text-shadow:
+		0
+		0
+		calc( var( --size ) * 2 )
+		hsla( 25, 5%, 90%, 0.2 );	
 	transition: 
 		background-color var( --beat-quarter ) linear,
 		transform var( --beat ) ease-out;
 	transform-origin: center center;
+}
+
+.key.press,
+.key:hover {
+
+	background-color: hsl( 25, 50%, 90% );
+	color: white;
+	box-shadow: 
+		0
+		0
+		calc( var( --size ) * 4 )
+		hsla( 25, 50%, 90%, 0.5 );
+}
+
+
+
+
+
+.key.dead,
+.key.dead.press,
+.key.dead:hover {
+
+	color: transparent;
+	text-shadow: none;
 }
 
 
@@ -115,6 +121,19 @@ body {
 
 
 
+.key.black {
+
+	background: none;
+	background-color: black;
+	/*color: transparent;*/
+}
+.key.invisible {
+
+	color: transparent;
+	transition: none;
+}
+
+
 
 .keyboard.crazy .key.press
 .keyboard.crazy .key:hover {
@@ -135,10 +154,6 @@ body {
 			180deg
 		) !important;
 }
-
-
-
-
 
 
 

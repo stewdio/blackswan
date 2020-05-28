@@ -4,17 +4,7 @@
 
 
 
-
 function reset(){
-
-	keyboard.reset()
-	keyboard.classList.remove( 
-
-		'caps-lock',
-		'push-out',
-		'long-sustain',
-		'wtf'
-	)
 
 	function getRandomBetween( a, b ){
 
@@ -25,6 +15,14 @@ function reset(){
 		return a + r
 	}
 
+	keyboard.reset()
+	keyboard.classList.remove( 
+
+		'caps-lock',
+		'push-out',
+		'long-sustain',
+		'wtf'
+	)
 
 	Array
 	.from( document.querySelectorAll( '.key' ))
@@ -32,11 +30,9 @@ function reset(){
 
 		element.classList.remove( 'press', 'black', 'wtf' )
 		element.style.transform = 'none'
-		
 		element.style.setProperty( '--tx', getRandomBetween( -100, 100 ) +'px' )
 		element.style.setProperty( '--ty', getRandomBetween( -100, 100 ) +'px' )
 		element.style.setProperty( '--tz', getRandomBetween( -100, 100 ) +'px' )
-
 		element.style.setProperty( '--rx', getRandomBetween( -1, 1 ))
 		element.style.setProperty( '--ry', getRandomBetween( -1, 1 ))
 		element.style.setProperty( '--rz', getRandomBetween( -1, 1 ))
@@ -55,25 +51,22 @@ function applyCssClass( cssQuery, className ){
 
 
 
-function riff( drumSolo, addLastHit ){
 
+
+
+
+function riff( durationInBeats, drumSolo, addLastHit ){
+
+	if( typeof durationInBeats !== 'number' ) dudurationInBeats = 4
 	if( typeof drumSolo !== 'boolean' ) drumSolo = false
 	if( typeof addLastHit !== 'boolean' ) addLastHit = true
 	
-	let frameIndex = comp.length - 1
-	while( comp[ frameIndex ].duration === 0 && 
-		frameIndex > 0 ){
-
-		frameIndex --
-	}
-	
 	const 
-	lastFrame = comp[ frameIndex ],
-	timeStart = lastFrame.time + lastFrame.duration,
+	timeStart = findLastBeat(),
 	hit = function( durationToOccupy, cssName, durationVisible ){
 
 		if( typeof durationVisible !== 'number' ) durationVisible = durationToOccupy
-		comp.set(
+		insert(
 
 			timeMark,
 			comp.beat * durationToOccupy,
@@ -89,7 +82,7 @@ function riff( drumSolo, addLastHit ){
 			},
 			'Riff. Hit ON: '+ cssName
 		)
-		comp.set(
+		insert(
 
 			timeMark + comp.beat * durationVisible * 15/16,
 			0,
@@ -103,51 +96,125 @@ function riff( drumSolo, addLastHit ){
 
 	hit( 2/4, 'space', 1/4 )
 	hit( 2/4, 'space'  )
-	hit( 1/4, 'period' )
-	hit( 2/4, 'space'  )
+
+	if( durationInBeats > 1 ){
 	
+		hit( 1/4, 'period' )
+		hit( 2/4, 'space'  )
+		
+		if( durationInBeats > 2 ){
+
+			hit( 2/4, 'tab'    )
+			hit( 2/4, 'period' )
+
+			if( durationInBeats > 3 ){
+			
+				hit( 1/4, 'space'  )
+				hit( 1/4, 'period' )
+				hit( 2/4, 'space'  )
+			}
+
+			if( addLastHit ) hit( 1/4, 'space', 1/8 )
+			else append( 1/4 )
+		}
+		else append( 1/4 )
+	}
+
+
+	if( drumSolo !== true ){
+
+		const optionKey = keyboard.querySelector( '.key-option-left' )
+		insert( 
+
+			timeStart + comp.beat * 0/8,
+			comp.beat * 2/8,
+			function(){ 
+
+				optionKey.classList.add( 'press' )
+				keyboard.classList.add( 'option' )
+			},
+			'Riff. Guitar ON.'
+		)
+		insert( 
+
+			timeStart + comp.beat * 2/8, 
+			comp.beat * 1/4,
+			function(){ 
+
+				optionKey.classList.remove( 'press' )
+				keyboard.classList.remove( 'option' )
+			},
+			'Riff. Guitar ON.'
+		)
+		insert( 
+
+			timeStart + comp.beat * 4/8, 
+			comp.beat * 2/8,
+			function(){ 
+				
+				optionKey.classList.add( 'press' )
+				keyboard.classList.add( 'option' )
+			},
+			'Riff. Guitar ON.'
+		)
+		insert(
+
+			timeStart + comp.beat * 8/8,
+			comp.beat * 2/8,
+			function(){ 
+
+				optionKey.classList.remove( 'press' )
+				keyboard.classList.remove( 'option' )
+			},
+			'Riff. Guitar OFF.'
+		)
+	}
+}
+function riffHalf( durationInBeats ){
+
+	if( durationInBeats !== 2 ) console.error( 'Pretty sure this needs 2 beats here.' )
+
+	const 
+	timeStart = findLastBeat(),
+	hit = function( durationToOccupy, cssName, durationVisible ){
+
+		if( typeof durationVisible !== 'number' ) durationVisible = durationToOccupy
+		insert(
+
+			timeMark,
+			comp.beat * durationToOccupy,
+			function(){ 
+
+				const key = document.querySelector( '.key-'+ cssName )
+				key.classList.add( 'press' )
+				
+				if( cssName === 'space' ) comp.log( ' ' )
+				else if( cssName === 'period' ) comp.log( key.innerText )
+				else if( cssName === 'tab' ) comp.log( '	' )
+				else comp.log( cssName )
+			},
+			'Riff. Hit ON: '+ cssName
+		)
+		insert(
+
+			timeMark + comp.beat * durationVisible * 15/16,
+			0,
+			function(){ document.querySelector( '.key-'+ cssName ).classList.remove( 'press' )},
+			'Riff. Hit OFF: '+ cssName
+		)
+		timeMark += comp.beat * durationToOccupy
+	}
+
+	let timeMark = timeStart
+
 	hit( 2/4, 'tab'    )
 	hit( 2/4, 'period' )
 	hit( 1/4, 'space'  )
 	hit( 1/4, 'period' )
 	hit( 2/4, 'space'  )
-
-	if( addLastHit ) hit( 1/4, 'space', 1/8 )
-	else comp.add( 1/4 )
-
-
-	if( drumSolo !== true ){
-
-		comp.set( 
-
-			timeStart + comp.beat * 0/8,
-			comp.beat * 2/8,
-			function(){ keyboard.classList.add( 'option' )},
-			'Riff. Guitar ON.'
-		)
-		comp.set( 
-
-			timeStart + comp.beat * 2/8, 
-			comp.beat * 1/4,
-			function(){ keyboard.classList.remove( 'option' )},
-			'Riff. Guitar ON.'
-		)
-		comp.set( 
-
-			timeStart + comp.beat * 4/8, 
-			comp.beat * 2/8,
-			function(){ keyboard.classList.add( 'option' )},
-			'Riff. Guitar ON.'
-		)
-		comp.set(
-
-			timeStart + comp.beat * 8/8,
-			comp.beat * 2/8,
-			function(){ keyboard.classList.remove( 'option' )},
-			'Riff. Guitar OFF.'
-		)
-	}
 }
+
+
 
 
 
@@ -161,22 +228,14 @@ const characterToName = {
 	',': 'comma',
 	"'": 'quote'
 }
-function type( text, durationInBeats, holdUntilDone ){
+function type( durationInBeats, text, holdUntilDone ){
 
-	text = text.replace( /\s/g, '' )
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 5
+	text = text.replace( /\s/g, '' )
 	if( typeof holdUntilDone !== 'boolean' ) holdUntilDone = false
 
-	let frameIndex = comp.length - 1
-	while( comp[ frameIndex ].duration === 0 && 
-		frameIndex > 0 ){
-
-		frameIndex --
-	}
-
 	const 
-	lastFrame = comp[ frameIndex ],
-	timeStart = lastFrame.time + lastFrame.duration,
+	timeStart = findLastBeat(),
 	durationPerCharacter = durationInBeats / text.length
 
 	text.split( '' ).forEach( function( character, i ){
@@ -196,7 +255,7 @@ function type( text, durationInBeats, holdUntilDone ){
 			if( isMajuscule ){
 
 				const side = Math.random() >= 0.5 ? 'left' : 'right'
-				comp.set(
+				insert(
 
 					timeStart + comp.beat * i * durationPerCharacter,
 					durationPerCharacter,
@@ -213,7 +272,7 @@ function type( text, durationInBeats, holdUntilDone ){
 					},
 					'shift ON'
 				)
-				comp.set(
+				insert(
 
 					//timeStart + comp.beat * i * durationPerCharacter + durationPerCharacter,//  Is EXACT so can be overridden by a subsequent ON command!
 					timeStart + comp.beat * i * durationPerCharacter + durationPerCharacter * 1/2,
@@ -231,7 +290,7 @@ function type( text, durationInBeats, holdUntilDone ){
 					'shift OFF'
 				)
 			}
-			comp.set(
+			insert(
 
 				timeStart + comp.beat * i * durationPerCharacter,
 				durationPerCharacter,
@@ -247,7 +306,7 @@ function type( text, durationInBeats, holdUntilDone ){
 				durationInBeats * comp.beat :
 				comp.beat * i * durationPerCharacter + durationPerCharacter * 15/16
 			
-			comp.set(
+			insert(
 
 				timeStart + releaseAfterDuration,
 				0,
@@ -257,6 +316,113 @@ function type( text, durationInBeats, holdUntilDone ){
 		}
 	})
 }
+
+
+
+
+
+
+
+
+function train( durationInBeats ){
+
+	// if( durationInBeats !== 4.5 ) console.error( 'Pretty sure this needs 4.5 beats here.' )
+
+	const timeStart = findLastBeat()
+
+	'train'.split( '' )
+	.forEach( function( letter, i ){
+
+		const key = keyboard.querySelector( '.key-'+ letter.toUpperCase() )
+		insert( 
+			
+			timeStart + i * 1/8 * comp.beat,
+			0,//1/8 * comp.beat,
+			function(){ key.classList.add( 'press' )},
+			'Train ON: '+ letter
+		)
+		insert(
+
+			timeStart + comp.beat * 4 + i * 1/8 * comp.beat,
+			0,
+			function(){ key.classList.remove( 'press' )},
+			'Train OFF: '+ letter
+		)
+	})
+	append( durationInBeats )
+
+
+	const lines = [
+
+		{ xStart: 6, xEnd: 13 },
+		{ xStart: 2, xEnd: 12 },
+		{ xStart: 7, xEnd: 11 }
+	]
+	for( let y = 0; y < 3; y ++ ){
+
+		const 
+		xRange = lines[ y ].xEnd - lines[ y ].xStart + 1,
+		strikes = 3// could be based on xRange instead?
+		
+		for( let i = 0; i < strikes; i ++ ){
+
+			for( let x = 0; x < xRange; x ++ ){
+
+				const 
+				key = keyboard.querySelector( `[x="${ x + lines[ y ].xStart }"][y="${ y + 1 }"]` ),
+				timeToShow = timeStart + comp.beat * (
+
+					5/4 + 
+					i * xRange * 0.09 +
+					x * 1/12 +
+					( 2 - y ) * 0.4
+				),
+				timeToHide = timeToShow + comp.beat * 1/64
+
+				insert(
+
+					timeToShow,
+					0,
+					function(){ key.classList.add( 'press' )},
+					`Train stream ON: x=${x} y=${y} i=${i}`
+				)
+				insert(
+
+					timeToHide,
+					0,
+					function(){ key.classList.remove( 'press' )},
+					`Train stream OFF: x=${x} y=${y} i=${i}`
+				)
+			}	
+		}
+	}
+
+
+
+
+
+
+// Y x=6 y=1
+// S x=2 y=2
+// M x=7 y=3
+
+
+
+	/*
+
+    TyuIop[]\
+Asdfghjkl;'RETURN
+      Nm,./SHIFT
+
+
+
+	*/
+
+}
+
+
+
+
 
 
 
@@ -271,7 +437,7 @@ function fuckedUp( durationInBeats ){
 
 	fuckedUp.forEach( function( letter, i ){
 
-		comp.add(
+		append(
 
 			durationPerCharacter * i,
 			function(){
@@ -295,10 +461,10 @@ function blackSwanOn( durationInBeats ){
 	text = [ ...new Set( 'blackswan'.split( '' ))],
 	durationPerCharacter = durationInBeats / text.length 
 
-	comp.add( 0, function(){ keyboard.channelAdd( 'caps-lock', 'blackSwan' )}, 'caps-lock ON' )
+	append( 0, function(){ keyboard.channelAdd( 'caps-lock', 'blackSwan' )}, 'caps-lock ON' )
 	text.forEach( function( letter, i ){
 
-		comp.add(
+		append(
 
 			durationPerCharacter * i,
 			function(){
@@ -318,10 +484,10 @@ function blackSwanOff( durationInBeats ){
 	text = [ ...new Set( 'blackswan'.split( '' ))],
 	durationPerCharacter = durationInBeats / text.length 
 
-	comp.add( 0, function(){ keyboard.channelAdd( 'caps-lock', 'blackSwan' )}, 'caps-lock ON' )
+	append( 0, function(){ keyboard.channelAdd( 'caps-lock', 'blackSwan' )}, 'caps-lock ON' )
 	text.forEach( function( letter, i ){
 
-		comp.add(
+		append(
 
 			durationPerCharacter * i,
 			function(){
@@ -332,7 +498,7 @@ function blackSwanOff( durationInBeats ){
 			'Black OFF: '+ letter
 		)
 	})
-	comp.add( 0, function(){ keyboard.channelRemove( 'caps-lock', 'blackSwan' )}, 'caps-lock OFF' )
+	append( 0, function(){ keyboard.channelRemove( 'caps-lock', 'blackSwan' )}, 'caps-lock OFF' )
 }
 
 
@@ -342,16 +508,8 @@ function blindspot( durationInBeats ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 2
 
-	let frameIndex = comp.length - 1
-	while( comp[ frameIndex ].duration === 0 && 
-		frameIndex > 0 ){
-
-		frameIndex --
-	}
-
 	const 
-	lastFrame = comp[ frameIndex ],
-	timeStart = lastFrame.time + lastFrame.duration,
+	timeStart = findLastBeat(),
 	durationPerKey = durationInBeats / 14
 
 	Array
@@ -367,7 +525,7 @@ function blindspot( durationInBeats ){
 			x = +key.getAttribute( 'x' ),
 			y = +key.getAttribute( 'y' )
 
-			comp.set(
+			insert(
 				
 				timeStart + comp.beat * x * durationPerKey,
 				durationPerKey,
@@ -377,7 +535,7 @@ function blindspot( durationInBeats ){
 				},
 				'Blindspot.'
 			)
-			comp.set(
+			insert(
 				
 				timeStart + durationInBeats + comp.beat * x * durationPerKey,
 				durationPerKey,
@@ -398,18 +556,10 @@ function ekg( durationInBeats ){//  Jed reference.
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 1
 
-	let frameIndex = comp.length - 1
-	while( comp[ frameIndex ].duration === 0 && 
-		frameIndex > 0 ){
-
-		frameIndex --
-	}
-
 	const 
 	text      = ` ASDFT6YJM .;' `,
 	// text      = ` ASDR5THNKL;' `,
-	lastFrame = comp[ frameIndex ],
-	timeStart = lastFrame.time + lastFrame.duration,
+	timeStart = findLastBeat(),
 	durationPerCharacter = durationInBeats / text.length
 
 	text.split( '' ).forEach( function( character, i ){
@@ -434,7 +584,7 @@ function ekg( durationInBeats ){//  Jed reference.
 			cssName = 'quote'
 		}
 		const key = keyboard.querySelector( '.key-'+ cssName )
-		comp.set(
+		insert(
 
 			timeStart + i * durationPerCharacter * comp.beat,
 			durationPerCharacter,
@@ -443,7 +593,7 @@ function ekg( durationInBeats ){//  Jed reference.
 				key.classList.add( 'press' )
 			}
 		)
-		comp.set(
+		insert(
 
 			timeStart + durationInBeats / 2 + i * durationPerCharacter * comp.beat,
 			durationPerCharacter,
@@ -454,6 +604,11 @@ function ekg( durationInBeats ){//  Jed reference.
 		)
 	})
 }
+
+
+
+
+
 
 
 
