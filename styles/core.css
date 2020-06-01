@@ -113,21 +113,34 @@ html {
 	font-size: 16px;
 }
 body {
+	
+	--bpm: 120;
+	--beat:         calc( 60s / var( --bpm ));
+	--beat-half:    calc( var( --beat ) / 2 );
+	--beat-quarter: calc( var( --beat ) / 4 );
+	--beat-eighth:  calc( var( --beat ) / 8 );
+
+	--color-background:             hsl( 220,  10%,  80% );
+	--color-key-background:         hsl( 220,   0%, 100% );
+	--color-key-text:               hsl( 220,  10%,  55% );
+	--color-key-text-glow:          none;
+	--color-key-press-background:   hsl( 220,  10%,  40% );
+	--color-key-press-text:         hsl( 220, 100%, 100% );
+	--color-key-press-glow:         none;
+	--color-key-options-background: hsl(  25, 100%,  50% );
+	--color-key-options-text:       hsl(  25, 100%, 100% );
 
 	margin: 0;
-	background-color: hsl( 220, 7%, 85% );
 	padding: 0;
 	color: hsl( 220, 7%, 40% );
 	font-weight: 400;
 	font-family: 'SF Pro Text', system-ui, -apple-system, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 	hanging-punctuation: first;
-	perspective: 600px;
 	overflow: hidden;
 }
-img {
+body, #fullscreen-container {
 
-	max-width: 100%;
-	height: auto;
+	background-color: var( --color-background );
 }
 
 
@@ -204,6 +217,17 @@ main {
 	position: relative;
 	text-align: center;
 }
+#fullscreen-container {
+
+	position: relative;
+	width:  100%;
+	height: 100%;
+	perspective: 600px;
+}
+
+
+
+
 
 
 
@@ -223,13 +247,10 @@ main {
 	right:  0;
 	bottom: calc( var( --size ) * 6 );
 	margin: auto;
-
 	width:  calc( var( --size ) * 106 );
 	height: calc( var( --size ) *  44 );
-
 	border-radius: calc( var( --size ) * 1 );
 	padding: calc( var( --size ) * 4 ) 0;
-	
 	font-size: 0;
 	transform-style: preserve-3d;
 }
@@ -331,17 +352,23 @@ main {
 	width:  calc( var( --size ) * 6 );
 	height: calc( var( --size ) * 6 );
 	border-radius: calc( var( --size ) * 0.5 );
-	background: white;
+	background: var( --color-key-background );
 	padding: 0 calc( var( --size ) * 1 );
+	color: var( --color-key-text );
 	text-align: center;
 	font-size:   calc( var( --size ) * 2 );
 	line-height: calc( var( --size ) * 5.8 );
-	color: hsl( 0, 0%, 50% );
-	color: hsl( 220, 7%, 55% );
 	overflow: hidden;
 	cursor: pointer;
-
-	transition: all 0.25s ease-out;
+	text-shadow:
+		0
+		0
+		calc( var( --size ) * 2 )
+		var( --color-key-text-glow );
+	transition: 
+		background-color var( --beat-quarter ) linear,
+		transform var( --beat ) ease-out;
+	transform-origin: center center;
 }
 
 
@@ -473,9 +500,14 @@ main {
 		hsl( 0, 0%, 50% ),
 		hsl( 0, 0%, 60% )
 	);*/
-	background-color: hsl( 0, 0%, 50% );
-	color: white;
-	box-shadow: none;
+	background-color: var( --color-key-press-background );
+	color: var( --color-key-press-text );
+	box-shadow: 
+		0
+		0
+		calc( var( --size ) * 4 )
+		var( --color-key-press-text-glow );
+
 
 	transition: none;
 }
@@ -489,42 +521,16 @@ main {
 .keyboard.option .key-I,
 .keyboard.option .key-N {
 
-/*	background: linear-gradient(
-
-		0.45turn,
-		
-		hsl( 25, 100%, 50% ),
-		hsl( 25, 100%, 55% )
-	);*/
-	background-color: hsl( 25, 100%, 50% );
-	color: white;
+	background-color: var( --color-key-options-background );
+	color: var( --color-key-options-text );
 	transition: none;
-	box-shadow:b
-		0
-		0
-		calc( var( --size ) * 4 )
-		hsla( 25, 100%, 90%, 0.5 );
+	box-shadow: none;
 }
 .option {
 
-	background-color: 
+	/*background-color: */
 }
 
-
-
-
-
-
-
-.word, .arrow {
-	
-	color: transparent;
-}
-.word:hover, .arrow:hover,
-.word.press, .arrow.press {
-	
-	color: transparent;
-}
 
 
 
@@ -595,14 +601,14 @@ main {
 	width:  100%;
 	height: 100%;
 	cursor: pointer;
-	background-color: hsl( 25, 5%, 15% );
-	color: hsl( 25, 10%, 50% );
+	background-color: hsl( 220, 10%, 70% );
+	color: hsl( 220, 10%, 90% );
 	line-height: calc( var( --size ) * 7.9 );
 }
 #controls .button:hover {
 
-	background-color: hsl( 25, 10%, 70% );
-	color: hsl( 25, 10%, 90% );
+	background-color: hsl( 220, 10%, 65% );
+	color: hsl( 220, 10%, 100% );
 }
 #play-pause {
 
@@ -617,9 +623,8 @@ main {
 
 		display: block;
 		background-color: hsl( 25, 100%, 50% );
-		color: white;
-		animation-duration: 1.188118811881188s;
-		animation-duration: var( --beat );
+		color: white;		
+		animation-duration: calc( var( --beat ) * 2 );
 		animation-name: pulse;
 		animation-iteration-count: infinite;
 		animation-direction: alternate;
@@ -667,7 +672,7 @@ main {
 	width:   100%;
 	height: 100%;
 	cursor: ew-resize;
-	background-color: hsl( 25, 5%, 10% );
+	background-color: hsl( 220, 10%, 75% );
 }
 #progress,
 #progress-head,
@@ -678,7 +683,7 @@ main {
 }
 #progress {
 
-	background-color: hsl( 25, 5%, 15% );
+	background-color: hsl( 220, 10%, 70% );
 }
 #progress-head,
 #seeker-head {
@@ -689,12 +694,12 @@ main {
 #progress-head {
 
 	right: 0;
-	background-color: hsl( 25, 10%, 50% );
+	background-color: hsl( 220, 10%, 90% );
 }
 #seeker-head {
 
 	left: 0;
-	background-color: hsl( 25, 100%, 50% );
+	background-color: hsl( 220, 10%, 100% );
 }
 #progress-clock,
 #seeker-clock {
@@ -704,11 +709,11 @@ main {
 }
 #progress-clock {
 
-	color: hsl( 25, 10%, 50% );
+	color: hsl( 220, 10%, 90% );
 }
 #seeker-clock {
 
-	color: hsl( 25, 100%, 50% );
+	color: hsl( 220, 10%, 100% );
 }
 #progress-head,
 #progress-clock,

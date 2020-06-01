@@ -7,62 +7,100 @@
 
 
 
-
-
-
-
-
 body {
 
 	--bpm: 101;
-	--beat:         calc( 60s / var( --bpm ));
-	--beat-half:    calc( var( --beat ) / 2 );
-	--beat-quarter: calc( var( --beat ) / 4 );
-	--beat-eighth:  calc( var( --beat ) / 8 );
 
-	background-color: black;
-	perspective: 600px;
+
+	/*  Based on the “Eraser” album artwork colors  */
+	
+	--color-background:             hsl(  0,  90%,  40% );
+	--color-key-background:         hsl(  0,   0%,   0% );
+	--color-key-text:               hsl(  0,  20%,  50% );
+	--color-key-text-glow:          hsla( 0,  90%,  90%, 0.1 );
+	--color-key-press-background:   hsl(  0,  90%,  95% );
+	--color-key-press-text:         hsl(  0,  90%, 100% );
+	--color-key-press-glow:         hsla( 0,   0%,  90%, 0.5 );
+	--color-key-options-background: hsl(  0,  90%,  50% );
+	--color-key-options-text:       hsl(  0,  90%, 100% );
 }
+
+
+
+
+#timeline {
+
+	background-color: hsl( 0, 90%, 35% );
+}
+#progress,
+#controls .button {
+
+	background-color: hsl( 0, 90%, 30% );
+	color: hsl( 0, 70%, 70% );
+}
+#controls .button:hover {
+
+	background-color: hsl( 0, 90%, 20% );
+	color: hsl( 0, 70%, 70% );
+}
+
+
+
+
+#progress-head {
+
+	background-color: hsl( 0, 70%, 70% );
+}
+#progress-clock {
+
+	color: hsl( 0, 70%, 70% );
+}
+#seeker-head {
+
+	background-color: white;
+}
+#seeker-clock {
+
+	color: white;
+}
+
+
+
+
+#play {
+
+	color: black;
+}
+#play:hover {
+
+	color: var( --color-background );
+}
+@keyframes pulse {
+
+	0%, 10% { 
+
+		background-color: hsl( 0, 90%, 100% );
+		/*box-shadow: 0 0 calc( var( --size ) * 4 ) hsla( 0, 100%, 100%, 0.5 );*/
+	}
+	90%, 100% { 
+
+		background-color: hsl( 0, 90%, 30% );
+		/*box-shadow: 0 0 calc( var( --size ) * 4 ) hsla( 0, 100%, 95%, 0.2 );*/
+	}
+}
+
+
+
+
+
+
+
+
 .keyboard {
 
 	transition-property: transform;
 	transition-duration: 1s;
 	transition-timing-function: ease-in-out;
-	transform-style: preserve-3d;
-}
-
-
-
-
-
-
-
-
-.key {
-
-	background-color: hsl( 25, 10%, 20% );
-	color: hsl( 25, 10%, 70% );
-	text-shadow:
-		0
-		0
-		calc( var( --size ) * 2 )
-		hsla( 25, 5%, 90%, 0.1 );
-	transition: 
-		background-color var( --beat-quarter ) linear,
-		transform var( --beat ) ease-out;
-	transform-origin: center center;
-}
-
-.key.press,
-.key:hover {
-
-	background-color: hsl( 25, 50%, 90% );
-	color: white;
-	box-shadow: 
-		0
-		0
-		calc( var( --size ) * 4 )
-		hsla( 25, 50%, 90%, 0.5 );
 }
 
 
@@ -78,6 +116,21 @@ body {
 
 
 
+
+.key-period.press,
+.key-period:hover {
+
+	background-color: hsl( 0, 100%, 100% );
+	box-shadow: 
+		0
+		0
+		calc( var( --size ) * 6 )
+		hsl( 0, 100%, 100% );
+}
+
+
+
+
 .keyboard.push-out .key {
 
 	transition: 
@@ -88,14 +141,9 @@ body {
 .keyboard.push-out .key.press,
 .keyboard.push-out .key:hover {
 	
-	/*transform: translateZ( calc( var( --size ) * 10 ));*/
-	/*transition: transform 0s;*/
-	transform: translateZ( 120px ) !important;
-	/*background: initial;*/
+	transform: translateZ( 60px ) !important;
 	transition: none;
 }
-
-
 
 
 
@@ -130,22 +178,6 @@ body {
 
 
 
-
-
-.key-period.press,
-.key-period:hover {
-
-	background-color: hsl( 220, 0%, 100% );
-	box-shadow: 
-		0
-		0
-		calc( var( --size ) * 6 )
-		hsla( 220, 0%, 100%, 0.8 );
-}
-
-
-
-
 .keyboard.surf-rider {
 
 	transform: 
@@ -157,19 +189,13 @@ body {
 
 
 
-
-
-
-
-
-
 .keyboard.crazy .key {
 
-	box-shadow: 
+/*	box-shadow: 
 		0
 		0
 		calc( var( --size ) * 2 )
-		hsla( 25, 0%, 0%, 0.5 );
+		hsla( 25, 0%, 0%, 0.5 );*/
 	transition: none;
 	transform: 
 		translate3d( 

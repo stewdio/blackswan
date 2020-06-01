@@ -22,7 +22,8 @@ function reset(){
 		'push-out',
 		'long-sustain',
 		'wtf',
-		'crazy'
+		'crazy',
+		'surf-rider'
 	)
 
 	Array

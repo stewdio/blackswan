@@ -5,6 +5,7 @@
 
 
 comp.audio.src = 'media/blackswan.m4a'
+comp.audio.volume = 0.05
 // comp.audio.playbackRate = 0.5
 comp.bpm  = 101
 comp.beat = 60 / comp.bpm

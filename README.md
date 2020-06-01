@@ -32,6 +32,7 @@ VISUAL
 
 - remove the inset shadow on on .key DIVs and instead use a very thin outset dark shadow that can't be seen when in normal mode.  (the main reason now for thiis shadow is for when keys overlap in crazy mode.)
 ACTUALLY: maybe need to just have inset shadow in "crazy" mode for when keys really intersect w each other so even near their centers there is visual indication of difference.
+- why does "f" key seem to have waaaay offset line halo when in crazy mmode?
 
 
 
@@ -44,7 +45,7 @@ CODE
 
 
 CONTROLS
-
+- should render loop update a URL hash for jumping to that exact spot?
 - SVG icons for Play, Pause, Return-to-start buttons.
 - finese audio file loading experience for mobile. perhaps while loading audio file start with timeline being 0% width, then use comp.audio.addEventListener( 'progress', ... ) to fill it up all the way?
 - mouse events that use location need touch compatibility.
