@@ -186,6 +186,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
+// 2:17 no it isn’t
+
 
 /// ~ 1:44
 
@@ -264,10 +266,15 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	// 	document.querySelector( '.key-F' ).classList.add( 'wtf' )
 	// })
 
-	append( 2, function(){
+	append( 16 )
+	append( 1, function(){
 
-		blowApart()
+		keyboard.classList.add( 'crazy' )
 	})
+	// append( 2, function(){
+
+	// 	blowApart()
+	// })
 
 
 
@@ -282,7 +289,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	
 	//  Duration    48 beats
 	//  Beat range  ?
-	//  Time range  ~ 2:36 – ?
+	//  Time range  2:36 – ?
 
 
 	append( 0, function(){ keyboard.classList.add( 'push-out' )})

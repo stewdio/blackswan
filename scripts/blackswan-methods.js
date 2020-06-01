@@ -21,7 +21,8 @@ function reset(){
 		'caps-lock',
 		'push-out',
 		'long-sustain',
-		'wtf'
+		'wtf',
+		'crazy'
 	)
 
 	Array
@@ -30,12 +31,16 @@ function reset(){
 
 		element.classList.remove( 'press', 'black', 'wtf' )
 		element.style.transform = 'none'
-		element.style.setProperty( '--tx', getRandomBetween( -100, 100 ) +'px' )
-		element.style.setProperty( '--ty', getRandomBetween( -100, 100 ) +'px' )
-		element.style.setProperty( '--tz', getRandomBetween( -100, 100 ) +'px' )
-		element.style.setProperty( '--rx', getRandomBetween( -1, 1 ))
-		element.style.setProperty( '--ry', getRandomBetween( -1, 1 ))
-		element.style.setProperty( '--rz', getRandomBetween( -1, 1 ))
+
+		if( !element.style.getPropertyValue( '--tx' )){
+		
+			element.style.setProperty( '--tx', getRandomBetween( -100, 100 ) +'px' )
+			element.style.setProperty( '--ty', getRandomBetween( -100, 100 ) +'px' )
+			element.style.setProperty( '--tz', getRandomBetween( -100, 100 ) +'px' )
+			element.style.setProperty( '--rx', getRandomBetween( -1, 1 ))
+			element.style.setProperty( '--ry', getRandomBetween( -1, 1 ))
+			element.style.setProperty( '--rz', getRandomBetween( -1, 1 ))
+		}
 	})
 }
 function applyCssClass( cssQuery, className ){
@@ -493,7 +498,7 @@ function blackSwanOff( durationInBeats ){
 
 
 
-function blindspot( durationInBeats ){
+function blindspotOLD( durationInBeats ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 2
 
@@ -540,6 +545,12 @@ function blindspot( durationInBeats ){
 }
 
 
+
+function blindspot(){
+
+	// 'blindspot'.split()
+	// should keys dissolve? fall into distance? flip over to blank side?
+}
 
 
 

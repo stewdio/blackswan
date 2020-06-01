@@ -37,21 +37,16 @@ body {
 
 
 
+
 .key {
 
-	background-color: hsl( 25, 10%, 15% );
-	box-shadow: 
-		0
-		0
-		calc( var( --size ) * 1 )
-		hsla( 25, 50%, 0%, 0.2 )
-		inset;
-	color: hsl( 25, 3%, 60% );
+	background-color: hsl( 25, 10%, 20% );
+	color: hsl( 25, 10%, 70% );
 	text-shadow:
 		0
 		0
 		calc( var( --size ) * 2 )
-		hsla( 25, 5%, 90%, 0.2 );	
+		hsla( 25, 5%, 90%, 0.1 );
 	transition: 
 		background-color var( --beat-quarter ) linear,
 		transform var( --beat ) ease-out;
@@ -63,14 +58,12 @@ body {
 
 	background-color: hsl( 25, 50%, 90% );
 	color: white;
-	/*color: hsl( 25, 7%, 10% );*/
 	box-shadow: 
 		0
 		0
 		calc( var( --size ) * 4 )
 		hsla( 25, 50%, 90%, 0.5 );
 }
-
 
 
 
@@ -136,25 +129,6 @@ body {
 
 
 
-.keyboard.crazy .key.press
-.keyboard.crazy .key:hover {
-
-	transition: none;
-	transform: 
-		translate3d( 
-		
-			var( --tx ),
-			var( --ty ),
-			var( --tz )
-		)
-		rotate3d( 
-
-			var( --rx ),
-			var( --ry ),
-			var( --rz ),
-			180deg
-		) !important;
-}
 
 
 
@@ -179,6 +153,49 @@ body {
 		rotate3d( 0, 0, -1, 80deg ) 
 		rotate3d( 0, 1,  0, 60deg );
 }
+
+
+
+
+
+
+
+
+
+
+.keyboard.crazy .key {
+
+	box-shadow: 
+		0
+		0
+		calc( var( --size ) * 2 )
+		hsla( 25, 0%, 0%, 0.5 );
+	transition: none;
+	transform: 
+		translate3d( 
+		
+			var( --tx ),
+			var( --ty ),
+			var( --tz )
+		)
+		rotate3d( 
+
+			var( --rx ),
+			var( --ry ),
+			var( --rz ),
+			180deg
+		) !important;
+}
+.keyboard.crazy .key.press
+.keyboard.crazy .key:hover {
+
+
+}
+
+
+
+
+
 
 
 

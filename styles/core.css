@@ -60,6 +60,25 @@
 		-webkit-text-size-adjust: 100%;
 	}
 }
+
+
+body {
+	
+	--size: 8px;
+}
+@media all and ( min-aspect-ratio: 7/3 ){
+
+	body { --size: 0.8vh; }
+}
+@media all and ( max-aspect-ratio: 7/3 ){
+
+	body { --size: 0.8vw; }
+}
+
+
+
+
+
 * {
 
 	box-sizing: border-box;
@@ -104,8 +123,6 @@ body {
 	hanging-punctuation: first;
 	perspective: 600px;
 	overflow: hidden;
-
-	--size: 8px;
 }
 img {
 
@@ -208,9 +225,9 @@ main {
 	margin: auto;
 
 	width:  calc( var( --size ) * 106 );
-	height: calc( var( --size ) *  46 );
+	height: calc( var( --size ) *  44 );
+
 	border-radius: calc( var( --size ) * 1 );
-	/*background-color: black;*/
 	padding: calc( var( --size ) * 4 ) 0;
 	
 	font-size: 0;
@@ -482,6 +499,11 @@ main {
 	background-color: hsl( 25, 100%, 50% );
 	color: white;
 	transition: none;
+	box-shadow:b
+		0
+		0
+		calc( var( --size ) * 4 )
+		hsla( 25, 100%, 90%, 0.5 );
 }
 .option {
 
@@ -521,50 +543,142 @@ main {
 /****************/
 
 
-#controls, 
-#timeline {
+#controls-activator, 
+#controls {
 
+	--size: 8px;
 	position: fixed;
 	right:  0;
 	bottom: 0;
 	left:   0;
-	height: calc( var( --size ) * 8 );
 	text-align: center;
-	cursor: pointer;
+}
+#controls-activator {
+
+	height: calc( var( --size ) * 8 );
 }
 #controls {
-	
-	/*bottom: calc( var( --size ) * -8 );*/
-	/*background-color: hsl( 220, 7%, 75% );*/
+
+	display: grid;
+	grid-template-columns: 
+		calc( var( --size ) * 8 ) 
+		calc( var( --size ) * 8 )
+		auto
+		calc( var( --size ) * 8 );
+	grid-template-rows: calc( var( --size ) * 8 );
+	height: calc( var( --size ) * 8 );
 	transition: bottom 0.25s ease-in-out;
 }
-#controls.show {
+#controls > div {
+
+	grid-row: 1 / 2;
+}
+#fullscreen-container:fullscreen #controls-activator {
+
+	height: calc( var( --size ) * 12 );
+}
+#fullscreen-container:fullscreen #controls {
+
+	bottom: calc( var( --size ) * -8 );
+}
+#fullscreen-container:fullscreen #controls.show {
 
 	bottom: 0;
 }
-#timeline,
+
+
+
+
+#controls .button {
+
+	display: block;
+	width:  100%;
+	height: 100%;
+	cursor: pointer;
+	background-color: hsl( 25, 5%, 15% );
+	color: hsl( 25, 10%, 50% );
+	line-height: calc( var( --size ) * 7.9 );
+}
+#controls .button:hover {
+
+	background-color: hsl( 25, 10%, 70% );
+	color: hsl( 25, 10%, 90% );
+}
+#play-pause {
+
+	grid-column: 1 / 2;
+}
+#play-pause > div {
+
+	width:  100%;
+	height: 100%;
+}
+	#play {
+
+		display: block;
+		background-color: hsl( 25, 100%, 50% );
+		color: white;
+		animation-duration: 1.188118811881188s;
+		animation-duration: var( --beat );
+		animation-name: pulse;
+		animation-iteration-count: infinite;
+		animation-direction: alternate;
+		animation-timing-function: ease-in-out;
+	}
+	#play:hover {
+
+		background-color: white;
+		color: hsl( 25, 100%, 50% );
+		animation: none;
+	}
+	#pause {
+
+		display: none;
+	}
+	#play-pause.playing #play {
+
+		display: none;
+	}
+	#play-pause.playing #pause {
+
+		display: block;
+	}
+	@keyframes pulse {
+
+		from { background-color: hsl( 25, 100%, 50% ); }
+		to   { background-color: hsl( 25, 100%, 40% ); }
+	}
+#return-to-start {
+
+	grid-column: 2 / 3;
+}
+#toggle-fullscreen {
+
+	grid-column: 4 / 5;
+}
+
+
+
+
+#timeline {
+
+	position: relative;
+	grid-column: 3 / 4;
+	width:   100%;
+	height: 100%;
+	cursor: ew-resize;
+	background-color: hsl( 25, 5%, 10% );
+}
 #progress,
 #progress-head,
-#seeker-head,
-#return-to-start,
-#play-pause {
+#seeker-head {
 
 	position: absolute;
 	height: 100%;
 }
-#timeline {
-
-	right:  calc( var( --size ) * 16 );
-	cursor: ew-resize;
-	background-color: hsl( 25, 5%, 10% );
-}
-
-
-
-
 #progress {
 
-	background-color: hsl( 25, 5%, 20% );
+	background-color: hsl( 25, 5%, 15% );
 }
 #progress-head,
 #seeker-head {
@@ -575,7 +689,7 @@ main {
 #progress-head {
 
 	right: 0;
-	background-color: hsl( 25, 5%, 50% );
+	background-color: hsl( 25, 10%, 50% );
 }
 #seeker-head {
 
@@ -590,14 +704,12 @@ main {
 }
 #progress-clock {
 
-	color: hsl( 25, 5%, 50% );
+	color: hsl( 25, 10%, 50% );
 }
 #seeker-clock {
 
 	color: hsl( 25, 100%, 50% );
 }
-
-
 #progress-head,
 #progress-clock,
 #seeker-head,
@@ -612,72 +724,6 @@ main {
 #timeline:hover #seeker-clock {
 
 	opacity: 1;
-}
-
-
-
-
-#return-to-start,
-#play-pause {
-
-	bottom: 0;
-	width:  calc( var( --size ) * 8 );
-	background-color: hsl( 25, 5%, 20% );
-	color: white;
-	line-height: calc( var( --size ) * 7.9 );
-}
-#return-to-start {
-
-	right: calc( var( --size ) * 8 );
-}
-#play-pause {
-
-	right: 0;
-}
-#play, #pause {
-
-	width:  100%;
-	height: 100%;
-}
-#play {
-
-	display: block;
-	background-color: hsl( 25, 100%, 50% );
-	animation-duration: 1.188118811881188s;
-	animation-duration: var( --beat );
-	animation-name: pulse;
-	animation-iteration-count: infinite;
-	animation-direction: alternate;
-	animation-timing-function: ease-in-out;
-}
-#play:hover {
-
-	background-color: white;
-	color: hsl( 25, 100%, 50% );
-	animation: none;
-}
-#pause {
-
-	display: none;
-}
-#play-pause.playing #play {
-
-	display: none;
-}
-#play-pause.playing #pause {
-
-	display: block;
-}
-#return-to-start:hover,
-#pause:hover {
-
-	background-color: white;
-	color: hsl( 25, 5%, 50% );
-}
-@keyframes pulse {
-
-	from { background-color: hsl( 25, 100%, 50% ); }
-	to   { background-color: hsl( 25, 100%, 40% ); }
 }
 
 

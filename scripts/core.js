@@ -140,7 +140,8 @@ Object.assign( comp.audio, {
 
 	preload: 'auto',
 	playbackRate: 1.0,
-	volume: 0.4
+	volume: 1
+	// volume: 0.4
 })
 
 
@@ -280,10 +281,11 @@ function render(){
 	progressClockElement = document.getElementById( 'progress-clock' ),
 	progressMinutes      = Math.floor( comp.audio.currentTime / 60 ),
 	progressSeconds      = Math.floor( comp.audio.currentTime - ( progressMinutes * 60 )),
-	progressXConstrained = Math.min( Math.max( progressElement.offsetWidth, 60 ), timelineElement.offsetWidth )
+	//progressXConstrained = Math.min( Math.max( progressElement.offsetWidth, 60 ), timelineElement.offsetWidth )
+	progressX = progressElement.offsetWidth
 	
 	progressElement.style.width = ( comp.audio.currentTime / comp.audio.duration * timelineElement.offsetWidth ) +'px'
-	progressClockElement.style.left = progressXConstrained +'px'
+	progressClockElement.style.left = progressX +'px'
 	progressClockElement.innerText = 
 		progressMinutes +':'+ 
 		progressSeconds.toString().padStart( 2, '0' )
@@ -296,6 +298,25 @@ function render(){
 
 
 
+
+function toggleFullscreen(){
+	
+	let elem = document.getElementById( 'fullscreen-container' )
+
+	elem.requestFullscreen = elem.requestFullscreen || elem.mozRequestFullscreen
+	|| elem.msRequestFullscreen || elem.webkitRequestFullscreen;
+
+	if( !document.fullscreenElement ){
+	
+		elem.requestFullscreen().then({}).catch(err => {
+		alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+		});
+	}
+	else {
+	
+		if( document.exitFullscreen ) document.exitFullscreen()
+	}
+}
 
 
 let 
@@ -367,6 +388,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 	const
+	controlsActivator = document.getElementById( 'controls-activator' ),
+	controls = document.getElementById( 'controls' ),
 	timeline = document.getElementById( 'timeline' ),
 	seekByGui = function( event ){
 
@@ -384,7 +407,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 		rectangle = timeline.getBoundingClientRect(),
 		x = event.clientX - rectangle.left
 
-		if( x <= rectangle.right ){
+		if( x >= 0 && x <= rectangle.width ){
 
 			const
 			seekerElement = document.getElementById( 'seeker-head' ),
@@ -401,6 +424,21 @@ window.addEventListener( 'DOMContentLoaded', function(){
 		}
 	}
 	
+
+
+	
+	controlsActivator.addEventListener( 'mouseover', function(){
+
+		controls.classList.add( 'show' )
+	})
+	controlsActivator.addEventListener( 'mouseleave', function(){
+
+		controls.classList.remove( 'show' )
+	})
+
+
+
+
 	timeline.addEventListener( 'mousedown',  seekByGui )
 	timeline.addEventListener( 'touchstart', seekByGui )
 	timeline.addEventListener( 'touchmove',  seekByGui )
@@ -416,7 +454,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 		comp.seek( 0 )//.play()
 	})
 
-
+	const toggleFullscreenEl = document.getElementById( 'toggle-fullscreen' )
+	toggleFullscreenEl.addEventListener( 'mousedown', toggleFullscreen )
 
 
 
@@ -444,7 +483,7 @@ or use it as a loader progress bar?
 		// The duration variable now holds the duration (in seconds) of the audio clip 
 		// console.log( 'shit loaded', event )
 		const controlsElement = document.getElementById( 'controls' )
-		controlsElement.classList.add( 'show' )
+		// controlsElement.classList.add( 'show' )
 	})
 	comp.audio.addEventListener( 'ended', function( event ){
 
@@ -608,7 +647,6 @@ window.addEventListener( 'keyup', function( event ){
 })
 window.addEventListener( 'DOMContentLoaded', function(){
 
-
 	function addChannelTogglesGeneric( cssQuery, cssName, side ){
 
 		Array
@@ -627,6 +665,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	addChannelTogglesGeneric( '.key-command-left',  'command', 'left'  )
 	addChannelTogglesGeneric( '.key-command-right', 'command', 'right' )
 })
+
+
 
 
 

@@ -5,8 +5,6 @@
 
 THE ART
 
-- should period key be WHITE instead of currently blue? (wanted to give it a slightly diff flavor than the amber color cause it sticks out to me aurally.)
-
 - "traaaaaiiin" needs some work!
 
 - "happennnnniiiiiing" sucks.
@@ -30,6 +28,13 @@ THE ART
 
 
 
+VISUAL
+
+- remove the inset shadow on on .key DIVs and instead use a very thin outset dark shadow that can't be seen when in normal mode.  (the main reason now for thiis shadow is for when keys overlap in crazy mode.)
+ACTUALLY: maybe need to just have inset shadow in "crazy" mode for when keys really intersect w each other so even near their centers there is visual indication of difference.
+
+
+
 CODE
 
 - Button hover / tap on mobile. Looks like OPTION key etc are not engaging w touch?
@@ -43,14 +48,33 @@ CONTROLS
 - SVG icons for Play, Pause, Return-to-start buttons.
 - finese audio file loading experience for mobile. perhaps while loading audio file start with timeline being 0% width, then use comp.audio.addEventListener( 'progress', ... ) to fill it up all the way?
 - mouse events that use location need touch compatibility.
+function onTouchMove( event ) {
 
+					var x, y;
+
+					if ( event.changedTouches ) {
+
+						x = event.changedTouches[ 0 ].pageX;
+						y = event.changedTouches[ 0 ].pageY;
+
+					} else {
+
+						x = event.clientX;
+						y = event.clientY;
+
+					}
+
+					mouse.x = ( x / window.innerWidth ) * 2 - 1;
+					mouse.y = - ( y / window.innerHeight ) * 2 + 1;
+
+					checkIntersection();
+
+				}
 
 
 
 FINISHING
 
-- need FULL SCREEEN button (only the animation? or also the timeline? timeline hides except on hover?)
-- auto-sizing of keyboard so it fits nicely within viewport. relationship scale matters. give it thought.
 - need ABOUT button / content.
 - need favicons
 - should visual aesthetic evolve over song to desaturate completely / go high contrast and for orange to become red and match the record's artwork??
