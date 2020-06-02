@@ -610,6 +610,13 @@ main {
 	background-color: hsl( 220, 10%, 65% );
 	color: hsl( 220, 10%, 100% );
 }
+.button svg use {
+
+	display: block;
+	width:  100%;
+	height: 100%;
+	fill: hsl( 220, 10%, 90% );
+}
 #play-pause {
 
 	grid-column: 1 / 2;

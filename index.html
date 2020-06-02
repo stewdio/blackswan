@@ -354,10 +354,22 @@
 				<div id="controls-activator">
 					<div id="controls">
 						<div class="button" id="play-pause">
-							<div id="play">►</div>
-							<div id="pause">||</div>
+							<div id="play">
+								<svg viewBox="0 0 600 600">
+									<use href="#button-play"></use>
+								</svg>
+							</div>
+							<div id="pause">
+								<svg viewBox="0 0 600 600">
+									<use href="#button-pause"></use>
+								</svg>
+							</div>
 						</div>
-						<div class="button" id="return-to-start">⇤</div>
+						<div class="button" id="return-to-start">
+							<svg viewBox="0 0 600 600">
+								<use href="#button-return-to-start"></use>
+							</svg>
+						</div>
 						<div id="timeline">
 							<div id="progress">
 								<div id="progress-head"></div>
@@ -367,10 +379,54 @@
 							<div id="seeker-clock">0:00.00</div>
 							<div id="overhang"></div>
 						</div>
-						<div class="button" id="toggle-fullscreen">⤢</div>
+						<div class="button" id="toggle-fullscreen">
+							<svg viewBox="0 0 600 600">
+								<use href="#button-fullscreen"></use>
+							</svg>
+						</div>
 					</div>
 				</div>
 			</div>
 		</main>
+
+
+
+
+		<svg
+			version="1.1" xmlns="http://www.w3.org/2000/svg" 
+			xmlns:xlink="http://www.w3.org/1999/xlink" 
+			x="0px" y="0px"
+			viewBox="0 0 600 600" 
+			enable-background="new 0 0 600 600" 
+			xml:space="preserve"
+			style="display: none;">
+
+
+<g id="button-play">
+	<polygon points="400,298 400,302 251,400 246,396 246,204 251,200 	"/>
+</g>
+<g id="button-pause">
+	<rect x="225" y="200" width="50" height="200"/>
+	<rect x="325" y="200" width="50" height="200"/>
+</g>
+<g id="button-return-to-start">
+	<rect x="210" y="210" width="40" height="180"/>
+	<polygon points="270,300 390,210 390,390 	"/>
+</g>
+<g id="button-fullscreen">
+	<rect x="380" y="200" width="20" height="70"/>
+	<rect x="200" y="330" width="20" height="70"/>
+	<rect x="295" y="180" transform="matrix(0.7071 0.7071 -0.7071 0.7071 300.0002 -124.2641)" width="10" height="240"/>
+	<rect x="355" y="175" transform="matrix(6.123234e-17 -1 1 6.123234e-17 155 575)" width="20" height="70"/>
+	<rect x="225" y="355" transform="matrix(6.123234e-17 -1 1 6.123234e-17 -155 625)" width="20" height="70"/>
+</g>
+
+
+
+		</svg>
+
+
+
+
 	</body>
 </html>
