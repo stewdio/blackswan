@@ -419,13 +419,28 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	const
 	timelineElement = document.getElementById( 'timeline' ),
+	getInteractionCoordinates = function( event, pageOrClient ){
+
+		if( typeof pageOrClient !== 'string' ) pageOrClient = 'client'//page
+		if( event.changedTouches && 
+			event.changedTouches.length ) return {
+
+			x: event.changedTouches[ 0 ][ pageOrClient +'X' ],
+			y: event.changedTouches[ 0 ][ pageOrClient +'Y' ]
+		}
+		return {
+
+			x: event[ pageOrClient +'X' ],
+			y: event[ pageOrClient +'Y' ]
+		}
+	},
 	seekByGui = function( event ){
 
 		event.preventDefault()
 
 		const 
 		rectangle = timelineElement.getBoundingClientRect(),
-		x = event.clientX - rectangle.left
+		x = getInteractionCoordinates( event ).x - rectangle.left
 		
 		comp.seek( x / timelineElement.clientWidth * comp.audio.duration )
 	},
@@ -435,7 +450,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 		const 
 		rectangle = timelineElement.getBoundingClientRect(),
-		x = event.clientX - rectangle.left
+		x = getInteractionCoordinates( event ).x - rectangle.left
 
 		if( x >= 0 && x <= rectangle.width ){
 
@@ -454,12 +469,16 @@ window.addEventListener( 'DOMContentLoaded', function(){
 		}
 	}
 
+
+	timelineElement.addEventListener( 'touchstart', updateSeekerFromPointer )
+	timelineElement.addEventListener( 'touchmove',  updateSeekerFromPointer )
+	timelineElement.addEventListener( 'touchend',   seekByGui )
+
 	timelineElement.addEventListener( 'mousedown',  seekByGui )
-	timelineElement.addEventListener( 'touchstart', seekByGui )
-	timelineElement.addEventListener( 'touchmove',  seekByGui )
 	timelineElement.addEventListener( 'mouseover',  updateSeekerFromPointer )
 	timelineElement.addEventListener( 'mousemove',  updateSeekerFromPointer )
 
+	
 
 	//  Enable PLAY / PAUSE toggle.
 

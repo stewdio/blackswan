@@ -24,7 +24,7 @@ body {
 	--color-key-press-text:         hsl(  0,  90%, 100% );
 	--color-key-press-glow:         hsla( 0,   0%,  90%, 0.5 );
 	
-	--color-key-options-background: hsl(  0,  90%,  50% );
+	--color-key-options-background: hsl(  0,  90%,  60% );
 	--color-key-options-text:       hsl(  0,  90%, 100% );
 
 
@@ -50,7 +50,7 @@ section, footer {
 }
 section {
 
-	padding: 25vh;
+	padding: 25vh 0;
 }
 section#eraser img {
 
@@ -333,7 +333,8 @@ footer svg {
 }
 #controls .button:hover use {
 
-	fill: hsl( 0, 70%, 70% );
+	/*fill: hsl( 0, 70%, 70% );*/
+	fill: white;
 }
 
 
@@ -370,7 +371,7 @@ footer svg {
 	/*fill: hsl(   180.000,  70.000%,  50.000% );*/
 	fill: unset;
 	animation-name: pulse;
-	animation-duration: calc( var( --beat ) * 4 );
+	animation-duration: calc( var( --beat ) * 2 );
 	animation-timing-function: ease-in-out;
 	/*animation-fill-mode: both;*/
 	/*animation-name: key-release;*/

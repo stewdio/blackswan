@@ -393,7 +393,7 @@ section, footer {
 
 	text-align: center;
 	font-size:   calc( var( --size ) * 2 );
-	line-height: calc( var( --size ) * 5.9 );
+	line-height: calc( var( --size ) * 5.8 );
 	overflow: hidden;
 	cursor: pointer;
 	text-shadow:
