@@ -448,14 +448,14 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	const playPauseElement = document.getElementById( 'play-pause' )
 	playPauseElement.addEventListener( 'mousedown',  comp.toggle )
-	const returnToStartElement = document.getElementById( 'return-to-start' )
+	const returnToStartElement = document.getElementById( 'button-restart' )
 	returnToStartElement.addEventListener( 'mousedown', function(){
 
 		comp.seek( 0 )//.play()
 	})
 
-	const toggleFullscreenEl = document.getElementById( 'toggle-fullscreen' )
-	toggleFullscreenEl.addEventListener( 'mousedown', toggleFullscreen )
+	const buttonFullscreenEl = document.getElementById( 'button-fullscreen' )
+	buttonFullscreenEl.addEventListener( 'mousedown', toggleFullscreen )
 
 
 
@@ -590,7 +590,11 @@ function addChannelToggles( key, cssName, side ){
 }
 window.addEventListener( 'keydown', function( event ){
 
-	if( event.code === 'Space' ) comp.toggle()
+	if( event.code === 'Space' ){
+
+		event.preventDefault()
+		comp.toggle()
+	}
 	if( event.repeat !== true ){
 
 		if( event.code === 'ShiftLeft'    ) keyboard.channelAdd( 'shift',   'user keyboard left'  )

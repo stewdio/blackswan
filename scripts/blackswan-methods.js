@@ -20,6 +20,7 @@ function reset(){
 
 		'caps-lock',
 		'push-out',
+		'push-in',
 		'long-sustain',
 		'wtf',
 		'crazy',
@@ -175,7 +176,7 @@ function riff( durationInBeats, drumSolo, addLastHit ){
 			'Riff. Guitar OFF.'
 		)
 	}
-	assessDuration( timeStart, findLastBeat(), 'Riff', durationInBeats )
+	// assessDuration( timeStart, findLastBeat(), 'Riff', durationInBeats )
 }
 function riffHalf( durationInBeats ){
 

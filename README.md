@@ -21,6 +21,8 @@ THE ART
 
 - animation needs to end such that looping back to beginning is not visually distracting; so must end with keyboard reassembled and ready.
 
+- ERASE GUY scatters the keys. should red fade to white and then “eraser guy” comes in and commands all the keys to fly away, like commanding the flood waters to recede? he fails. the shit comes back.
+
 - NOW WORKS: hover / click on SHIFT, OPTION, CAPS, etc should activate those things just like hitting the real buttons. EXCEPTIONS: caps-lock. does not log to the receipt generator. does this require adding "channels" to every single key?!
 
 - RECEIPT. comp.generateReport() now outputs a receipt of the experience. Need to capture hover events as well tho. Needs more debugging too. auto downloads as text file when song ends?
@@ -30,6 +32,7 @@ THE ART
 
 VISUAL
 
+- can we do real HSL color transitions if we instead of tweening from one HSL color to another, instead tween a --hue variable from one hue to another?! 
 - remove the inset shadow on on .key DIVs and instead use a very thin outset dark shadow that can't be seen when in normal mode.  (the main reason now for thiis shadow is for when keys overlap in crazy mode.)
 ACTUALLY: maybe need to just have inset shadow in "crazy" mode for when keys really intersect w each other so even near their centers there is visual indication of difference.
 - why does "f" key seem to have waaaay offset line halo when in crazy mmode?

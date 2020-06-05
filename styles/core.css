@@ -66,11 +66,11 @@ body {
 	
 	--size: 8px;
 }
-@media all and ( min-aspect-ratio: 7/3 ){
+@media all and ( min-aspect-ratio: 53/22 ){
 
 	body { --size: 0.8vh; }
 }
-@media all and ( max-aspect-ratio: 7/3 ){
+@media all and ( max-aspect-ratio: 53/22 ){
 
 	body { --size: 0.8vw; }
 }
@@ -136,12 +136,15 @@ body {
 	font-weight: 400;
 	font-family: 'SF Pro Text', system-ui, -apple-system, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 	hanging-punctuation: first;
-	overflow: hidden;
+	/*overflow: hidden;*/
 }
 body, #fullscreen-container {
 
 	background-color: var( --color-background );
 }
+
+
+
 
 
 
@@ -211,18 +214,30 @@ a[ target=_blank ]:hover svg {
 
 
 
-
-main {
-
-	position: relative;
-	text-align: center;
-}
 #fullscreen-container {
 
 	position: relative;
 	width:  100%;
 	height: 100%;
 	perspective: 600px;
+	overflow: auto;
+}
+main {
+
+	position: relative;
+	width:  100vw;
+	height: 100vh;
+	text-align: center;
+	overflow: hidden;
+}
+section {
+
+	background-color: white;
+	padding: 20rem;
+}
+footer {
+
+	padding: 4rem 0;
 }
 
 
@@ -352,9 +367,33 @@ main {
 	width:  calc( var( --size ) * 6 );
 	height: calc( var( --size ) * 6 );
 	border-radius: calc( var( --size ) * 0.5 );
-	background: var( --color-key-background );
+	
+
+
+	/*background: var( --color-key-background );*/
+	background-color: hsl(
+
+		var( --background-hue ),
+		var( --background-saturation ),
+		var( --background-lightness )
+	);
+
+
 	padding: 0 calc( var( --size ) * 1 );
-	color: var( --color-key-text );
+	
+
+
+	/*color: var( --color-key-text );*/
+	color: hsl(
+
+		var( --text-hue ),
+		var( --text-saturation ),
+		var( --text-lightness )
+	);
+
+	
+	
+
 	text-align: center;
 	font-size:   calc( var( --size ) * 2 );
 	line-height: calc( var( --size ) * 5.8 );
@@ -366,9 +405,23 @@ main {
 		calc( var( --size ) * 2 )
 		var( --color-key-text-glow );
 	transition: 
-		background-color var( --beat-quarter ) linear,
+		/*all var( --beat-quarter ) linear,*/
+		all 5s linear,
 		transform var( --beat ) ease-out;
 	transform-origin: center center;
+}
+.key.press,
+.key:hover {
+
+	position: relative;
+	top:  calc( var( --size ) * 0.1 );
+	left: calc( var( --size ) * 0.1 );
+	/*box-shadow: 
+		0
+		0
+		calc( var( --size ) * 4 )
+		var( --color-key-press-text-glow );*/
+	/*transition: none;*/
 }
 
 
@@ -480,37 +533,7 @@ main {
 
 
 
-/*.keyboard.shift .key-shift,*/
-/*.keyboard.option .key-option,*/
-.key.press,
-.key:hover {
 
-	position: relative;
-	top:  calc( var( --size ) * 0.1 );
-	left: calc( var( --size ) * 0.1 );
-	/*transform: translate( 
-
-		calc( var( --size ) * 0.2 ),
-		calc( var( --size ) * 0.2 )
-	);*/
-	/*background: linear-gradient(
-
-		0.45turn,
-		
-		hsl( 0, 0%, 50% ),
-		hsl( 0, 0%, 60% )
-	);*/
-	background-color: var( --color-key-press-background );
-	color: var( --color-key-press-text );
-	box-shadow: 
-		0
-		0
-		calc( var( --size ) * 4 )
-		var( --color-key-press-text-glow );
-
-
-	transition: none;
-}
 
 
 
@@ -553,7 +576,9 @@ main {
 #controls {
 
 	--size: 8px;
-	position: fixed;
+	/*position: fixed;*/
+	position: absolute;
+	z-index: 100;/*  Fix for Safari iOS.  */
 	right:  0;
 	bottom: 0;
 	left:   0;
@@ -626,7 +651,7 @@ main {
 	width:  100%;
 	height: 100%;
 }
-	#play {
+	#button-play {
 
 		display: block;
 		background-color: hsl( 25, 100%, 50% );
@@ -637,21 +662,21 @@ main {
 		animation-direction: alternate;
 		animation-timing-function: ease-in-out;
 	}
-	#play:hover {
+	#button-play:hover {
 
 		background-color: white;
 		color: hsl( 25, 100%, 50% );
 		animation: none;
 	}
-	#pause {
+	#button-pause {
 
 		display: none;
 	}
-	#play-pause.playing #play {
+	#play-pause.playing #button-play {
 
 		display: none;
 	}
-	#play-pause.playing #pause {
+	#play-pause.playing #button-pause {
 
 		display: block;
 	}
@@ -660,11 +685,11 @@ main {
 		from { background-color: hsl( 25, 100%, 50% ); }
 		to   { background-color: hsl( 25, 100%, 40% ); }
 	}
-#return-to-start {
+#button-restart {
 
 	grid-column: 2 / 3;
 }
-#toggle-fullscreen {
+#button-fullscreen {
 
 	grid-column: 4 / 5;
 }

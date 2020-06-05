@@ -5,7 +5,7 @@
 
 
 comp.audio.src = 'media/blackswan.m4a'
-comp.audio.volume = 0.05
+comp.audio.volume = 0.2
 // comp.audio.playbackRate = 0.5
 comp.bpm  = 101
 comp.beat = 60 / comp.bpm
@@ -23,12 +23,13 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	//  SILENCE
 
-	//  Duration:    1 beat
+	//  Duration:    1 beat (Now LESS than one beat?!)
 	//  Beat range: -1 – 0
 	//  Time range:  0:00 – 0:01
 
 	insert( 0, 0, reset, 'Reset!' )
-	append( 0.9 )
+	// append( 0.875 )
+	append( 0.95 )
 
 
 
