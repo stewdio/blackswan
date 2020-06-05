@@ -145,7 +145,7 @@ function riff( durationInBeats, drumSolo, addLastHit ){
 		insert( 
 
 			timeStart + comp.beat * 2/8, 
-			comp.beat * 1/4,
+			0,//comp.beat * 1/4,
 			function(){ 
 
 				optionKey.classList.remove( 'press' )
@@ -167,7 +167,7 @@ function riff( durationInBeats, drumSolo, addLastHit ){
 		insert(
 
 			timeStart + comp.beat * 8/8,
-			comp.beat * 2/8,
+			0,//comp.beat * 4/8,
 			function(){ 
 
 				optionKey.classList.remove( 'press' )

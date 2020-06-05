@@ -5,7 +5,7 @@
 
 
 
-function composeCssHslTween( params ){
+/*function composeCssHslTween( params ){
 
 
 	//  No need to specify anything 
@@ -41,7 +41,7 @@ function composeCssHslTween( params ){
 		if( cssPropertyName.includes( 'shadow' )){
 
 			//  x y blurRadius
-			output += '0 0 calc( var( --size ) * 4 ) '
+			output += '0px 0px calc( var( --size ) * 4 ) '
 		}
 		output += 'hsl'
 		if( typeof objectPropertyValue.from.alpha === 'number' ) output +='a'
@@ -103,7 +103,7 @@ function composeCssHslTween( params ){
 
 //  Blackswan key-press.
 
-/*composeCssHslTween({
+composeCssHslTween({
 
 	backgroundColor: {
 
@@ -159,7 +159,7 @@ function composeCssHslTween( params ){
 
 //  Play button pulse.
 
-composeCssHslTween({
+/*composeCssHslTween({
 
 	fill: {
 
@@ -176,7 +176,7 @@ composeCssHslTween({
 			lightness:   95,
 		}
 	}
-})
+})*/
 
 
 

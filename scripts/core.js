@@ -319,12 +319,22 @@ function toggleFullscreen(){
 }
 
 
+
+
+//  Yes, we’d like these to be globally accessible. 
+//  Fun for JavaScript console haxors.
+//  Fun for module-lockdown-avoiding kooks like myself.
+
 let 
 keyboards,
-keyboard,
-isSeeking = false
+keyboard
 
 window.addEventListener( 'DOMContentLoaded', function(){
+
+
+	//  Enable keyboard CHANNELS
+	//  so that individual input methods 
+	//  are individually respected.
 
 	keyboards = Array.from( document.querySelectorAll( '.keyboard' ))
 	keyboards.forEach( function( keyboard ){
@@ -369,6 +379,10 @@ window.addEventListener( 'DOMContentLoaded', function(){
 			}
 		})
 		
+
+		//  While we’re here,
+		//  let’s implement grid identifiers.
+
 		Array
 		.from( document.querySelectorAll( '.row' ))
 		.forEach( function( row, y ){
@@ -383,28 +397,44 @@ window.addEventListener( 'DOMContentLoaded', function(){
 		})
 	})
 	keyboard = keyboards[ 0 ]
+	
 
-
-
+	//  Enable control panel reveal when in fullscreen mode.
 
 	const
 	controlsActivator = document.getElementById( 'controls-activator' ),
-	controls = document.getElementById( 'controls' ),
-	timeline = document.getElementById( 'timeline' ),
+	controls = document.getElementById( 'controls' )
+
+	controlsActivator.addEventListener( 'mouseover', function(){
+
+		controls.classList.add( 'show' )
+	})
+	controlsActivator.addEventListener( 'mouseleave', function(){
+
+		controls.classList.remove( 'show' )
+	})
+
+
+	//  Enable manual seeking along the timeline.
+
+	const
+	timelineElement = document.getElementById( 'timeline' ),
 	seekByGui = function( event ){
 
+		event.preventDefault()
+
 		const 
-		timeline  = document.getElementById( 'timeline' ),
-		rectangle = timeline.getBoundingClientRect(),
+		rectangle = timelineElement.getBoundingClientRect(),
 		x = event.clientX - rectangle.left
 		
-		comp.seek( x / timeline.clientWidth * comp.audio.duration )
+		comp.seek( x / timelineElement.clientWidth * comp.audio.duration )
 	},
 	updateSeekerFromPointer = function( event ){
 		
+		event.preventDefault()
+
 		const 
-		timeline  = document.getElementById( 'timeline' ),
-		rectangle = timeline.getBoundingClientRect(),
+		rectangle = timelineElement.getBoundingClientRect(),
 		x = event.clientX - rectangle.left
 
 		if( x >= 0 && x <= rectangle.width ){
@@ -423,60 +453,98 @@ window.addEventListener( 'DOMContentLoaded', function(){
 				seekerSeconds.toString().padStart( 2, '0' )
 		}
 	}
-	
+
+	timelineElement.addEventListener( 'mousedown',  seekByGui )
+	timelineElement.addEventListener( 'touchstart', seekByGui )
+	timelineElement.addEventListener( 'touchmove',  seekByGui )
+	timelineElement.addEventListener( 'mouseover',  updateSeekerFromPointer )
+	timelineElement.addEventListener( 'mousemove',  updateSeekerFromPointer )
 
 
-	
-	controlsActivator.addEventListener( 'mouseover', function(){
-
-		controls.classList.add( 'show' )
-	})
-	controlsActivator.addEventListener( 'mouseleave', function(){
-
-		controls.classList.remove( 'show' )
-	})
-
-
-
-
-	timeline.addEventListener( 'mousedown',  seekByGui )
-	timeline.addEventListener( 'touchstart', seekByGui )
-	timeline.addEventListener( 'touchmove',  seekByGui )
-	
-	timeline.addEventListener( 'mouseover', updateSeekerFromPointer )
-	timeline.addEventListener( 'mousemove', updateSeekerFromPointer )
+	//  Enable PLAY / PAUSE toggle.
 
 	const playPauseElement = document.getElementById( 'play-pause' )
 	playPauseElement.addEventListener( 'mousedown',  comp.toggle )
-	const returnToStartElement = document.getElementById( 'button-restart' )
-	returnToStartElement.addEventListener( 'mousedown', function(){
+
+
+	//  Enable RESTART button
+
+	const restartElement = document.getElementById( 'button-restart' )
+	restartElement.addEventListener( 'mousedown', function(){
 
 		comp.seek( 0 )//.play()
 	})
 
-	const buttonFullscreenEl = document.getElementById( 'button-fullscreen' )
-	buttonFullscreenEl.addEventListener( 'mousedown', toggleFullscreen )
+
+	//  Enable FULLSCREEN toggle.
+
+	const buttonFullscreenElement = document.getElementById( 'button-fullscreen' )
+	buttonFullscreenElement.addEventListener( 'mousedown', toggleFullscreen )
+
+
+	//  Enable linking directly to a moment on the timeline.
+	//  Examples: 
+	//  http://stewartsmith.io/blackswan/#1:23
+	//  http://stewartsmith.io/blackswan/#83
+
+	const seekByHash = function(){
+
+		const hash = document.location.hash.substr( 1 )
+		if( hash.length > 0 ){
+
+			const hashSplit = hash.split( ':' )
+			if( hashSplit.length < 3 ){
+
+				const 
+				isUsefulTimeUnit = function( n ){
+
+					return isNaN( n ) === false && 
+						( typeof n === 'number' || n instanceof Number ) &&
+						n !==  Infinity &&
+						n !== -Infinity
+				},
+				units = hashSplit.reduce( function( units, unitAsString ){
+
+					const unitAsNumber = parseFloat( unitAsString )
+					if( isUsefulTimeUnit( unitAsNumber )) units.push( unitAsNumber )
+					return units
+
+				}, [])
+
+				if( units.length > 0 && units.length < 3 ){
+
+					let time = 0
+					if( units.length === 1 ) time = units[ 0 ]
+					if( units.length === 2 ){
+
+						time = units[ 0 ] * 60 + units[ 1 ]
+					}
+					comp.seek( time )
+				}
+			}
+		}		
+	}
+	seekByHash()
+	
 
 
 
-/*
-
-
-ok.... we need to fix this:
-on mobile
-user has to hit play button BEFORE we can load the file!
-so 'canplaythrough' will never get fired ahead of time. 
-
-do we hide the timeline instead?
-or use it as a loader progress bar?
-
-
-*/
 
 
 
+	/*
 
 
+	ok.... we need to fix this:
+	on mobile
+	user has to hit play button BEFORE we can load the file!
+	so 'canplaythrough' will never get fired ahead of time. 
+
+	do we hide the timeline instead?
+	or use it as a loader progress bar?
+
+
+	*/
 	comp.audio.addEventListener( 'canplaythrough', function( event ){
 
 		// let duration = audioElement.duration;
@@ -485,6 +553,13 @@ or use it as a loader progress bar?
 		const controlsElement = document.getElementById( 'controls' )
 		// controlsElement.classList.add( 'show' )
 	})
+
+
+	//  When a viewer finishes watching the piece
+	//  let’s generate a receipt of the typed bits.
+	//  This includes the piece itself
+	//  but ALSO the viewer’s participation :)
+
 	comp.audio.addEventListener( 'ended', function( event ){
 
 		console.log( 
@@ -496,6 +571,8 @@ or use it as a loader progress bar?
 		comp.pause().seek( 0 )
 	})
 
+
+	//  Kick off the render loop.
 
 	render()
 })

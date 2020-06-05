@@ -6,7 +6,7 @@
 
 comp.audio.src = 'media/blackswan.m4a'
 comp.audio.volume = 0.2
-// comp.audio.playbackRate = 0.5
+// comp.audio.playbackRate = 0.25
 comp.bpm  = 101
 comp.beat = 60 / comp.bpm
 
@@ -28,8 +28,11 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Time range:  0:00 – 0:01
 
 	insert( 0, 0, reset, 'Reset!' )
+	// append( 0.5 )//  Definitely too fast.
 	// append( 0.875 )
-	append( 0.95 )
+	// append( 0.95 )
+	append( 1 )
+	// append( 1.25 )//  Definitely too slow.
 
 
 

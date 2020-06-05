@@ -9,6 +9,8 @@ THE ART
 
 - "happennnnniiiiiing" sucks.
 
+- FUUUUUUUUUCK how to not have the on-release animation play when an option’d key releases?!??!
+
 - "blindspot" sucks.
 
 - is "blackswan" function nicer with key text visible? or better when whole key vanishes?
@@ -32,10 +34,6 @@ THE ART
 
 VISUAL
 
-- can we do real HSL color transitions if we instead of tweening from one HSL color to another, instead tween a --hue variable from one hue to another?! 
-- remove the inset shadow on on .key DIVs and instead use a very thin outset dark shadow that can't be seen when in normal mode.  (the main reason now for thiis shadow is for when keys overlap in crazy mode.)
-ACTUALLY: maybe need to just have inset shadow in "crazy" mode for when keys really intersect w each other so even near their centers there is visual indication of difference.
-- why does "f" key seem to have waaaay offset line halo when in crazy mmode?
 
 
 
@@ -49,7 +47,11 @@ CODE
 
 CONTROLS
 - should render loop update a URL hash for jumping to that exact spot?
-- SVG icons for Play, Pause, Return-to-start buttons.
+history.replaceState(undefined, undefined, "#hash_value")
+history.replaceState({page: 3}, "title 3", "?page=3")
+https://developer.mozilla.org/en-US/docs/Web/API/History_API#The_replaceState().C2.A0method
+
+
 - finese audio file loading experience for mobile. perhaps while loading audio file start with timeline being 0% width, then use comp.audio.addEventListener( 'progress', ... ) to fill it up all the way?
 - mouse events that use location need touch compatibility.
 function onTouchMove( event ) {
@@ -79,10 +81,10 @@ function onTouchMove( event ) {
 
 FINISHING
 
-- need ABOUT button / content.
-- need favicons
-- should visual aesthetic evolve over song to desaturate completely / go high contrast and for orange to become red and match the record's artwork??
-
+- finish ERASE content.
+- need ABOUT content.
+- need favicons.
+- need site preview image / poster image.
 
 
 

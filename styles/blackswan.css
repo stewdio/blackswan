@@ -35,6 +35,58 @@ body {
 
 
 }
+main {
+
+	position: relative;
+	width:  100vw;
+	height: 100vh;
+	text-align: center;
+	overflow: hidden;
+}
+section, footer {
+
+	background-color: hsl( 0, 50%, 93% );
+	text-align: center;
+}
+section {
+
+	padding: 25vh;
+}
+section#eraser img {
+
+	/*outline: 1px solid hsl( 0, 0%, 80% );*/
+	width:  50vw;
+	max-width: 512px;
+	height: auto;	
+	box-shadow: 4px 6px 12px hsla( 0, 0%, 0%, 0.3 );
+}
+section#about {
+
+	background: linear-gradient(
+
+		hsl( 0, 50%,  93% ),
+		hsl( 0, 50%, 100% )
+	);
+}
+footer {
+
+	min-height: 50vh;
+	background-color: white;
+	overflow: hidden;
+}
+footer svg {
+
+	display: block;
+	position: absolute;
+	bottom: 0;
+	right:  0;
+	/*width: 80vw;*/
+	/*height: auto;*/
+	/*max-height: 40vh;*/
+	/*height: 40vh;*/
+	width: 80vw;
+}
+
 
 
 /*.key {
@@ -73,7 +125,7 @@ body {
 	animation-name: key-release;
 	animation-fill-mode: both;
 	animation-timing-function: ease-out;
-	animation-duration: var( --beat-quarter );
+	animation-duration: var( --beat-eighth );
 	animation-iteration-count: 1;
 	animation-direction: reverse;
 	animation-timing-function: linear;
@@ -124,6 +176,7 @@ body {
 	animation:  none;
 	transition: none;
 	/*box-shadow: none;*/
+	/*animation-play-state: paused;*/
 }
 
 
@@ -136,107 +189,107 @@ body {
 
 
 
-	  0% { background-color: hsl(   0.000,  70.000%,   0.000% ); color: hsl(   0.000,  10.000%,  50.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.000 ); }
-	  1% { background-color: hsl(   0.000,  70.200%,   0.950% ); color: hsl(   0.000,  10.800%,  50.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.005 ); }
-	  2% { background-color: hsl(   0.000,  70.400%,   1.900% ); color: hsl(   0.000,  11.600%,  51.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.010 ); }
-	  3% { background-color: hsl(   0.000,  70.600%,   2.850% ); color: hsl(   0.000,  12.400%,  51.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.015 ); }
-	  4% { background-color: hsl(   0.000,  70.800%,   3.800% ); color: hsl(   0.000,  13.200%,  52.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.020 ); }
-	  5% { background-color: hsl(   0.000,  71.000%,   4.750% ); color: hsl(   0.000,  14.000%,  52.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.025 ); }
-	  6% { background-color: hsl(   0.000,  71.200%,   5.700% ); color: hsl(   0.000,  14.800%,  53.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.030 ); }
-	  7% { background-color: hsl(   0.000,  71.400%,   6.650% ); color: hsl(   0.000,  15.600%,  53.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.035 ); }
-	  8% { background-color: hsl(   0.000,  71.600%,   7.600% ); color: hsl(   0.000,  16.400%,  54.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.040 ); }
-	  9% { background-color: hsl(   0.000,  71.800%,   8.550% ); color: hsl(   0.000,  17.200%,  54.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.045 ); }
-	 10% { background-color: hsl(   0.000,  72.000%,   9.500% ); color: hsl(   0.000,  18.000%,  55.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.050 ); }
-	 11% { background-color: hsl(   0.000,  72.200%,  10.450% ); color: hsl(   0.000,  18.800%,  55.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.055 ); }
-	 12% { background-color: hsl(   0.000,  72.400%,  11.400% ); color: hsl(   0.000,  19.600%,  56.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.060 ); }
-	 13% { background-color: hsl(   0.000,  72.600%,  12.350% ); color: hsl(   0.000,  20.400%,  56.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.065 ); }
-	 14% { background-color: hsl(   0.000,  72.800%,  13.300% ); color: hsl(   0.000,  21.200%,  57.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.070 ); }
-	 15% { background-color: hsl(   0.000,  73.000%,  14.250% ); color: hsl(   0.000,  22.000%,  57.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.075 ); }
-	 16% { background-color: hsl(   0.000,  73.200%,  15.200% ); color: hsl(   0.000,  22.800%,  58.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.080 ); }
-	 17% { background-color: hsl(   0.000,  73.400%,  16.150% ); color: hsl(   0.000,  23.600%,  58.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.085 ); }
-	 18% { background-color: hsl(   0.000,  73.600%,  17.100% ); color: hsl(   0.000,  24.400%,  59.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.090 ); }
-	 19% { background-color: hsl(   0.000,  73.800%,  18.050% ); color: hsl(   0.000,  25.200%,  59.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.095 ); }
-	 20% { background-color: hsl(   0.000,  74.000%,  19.000% ); color: hsl(   0.000,  26.000%,  60.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.100 ); }
-	 21% { background-color: hsl(   0.000,  74.200%,  19.950% ); color: hsl(   0.000,  26.800%,  60.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.105 ); }
-	 22% { background-color: hsl(   0.000,  74.400%,  20.900% ); color: hsl(   0.000,  27.600%,  61.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.110 ); }
-	 23% { background-color: hsl(   0.000,  74.600%,  21.850% ); color: hsl(   0.000,  28.400%,  61.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.115 ); }
-	 24% { background-color: hsl(   0.000,  74.800%,  22.800% ); color: hsl(   0.000,  29.200%,  62.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.120 ); }
-	 25% { background-color: hsl(   0.000,  75.000%,  23.750% ); color: hsl(   0.000,  30.000%,  62.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.125 ); }
-	 26% { background-color: hsl(   0.000,  75.200%,  24.700% ); color: hsl(   0.000,  30.800%,  63.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.130 ); }
-	 27% { background-color: hsl(   0.000,  75.400%,  25.650% ); color: hsl(   0.000,  31.600%,  63.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.135 ); }
-	 28% { background-color: hsl(   0.000,  75.600%,  26.600% ); color: hsl(   0.000,  32.400%,  64.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.140 ); }
-	 29% { background-color: hsl(   0.000,  75.800%,  27.550% ); color: hsl(   0.000,  33.200%,  64.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.145 ); }
-	 30% { background-color: hsl(   0.000,  76.000%,  28.500% ); color: hsl(   0.000,  34.000%,  65.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.150 ); }
-	 31% { background-color: hsl(   0.000,  76.200%,  29.450% ); color: hsl(   0.000,  34.800%,  65.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.155 ); }
-	 32% { background-color: hsl(   0.000,  76.400%,  30.400% ); color: hsl(   0.000,  35.600%,  66.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.160 ); }
-	 33% { background-color: hsl(   0.000,  76.600%,  31.350% ); color: hsl(   0.000,  36.400%,  66.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.165 ); }
-	 34% { background-color: hsl(   0.000,  76.800%,  32.300% ); color: hsl(   0.000,  37.200%,  67.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.170 ); }
-	 35% { background-color: hsl(   0.000,  77.000%,  33.250% ); color: hsl(   0.000,  38.000%,  67.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.175 ); }
-	 36% { background-color: hsl(   0.000,  77.200%,  34.200% ); color: hsl(   0.000,  38.800%,  68.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.180 ); }
-	 37% { background-color: hsl(   0.000,  77.400%,  35.150% ); color: hsl(   0.000,  39.600%,  68.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.185 ); }
-	 38% { background-color: hsl(   0.000,  77.600%,  36.100% ); color: hsl(   0.000,  40.400%,  69.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.190 ); }
-	 39% { background-color: hsl(   0.000,  77.800%,  37.050% ); color: hsl(   0.000,  41.200%,  69.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.195 ); }
-	 40% { background-color: hsl(   0.000,  78.000%,  38.000% ); color: hsl(   0.000,  42.000%,  70.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.200 ); }
-	 41% { background-color: hsl(   0.000,  78.200%,  38.950% ); color: hsl(   0.000,  42.800%,  70.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.205 ); }
-	 42% { background-color: hsl(   0.000,  78.400%,  39.900% ); color: hsl(   0.000,  43.600%,  71.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.210 ); }
-	 43% { background-color: hsl(   0.000,  78.600%,  40.850% ); color: hsl(   0.000,  44.400%,  71.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.215 ); }
-	 44% { background-color: hsl(   0.000,  78.800%,  41.800% ); color: hsl(   0.000,  45.200%,  72.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.220 ); }
-	 45% { background-color: hsl(   0.000,  79.000%,  42.750% ); color: hsl(   0.000,  46.000%,  72.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.225 ); }
-	 46% { background-color: hsl(   0.000,  79.200%,  43.700% ); color: hsl(   0.000,  46.800%,  73.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.230 ); }
-	 47% { background-color: hsl(   0.000,  79.400%,  44.650% ); color: hsl(   0.000,  47.600%,  73.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.235 ); }
-	 48% { background-color: hsl(   0.000,  79.600%,  45.600% ); color: hsl(   0.000,  48.400%,  74.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.240 ); }
-	 49% { background-color: hsl(   0.000,  79.800%,  46.550% ); color: hsl(   0.000,  49.200%,  74.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.245 ); }
-	 50% { background-color: hsl(   0.000,  80.000%,  47.500% ); color: hsl(   0.000,  50.000%,  75.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.250 ); }
-	 51% { background-color: hsl(   0.000,  80.200%,  48.450% ); color: hsl(   0.000,  50.800%,  75.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.255 ); }
-	 52% { background-color: hsl(   0.000,  80.400%,  49.400% ); color: hsl(   0.000,  51.600%,  76.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.260 ); }
-	 53% { background-color: hsl(   0.000,  80.600%,  50.350% ); color: hsl(   0.000,  52.400%,  76.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.265 ); }
-	 54% { background-color: hsl(   0.000,  80.800%,  51.300% ); color: hsl(   0.000,  53.200%,  77.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.270 ); }
-	 55% { background-color: hsl(   0.000,  81.000%,  52.250% ); color: hsl(   0.000,  54.000%,  77.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.275 ); }
-	 56% { background-color: hsl(   0.000,  81.200%,  53.200% ); color: hsl(   0.000,  54.800%,  78.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.280 ); }
-	 57% { background-color: hsl(   0.000,  81.400%,  54.150% ); color: hsl(   0.000,  55.600%,  78.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.285 ); }
-	 58% { background-color: hsl(   0.000,  81.600%,  55.100% ); color: hsl(   0.000,  56.400%,  79.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.290 ); }
-	 59% { background-color: hsl(   0.000,  81.800%,  56.050% ); color: hsl(   0.000,  57.200%,  79.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.295 ); }
-	 60% { background-color: hsl(   0.000,  82.000%,  57.000% ); color: hsl(   0.000,  58.000%,  80.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.300 ); }
-	 61% { background-color: hsl(   0.000,  82.200%,  57.950% ); color: hsl(   0.000,  58.800%,  80.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.305 ); }
-	 62% { background-color: hsl(   0.000,  82.400%,  58.900% ); color: hsl(   0.000,  59.600%,  81.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.310 ); }
-	 63% { background-color: hsl(   0.000,  82.600%,  59.850% ); color: hsl(   0.000,  60.400%,  81.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.315 ); }
-	 64% { background-color: hsl(   0.000,  82.800%,  60.800% ); color: hsl(   0.000,  61.200%,  82.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.320 ); }
-	 65% { background-color: hsl(   0.000,  83.000%,  61.750% ); color: hsl(   0.000,  62.000%,  82.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.325 ); }
-	 66% { background-color: hsl(   0.000,  83.200%,  62.700% ); color: hsl(   0.000,  62.800%,  83.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.330 ); }
-	 67% { background-color: hsl(   0.000,  83.400%,  63.650% ); color: hsl(   0.000,  63.600%,  83.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.335 ); }
-	 68% { background-color: hsl(   0.000,  83.600%,  64.600% ); color: hsl(   0.000,  64.400%,  84.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.340 ); }
-	 69% { background-color: hsl(   0.000,  83.800%,  65.550% ); color: hsl(   0.000,  65.200%,  84.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.345 ); }
-	 70% { background-color: hsl(   0.000,  84.000%,  66.500% ); color: hsl(   0.000,  66.000%,  85.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.350 ); }
-	 71% { background-color: hsl(   0.000,  84.200%,  67.450% ); color: hsl(   0.000,  66.800%,  85.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.355 ); }
-	 72% { background-color: hsl(   0.000,  84.400%,  68.400% ); color: hsl(   0.000,  67.600%,  86.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.360 ); }
-	 73% { background-color: hsl(   0.000,  84.600%,  69.350% ); color: hsl(   0.000,  68.400%,  86.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.365 ); }
-	 74% { background-color: hsl(   0.000,  84.800%,  70.300% ); color: hsl(   0.000,  69.200%,  87.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.370 ); }
-	 75% { background-color: hsl(   0.000,  85.000%,  71.250% ); color: hsl(   0.000,  70.000%,  87.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.375 ); }
-	 76% { background-color: hsl(   0.000,  85.200%,  72.200% ); color: hsl(   0.000,  70.800%,  88.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.380 ); }
-	 77% { background-color: hsl(   0.000,  85.400%,  73.150% ); color: hsl(   0.000,  71.600%,  88.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.385 ); }
-	 78% { background-color: hsl(   0.000,  85.600%,  74.100% ); color: hsl(   0.000,  72.400%,  89.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.390 ); }
-	 79% { background-color: hsl(   0.000,  85.800%,  75.050% ); color: hsl(   0.000,  73.200%,  89.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.395 ); }
-	 80% { background-color: hsl(   0.000,  86.000%,  76.000% ); color: hsl(   0.000,  74.000%,  90.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.400 ); }
-	 81% { background-color: hsl(   0.000,  86.200%,  76.950% ); color: hsl(   0.000,  74.800%,  90.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.405 ); }
-	 82% { background-color: hsl(   0.000,  86.400%,  77.900% ); color: hsl(   0.000,  75.600%,  91.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.410 ); }
-	 83% { background-color: hsl(   0.000,  86.600%,  78.850% ); color: hsl(   0.000,  76.400%,  91.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.415 ); }
-	 84% { background-color: hsl(   0.000,  86.800%,  79.800% ); color: hsl(   0.000,  77.200%,  92.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.420 ); }
-	 85% { background-color: hsl(   0.000,  87.000%,  80.750% ); color: hsl(   0.000,  78.000%,  92.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.425 ); }
-	 86% { background-color: hsl(   0.000,  87.200%,  81.700% ); color: hsl(   0.000,  78.800%,  93.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.430 ); }
-	 87% { background-color: hsl(   0.000,  87.400%,  82.650% ); color: hsl(   0.000,  79.600%,  93.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.435 ); }
-	 88% { background-color: hsl(   0.000,  87.600%,  83.600% ); color: hsl(   0.000,  80.400%,  94.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.440 ); }
-	 89% { background-color: hsl(   0.000,  87.800%,  84.550% ); color: hsl(   0.000,  81.200%,  94.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.445 ); }
-	 90% { background-color: hsl(   0.000,  88.000%,  85.500% ); color: hsl(   0.000,  82.000%,  95.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.450 ); }
-	 91% { background-color: hsl(   0.000,  88.200%,  86.450% ); color: hsl(   0.000,  82.800%,  95.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.455 ); }
-	 92% { background-color: hsl(   0.000,  88.400%,  87.400% ); color: hsl(   0.000,  83.600%,  96.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.460 ); }
-	 93% { background-color: hsl(   0.000,  88.600%,  88.350% ); color: hsl(   0.000,  84.400%,  96.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.465 ); }
-	 94% { background-color: hsl(   0.000,  88.800%,  89.300% ); color: hsl(   0.000,  85.200%,  97.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.470 ); }
-	 95% { background-color: hsl(   0.000,  89.000%,  90.250% ); color: hsl(   0.000,  86.000%,  97.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.475 ); }
-	 96% { background-color: hsl(   0.000,  89.200%,  91.200% ); color: hsl(   0.000,  86.800%,  98.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.480 ); }
-	 97% { background-color: hsl(   0.000,  89.400%,  92.150% ); color: hsl(   0.000,  87.600%,  98.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.485 ); }
-	 98% { background-color: hsl(   0.000,  89.600%,  93.100% ); color: hsl(   0.000,  88.400%,  99.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.490 ); }
-	 99% { background-color: hsl(   0.000,  89.800%,  94.050% ); color: hsl(   0.000,  89.200%,  99.500% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.495 ); }
-	100% { background-color: hsl(   0.000,  90.000%,  95.000% ); color: hsl(   0.000,  90.000%, 100.000% ); box-shadow: 0 0 calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.500 ); }
+	  0% { background-color: hsl(   0.000,  70.000%,   0.000% ); color: hsl(   0.000,  10.000%,  50.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.000 ); }
+	  1% { background-color: hsl(   0.000,  70.200%,   0.950% ); color: hsl(   0.000,  10.800%,  50.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.005 ); }
+	  2% { background-color: hsl(   0.000,  70.400%,   1.900% ); color: hsl(   0.000,  11.600%,  51.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.010 ); }
+	  3% { background-color: hsl(   0.000,  70.600%,   2.850% ); color: hsl(   0.000,  12.400%,  51.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.015 ); }
+	  4% { background-color: hsl(   0.000,  70.800%,   3.800% ); color: hsl(   0.000,  13.200%,  52.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.020 ); }
+	  5% { background-color: hsl(   0.000,  71.000%,   4.750% ); color: hsl(   0.000,  14.000%,  52.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.025 ); }
+	  6% { background-color: hsl(   0.000,  71.200%,   5.700% ); color: hsl(   0.000,  14.800%,  53.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.030 ); }
+	  7% { background-color: hsl(   0.000,  71.400%,   6.650% ); color: hsl(   0.000,  15.600%,  53.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.035 ); }
+	  8% { background-color: hsl(   0.000,  71.600%,   7.600% ); color: hsl(   0.000,  16.400%,  54.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.040 ); }
+	  9% { background-color: hsl(   0.000,  71.800%,   8.550% ); color: hsl(   0.000,  17.200%,  54.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.045 ); }
+	 10% { background-color: hsl(   0.000,  72.000%,   9.500% ); color: hsl(   0.000,  18.000%,  55.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.050 ); }
+	 11% { background-color: hsl(   0.000,  72.200%,  10.450% ); color: hsl(   0.000,  18.800%,  55.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.055 ); }
+	 12% { background-color: hsl(   0.000,  72.400%,  11.400% ); color: hsl(   0.000,  19.600%,  56.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.060 ); }
+	 13% { background-color: hsl(   0.000,  72.600%,  12.350% ); color: hsl(   0.000,  20.400%,  56.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.065 ); }
+	 14% { background-color: hsl(   0.000,  72.800%,  13.300% ); color: hsl(   0.000,  21.200%,  57.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.070 ); }
+	 15% { background-color: hsl(   0.000,  73.000%,  14.250% ); color: hsl(   0.000,  22.000%,  57.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.075 ); }
+	 16% { background-color: hsl(   0.000,  73.200%,  15.200% ); color: hsl(   0.000,  22.800%,  58.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.080 ); }
+	 17% { background-color: hsl(   0.000,  73.400%,  16.150% ); color: hsl(   0.000,  23.600%,  58.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.085 ); }
+	 18% { background-color: hsl(   0.000,  73.600%,  17.100% ); color: hsl(   0.000,  24.400%,  59.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.090 ); }
+	 19% { background-color: hsl(   0.000,  73.800%,  18.050% ); color: hsl(   0.000,  25.200%,  59.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.095 ); }
+	 20% { background-color: hsl(   0.000,  74.000%,  19.000% ); color: hsl(   0.000,  26.000%,  60.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.100 ); }
+	 21% { background-color: hsl(   0.000,  74.200%,  19.950% ); color: hsl(   0.000,  26.800%,  60.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.105 ); }
+	 22% { background-color: hsl(   0.000,  74.400%,  20.900% ); color: hsl(   0.000,  27.600%,  61.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.110 ); }
+	 23% { background-color: hsl(   0.000,  74.600%,  21.850% ); color: hsl(   0.000,  28.400%,  61.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.115 ); }
+	 24% { background-color: hsl(   0.000,  74.800%,  22.800% ); color: hsl(   0.000,  29.200%,  62.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.120 ); }
+	 25% { background-color: hsl(   0.000,  75.000%,  23.750% ); color: hsl(   0.000,  30.000%,  62.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.125 ); }
+	 26% { background-color: hsl(   0.000,  75.200%,  24.700% ); color: hsl(   0.000,  30.800%,  63.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.130 ); }
+	 27% { background-color: hsl(   0.000,  75.400%,  25.650% ); color: hsl(   0.000,  31.600%,  63.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.135 ); }
+	 28% { background-color: hsl(   0.000,  75.600%,  26.600% ); color: hsl(   0.000,  32.400%,  64.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.140 ); }
+	 29% { background-color: hsl(   0.000,  75.800%,  27.550% ); color: hsl(   0.000,  33.200%,  64.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.145 ); }
+	 30% { background-color: hsl(   0.000,  76.000%,  28.500% ); color: hsl(   0.000,  34.000%,  65.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.150 ); }
+	 31% { background-color: hsl(   0.000,  76.200%,  29.450% ); color: hsl(   0.000,  34.800%,  65.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.155 ); }
+	 32% { background-color: hsl(   0.000,  76.400%,  30.400% ); color: hsl(   0.000,  35.600%,  66.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.160 ); }
+	 33% { background-color: hsl(   0.000,  76.600%,  31.350% ); color: hsl(   0.000,  36.400%,  66.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.165 ); }
+	 34% { background-color: hsl(   0.000,  76.800%,  32.300% ); color: hsl(   0.000,  37.200%,  67.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.170 ); }
+	 35% { background-color: hsl(   0.000,  77.000%,  33.250% ); color: hsl(   0.000,  38.000%,  67.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.175 ); }
+	 36% { background-color: hsl(   0.000,  77.200%,  34.200% ); color: hsl(   0.000,  38.800%,  68.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.180 ); }
+	 37% { background-color: hsl(   0.000,  77.400%,  35.150% ); color: hsl(   0.000,  39.600%,  68.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.185 ); }
+	 38% { background-color: hsl(   0.000,  77.600%,  36.100% ); color: hsl(   0.000,  40.400%,  69.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.190 ); }
+	 39% { background-color: hsl(   0.000,  77.800%,  37.050% ); color: hsl(   0.000,  41.200%,  69.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.195 ); }
+	 40% { background-color: hsl(   0.000,  78.000%,  38.000% ); color: hsl(   0.000,  42.000%,  70.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.200 ); }
+	 41% { background-color: hsl(   0.000,  78.200%,  38.950% ); color: hsl(   0.000,  42.800%,  70.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.205 ); }
+	 42% { background-color: hsl(   0.000,  78.400%,  39.900% ); color: hsl(   0.000,  43.600%,  71.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.210 ); }
+	 43% { background-color: hsl(   0.000,  78.600%,  40.850% ); color: hsl(   0.000,  44.400%,  71.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.215 ); }
+	 44% { background-color: hsl(   0.000,  78.800%,  41.800% ); color: hsl(   0.000,  45.200%,  72.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.220 ); }
+	 45% { background-color: hsl(   0.000,  79.000%,  42.750% ); color: hsl(   0.000,  46.000%,  72.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.225 ); }
+	 46% { background-color: hsl(   0.000,  79.200%,  43.700% ); color: hsl(   0.000,  46.800%,  73.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.230 ); }
+	 47% { background-color: hsl(   0.000,  79.400%,  44.650% ); color: hsl(   0.000,  47.600%,  73.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.235 ); }
+	 48% { background-color: hsl(   0.000,  79.600%,  45.600% ); color: hsl(   0.000,  48.400%,  74.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.240 ); }
+	 49% { background-color: hsl(   0.000,  79.800%,  46.550% ); color: hsl(   0.000,  49.200%,  74.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.245 ); }
+	 50% { background-color: hsl(   0.000,  80.000%,  47.500% ); color: hsl(   0.000,  50.000%,  75.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.250 ); }
+	 51% { background-color: hsl(   0.000,  80.200%,  48.450% ); color: hsl(   0.000,  50.800%,  75.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.255 ); }
+	 52% { background-color: hsl(   0.000,  80.400%,  49.400% ); color: hsl(   0.000,  51.600%,  76.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.260 ); }
+	 53% { background-color: hsl(   0.000,  80.600%,  50.350% ); color: hsl(   0.000,  52.400%,  76.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.265 ); }
+	 54% { background-color: hsl(   0.000,  80.800%,  51.300% ); color: hsl(   0.000,  53.200%,  77.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.270 ); }
+	 55% { background-color: hsl(   0.000,  81.000%,  52.250% ); color: hsl(   0.000,  54.000%,  77.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.275 ); }
+	 56% { background-color: hsl(   0.000,  81.200%,  53.200% ); color: hsl(   0.000,  54.800%,  78.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.280 ); }
+	 57% { background-color: hsl(   0.000,  81.400%,  54.150% ); color: hsl(   0.000,  55.600%,  78.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.285 ); }
+	 58% { background-color: hsl(   0.000,  81.600%,  55.100% ); color: hsl(   0.000,  56.400%,  79.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.290 ); }
+	 59% { background-color: hsl(   0.000,  81.800%,  56.050% ); color: hsl(   0.000,  57.200%,  79.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.295 ); }
+	 60% { background-color: hsl(   0.000,  82.000%,  57.000% ); color: hsl(   0.000,  58.000%,  80.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.300 ); }
+	 61% { background-color: hsl(   0.000,  82.200%,  57.950% ); color: hsl(   0.000,  58.800%,  80.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.305 ); }
+	 62% { background-color: hsl(   0.000,  82.400%,  58.900% ); color: hsl(   0.000,  59.600%,  81.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.310 ); }
+	 63% { background-color: hsl(   0.000,  82.600%,  59.850% ); color: hsl(   0.000,  60.400%,  81.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.315 ); }
+	 64% { background-color: hsl(   0.000,  82.800%,  60.800% ); color: hsl(   0.000,  61.200%,  82.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.320 ); }
+	 65% { background-color: hsl(   0.000,  83.000%,  61.750% ); color: hsl(   0.000,  62.000%,  82.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.325 ); }
+	 66% { background-color: hsl(   0.000,  83.200%,  62.700% ); color: hsl(   0.000,  62.800%,  83.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.330 ); }
+	 67% { background-color: hsl(   0.000,  83.400%,  63.650% ); color: hsl(   0.000,  63.600%,  83.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.335 ); }
+	 68% { background-color: hsl(   0.000,  83.600%,  64.600% ); color: hsl(   0.000,  64.400%,  84.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.340 ); }
+	 69% { background-color: hsl(   0.000,  83.800%,  65.550% ); color: hsl(   0.000,  65.200%,  84.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.345 ); }
+	 70% { background-color: hsl(   0.000,  84.000%,  66.500% ); color: hsl(   0.000,  66.000%,  85.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.350 ); }
+	 71% { background-color: hsl(   0.000,  84.200%,  67.450% ); color: hsl(   0.000,  66.800%,  85.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.355 ); }
+	 72% { background-color: hsl(   0.000,  84.400%,  68.400% ); color: hsl(   0.000,  67.600%,  86.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.360 ); }
+	 73% { background-color: hsl(   0.000,  84.600%,  69.350% ); color: hsl(   0.000,  68.400%,  86.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.365 ); }
+	 74% { background-color: hsl(   0.000,  84.800%,  70.300% ); color: hsl(   0.000,  69.200%,  87.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.370 ); }
+	 75% { background-color: hsl(   0.000,  85.000%,  71.250% ); color: hsl(   0.000,  70.000%,  87.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.375 ); }
+	 76% { background-color: hsl(   0.000,  85.200%,  72.200% ); color: hsl(   0.000,  70.800%,  88.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.380 ); }
+	 77% { background-color: hsl(   0.000,  85.400%,  73.150% ); color: hsl(   0.000,  71.600%,  88.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.385 ); }
+	 78% { background-color: hsl(   0.000,  85.600%,  74.100% ); color: hsl(   0.000,  72.400%,  89.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.390 ); }
+	 79% { background-color: hsl(   0.000,  85.800%,  75.050% ); color: hsl(   0.000,  73.200%,  89.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.395 ); }
+	 80% { background-color: hsl(   0.000,  86.000%,  76.000% ); color: hsl(   0.000,  74.000%,  90.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.400 ); }
+	 81% { background-color: hsl(   0.000,  86.200%,  76.950% ); color: hsl(   0.000,  74.800%,  90.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.405 ); }
+	 82% { background-color: hsl(   0.000,  86.400%,  77.900% ); color: hsl(   0.000,  75.600%,  91.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.410 ); }
+	 83% { background-color: hsl(   0.000,  86.600%,  78.850% ); color: hsl(   0.000,  76.400%,  91.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.415 ); }
+	 84% { background-color: hsl(   0.000,  86.800%,  79.800% ); color: hsl(   0.000,  77.200%,  92.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.420 ); }
+	 85% { background-color: hsl(   0.000,  87.000%,  80.750% ); color: hsl(   0.000,  78.000%,  92.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.425 ); }
+	 86% { background-color: hsl(   0.000,  87.200%,  81.700% ); color: hsl(   0.000,  78.800%,  93.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.430 ); }
+	 87% { background-color: hsl(   0.000,  87.400%,  82.650% ); color: hsl(   0.000,  79.600%,  93.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.435 ); }
+	 88% { background-color: hsl(   0.000,  87.600%,  83.600% ); color: hsl(   0.000,  80.400%,  94.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.440 ); }
+	 89% { background-color: hsl(   0.000,  87.800%,  84.550% ); color: hsl(   0.000,  81.200%,  94.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.445 ); }
+	 90% { background-color: hsl(   0.000,  88.000%,  85.500% ); color: hsl(   0.000,  82.000%,  95.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.450 ); }
+	 91% { background-color: hsl(   0.000,  88.200%,  86.450% ); color: hsl(   0.000,  82.800%,  95.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.455 ); }
+	 92% { background-color: hsl(   0.000,  88.400%,  87.400% ); color: hsl(   0.000,  83.600%,  96.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.460 ); }
+	 93% { background-color: hsl(   0.000,  88.600%,  88.350% ); color: hsl(   0.000,  84.400%,  96.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.465 ); }
+	 94% { background-color: hsl(   0.000,  88.800%,  89.300% ); color: hsl(   0.000,  85.200%,  97.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.470 ); }
+	 95% { background-color: hsl(   0.000,  89.000%,  90.250% ); color: hsl(   0.000,  86.000%,  97.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.475 ); }
+	 96% { background-color: hsl(   0.000,  89.200%,  91.200% ); color: hsl(   0.000,  86.800%,  98.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.480 ); }
+	 97% { background-color: hsl(   0.000,  89.400%,  92.150% ); color: hsl(   0.000,  87.600%,  98.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.485 ); }
+	 98% { background-color: hsl(   0.000,  89.600%,  93.100% ); color: hsl(   0.000,  88.400%,  99.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.490 ); }
+	 99% { background-color: hsl(   0.000,  89.800%,  94.050% ); color: hsl(   0.000,  89.200%,  99.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.495 ); }
+	100% { background-color: hsl(   0.000,  90.000%,  95.000% ); color: hsl(   0.000,  90.000%, 100.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.500 ); }
 
 
 
@@ -306,15 +359,27 @@ body {
 
 	/*color: black;*/
 	background-color: inherit;
+	/*animation-name: pulse;*/
+	/*animation-name: key-release;*/
 }
+#button-play,
+#controls #button-play svg,
 #controls #button-play use {
 
 	/*fill: black;*/
-	/*animation-name: pulse;*/
+	/*fill: hsl(   180.000,  70.000%,  50.000% );*/
+	fill: unset;
+	animation-name: pulse;
+	animation-duration: calc( var( --beat ) * 4 );
+	animation-timing-function: ease-in-out;
+	/*animation-fill-mode: both;*/
+	/*animation-name: key-release;*/
 }
 #button-play:hover {
 
 	/*color: var( --color-background );*/
+	background-color: inherit;
+	fill: white;
 }
 @keyframes pulse {
 

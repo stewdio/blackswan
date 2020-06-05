@@ -230,14 +230,11 @@ main {
 	text-align: center;
 	overflow: hidden;
 }
-section {
+section, footer {
 
-	background-color: white;
-	padding: 20rem;
-}
-footer {
-
-	padding: 4rem 0;
+	position: relative;
+	margin:  0;
+	padding: 0;
 }
 
 
@@ -396,7 +393,7 @@ footer {
 
 	text-align: center;
 	font-size:   calc( var( --size ) * 2 );
-	line-height: calc( var( --size ) * 5.8 );
+	line-height: calc( var( --size ) * 5.9 );
 	overflow: hidden;
 	cursor: pointer;
 	text-shadow:
@@ -692,6 +689,18 @@ footer {
 #button-fullscreen {
 
 	grid-column: 4 / 5;
+}
+#button-fullscreen #button-fullscreen-exit {
+
+	display: none;
+}
+#fullscreen-container:fullscreen #button-fullscreen-enter {
+
+	display: none;
+}
+#fullscreen-container:fullscreen #button-fullscreen-exit {
+
+	display: unset;
 }
 
 
