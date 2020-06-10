@@ -3,6 +3,11 @@
 
 
 
+let
+timeAsTextPrevious = ''
+
+
+
 
 
 
@@ -13,14 +18,15 @@
 /////////////////////
 
 
-const comp = [{ time: 0, duration: 0 }]
-Object.assign( comp, {
+const comp = Object.assign( [], {
 
 	frameIndex: 0,
 	audio: new Audio(),
 	logs: [],
+	hasPlayedSome: false,
 	play: function(){
 
+		comp.hasPlayedSome = true
 		comp.isPlaying = true
 		comp.isPaused  = false
 		comp.audio.play()
@@ -78,6 +84,8 @@ Object.assign( comp, {
 				key.style.transition = ''
 			})
 		})
+
+		updateLocationHashFromTime( comp.audio.currentTime )
 		return this
 	},
 	report: function( frameIndex, includeSiblings ){
@@ -141,7 +149,6 @@ Object.assign( comp.audio, {
 	preload: 'auto',
 	playbackRate: 1.0,
 	volume: 1
-	// volume: 0.4
 })
 
 
@@ -199,56 +206,240 @@ function append( durationInBeats, action, comment ){
 
 
 
+    ///////////////////
+   //               //
+  //   Time URLs   //
+ //               //
+///////////////////
 
 
-    ///////////////
-   //           //
-  //   Debug   //
- //           //
-///////////////
+//  Enable linking directly to a moment on the timeline.
+//  http://stewartsmith.io/blackswan/#1:23
+//  http://stewartsmith.io/blackswan/#83
 
+const
+timeToText = function( timeInSeconds, includeMillis ){
 
-function formatTime( timeInSeconds, includeMillis ){
-
+	if( typeof timeInSeconds !== 'number' ) timeInSeconds = comp.audio.currentTime
 	if( typeof includeMillis !== 'boolean' ) includeMillis = false
 
-	const 
+	const
 	minutes = Math.floor( timeInSeconds / 60 ),
 	seconds = Math.floor( timeInSeconds - minutes * 60 ),
 	millis  = Math.round((( timeInSeconds % 60 ) - seconds ) * 1000 ) / 1000,
-	output  = minutes.toString() +':'+ 
-		seconds.toString().padStart( 2, '0' )
+	text    = minutes.toString() +':'+ seconds.toString().padStart( 2, '0' )
 
 	if( includeMillis ){
 		
-		return output +'.'+ millis.toString().substr( 2 ).padStart( 4, '0' )
+		return text +'.'+ millis.toString().substr( 2 ).padStart( 4, '0' )
 	}
-	return output
+	return text
+},
+timeFromText = function( text ){
+
+	if( text.length > 0 ){
+
+		const textSplit = text.split( ':' )
+		if( textSplit.length < 3 ){
+
+			const 
+			isUsefulTimeUnit = function( n ){
+
+				return isNaN( n ) === false && 
+					( typeof n === 'number' || n instanceof Number ) &&
+					n !==  Infinity &&
+					n !== -Infinity
+			},
+			units = textSplit.reduce( function( units, unitAsString ){
+
+				const unitAsNumber = parseFloat( unitAsString )
+				if( isUsefulTimeUnit( unitAsNumber )) units.push( unitAsNumber )
+				return units
+
+			}, [])
+
+			if( units.length > 0 && units.length < 3 ){
+
+				let time = 0
+				if( units.length === 1 ) time = units[ 0 ]
+				if( units.length === 2 ){
+
+					time = units[ 0 ] * 60 + units[ 1 ]
+				}
+				return time
+			}
+		}
+	}
+	return false
+},
+seekByLocationHash = function(){
+
+	const time = timeFromText( document.location.hash.substr( 1 ))
+	if( time !== false ) comp.seek( time )
+},
+updateLocationHashFromTime = function(){
+
+	const timeAsText = timeToText()
+	history.replaceState( {}, 'Black Swan '+ timeAsText, '#'+ timeAsText )
 }
-function assessDuration( timeStart, timeEnd, name, expectedBeats ){
 
-	if( typeof name !== 'string' ) name = 'Untitled'
 
-	const
-	durationInSeconds = timeEnd - timeStart,
-	durationInBeats = Math.round( durationInSeconds / comp.beat * 1000000 ) / 1000000,
-	looksGoodToMe = durationInBeats === expectedBeats
 
-	console.log( 
 
-		'\n'+
-		 formatTime( timeStart, true ) +' to '+
-		 formatTime( timeEnd, true ) +' is '+
-		 formatTime( durationInSeconds, true ) +' ('+
-		 durationInBeats +' beats) for “'+
-		 name +'”  '+
-		 ( looksGoodToMe ? '👍' : '❌❌❌ ⚠️  EXPECTED '+ expectedBeats +' beats!' ) +
-		 '\n\n'
-	)
-	return { durationInSeconds, durationInBeats }
+    //////////////////
+   //              //
+  //   Controls   //
+ //              //
+//////////////////
+
+
+let 
+controlsShouldHide = false,
+interfaceIdleSince = Date.now(),
+controlsShouldHideAfterSeconds = 2
+
+const
+controlsDisable = function(){
+
+	controlsHide()
+	setTimeout( function(){
+
+		document
+		.getElementById( 'controls-activator' )
+		.style
+		.display = 'none'
+	
+	}, 500 )
+},
+controlsEnable = function(){
+
+	controlsHide()
+	document
+	.getElementById( 'controls-activator' )
+	.style
+	.display = 'block'
+	controlsShouldHide = false
+	setTimeout( controlsShow )	
+},
+controlsHide = function(){
+
+	document
+	.getElementById( 'controls' )
+	.classList
+	.remove( 'show' )
+},
+controlsShow = function(){
+
+	document
+	.getElementById( 'controls' )
+	.classList
+	.add( 'show' )
 }
 
 
+
+
+    ////////////////////
+   //                //
+  //   Fullscreen   //
+ //                //
+////////////////////
+
+
+const 
+fullscreenButtonHide = function(){
+
+	document
+	.getElementById( 'button-fullscreen' )
+	.style
+	.display = 'none'
+	
+	document
+	.getElementById( 'timeline' )
+	.style
+	.gridColumn = '3 / 5'
+},
+fullscreenButtonShow = function(){
+
+	document
+	.getElementById( 'button-fullscreen' )
+	.style
+	.display = 'block'
+	
+	document
+	.getElementById( 'timeline' )
+	.style
+	.gridColumn = '3 / 4'
+},
+fullscreenDetect = function(){
+
+	const el = document.getElementById( 'fullscreen-container' )
+	el.requestFullscreen = 
+		el.requestFullscreen || 
+		el.mozRequestFullscreen ||
+		el.msRequestFullscreen || 
+		el.webkitRequestFullscreen
+
+	return typeof el.requestFullscreen === 'function'
+},
+fullscreenToggle = function(){
+	
+	if( fullscreenDetect() ){
+
+		const el = document.getElementById( 'fullscreen-container' )
+		if( document.fullscreenElement === null ){
+
+			el.requestFullscreen()
+			controlsShouldHide = true
+		}
+		else if( document.exitFullscreen ) document.exitFullscreen()
+	}
+}
+
+
+
+
+    //////////////
+   //          //
+  //   Load   //
+ //          //
+//////////////
+
+
+comp.audio.addEventListener( 'progress', function( event ){
+
+	let loadedLengthInSeconds = 0
+	for( 
+
+		let 
+		i = 0, 
+		totalChunks = this.buffered.length; 
+		
+		i < totalChunks; 
+		i ++ ){
+
+		loadedLengthInSeconds += this.buffered.end( i ) - this.buffered.start( i )
+	}
+
+	const loadedNormalized = loadedLengthInSeconds / this.duration
+	
+
+	//  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	//  add loading animation routine here.
+
+	//  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+	if( loadedNormalized === 1 ){
+
+		controlsEnable()
+		document
+		.getElementById( 'button-load' )
+		.style
+		.display = 'none'
+	}
+})
 
 
 
@@ -262,10 +453,14 @@ function assessDuration( timeStart, timeEnd, name, expectedBeats ){
 
 function render(){
 
+	const
+	time = comp.audio.currentTime,
+	timeAsText = timeToText( time )
+
 	if( comp.isPlaying ){
 
 		while( comp.frameIndex < comp.length &&
-			comp[ comp.frameIndex ].time <= comp.audio.currentTime ){
+			comp[ comp.frameIndex ].time <= time ){
 
 			if( typeof comp[ comp.frameIndex ].action === 'function' ){
 
@@ -276,19 +471,32 @@ function render(){
 	}
 
 	const
-	timelineElement      = document.getElementById( 'timeline' ),
-	progressElement      = document.getElementById( 'progress' ),
+	timelineElement = document.getElementById( 'timeline' ),
+	progressElement = document.getElementById( 'progress' ),
 	progressClockElement = document.getElementById( 'progress-clock' ),
-	progressMinutes      = Math.floor( comp.audio.currentTime / 60 ),
-	progressSeconds      = Math.floor( comp.audio.currentTime - ( progressMinutes * 60 )),
 	//progressXConstrained = Math.min( Math.max( progressElement.offsetWidth, 60 ), timelineElement.offsetWidth )
 	progressX = progressElement.offsetWidth
 	
-	progressElement.style.width = ( comp.audio.currentTime / comp.audio.duration * timelineElement.offsetWidth ) +'px'
+	progressElement.style.width = ( time / comp.audio.duration * timelineElement.offsetWidth ) +'px'
 	progressClockElement.style.left = progressX +'px'
-	progressClockElement.innerText = 
-		progressMinutes +':'+ 
-		progressSeconds.toString().padStart( 2, '0' )
+
+	if( timeAsText !== timeAsTextPrevious ){
+
+		if( timeAsTextPrevious !== '' && time !== 0 ) updateLocationHashFromTime()
+		timeAsTextPrevious = timeAsText
+		progressClockElement.innerText = timeAsText
+	}
+
+
+	if( comp.hasPlayedSome && 
+		Date.now() - interfaceIdleSince >= controlsShouldHideAfterSeconds * 1000 ){
+
+		controlsShouldHide = true
+		controlsHide()
+	}
+
+
+
 
 	requestAnimationFrame( render )
 }
@@ -296,27 +504,40 @@ function render(){
 
 
 
+    ///////////////
+   //           //
+  //   Debug   //
+ //           //
+///////////////
 
 
+function assessDuration( timeStart, timeEnd, name, expectedBeats ){
 
-function toggleFullscreen(){
-	
-	let elem = document.getElementById( 'fullscreen-container' )
+	if( typeof name !== 'string' ) name = 'Untitled'
 
-	elem.requestFullscreen = elem.requestFullscreen || elem.mozRequestFullscreen
-	|| elem.msRequestFullscreen || elem.webkitRequestFullscreen;
+	const
+	durationInSeconds = timeEnd - timeStart,
+	durationInBeats = Math.round( durationInSeconds / comp.beat * 1000000 ) / 1000000,
+	looksGoodToMe = durationInBeats === expectedBeats
 
-	if( !document.fullscreenElement ){
-	
-		elem.requestFullscreen().then({}).catch(err => {
-		alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-		});
-	}
-	else {
-	
-		if( document.exitFullscreen ) document.exitFullscreen()
-	}
+	console.log( 
+
+		'\n'+
+		 timeToText( timeStart, true ) +' to '+
+		 timeToText( timeEnd, true ) +' is '+
+		 timeToText( durationInSeconds, true ) +' ('+
+		 durationInBeats +' beats) for “'+
+		 name +'”  '+
+		 ( looksGoodToMe ? '👍' : '❌❌❌ ⚠️  EXPECTED '+ expectedBeats +' beats!' ) +
+		 '\n\n'
+	)
+	return { durationInSeconds, durationInBeats }
 }
+
+
+
+
+
 
 
 
@@ -330,6 +551,16 @@ keyboards,
 keyboard
 
 window.addEventListener( 'DOMContentLoaded', function(){
+
+	const updateInterfaceIdleSince = function(){
+
+		interfaceIdleSince = Date.now()
+		controlsShow()
+	}
+	window.addEventListener( 'keydown', updateInterfaceIdleSince )
+	window.addEventListener( 'touchstart', updateInterfaceIdleSince )
+	window.addEventListener( 'mousemove', updateInterfaceIdleSince )
+	window.addEventListener( 'scroll', updateInterfaceIdleSince )
 
 
 	//  Enable keyboard CHANNELS
@@ -411,7 +642,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	})
 	controlsActivator.addEventListener( 'mouseleave', function(){
 
-		controls.classList.remove( 'show' )
+		if( controlsShouldHide ) controls.classList.remove( 'show' )
 	})
 
 
@@ -495,59 +726,30 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	})
 
 
-	//  Enable FULLSCREEN toggle.
+	//  Handle FULLSCREEN abilities.
 
-	const buttonFullscreenElement = document.getElementById( 'button-fullscreen' )
-	buttonFullscreenElement.addEventListener( 'mousedown', toggleFullscreen )
-
-
-	//  Enable linking directly to a moment on the timeline.
-	//  Examples: 
-	//  http://stewartsmith.io/blackswan/#1:23
-	//  http://stewartsmith.io/blackswan/#83
-
-	const seekByHash = function(){
-
-		const hash = document.location.hash.substr( 1 )
-		if( hash.length > 0 ){
-
-			const hashSplit = hash.split( ':' )
-			if( hashSplit.length < 3 ){
-
-				const 
-				isUsefulTimeUnit = function( n ){
-
-					return isNaN( n ) === false && 
-						( typeof n === 'number' || n instanceof Number ) &&
-						n !==  Infinity &&
-						n !== -Infinity
-				},
-				units = hashSplit.reduce( function( units, unitAsString ){
-
-					const unitAsNumber = parseFloat( unitAsString )
-					if( isUsefulTimeUnit( unitAsNumber )) units.push( unitAsNumber )
-					return units
-
-				}, [])
-
-				if( units.length > 0 && units.length < 3 ){
-
-					let time = 0
-					if( units.length === 1 ) time = units[ 0 ]
-					if( units.length === 2 ){
-
-						time = units[ 0 ] * 60 + units[ 1 ]
-					}
-					comp.seek( time )
-				}
-			}
-		}		
+	if( fullscreenDetect() ){
+	
+		fullscreenButtonShow()
+		const buttonFullscreenElement = document.getElementById( 'button-fullscreen' )
+		buttonFullscreenElement.addEventListener( 'mousedown', fullscreenToggle )
 	}
-	seekByHash()
+	else fullscreenButtonHide()
+
 	
 
+	seekByLocationHash()
+	
 
+	//  If a viewer clicks on the LOAD button
+	//  it will attempt to play --
+	//  which on mobile means it will load first.
 
+	document
+	.getElementById( 'button-load' )
+	.addEventListener( 'mousedown', comp.play )
+
+	
 
 
 
@@ -599,25 +801,11 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /////////////////////////
-   //                     //
-  //    Audience input   //
- //                     //
-/////////////////////////
+    ////////////////////////
+   //                    //
+  //    Participation   //
+ //                    //
+////////////////////////
 
 
 function modifyClassList( cssQuery, addOrRemove, classToAddOrRemove ){
@@ -765,8 +953,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	addChannelTogglesGeneric( '.key-command-left',  'command', 'left'  )
 	addChannelTogglesGeneric( '.key-command-right', 'command', 'right' )
 })
-
-
 
 
 

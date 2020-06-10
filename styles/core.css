@@ -265,6 +265,11 @@ section, footer {
 	padding: calc( var( --size ) * 4 ) 0;
 	font-size: 0;
 	transform-style: preserve-3d;
+
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
 }
 .keyboard .shift,
 .keyboard .option,
@@ -406,6 +411,11 @@ section, footer {
 		all 5s linear,
 		transform var( --beat ) ease-out;
 	transform-origin: center center;
+
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
 }
 .key.press,
 .key:hover {
@@ -568,7 +578,14 @@ section, footer {
  /*              */
 /****************/
 
+#button-load {
 
+	position: absolute;
+	bottom: 120px;
+	left: calc( 50% - 30px );
+	width:  60px;
+	height: 60px;
+}
 #controls-activator, 
 #controls {
 
@@ -580,9 +597,15 @@ section, footer {
 	bottom: 0;
 	left:   0;
 	text-align: center;
+
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
 }
 #controls-activator {
 
+	display: none;
 	height: calc( var( --size ) * 8 );
 }
 #controls {
@@ -595,8 +618,20 @@ section, footer {
 		calc( var( --size ) * 8 );
 	grid-template-rows: calc( var( --size ) * 8 );
 	height: calc( var( --size ) * 8 );
-	transition: bottom 0.25s ease-in-out;
+	transition: bottom 0.5s ease-in;
+
+	bottom: calc( var( --size ) * -8 );
 }
+#controls.show {
+
+	bottom: 0;
+	transition: bottom 0.5s ease-out;
+}
+
+
+
+
+
 #controls > div {
 
 	grid-row: 1 / 2;
@@ -617,7 +652,7 @@ section, footer {
 
 
 
-#controls .button {
+.button {
 
 	display: block;
 	width:  100%;
@@ -626,8 +661,13 @@ section, footer {
 	background-color: hsl( 220, 10%, 70% );
 	color: hsl( 220, 10%, 90% );
 	line-height: calc( var( --size ) * 7.9 );
+
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
 }
-#controls .button:hover {
+.button:hover {
 
 	background-color: hsl( 220, 10%, 65% );
 	color: hsl( 220, 10%, 100% );

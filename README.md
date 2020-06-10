@@ -3,7 +3,7 @@
 
 
 
-THE ART
+	THE ART
 
 - "traaaaaiiin" needs some work!
 
@@ -33,19 +33,17 @@ THE ART
 
 
 
+	CODE
 
+- Hover for DEAD keys doesnt use HSL tween for some reason. fix!!
 
-CODE
+- seems like glow around key only happens AFTER release, not on engage. fix!
 
 - Button hover / tap on mobile. Looks like OPTION key etc are not engaging w touch?
+
 - Re-confirm yet again that it is 101bpm by eye-testing strenuously ;)
 
-
-- hide fullscreen button if option not available.
-- make controls hide when playing and no touch for 2 seconds.
-- bring controls back if touch anywhere.
 - make sure keyboard scales big on ios when playing in landscape!
-- add "no select" to entire keyboard area.
 
 - experiment w "maintain perspective" because on entire BODY is too much. main + smoe of #about is prob fiinie and still looks cool when scrolling. 
 
@@ -54,47 +52,17 @@ CODE
 
 	CONTROLS
 
-- cannot seek before audio file is loaded (user interaction occurs)!!!!!!! need a disabled flag to prevent that shit.
-- need a coutine to fade out the controls after 2 seconds if isPlaying.
+- need a progress bar or pie chart or something on new LOAD button. 
 
-
-- should render loop update a URL hash for jumping to that exact spot?
-history.replaceState(undefined, undefined, "#hash_value")
-history.replaceState({page: 3}, "title 3", "?page=3")
-https://developer.mozilla.org/en-US/docs/Web/API/History_API#The_replaceState().C2.A0method
-
-
-- finese audio file loading experience for mobile. perhaps while loading audio file start with timeline being 0% width, then use comp.audio.addEventListener( 'progress', ... ) to fill it up all the way?
-- mouse events that use location need touch compatibility.
-function onTouchMove( event ) {
-
-					var x, y;
-
-					if ( event.changedTouches ) {
-
-						x = event.changedTouches[ 0 ].pageX;
-						y = event.changedTouches[ 0 ].pageY;
-
-					} else {
-
-						x = event.clientX;
-						y = event.clientY;
-
-					}
-
-					mouse.x = ( x / window.innerWidth ) * 2 - 1;
-					mouse.y = - ( y / window.innerHeight ) * 2 + 1;
-
-					checkIntersection();
-
-				}
+- style the new LOAD button. circle instead of square. pulses like regular play button. fade out on hide().
 
 
 
-FINISHING
 
-- finish ERASE content.
-- need ABOUT content.
+	FINISHING
+
+- finish ERASER content.
+- finish ABOUT content.
 - need favicons.
 - need site preview image / poster image.
 
