@@ -149,68 +149,6 @@ body, #fullscreen-container {
 
 
 
-    /******************/
-   /*                */
-  /*   Hyperlinks   */
- /*                */
-/******************/
-
-
-a {
-
-	color: var( --Q-hyperlink-internal-color );
-	text-decoration: none;
-	transition: 
-		background-color 0.2s,
-		color 0.2s,
-		text-decoration-color 0.2s;
-}
-a.url-break {
-
-	word-break: break-all;
-}
-a svg {
-
-	fill: var( --Q-hyperlink-internal-color );
-}
-a:hover {
-
-	background-color: var( --Q-hyperlink-internal-color );
-	color: #FFF;
-	transition: 
-		background-color 0s,
-		color 0s,
-		text-decoration-color 0s;
-}
-a:hover svg {
-
-	fill: #FFF;
-}
-a[ target=_blank ]{
-
-	color: var( --Q-hyperlink-external-color );
-	text-decoration-line: underline;
-	text-decoration-color: #CCC;
-	/*text-underline-offset: 10px;*/
-}
-a[ target=_blank ] svg {
-
-	fill: var( --Q-hyperlink-external-color );
-}
-a[ target=_blank ]:hover {
-
-	background-color: var( --Q-hyperlink-external-color );
-	text-decoration-color: rgba( 0, 0, 0, 0 );
-	color: #FFF;
-}
-a[ target=_blank ]:hover svg {
-
-	fill: #FFF;	
-}
-/*a[target=_blank]:after {
-
-	content:  " \2197 ";
-}*/
 
 
 
@@ -263,7 +201,8 @@ section, footer {
 	height: calc( var( --size ) *  44 );
 	border-radius: calc( var( --size ) * 1 );
 	padding: calc( var( --size ) * 4 ) 0;
-	font-size: 0;
+	font-size:   0;
+	line-height: 0;
 	transform-style: preserve-3d;
 
 	-webkit-user-select: none;
@@ -281,7 +220,14 @@ section, footer {
 
 	display: block;
 }
+#receipt {
 
+	position: absolute;
+	top:  0;
+	left: 0;
+	font-family: "Roboto Mono", "Courier New", "Courier", monospace;
+	white-space: pre;
+}
 
 
 
@@ -406,11 +352,12 @@ section, footer {
 		0
 		calc( var( --size ) * 2 )
 		var( --color-key-text-glow );
+	/*
 	transition: 
-		/*all var( --beat-quarter ) linear,*/
 		all 5s linear,
 		transform var( --beat ) ease-out;
 	transform-origin: center center;
+	*/
 
 	-webkit-user-select: none;
 	   -moz-user-select: none;
@@ -583,9 +530,23 @@ section, footer {
 	position: absolute;
 	bottom: 120px;
 	left: calc( 50% - 30px );
+	border-radius: 100%;
 	width:  60px;
 	height: 60px;
+	background-color: black;
+	color: white;
+	box-shadow: 0px 2px 20px hsla( 0, 0%, 100%, 0.3 );
 }
+#button-load svg use {
+
+	fill: white;
+}
+@keyframes load-pulse {
+
+	
+}
+
+
 #controls-activator, 
 #controls {
 

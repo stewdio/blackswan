@@ -30,8 +30,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	insert( 0, 0, reset, 'Reset!' )
 	// append( 0.5 )//  Definitely too fast.
 	// append( 0.875 )
-	// append( 0.95 )
-	append( 1 )
+	append( 0.95 )
+	// append( 1 )
 	// append( 1.25 )//  Definitely too slow.
 
 

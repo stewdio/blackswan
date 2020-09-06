@@ -3,8 +3,8 @@
 
 
 
-let
-timeAsTextPrevious = ''
+
+let timeAsTextPrevious = ''
 
 
 
@@ -59,14 +59,15 @@ const comp = Object.assign( [], {
 			key.style.setProperty( 'transition', 'none', 'important' )
 		})
 		
+		keyboard.reset()
 		if( typeof window.reset === 'function' ) window.reset()
 		comp.frameIndex = 0
 		comp.audio.currentTime = time
 		while( comp.frameIndex < comp.length &&
-			comp[ comp.frameIndex ].time <= comp.audio.currentTime ){
+			comp[ comp.frameIndex ].time <= time ){//  time vs comp.audio.currentTime
 
 			const frame = comp[ comp.frameIndex ]
-			if( frame.time >= comp.audio.currentTime - 20 &&//  Is 20 seconds enough?!?
+			if( frame.time >= time - 20 &&//  Is 20 seconds enough?!?
 				typeof frame.action === 'function' ){
 
 				frame.action()
@@ -140,7 +141,9 @@ const comp = Object.assign( [], {
 	},
 	generateReceipt: function(){
 
-		return this.logs.join( '' )
+		const receipt = this.logs.join( '' )
+		document.getElementById( 'receipt' ).innerText = receipt
+		return receipt
 	}
 })
 comp.audio.pause()
@@ -275,7 +278,7 @@ timeFromText = function( text ){
 seekByLocationHash = function(){
 
 	const time = timeFromText( document.location.hash.substr( 1 ))
-	if( time !== false ) comp.seek( time )
+	if( time !== false ) setTimeout( comp.seek.bind( this, time ))
 },
 updateLocationHashFromTime = function(){
 
@@ -335,6 +338,8 @@ controlsShow = function(){
 	.classList
 	.add( 'show' )
 }
+
+
 
 
 
@@ -399,6 +404,8 @@ fullscreenToggle = function(){
 
 
 
+
+
     //////////////
    //          //
   //   Load   //
@@ -427,6 +434,7 @@ comp.audio.addEventListener( 'progress', function( event ){
 	//  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 	//  add loading animation routine here.
+	//  pie chart behind the icon / on the circle?
 
 	//  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -440,6 +448,8 @@ comp.audio.addEventListener( 'progress', function( event ){
 		.display = 'none'
 	}
 })
+
+
 
 
 
@@ -686,15 +696,16 @@ window.addEventListener( 'DOMContentLoaded', function(){
 		if( x >= 0 && x <= rectangle.width ){
 
 			const
-			seekerElement = document.getElementById( 'seeker-head' ),
-			seekerClockElement = document.getElementById( 'seeker-clock' ),
-			seekerTime = x / rectangle.width * comp.audio.duration,
+			seekerEl      = document.getElementById( 'seeker-head' ),
+			seekerClockEl = document.getElementById( 'seeker-clock' ),
+			// seekerTime    = x / rectangle.width * comp.audio.duration,
+			seekerTime    = x / timelineElement.clientWidth * comp.audio.duration,
 			seekerMinutes = Math.floor( seekerTime / 60 ),
 			seekerSeconds = Math.floor( seekerTime - ( seekerMinutes * 60 ))
 
-			seekerElement.style.left = x +'px'
-			seekerClockElement.style.left = x +'px'
-			seekerClockElement.innerText = 
+			seekerEl.style.left = ( x - 1 ) +'px'
+			seekerClockEl.style.left = x +'px'
+			seekerClockEl.innerText = 
 				seekerMinutes +':'+ 
 				seekerSeconds.toString().padStart( 2, '0' )
 		}
@@ -801,6 +812,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
+
+
     ////////////////////////
    //                    //
   //    Participation   //
@@ -885,8 +898,24 @@ window.addEventListener( 'keydown', function( event ){
 		if( event.code === 'ShiftRight'   ) keyboard.channelAdd( 'shift',   'user keyboard right' )
 		if( event.code === 'ControlLeft'  ) keyboard.channelAdd( 'control', 'user keyboard left'  )
 		if( event.code === 'ControlRight' ) keyboard.channelAdd( 'control', 'user keyboard right' )
+
+
+
+
+		if( event.code === 'AltLeft' ||
+			event.code === 'AltRight' ){
+	
+			keyboard.channelAdd( 'option-lag', 'user keyboard' )
+		}
+
+
+
+
+
 		if( event.code === 'AltLeft'      ) keyboard.channelAdd( 'option',  'user keyboard left'  )
 		if( event.code === 'AltRight'     ) keyboard.channelAdd( 'option',  'user keyboard right' )
+
+
 		if( event.code === 'MetaLeft'     ) keyboard.channelAdd( 'command', 'user keyboard left'  )
 		if( event.code === 'MetaRight'    ) keyboard.channelAdd( 'command', 'user keyboard right' )
 
@@ -913,8 +942,30 @@ window.addEventListener( 'keyup', function( event ){
 	if( event.code === 'ShiftRight'   ) keyboard.channelRemove( 'shift',   'user keyboard right' )
 	if( event.code === 'ControlLeft'  ) keyboard.channelRemove( 'control', 'user keyboard left'  )
 	if( event.code === 'ControlRight' ) keyboard.channelRemove( 'control', 'user keyboard right' )
+
+
+
+
+
+
+
+	if( event.code === 'AltLeft' ||
+		event.code === 'AltRight' ){
+
+		setTimeout( function(){
+
+			keyboard.channelRemove( 'option-lag', 'user keyboard' )
+		
+		}, 100 )
+	}
+
+
+
 	if( event.code === 'AltLeft'      ) keyboard.channelRemove( 'option',  'user keyboard left'  )
 	if( event.code === 'AltRight'     ) keyboard.channelRemove( 'option',  'user keyboard right' )
+
+
+
 	if( event.code === 'MetaLeft'     ) keyboard.channelRemove( 'command', 'user keyboard left'  )
 	if( event.code === 'MetaRight'    ) keyboard.channelRemove( 'command', 'user keyboard right' )
 

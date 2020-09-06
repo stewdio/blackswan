@@ -1,10 +1,21 @@
+
+/*   Copyright © 2020, Stewart Smith. See LICENSE for details.   */
+
+
+
+
 /*
 
-	Copyright © 2020, Stewart Smith. See LICENSE for details.
+
+
+The way to solve this absolutely should be transitions.
+However, because we cannot select a color mode for interpolating between colors,
+we cannot force interpolation to be HSL.
+Instead it’s RGB. Which is gross.
+So we are forced to use keyframe animations to declare each color step in HSL instead. 
+
 
 */
-
-
 
 
 body {
@@ -32,9 +43,26 @@ body {
 
 
 
-
-
+	font-size:   24px;
+	line-height: 36px;
+	color: rgba( 0, 0, 0, 0.8 );
 }
+strong {
+
+	color: black;
+}
+a {
+
+	color: rgba( 0, 0, 0, 0.6 );
+}
+a:hover {
+
+	background-color: #FC0;
+	color: black;
+}
+
+
+
 main {
 
 	position: relative;
@@ -45,49 +73,79 @@ main {
 }
 section, footer {
 
-	background-color: hsl( 0, 50%, 93% );
+	background-color: white;
 	text-align: center;
 }
 section {
 
-	padding: 25vh 0;
+	margin:  0;
+	padding: 10vh 0;
 }
-section#eraser img {
+.section-description {
 
-	/*outline: 1px solid hsl( 0, 0%, 80% );*/
+	margin: 5vh auto;
+	width:  90vw;
+	max-width: 640px;
+}
+
+
+/*   Album   */
+
+section#eraser {
+
+	padding-top: 20vh;
+}
+#eraser-album-cover {
+
 	width:  50vw;
 	max-width: 512px;
 	height: auto;	
-	box-shadow: 4px 6px 12px hsla( 0, 0%, 0%, 0.3 );
+	box-shadow: 
+		1px 2px  8px hsla( 0, 0%, 0%, 0.5 ),
+		6px 8px 32px hsla( 0, 0%, 0%, 0.4 );
 }
+
+
+/*  About this composition   */
+
 section#about {
 
-	background: linear-gradient(
 
-		hsl( 0, 50%,  93% ),
-		hsl( 0, 50%, 100% )
-	);
 }
+
+
+/*   Canute and the Sea   */
+
 footer {
 
-	min-height: 50vh;
+	margin: 0;
+	height: 40vw;
 	background-color: white;
 	overflow: hidden;
+	text-align: right;
 }
-footer svg {
+#canute-and-sea {
 
-	display: block;
-	position: absolute;
-	bottom: 0;
-	right:  0;
-	/*width: 80vw;*/
-	/*height: auto;*/
-	/*max-height: 40vh;*/
-	/*height: 40vh;*/
-	width: 80vw;
+	width:  80vw;
+	height: 40vw;
 }
 
 
+
+
+
+
+
+
+
+
+
+
+.keyboard {
+
+	color: hsl( 0, 0%, 80% );
+	vertical-align: bottom;
+}
 
 /*.key {
 
@@ -122,14 +180,14 @@ footer svg {
 	--background-saturation:  90%;
 	--background-lightness:    0%;
 
-	animation-name: key-release;
+/*	animation-name: key-release;
 	animation-fill-mode: both;
 	animation-timing-function: ease-out;
 	animation-duration: var( --beat-eighth );
 	animation-iteration-count: 1;
 	animation-direction: reverse;
 	animation-timing-function: linear;
-	animation-play-state: running;
+	animation-play-state: running;*/
 
 	transition: none;
 
@@ -138,6 +196,41 @@ footer svg {
 /*.key:not(.dead).press,
 .key:not(.dead):hover {
 */
+
+
+
+/*   
+
+
+Default on-release behavior  
+
+when ( .press removed
+	or onMouseExit ){
+	
+	add .on-release
+	wait until its done executing
+	then remove .on-release
+}
+
+*/
+
+.keyboard .on-release {
+
+	animation-name: key-release;
+	animation-fill-mode: both;
+	animation-timing-function: ease-out;
+	animation-duration: var( --beat-eighth );
+	animation-iteration-count: 1;
+	animation-direction: reverse;
+	animation-timing-function: linear;
+	animation-play-state: running;
+}
+.keyboard .option.on-release {
+
+	/*  different animation that doesn’t include the bright highlight  */
+}
+
+
 
 .key.press,
 .key:hover {
@@ -152,6 +245,10 @@ footer svg {
 	transition: none;
 
 	animation-play-state: running;
+
+	box-shadow: 
+		0 0 calc( var( --size ) * 2 ) white,
+		0 0 calc( var( --size ) * 4 ) white;
 }
 
 
@@ -161,9 +258,13 @@ footer svg {
 .key.dead.press,
 .key.dead:hover {
 
+	color: transparent;
+}
+.key.dead.press,
+.key.dead:hover {
+
 	animation:  none;
 	transition: none;
-	color: transparent;
 }
 .keyboard.option .key-tick,
 .keyboard.option .key-E,
@@ -173,16 +274,32 @@ footer svg {
 
 	/*background-color: var( --color-key-options-background );*/
 	/*color: var( --color-key-options-text );*/
+	
+
 	animation:  none;
 	transition: none;
+	
+
 	/*box-shadow: none;*/
 	/*animation-play-state: paused;*/
+}
+.keyboard.option-lag .key-tick,
+.keyboard.option-lag .key-E,
+.keyboard.option-lag .key-U,
+.keyboard.option-lag .key-I,
+.keyboard.option-lag .key-N {
+
+	animation-play-state: running;
+	animation-duration: 0s;
 }
 
 
 
+@keyframes do-nothing {
 
-
+	0% { background-color: inherit; }
+	100% {}
+}
 
 @keyframes key-release {
 
@@ -511,16 +628,6 @@ footer svg {
 	transition-timing-function: ease-in-out;
 }
 
-
-
-
-.key.dead,
-.key.dead.press,
-.key.dead:hover {
-
-	color: transparent;
-	text-shadow: none;
-}
 
 
 

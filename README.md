@@ -1,5 +1,22 @@
-# blackswan
 
+
+![Blackswan](./media/blackswan.jpg "Blackswan")  
+
+Blackswan
+========================================================================
+
+A browser-based music video for Thom Yorke’s song of the same name.
+Song by Thom Yorke, Nigel Godrich, et al.
+Artwork inspired by Stanley Donwood.
+Concept and animation by Stewart Smith.  
+
+  
+  
+
+
+
+TO DO
+------------------------------------------------------------------------
 
 
 
@@ -27,7 +44,11 @@
 
 - NOW WORKS: hover / click on SHIFT, OPTION, CAPS, etc should activate those things just like hitting the real buttons. EXCEPTIONS: caps-lock. does not log to the receipt generator. does this require adding "channels" to every single key?!
 
-- RECEIPT. comp.generateReport() now outputs a receipt of the experience. Need to capture hover events as well tho. Needs more debugging too. auto downloads as text file when song ends?
+- RECEIPT. comp.generateReceipt() now outputs a receipt of the experience. Need to capture hover events as well tho. Needs more debugging too. auto downloads as text file when song ends?
+THIS SHOULD SHOW UP BEFORE THE SONG IS OVER AS AN OVERLAY DIV!!!!!!!!
+
+- Can we make a sphere out of the keyboard keys? And the key press fires them outward (larger radius) from the sphere?
+
 
 
 
@@ -36,8 +57,10 @@
 	CODE
 
 - Hover for DEAD keys doesnt use HSL tween for some reason. fix!!
+This is a result of the animation keyframes attached to it.
+Could this be the final straw for argument that keyframe on-release animation should NOT be attached to .key but instead manually attached to .key-armed and then removed when animation completes?
 
-- seems like glow around key only happens AFTER release, not on engage. fix!
+
 
 - Button hover / tap on mobile. Looks like OPTION key etc are not engaging w touch?
 
@@ -45,26 +68,29 @@
 
 - make sure keyboard scales big on ios when playing in landscape!
 
-- experiment w "maintain perspective" because on entire BODY is too much. main + smoe of #about is prob fiinie and still looks cool when scrolling. 
+- experiment w "maintain perspective" because on entire BODY is too much. main + some of #about is prob fiinie and still looks cool when scrolling. 
 
 
 
 
 	CONTROLS
 
+- style the new LOAD button. pulses like regular play butto, maybe an ease-in-out slow bounce and glow?? fade out on hide(). size needs to be BIG. and maybe relative to viewport size. 
+
 - need a progress bar or pie chart or something on new LOAD button. 
 
-- style the new LOAD button. circle instead of square. pulses like regular play button. fade out on hide().
+
+
 
 
 
 
 	FINISHING
 
-- finish ERASER content.
-- finish ABOUT content.
+- Include a GIF of original Black Swan (Apple Keyboard Viewer) composition with the About section. GIF fade in from white so definite “section of overall composition” feel?
+- For “Purchase” section perhaps need SVG icons for each: XL Recordings, Spotify, Apple Music, Google Play, Amazon Music.
 - need favicons.
-- need site preview image / poster image.
+- need site preview image / poster image. makePosterArt()
 
 
 

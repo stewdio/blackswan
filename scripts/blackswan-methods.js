@@ -6,16 +6,6 @@
 
 function reset(){
 
-	function getRandomBetween( a, b ){
-
-		const 
-		range = b - a,
-		r = Math.random() * range
-
-		return a + r
-	}
-
-	keyboard.reset()
 	keyboard.classList.remove( 
 
 		'caps-lock',
@@ -31,9 +21,17 @@ function reset(){
 	.from( document.querySelectorAll( '.key' ))
 	.forEach( function( element ){
 
+		function getRandomBetween( a, b ){
+
+			const 
+			range = b - a,
+			r = Math.random() * range
+
+			return a + r
+		}
+
 		element.classList.remove( 'press', 'black', 'wtf' )
 		element.style.transform = 'none'
-
 		if( !element.style.getPropertyValue( '--tx' )){
 		
 			element.style.setProperty( '--tx', getRandomBetween( -100, 100 ) +'px' )
@@ -641,6 +639,54 @@ function ekg( durationInBeats ){//  Jed reference.
 }
 
 
+
+
+//  From a default state
+//  remove the labels from all keys
+//  aside from the keys for B, L, A, C, K, S, W, and N.
+
+function makePosterArt1(){
+
+	keyboard.classList.add( 'caps-lock' )
+
+	const keysToRemain = 
+	'BLACKSWAN'.split( '' )
+	.map( function( letter ){
+
+		return 'key-'+ letter
+	})
+
+	keyboard.querySelectorAll( '.key' )
+	.forEach( function( key ){
+
+		const found = keysToRemain.some( e => Array.from( key.classList ).includes( e ))
+		if( !found ) key.classList.add( 'dead' )
+	})
+}
+
+
+//  From a default state
+//  highlight all the keys for B, L, A, C, K, S, W, and N.
+
+function makePosterArt2(){
+
+	keyboard.classList.add( 'caps-lock' )
+
+	const keysToRemain = 
+	'BLACKSWAN'.split( '' )
+	.map( function( letter ){
+
+		return 'key-'+ letter
+	})
+
+	keyboard.querySelectorAll( '.key' )
+	.forEach( function( key ){
+
+		key.classList.add( 'dead' )
+		const found = keysToRemain.some( e => Array.from( key.classList ).includes( e ))
+		if( found ) key.classList.add( 'press' )
+	})
+}
 
 
 
