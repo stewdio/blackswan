@@ -62,9 +62,6 @@ a:hover {
 	color: black;
 	text-decoration: none;
 }
-
-
-
 main {
 
 	position: relative;
@@ -81,23 +78,22 @@ section, footer {
 section {
 
 	margin:  0;
-	padding: 10vh 0;
+	padding: 20vh 0 0 0;
 }
 .section-description {
 
-	margin: 5vh auto;
+	margin: 0 auto;
+	padding: 5vh 0;
 	width:  90vw;
 	max-width: 640px;
 }
 .section-separator {
 
-	margin: 240px auto 0 auto;
-	width:   40px;
+	margin: 20vh auto 0 auto;
+	width:  40px;
 }
 .section-separator svg {
 
-	/*fill: var( --color-background );*/
-	/*fill: #D12D24;*/
 	fill: hsl( 0, 0%, 90% );
 }
 
@@ -135,6 +131,7 @@ section#eraser {
  /*              */
 /****************/
 
+
 a#xl-link {
 
 	display: inline-block;
@@ -149,10 +146,6 @@ a#xl-link svg {
 	height: 240px;
 	fill: hsl( 0, 0%, 20% );
 }
-a:hover#xl-link {
-
-	/*background-color: transparent;*/
-}
 a:hover#xl-link svg {
 
 	fill: black;
@@ -166,12 +159,13 @@ a:hover#xl-link svg {
 	display: inline-block;
 	margin: 0;
 	border-radius: 4px;
-	width:   90px;
+	width:   80px;
 	height: 120px;
+	overflow: hidden;
 	padding: 12px;
 	text-decoration: none;
 	font-size:   15px;
-	line-height: 20px;
+	line-height: 20px;	
 }
 #data-brokers a svg {
 
@@ -195,10 +189,14 @@ a:hover#xl-link svg {
 /****************/
 
 
+section#colophon {
+
+	position: relative;
+}
 figure {
 
 	position: relative;
-	margin: 60px auto;
+	margin: 40px auto;
 	text-align: center;
 }
 figure img {
@@ -215,16 +213,31 @@ figcaption {
 	font-size:   15px;
 	line-height: 20px;
 }
+
+
+
+
+    /**************/
+   /*            */
+  /*   Footer   */
+ /*            */
+/**************/
+
+
 footer {
 
+	position: relative;
 	margin: 0;
-	height: 40vw;
+	height: 100vh;
+	min-height: 40vw;
 	background-color: white;
 	overflow: hidden;
-	text-align: right;
 }
 #canute-and-sea {
 
+	position: absolute;
+	right:  0;
+	bottom: 0;
 	width:  80vw;
 	height: 40vw;
 }
@@ -848,6 +861,9 @@ when ( .press removed
 
 
 
+#receipt {
 
+	color: white;
+}
 
 

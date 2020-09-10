@@ -49,8 +49,11 @@
 
 
 
-
-
+    /***************/
+   /*             */
+  /*   Fitting   */
+ /*             */
+/***************/
 
 
 @media screen and ( max-device-width: 480px ){
@@ -60,19 +63,19 @@
 		-webkit-text-size-adjust: 100%;
 	}
 }
-
-
 body {
 	
 	--size: 8px;
 }
-@media all and ( min-aspect-ratio: 53/22 ){
+@media all and ( min-aspect-ratio: 294/100 ){
 
-	body { --size: 0.8vh; }
+	body { --size: calc( 2.94vh * 0.8 ); }
+	/*main { background-color: green; }*/
 }
-@media all and ( max-aspect-ratio: 53/22 ){
+@media all and ( max-aspect-ratio: 294/100 ){
 
-	body { --size: 0.8vw; }
+	body { --size: calc( 1vw * 0.8 ); }
+	/*main { background-color: blue; }*/
 }
 
 
@@ -195,7 +198,8 @@ section, footer {
 	top:    0;
 	left:   0;
 	right:  0;
-	bottom: calc( var( --size ) * 6 );
+	/*bottom: calc( var( --size ) * 6 );*/
+	bottom: 0;
 	margin: auto;
 	width:  calc( var( --size ) * 106 );
 	height: calc( var( --size ) *  44 );
@@ -225,8 +229,11 @@ section, footer {
 	position: absolute;
 	top:  0;
 	left: 0;
+	text-align: left;
+	white-space: pre-wrap;
+	word-break: break-all;
+	overflow-wrap: break-word;
 	font-family: "Roboto Mono", "Courier New", "Courier", monospace;
-	white-space: pre;
 }
 
 

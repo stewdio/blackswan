@@ -4,7 +4,9 @@
 
 
 
-let timeAsTextPrevious = ''
+let 
+timeAsTextPrevious = '',
+userHasPressedPlay = false
 
 
 
@@ -89,17 +91,23 @@ const comp = Object.assign( [], {
 		updateLocationHashFromTime( comp.audio.currentTime )
 		return this
 	},
+
+
+	//  Usage: console.log( ...comp.report() )
+
 	report: function( frameIndex, includeSiblings ){
 
 		if( typeof frameIndex !== 'number' ) frameIndex = comp.frameIndex
 		if( typeof includeSiblings !== 'boolean' ) includeSiblings = true
+
+		const frameIndexPadLength = comp.length.toString().length
 
 		function construct( frameIndex, name ){
 
 			const frame = comp[ frameIndex ]
 			let output = '\n'
 			if( includeSiblings ) output += name.padEnd( 10, ' ' )
-			output += '#'+ frameIndex +'  '
+			output += '#'+ frameIndex.toString().padStart( frameIndexPadLength, ' ' ) +'  '
 			output += '@ '+ frame.time +'s '
 			output += 'for '+ frame.duration +'s  '
 			output += frame.comment
@@ -122,13 +130,15 @@ const comp = Object.assign( [], {
 		if( includeSiblings ) output.push( '\n\n' )
 		return output
 	},
+
+
+	//  Usage: console.log( ...comp.reportAll() )
+
 	reportAll: function(){
 
-		//  Usage: console.log( ...comp.reportAll() )
-		
 		return comp.reduce( function( output, frame, frameIndex ){
 
-			output.concat( frameIndex, false )
+			return output.concat( comp.report( frameIndex, false ))
 
 		}, [] )
 
@@ -149,11 +159,75 @@ const comp = Object.assign( [], {
 comp.audio.pause()
 Object.assign( comp.audio, {
 
-	preload: 'auto',
+	// preload: 'auto',
 	playbackRate: 1.0,
 	volume: 1
 })
 
+comp.audio.addEventListener( 'canplaythrough', function( event ){
+
+	console.log( '\n\n\nCAN PLAY THROUGH', event )
+
+
+	//  Why would we need this next line of code?!
+	//  If the user has tapped the LOAD-PLAY button
+	//  then we have requested to play the audio
+	//  but it may not have been loaded yet.
+
+	if( comp.isPlaying ) comp.play()
+/*
+
+
+
+
+
+
+	if( userHasPressedPlay &&//  Some platform require user interaction before playback is allowed.
+		( 
+			comp.isPlaying ||//  If we were seeking from a paused state then don’t autoplay.
+			comp.hasPlayedSome !== true//  If this is a virgin play canplaythrough then autoplay.
+		)) comp.play()
+		*/
+})
+/*comp.audio.addEventListener( 'progress', function( event ){
+
+	let loadedLengthInSeconds = 0
+	for( 
+
+		let 
+		i = 0, 
+		totalChunks = this.buffered.length; 
+		
+		i < totalChunks; 
+		i ++ ){
+
+		loadedLengthInSeconds += this.buffered.end( i ) - this.buffered.start( i )
+	}
+
+	const loadedNormalized = loadedLengthInSeconds / this.duration
+	
+	console.log( '\n\n\nloadedLengthInSeconds', loadedLengthInSeconds )
+	console.log( 'this.duration', this.duration )
+	console.log( 'loadedNormalized', loadedNormalized )
+	console.log( 'event', event )
+
+	//  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	//  add loading animation routine here.
+	//  pie chart behind the icon / on the circle?
+
+	//  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+	if( loadedNormalized === 1 ){
+
+		controlsEnable()
+		document
+		.getElementById( 'button-load' )
+		.style
+		.display = 'none'
+	}
+})*/
 
 
 
@@ -401,53 +475,6 @@ fullscreenToggle = function(){
 	}
 }
 
-
-
-
-
-
-    //////////////
-   //          //
-  //   Load   //
- //          //
-//////////////
-
-
-comp.audio.addEventListener( 'progress', function( event ){
-
-	let loadedLengthInSeconds = 0
-	for( 
-
-		let 
-		i = 0, 
-		totalChunks = this.buffered.length; 
-		
-		i < totalChunks; 
-		i ++ ){
-
-		loadedLengthInSeconds += this.buffered.end( i ) - this.buffered.start( i )
-	}
-
-	const loadedNormalized = loadedLengthInSeconds / this.duration
-	
-
-	//  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-	//  add loading animation routine here.
-	//  pie chart behind the icon / on the circle?
-
-	//  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-	if( loadedNormalized === 1 ){
-
-		controlsEnable()
-		document
-		.getElementById( 'button-load' )
-		.style
-		.display = 'none'
-	}
-})
 
 
 
@@ -725,7 +752,11 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Enable PLAY / PAUSE toggle.
 
 	const playPauseElement = document.getElementById( 'play-pause' )
-	playPauseElement.addEventListener( 'mousedown',  comp.toggle )
+	playPauseElement.addEventListener( 'mousedown',  function(){
+
+		userHasPressedPlay = true
+		comp.toggle()
+	})
 
 
 	//  Enable RESTART button
@@ -758,32 +789,29 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	document
 	.getElementById( 'button-load' )
-	.addEventListener( 'mousedown', comp.play )
+	.addEventListener( 'mousedown', function(){
 
-	
-
-
-
-	/*
+		userHasPressedPlay = true
 
 
-	ok.... we need to fix this:
-	on mobile
-	user has to hit play button BEFORE we can load the file!
-	so 'canplaythrough' will never get fired ahead of time. 
+		//  Hide this “load” button
+		//  and enable the regular playback controls.
+		//  NOTE: WHAT WE *SHOULD* DO HERE
+		//  IS BEGIN A LOADING ANIMATION
+		//  THAT IS LATER DISABLED BY "CANPLAYTHROUGH" EVENT.
 
-	do we hide the timeline instead?
-	or use it as a loader progress bar?
+		document
+		.getElementById( 'button-load' )
+		.style
+		.display = 'none'
+
+		controlsEnable()
 
 
-	*/
-	comp.audio.addEventListener( 'canplaythrough', function( event ){
+		//  This will set isPlaying to true
+		//  among other things.
 
-		// let duration = audioElement.duration;
-		// The duration variable now holds the duration (in seconds) of the audio clip 
-		// console.log( 'shit loaded', event )
-		const controlsElement = document.getElementById( 'controls' )
-		// controlsElement.classList.add( 'show' )
+		comp.play()
 	})
 
 

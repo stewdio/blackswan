@@ -67,7 +67,7 @@ function applyCssClass( cssQuery, className ){
 
 
 
-function riff( durationInBeats, drumSolo, addLastHit ){
+function riff( durationInBeats, drumSolo, addLastHit, debug ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 4
 	if( typeof drumSolo !== 'boolean' ) drumSolo = false
@@ -181,9 +181,9 @@ function riff( durationInBeats, drumSolo, addLastHit ){
 			'Riff. Guitar OFF.'
 		)
 	}
-	// assessDuration( timeStart, findLastBeat(), 'Riff', durationInBeats )
+	if( debug ) assessDuration( timeStart, findLastBeat(), 'Riff', durationInBeats )
 }
-function riffHalf( durationInBeats ){
+function riffHalf( durationInBeats, debug ){
 
 	if( durationInBeats !== 2 ) console.error( 'Pretty sure this needs 2 beats here.' )
 
@@ -226,7 +226,7 @@ function riffHalf( durationInBeats ){
 	hit( 1/4, 'period' )
 	hit( 2/4, 'space'  )
 
-	// assessDuration( timeStart, findLastBeat(), 'Riff Half', durationInBeats )
+	if( debug ) assessDuration( timeStart, findLastBeat(), 'Riff Half', durationInBeats )
 }
 
 
@@ -243,7 +243,7 @@ const characterToName = {
 	',': 'comma',
 	"'": 'quote'
 }
-function type( durationInBeats, text, holdUntilDone ){
+function type( durationInBeats, text, holdUntilDone, debug ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 6
 	text = text.replace( /\s/g, '' )
@@ -330,7 +330,7 @@ function type( durationInBeats, text, holdUntilDone ){
 			)
 		}
 	})
-	// assessDuration( timeStart, findLastBeat(), `Type (${ text })`, durationInBeats )
+	if( debug ) assessDuration( timeStart, findLastBeat(), `Type (${ text })`, durationInBeats )
 }
 
 
@@ -340,7 +340,7 @@ function type( durationInBeats, text, holdUntilDone ){
 
 
 
-function train( durationInBeats ){
+function train( durationInBeats, debug ){
 
 	// if( durationInBeats !== 4.5 ) console.error( 'Pretty sure this needs 4.5 beats here.' )
 
@@ -412,7 +412,7 @@ function train( durationInBeats ){
 			}	
 		}
 	}
-	// assessDuration( timeStart, findLastBeat(), 'Traaaaiiiin', durationInBeats )
+	if( debug ) assessDuration( timeStart, findLastBeat(), 'Traaaaiiiin', durationInBeats )
 }
 
 
@@ -422,7 +422,7 @@ function train( durationInBeats ){
 
 
 
-function fuckedUp( durationInBeats ){
+function fuckedUp( durationInBeats, debug ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 2/4
 
@@ -448,9 +448,9 @@ function fuckedUp( durationInBeats ){
 			'Fucked up: '+ letter
 		)
 	})
-	// assessDuration( timeStart, findLastBeat(), 'Fucked up', durationInBeats )
+	if( debug ) assessDuration( timeStart, findLastBeat(), 'Fucked up', durationInBeats )
 }
-function blackSwanOn( durationInBeats ){
+function blackSwanOn( durationInBeats, debug ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 2/4
 
@@ -473,9 +473,9 @@ function blackSwanOn( durationInBeats ){
 			'Black ON: '+ letter
 		)
 	})
-	// assessDuration( timeStart, findLastBeat(), 'Black swan ON', durationInBeats )
+	if( debug ) assessDuration( timeStart, findLastBeat(), 'Black swan ON', durationInBeats )
 }
-function blackSwanOff( durationInBeats ){
+function blackSwanOff( durationInBeats, debug ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 2/4
 
@@ -499,13 +499,13 @@ function blackSwanOff( durationInBeats ){
 		)
 	})
 	append( 0, function(){ keyboard.channelRemove( 'caps-lock', 'blackSwan' )}, 'caps-lock OFF' )
-	// assessDuration( timeStart, findLastBeat(), 'Black swan OFF', durationInBeats )
+	if( debug ) assessDuration( timeStart, findLastBeat(), 'Black swan OFF', durationInBeats )
 }
 
 
 
 
-function blindspotOLD( durationInBeats ){
+function blindspotOLD( durationInBeats, debug ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 2
 
@@ -548,7 +548,7 @@ function blindspotOLD( durationInBeats ){
 			)
 		}
 	})
-	// assessDuration( timeStart, findLastBeat(), 'Blind spot', durationInBeats )
+	if( debug ) assessDuration( timeStart, findLastBeat(), 'Blind spot', durationInBeats )
 }
 
 
