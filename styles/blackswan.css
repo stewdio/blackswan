@@ -45,7 +45,7 @@ body {
 
 	font-size:   24px;
 	line-height: 36px;
-	color: rgba( 0, 0, 0, 0.8 );
+	color: hsl( 0, 0%, 50% );
 }
 strong {
 
@@ -53,12 +53,14 @@ strong {
 }
 a {
 
-	color: rgba( 0, 0, 0, 0.6 );
+	color: hsl( 0, 0%, 50% );
+	text-decoration-color: hsl( 0, 0%, 90% );
 }
 a:hover {
 
 	background-color: #FC0;
 	color: black;
+	text-decoration: none;
 }
 
 
@@ -87,9 +89,28 @@ section {
 	width:  90vw;
 	max-width: 640px;
 }
+.section-separator {
+
+	margin: 240px auto 0 auto;
+	width:   40px;
+}
+.section-separator svg {
+
+	/*fill: var( --color-background );*/
+	/*fill: #D12D24;*/
+	fill: hsl( 0, 0%, 90% );
+}
 
 
-/*   Album   */
+
+
+
+    /**************/
+   /*            */
+  /*   Eraser   */
+ /*            */
+/**************/
+
 
 section#eraser {
 
@@ -101,21 +122,99 @@ section#eraser {
 	max-width: 512px;
 	height: auto;	
 	box-shadow: 
-		1px 2px  8px hsla( 0, 0%, 0%, 0.5 ),
-		6px 8px 32px hsla( 0, 0%, 0%, 0.4 );
+		2px 2px  6px hsla( 0, 0%, 0%, 0.5 ),
+		6px 8px 32px hsla( 0, 0%, 0%, 0.3 );
 }
 
 
-/*  About this composition   */
-
-section#about {
 
 
+    /****************/
+   /*              */
+  /*   Purchase   */
+ /*              */
+/****************/
+
+a#xl-link {
+
+	display: inline-block;
+	margin: 10px auto 20px auto;
+	border-radius: 4px;
+	padding: 0;
+	text-decoration: none;
+}
+a#xl-link svg {
+
+	width:  240px;
+	height: 240px;
+	fill: hsl( 0, 0%, 20% );
+}
+a:hover#xl-link {
+
+	/*background-color: transparent;*/
+}
+a:hover#xl-link svg {
+
+	fill: black;
+}
+#data-brokers {
+
+	margin: 10px 0;
+}
+#data-brokers a {
+
+	display: inline-block;
+	margin: 0;
+	border-radius: 4px;
+	width:   90px;
+	height: 120px;
+	padding: 12px;
+	text-decoration: none;
+	font-size:   15px;
+	line-height: 20px;
+}
+#data-brokers a svg {
+
+	margin: 0 0 6px 0;
+	width:  40px;
+	height: 40px;
+	fill: hsl( 0, 0%, 30% );
+}
+#data-brokers a:hover svg {
+
+	fill: black;
 }
 
 
-/*   Canute and the Sea   */
 
+
+    /****************/
+   /*              */
+  /*   Colophon   */
+ /*              */
+/****************/
+
+
+figure {
+
+	position: relative;
+	margin: 60px auto;
+	text-align: center;
+}
+figure img {
+
+	display: block;
+	margin-bottom: 20px;
+	width: 100%;
+	height: auto;
+}
+figcaption {
+
+	max-width: 85%;
+	margin: 0 auto;
+	font-size:   15px;
+	line-height: 20px;
+}
 footer {
 
 	margin: 0;
@@ -133,12 +232,11 @@ footer {
 
 
 
-
-
-
-
-
-
+    /****************/
+   /*              */
+  /*   Keyboard   */
+ /*              */
+/****************/
 
 
 .keyboard {
@@ -146,7 +244,6 @@ footer {
 	color: hsl( 0, 0%, 80% );
 	vertical-align: bottom;
 }
-
 /*.key {
 
 	--background-hue:        0;
@@ -256,12 +353,17 @@ when ( .press removed
 
 .key.dead,
 .key.dead.press,
-.key.dead:hover {
+.key.dead:hover,
+.key.blank,
+.key.blank.press,
+.key.blank:hover {
 
 	color: transparent;
 }
 .key.dead.press,
-.key.dead:hover {
+.key.dead:hover,
+.key.blank.press,
+.key.blank:hover {
 
 	animation:  none;
 	transition: none;

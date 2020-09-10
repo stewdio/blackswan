@@ -1,6 +1,6 @@
 
 
-![Blackswan](./media/blackswan.jpg "Blackswan")  
+![Blackswan](./media/stewart-smith-blackswan.jpg "Blackswan")  
 
 Blackswan
 ========================================================================
@@ -13,14 +13,8 @@ Concept and animation by Stewart Smith.
   
   
 
-
-
-TO DO
+THE ART
 ------------------------------------------------------------------------
-
-
-
-	THE ART
 
 - "traaaaaiiin" needs some work!
 
@@ -52,15 +46,12 @@ THIS SHOULD SHOW UP BEFORE THE SONG IS OVER AS AN OVERLAY DIV!!!!!!!!
 
 
 
-
-
-	CODE
+CODE
+------------------------------------------------------------------------
 
 - Hover for DEAD keys doesnt use HSL tween for some reason. fix!!
 This is a result of the animation keyframes attached to it.
 Could this be the final straw for argument that keyframe on-release animation should NOT be attached to .key but instead manually attached to .key-armed and then removed when animation completes?
-
-
 
 - Button hover / tap on mobile. Looks like OPTION key etc are not engaging w touch?
 
@@ -73,7 +64,8 @@ Could this be the final straw for argument that keyframe on-release animation sh
 
 
 
-	CONTROLS
+CONTROLS
+------------------------------------------------------------------------
 
 - style the new LOAD button. pulses like regular play butto, maybe an ease-in-out slow bounce and glow?? fade out on hide(). size needs to be BIG. and maybe relative to viewport size. 
 
@@ -82,15 +74,11 @@ Could this be the final straw for argument that keyframe on-release animation sh
 
 
 
-
-
-
-	FINISHING
-
-- Include a GIF of original Black Swan (Apple Keyboard Viewer) composition with the About section. GIF fade in from white so definite “section of overall composition” feel?
-- For “Purchase” section perhaps need SVG icons for each: XL Recordings, Spotify, Apple Music, Google Play, Amazon Music.
+FINISHING
+------------------------------------------------------------------------
+- Consider pushing all SVGs into index.html both for quicker load and to make it possible to run from file:/// again.
 - need favicons.
-- need site preview image / poster image. makePosterArt()
+- need site preview image / poster image. makePosterArt() `./media/stewart-smith-blackswan.jpg`
 
 
 

@@ -19,7 +19,7 @@ function reset(){
 
 	Array
 	.from( document.querySelectorAll( '.key' ))
-	.forEach( function( element ){
+	.forEach( function( key ){
 
 		function getRandomBetween( a, b ){
 
@@ -30,16 +30,23 @@ function reset(){
 			return a + r
 		}
 
-		element.classList.remove( 'press', 'black', 'wtf' )
-		element.style.transform = 'none'
-		if( !element.style.getPropertyValue( '--tx' )){
+		key.classList.remove( 
 		
-			element.style.setProperty( '--tx', getRandomBetween( -100, 100 ) +'px' )
-			element.style.setProperty( '--ty', getRandomBetween( -100, 100 ) +'px' )
-			element.style.setProperty( '--tz', getRandomBetween( -100, 100 ) +'px' )
-			element.style.setProperty( '--rx', getRandomBetween( -1, 1 ))
-			element.style.setProperty( '--ry', getRandomBetween( -1, 1 ))
-			element.style.setProperty( '--rz', getRandomBetween( -1, 1 ))
+			'press', 
+			'black', 
+			'wtf',
+			'blank'//  A clone for “dead” but intended to be temporary.
+		)
+		key.style.transform  = 'none'
+		key.style.visibility = 'visible'
+		if( !key.style.getPropertyValue( '--tx' )){
+		
+			key.style.setProperty( '--tx', getRandomBetween( -100, 100 ) +'px' )
+			key.style.setProperty( '--ty', getRandomBetween( -100, 100 ) +'px' )
+			key.style.setProperty( '--tz', getRandomBetween( -100, 100 ) +'px' )
+			key.style.setProperty( '--rx', getRandomBetween( -1, 1 ))
+			key.style.setProperty( '--ry', getRandomBetween( -1, 1 ))
+			key.style.setProperty( '--rz', getRandomBetween( -1, 1 ))
 		}
 	})
 }
@@ -647,6 +654,7 @@ function ekg( durationInBeats ){//  Jed reference.
 
 function makePosterArt1(){
 
+	reset()
 	keyboard.classList.add( 'caps-lock' )
 
 	const keysToRemain = 
@@ -660,7 +668,7 @@ function makePosterArt1(){
 	.forEach( function( key ){
 
 		const found = keysToRemain.some( e => Array.from( key.classList ).includes( e ))
-		if( !found ) key.classList.add( 'dead' )
+		if( !found ) key.classList.add( 'blank' )
 	})
 }
 
@@ -670,6 +678,7 @@ function makePosterArt1(){
 
 function makePosterArt2(){
 
+	reset()
 	keyboard.classList.add( 'caps-lock' )
 
 	const keysToRemain = 
@@ -682,12 +691,72 @@ function makePosterArt2(){
 	keyboard.querySelectorAll( '.key' )
 	.forEach( function( key ){
 
-		key.classList.add( 'dead' )
+		key.classList.add( 'blank' )
 		const found = keysToRemain.some( e => Array.from( key.classList ).includes( e ))
 		if( found ) key.classList.add( 'press' )
 	})
 }
 
+
+//  From a default state
+//  remove all keys
+//  aside from the keys for B, L, A, C, K, S, W, and N.
+
+function makePosterArt3(){
+
+	reset()
+	keyboard.classList.add( 'caps-lock' )
+
+	const keysToRemain = 
+	'BLACKSWAN'.split( '' )
+	.map( function( letter ){
+
+		return 'key-'+ letter
+	})
+
+	keyboard.querySelectorAll( '.key' )
+	.forEach( function( key ){
+
+		const found = keysToRemain.some( e => Array.from( key.classList ).includes( e ))
+		if( !found ) key.style.visibility = 'hidden'
+	})
+}
+
+
+
+function makePosterArt4(){
+
+	reset()
+	keyboard.classList.add( 'caps-lock' )
+
+	const keysToRemain = 
+	'BLACKSWANFUCKEDUP'.split( '' )
+	.map( function( letter ){
+
+		return 'key-'+ letter
+	})
+
+	keyboard.querySelectorAll( '.key' )
+	.forEach( function( key ){
+
+		const found = keysToRemain.some( e => Array.from( key.classList ).includes( e ))
+		if( !found ) key.style.visibility = 'hidden'
+	})
+
+	const fuckedUpkeysToRemain = 
+	'FUCKEDUP'.split( '' )
+	.map( function( letter ){
+
+		return 'key-'+ letter
+	})
+
+	keyboard.querySelectorAll( '.key' )
+	.forEach( function( key ){
+
+		const found = fuckedUpkeysToRemain.some( e => Array.from( key.classList ).includes( e ))
+		if( found ) key.classList.add( 'press' )
+	})
+}
 
 
 

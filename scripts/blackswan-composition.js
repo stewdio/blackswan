@@ -4,7 +4,7 @@
 
 
 
-comp.audio.src = 'media/blackswan.m4a'
+comp.audio.src = 'media/thom-yorke-blackswan.m4a'
 comp.audio.volume = 0.2
 // comp.audio.playbackRate = 0.25
 comp.bpm  = 101

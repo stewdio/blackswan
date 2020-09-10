@@ -91,13 +91,13 @@ body {
 }
 ::-moz-selection {
 
-	background: var( --Q-selection-background-color );
-	color: var( --Q-selection-color );
+	background: #FC0;
+	color: black;
 }
 ::selection {
 
-	background: var( --Q-selection-background-color );
-	color: var( --Q-selection-color );
+	background: #FC0;
+	color: black;
 }
 
 
