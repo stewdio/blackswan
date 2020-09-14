@@ -8,6 +8,42 @@ let
 timeAsTextPrevious = '',
 userHasPressedPlay = false
 
+const
+forEachElement = function( a, b, c ){
+
+	let
+	rootElement = document,
+	cssQuery = '',
+	action = function(){}
+
+	if(
+
+		typeof a === 'string' &&
+		typeof b === 'function' &&
+		c === undefined
+	){
+		cssQuery = a
+		action = b
+	}
+	else if(
+		
+		a instanceof HTMLElement &&
+		typeof b === 'string' &&
+		typeof c === 'function'
+	){
+		rootElement = a
+		cssQuery = b
+		action = c
+	}
+	else {
+
+		console.error( `Stop makng sense.` )
+	}
+	Array
+	.from( rootElement.querySelectorAll( cssQuery ))
+	.forEach( action )
+}
+
 
 
 
@@ -20,12 +56,61 @@ userHasPressedPlay = false
 /////////////////////
 
 
-const comp = Object.assign( [], {
+//  A compositon (“comp”) is just an Array of execution keyframes
+//  with additional properties and methods globbed on.
 
-	frameIndex: 0,
-	audio: new Audio(),
-	logs: [],
+const comp = Object.assign( [], {
+	
+
+	//  KEYFRAME CREATION.
+	
+	insert: function( time, durationInSeconds, action, comment ){
+
+		if( typeof time !== 'number' ) console.error( `A+ for creativity, but “time” ought to be a number.`, time )
+		if( typeof durationInSeconds !== 'number' ) console.error( `A+ for creativity, but “durationInSeconds” ought to be a number.`, durationInSeconds )
+		comp.push({
+
+			time,
+			duration: durationInSeconds,
+			action,
+			comment
+		})
+		comp.sort( function( a, b ){
+
+			return a.time - b.time
+		})
+		return this
+	},
+	findLastBeat: function(){
+
+		let frameIndex = comp.length - 1
+		while( comp[ frameIndex ].duration === 0 && 
+			frameIndex > 0 ){
+
+			frameIndex --
+		}
+		return comp[ frameIndex ].time + comp[ frameIndex ].duration
+	},
+	append: function( durationInBeats, action, comment ){
+
+		if( typeof durationInBeats !== 'number' ) durationInBeats = 1
+		comp.push({
+
+			time: comp.findLastBeat(),
+			duration: durationInBeats * comp.beatsPerSecond,
+			action,
+			comment
+		})
+		return this
+	},
+
+
+
+
+	//  PLAYBACK CONTROLS.
+	
 	hasPlayedSome: false,
+	audio: new Audio(),
 	play: function(){
 
 		comp.hasPlayedSome = true
@@ -51,17 +136,19 @@ const comp = Object.assign( [], {
 		else comp.play()
 		return this
 	},
+	frameIndex: 0,
 	seek: function( time ){	
 
-		keyboard.style.setProperty( 'transition', 'none', 'important' )
-		Array
-		.from( document.querySelectorAll( '.key' ))
-		.forEach( function( key ){
-
-			key.style.setProperty( 'transition', 'none', 'important' )
+		forEachElement( '.keyboard', ( element ) => {
+			
+			element.style.setProperty( 'transition', 'none', 'important' )
+			element.statesReset()
 		})
-		
-		keyboard.reset()
+		forEachElement( '.key', ( element ) => {
+			
+			element.style.setProperty( 'transition', 'none', 'important' )
+			element.locksReset()
+		})		
 		if( typeof window.reset === 'function' ) window.reset()
 		comp.frameIndex = 0
 		comp.audio.currentTime = time
@@ -76,26 +163,25 @@ const comp = Object.assign( [], {
 			}
 			comp.frameIndex ++
 		}
-		
-		setTimeout( function(){
+		setTimeout(() => {
 
-			keyboard.style.transition = ''
-			Array
-			.from( document.querySelectorAll( '.key' ))
-			.forEach( function( key ){
-
-				key.style.transition = ''
-			})
+			const action = ( element ) => element.style.transition = ''
+			forEachElement( '.keyboard', action )
+			forEachElement( '.key', action )
 		})
-
 		updateLocationHashFromTime( comp.audio.currentTime )
 		return this
 	},
 
 
-	//  Usage: console.log( ...comp.report() )
 
-	report: function( frameIndex, includeSiblings ){
+
+	//  INSPECTION & DEBUGGING.
+	
+
+	//  Usage: console.log( ...comp.inspect() )
+
+	inspect: function( frameIndex, includeSiblings ){
 
 		if( typeof frameIndex !== 'number' ) frameIndex = comp.frameIndex
 		if( typeof includeSiblings !== 'boolean' ) includeSiblings = true
@@ -132,38 +218,41 @@ const comp = Object.assign( [], {
 	},
 
 
-	//  Usage: console.log( ...comp.reportAll() )
+	//  Usage: console.log( ...comp.inspectAll() )
 
-	reportAll: function(){
+	inspectAll: function(){
 
 		return comp.reduce( function( output, frame, frameIndex ){
 
-			return output.concat( comp.report( frameIndex, false ))
+			return output.concat( comp.inspect( frameIndex, false ))
 
 		}, [] )
 
 	},
+
+
+	//  Usage: console.log( comp.logs.join( '' ))
+
+	logs: [],
 	log: function( text ){
 
-		if( text.length === 1 ) this.logs.push( text )
-		else this.logs.push( `\n<${ text.toUpperCase() }>\n` )
+		this.logs.push( text )
 		return this
 	},
 	generateReceipt: function(){
 
-		const receipt = this.logs.join( '' )
-		document.getElementById( 'receipt' ).innerText = receipt
+		const receipt = this.logs.join( '&ZeroWidthSpace;' )
+		document.getElementById( 'receipt' ).innerHTML = receipt
 		return receipt
 	}
 })
+
+
+
+
+//  Comp audio-specific.
+
 comp.audio.pause()
-Object.assign( comp.audio, {
-
-	// preload: 'auto',
-	playbackRate: 1.0,
-	volume: 1
-})
-
 comp.audio.addEventListener( 'canplaythrough', function( event ){
 
 	console.log( '\n\n\nCAN PLAY THROUGH', event )
@@ -174,7 +263,7 @@ comp.audio.addEventListener( 'canplaythrough', function( event ){
 	//  then we have requested to play the audio
 	//  but it may not have been loaded yet.
 
-	if( comp.isPlaying ) comp.play()
+	// if( comp.isPlaying ) comp.play()
 /*
 
 
@@ -230,55 +319,18 @@ comp.audio.addEventListener( 'canplaythrough', function( event ){
 })*/
 
 
+//  CONVENIENCE METHODS
+
+//  In the interest of our *-composition.js code
+//  being as cleanly elegible as possible,
+//  let’s avoid having to prefix every call to 
+//  “insert” or “append” with a “comp.”, eh?
+
+const
+insert = comp.insert.bind( comp ),
+append = comp.append.bind( comp )
 
 
-
-    /////////////////
-   //             //
-  //   Compose   //
- //             //
-/////////////////
-
-
-function insert( time, durationInSeconds, action, comment ){
-
-	if( typeof time !== 'number' ) console.error( `A+ for creativity, but “time” ought to be a number.`, time )
-	if( typeof durationInSeconds !== 'number' ) console.error( `A+ for creativity, but “durationInSeconds” ought to be a number.`, durationInSeconds )
-	comp.push({
-
-		time,
-		duration: durationInSeconds,
-		action,
-		comment
-	})
-	comp.sort( function( a, b ){
-
-		return a.time - b.time
-	})
-	return this
-}
-function findLastBeat(){
-
-	let frameIndex = comp.length - 1
-	while( comp[ frameIndex ].duration === 0 && 
-		frameIndex > 0 ){
-
-		frameIndex --
-	}
-	return comp[ frameIndex ].time + comp[ frameIndex ].duration
-}
-function append( durationInBeats, action, comment ){
-
-	if( typeof durationInBeats !== 'number' ) durationInBeats = 1
-	comp.push({
-
-		time: findLastBeat(),
-		duration: durationInBeats * comp.beat,
-		action,
-		comment
-	})
-	return this
-}
 
 
 
@@ -554,7 +606,7 @@ function assessDuration( timeStart, timeEnd, name, expectedBeats ){
 
 	const
 	durationInSeconds = timeEnd - timeStart,
-	durationInBeats = Math.round( durationInSeconds / comp.beat * 1000000 ) / 1000000,
+	durationInBeats = Math.round( durationInSeconds / comp.beatsPerSecond * 1000000 ) / 1000000,
 	looksGoodToMe = durationInBeats === expectedBeats
 
 	console.log( 
@@ -576,95 +628,445 @@ function assessDuration( timeStart, timeEnd, name, expectedBeats ){
 
 
 
+    //////////////
+   //          //
+  //   Keys   //
+ //          //
+//////////////
+
+
+const 
+appendLockAbilitiesTo = function( object ){
+
+	Object.assign( object, {
+
+		locks: {},
+		locksReset: function(){
+			
+			Object.keys( object.locks )
+			.forEach( function( requestor ){
+	
+				delete object.locks[ requestor ]
+			})
+		},
+		lockAdd: function( requestor ){
+
+			object.locks[ requestor ] = true
+		},
+		lockRemove: function( requestor ){
+
+			delete object.locks[ requestor ]
+		}
+	})
+},
+appendKeyAbilitiesTo = function( keyElement ){
+
+	appendLockAbilitiesTo( keyElement )
+	Object.assign( keyElement, {
+
+		keyboard: keyElement.closest( '.keyboard' ),
+		engage: function( requestor ){
+
+
+			
+
+
+			if( typeof requestor !== 'string' ) requestor = '*'
+			this.lockAdd( requestor )
+			this.classList.add( 'engaged' )
+			this.classList.remove( 'disengaging' )
+			const name = this.getAttribute( 'data-name' )
+			
+
+
+console.log( 'keyName:', name, '\trequestor:', requestor )
+
+			if( name.length > 1 ){
+				
+				if( name === 'delete' ) comp.log( '⌫'  )
+				if( name === 'return' ) comp.log( '\n' )
+				if( name === 'tab'    ) comp.log( '\t' )
+				const keyboardTagName = name.split( '-' )[ 0 ]
+				if([ 
+
+					// 'capslock', 
+					'shift', 
+					'control', 
+					'option', 
+					'command' 
+
+				].includes( keyboardTagName )){
+
+					this.keyboard.classList.add( keyboardTagName )
+					this.keyboard.stateAdd( keyboardTagName, requestor )
+				}
+/*
+
+
+must write a separate mini-toggle-routine here that 
+turns capslock on OR off depending on current state.
+(fine for mouse over instead of mousdown for that?)
+
+*/
 
 
 
-//  Yes, we’d like these to be globally accessible. 
-//  Fun for JavaScript console haxors.
-//  Fun for module-lockdown-avoiding kooks like myself.
+			}
+			else comp.log( this.innerText )
+		},
+		disengage: function( requestor ){
+
+			if( typeof requestor !== 'string' ) requestor = '*'
+			this.lockRemove( requestor )
+			if( Object.keys( this.locks ).length === 0 ){
+
+				this.classList.remove( 'engaged' )
+				const listener = keyElement
+				.addEventListener( 'animationend', function( event ){
+
+					keyElement.removeEventListener( 'animationend', listener )
+					keyElement.classList.remove( 'disengaging' )
+				})
+				this.classList.add( 'disengaging' )
+				const name = this.getAttribute( 'data-name' )
+				if( name.length > 1 ){
+
+
+
+
+
+///  4%^&$%^&$%^&$%^&$%&^*(&^%$#%^&*()^%$#@%^&*()&^%$&*())4%^&$%^&$%^&$%^&$%&^*(&^%$#%^&*()^%$#@%^&*()&^%$&*()
+
+
+					const keyboardTagName = name.split( '-' )[ 0 ]
+					if([ 
+
+						// 'capslock',// @#@$##@$#@#@ this needs to come out!
+						'shift',
+						'control',
+						'option',
+						'command'
+
+					].includes( keyboardTagName )){
+
+						this.keyboard.stateRemove( keyboardTagName, requestor )
+						if( !this.keyboard.states[ keyboardTagName ]){
+
+							this.keyboard.classList.add( keyboardTagName )
+						}
+					}
+				}
+			}
+		},
+		toggle: function( requestor ){
+
+			if( this.classList.contains( 'engaged' )){
+
+				this.disengage( requestor )
+			}
+			else {
+
+				this.engage( requestor )
+			}
+		}
+	})
+	keyElement.addEventListener( 'touchstart', function(){
+
+		keyElement.engage( 'user touch' )
+	})
+	keyElement.addEventListener( 'touchend', function(){
+
+		keyElement.disengage( 'user touch' )
+	})
+	keyElement.addEventListener( 'mouseenter', function(){
+
+		keyElement.engage( 'user mouse' )
+	})
+	keyElement.addEventListener( 'mouseleave', function(){
+
+		keyElement.disengage( 'user mouse' )
+	})
+},
+appendKeyAbilitiesToAllKeys = function(){
+
+	forEachElement( '.key', appendKeyAbilitiesTo )
+}
+
+
+//  While the above facilitates object-specific 
+//  engage() and disengage() actions,
+//  eg. keyElement.engage( 'user mouse' ),
+//  these global methods will engage or disengage
+//  ALL keys of the same name,
+//  ie. if multiple keyboards exist,
+//  which is intended for use by the user typing
+//  or the composition executing.
+//  eg. keyEngage( 'A', 'user keyboard' ).
+
+const
+keyEngage = function( keyName, requestor ){
+
+	if( typeof keyName !== 'string' ) return null
+	forEachElement(
+
+		'[data-name="'+ keyName +'"]', 
+		( element ) => element.engage( requestor )
+	)
+},
+keyDisengage = function( keyName, requestor ){
+
+	if( typeof keyName !== 'string' ) return null
+	forEachElement(
+
+		'[data-name="'+ keyName +'"]', 
+		( element ) => element.disengage( requestor )
+	)
+},
+keyToggle = function( keyName, requestor ){
+
+	if( typeof keyName !== 'string' ) return null
+	forEachElement(
+
+		'[data-name="'+ keyName +'"]', 
+		( element ) => element.toggle( requestor )
+	)
+}
+
+
+
+
+
+
+    ///////////////////
+   //               //
+  //   Keyboards   //
+ //               //
+///////////////////
+
 
 let 
 keyboards,
 keyboard
 
+const
+appendKeyboardAbilitiesTo = function( keyboardElement ){
+
+
+	//  do we use addTagAbilitiesTo ??
+	//  or does keyboard need its own custom shit???
+
+	Object.assign( keyboardElement, {
+
+		states: {},
+		statesReset: function(){
+			
+			Object.keys( keyboardElement.states )
+			.forEach( function( stateName ){
+	
+				delete keyboardElement.states[ stateName ]
+			})
+		},
+		stateAdd: function( stateName, requestor ){
+
+			console.log( 'stateName:', stateName, '\t requestor:', requestor )
+
+			if( keyboardElement.states[ stateName ] === undefined ){
+
+				keyboardElement.states[ stateName ] = {}
+			}
+			keyboardElement.states[ stateName ][ requestor ] = true
+			keyboardElement.classList.add( stateName )
+		},
+		stateRemove: function( stateName, requestor ){
+
+			if( keyboardElement.states[ stateName ] === undefined ){
+
+				keyboardElement.states[ stateName ] = {}
+			}
+			delete keyboardElement.states[ stateName ][ requestor ]
+			if( Object.keys( keyboardElement.states[ stateName ]).length === 0 ){
+
+
+
+
+				keyboardElement.classList.remove( stateName )
+				if( stateName === 'option' ){
+
+					console.log( ' THIS IS WHERE I SHOULD DO option-lag')
+					// for each option-able key
+					// listen for animation end?
+					//  then remove
+
+					keyboardElement.classList.add( 'option-lag' )
+					setTimeout( function(){
+
+						keyboardElement.classList.remove( 'option-lag' )
+
+					}, comp.beatsPerSecond )//  Does this need to be variable??
+				}
+			}
+		}
+	})
+	
+
+	//  While we’re here,
+	//  let’s implement a grid structure
+	//  onto this keyboard’s keys.
+
+	const 
+	keyboardBounds = keyboardElement.getBoundingClientRect(),
+	xMin = keyboardBounds.left,
+	xMax = keyboardBounds.right,
+	yMin = keyboardBounds.top,
+	yMax = keyboardBounds.bottom,
+	xRange = xMax - xMin,
+	yRange = yMax - yMin
+
+	// console.log( 'xRange:', xRange, '\t yRange:', yRange )
+
+	forEachElement( keyboardElement, '.row', ( row, y ) => {
+
+		forEachElement( row, '.key', ( key, x ) => {
+
+			key.setAttribute( 'x', x )
+			key.setAttribute( 'y', y )
+
+			const 
+			keyBounds = key.getBoundingClientRect(),
+			xCenter = keyBounds.left + ( keyBounds.right - keyBounds.left ) / 2,
+			yCenter = keyBounds.top + ( keyBounds.bottom - keyBounds.top ) / 2,
+			xNormalized = ( xCenter - xMin ) / xRange,
+			yNormalized = ( yCenter - yMin ) / yRange
+
+			// console.log( key.getAttribute( 'data-name' ))
+			// console.log( 'keyBounds.left:', keyBounds.left, '\t keyBounds.right:', keyBounds.right )
+			// console.log( '#', x, 'xCenter:', xCenter, '\t yCenter', yCenter )
+
+			// console.log( 'xNormalized:', xNormalized, '\t yNormalized:', yNormalized )
+
+			key.setAttribute( 'x-normalized', xNormalized )
+			key.setAttribute( 'y-normalized', yNormalized )
+		})
+	})
+
+/*
+	//  Modifier keys require more setup than normal keys.
+	//  CHECK IT OUT: This is an *inversion* of .forEach() logic!
+	//  Notice here how we transform a function *statement*
+	//  into a function *expression* by prefixing it
+	//  with a tilde (~). This allows us to invoke it immediately:
+	//  https://en.wikipedia.org/wiki/Immediately_invoked_function_expression
+	//  Additionally, because we name the function 
+	// (rather than assign a lambda function
+	//  to a variable name, ie. “const λ = function(){…}”)
+	//  we can access the function from *within itself*
+	//  which means it can *return itself* and we can 
+	//  call it repeatedly via function chaining:
+	//  https://en.wikipedia.org/wiki/Method_chaining
+	
+	~function λ( cssQuery, cssName, side ){
+
+		Array
+		.from( keyboardElement.querySelectorAll( cssQuery ))
+		.forEach( function( keyElement ){
+
+			const tagName = 'user pointer '+ side
+			keyElement.addEventListener( 'touchstart', function(){
+
+				keyboardElement.stateAdd( cssName, tagName )
+			})
+			keyElement.addEventListener( 'touchend', function(){
+
+				keyboardElement.stateRemove( cssName, tagName )
+			})
+			keyElement.addEventListener( 'mouseenter', function(){
+
+				keyboardElement.stateAdd( cssName, tagName )
+			})
+			keyElement.addEventListener( 'mouseleave', function(){
+
+				keyboardElement.stateRemove( cssName, tagName )
+			})
+		})
+		return λ
+	}
+	( '.key-shift-left',    'shift',   'left'  )
+	( '.key-shift-right',   'shift',   'right' )
+	( '.key-control-left',  'control', 'left'  )
+	( '.key-control-right', 'control', 'right' )
+	( '.key-option-left',   'option',  'left'  )
+	( '.key-option-right',  'option',  'right' )
+	( '.key-command-left',  'command', 'left'  )
+	( '.key-command-right', 'command', 'right' )
+	*/
+},
+appendKeyboardAbilitiesToAllKeyboards = function(){
+
+	forEachElement( '.keyboard', appendKeyboardAbilitiesTo )
+},
+
+
+
+keyboardStateAdd = function( stateName, requestor ){
+
+	forEachElement( 
+
+		'.keyboard', 
+		( element ) => element.stateAdd( stateName, requestor )
+	)
+},
+keyboardStateRemove = function( stateName, requestor ){
+
+	forEachElement( 
+
+		'.keyboard', 
+		( element ) => element.stateRemove( stateName, requestor )
+	)
+},
+keyboardStatesReset = function(){
+
+	forEachElement( '.keyboard', element.statesReset )
+}
+
+
+
+
+
+
+
+
+
 window.addEventListener( 'DOMContentLoaded', function(){
+
+
+	//  Setup all keys to engage or disengage
+	//  in response to both
+	//  the programmed composition
+	//  as well as any user input.
+
+	appendKeyAbilitiesToAllKeys()
+	appendKeyboardAbilitiesToAllKeyboards()
+
+
+
+
+
 
 	const updateInterfaceIdleSince = function(){
 
 		interfaceIdleSince = Date.now()
 		controlsShow()
 	}
-	window.addEventListener( 'keydown', updateInterfaceIdleSince )
+	window.addEventListener( 'keydown',    updateInterfaceIdleSince )
 	window.addEventListener( 'touchstart', updateInterfaceIdleSince )
-	window.addEventListener( 'mousemove', updateInterfaceIdleSince )
-	window.addEventListener( 'scroll', updateInterfaceIdleSince )
+	window.addEventListener( 'mousemove',  updateInterfaceIdleSince )
+	window.addEventListener( 'scroll',     updateInterfaceIdleSince )
 
 
-	//  Enable keyboard CHANNELS
-	//  so that individual input methods 
-	//  are individually respected.
 
-	keyboards = Array.from( document.querySelectorAll( '.keyboard' ))
-	keyboards.forEach( function( keyboard ){
 
-		Object.assign( keyboard, {
 
-			channels: {},
-			channelAdd: function( cssName, requesterName ){
 
-				if( keyboard.channels[ cssName ] === undefined ){
-
-					keyboard.channels[ cssName ] = {}
-				}
-				keyboard.channels[ cssName ][ requesterName ] = true
-				keyboard.classList.add( cssName )
-			},
-			channelRemove: function( cssName, requesterName ){
-
-				if( keyboard.channels[ cssName ] === undefined ){
-
-					keyboard.channels[ cssName ] = {}
-				}
-				if( keyboard.channels[ cssName ][ requesterName ]){
-
-					delete keyboard.channels[ cssName ][ requesterName ]
-				}
-				if( Object.keys( keyboard.channels[ cssName ]).length === 0 ){
-
-					keyboard.classList.remove( cssName )
-				}
-			},
-			reset: function(){
-				
-				Object.keys( keyboard.channels ).forEach( function( cssName ){
-
-					Object.keys( keyboard.channels[ cssName ]).forEach( function( requesterName ){
-
-						keyboard.classList.remove( cssName )
-						delete keyboard.channels[ cssName ][ requesterName ]
-					})
-				})
-			}
-		})
-		
-
-		//  While we’re here,
-		//  let’s implement grid identifiers.
-
-		Array
-		.from( document.querySelectorAll( '.row' ))
-		.forEach( function( row, y ){
-
-			Array
-			.from( row.querySelectorAll( '.key' ))
-			.forEach( function( key, x ){
-
-				key.setAttribute( 'x', x )
-				key.setAttribute( 'y', y )
-			})
-		})
-	})
-	keyboard = keyboards[ 0 ]
 	
 
 	//  Enable control panel reveal when in fullscreen mode.
@@ -742,7 +1144,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	timelineElement.addEventListener( 'touchstart', updateSeekerFromPointer )
 	timelineElement.addEventListener( 'touchmove',  updateSeekerFromPointer )
 	timelineElement.addEventListener( 'touchend',   seekByGui )
-
 	timelineElement.addEventListener( 'mousedown',  seekByGui )
 	timelineElement.addEventListener( 'mouseover',  updateSeekerFromPointer )
 	timelineElement.addEventListener( 'mousemove',  updateSeekerFromPointer )
@@ -815,21 +1216,38 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	})
 
 
-	//  When a viewer finishes watching the piece
-	//  let’s generate a receipt of the typed bits.
-	//  This includes the piece itself
-	//  but ALSO the viewer’s participation :)
 
-	comp.audio.addEventListener( 'ended', function( event ){
 
-		console.log( 
 
-			'\nGenerate receipt...',
-			'\n\n',
-			 comp.generateReceipt()
-		)		
-		comp.pause().seek( 0 )
+
+	window.addEventListener( 'keydown', function( event ){
+
+		if( event.repeat !== true ){
+		
+			//const name = !!event.key.match( /^[A-Z]|[0-9]$/i )
+			const name = event.key.length == 1
+				? event.key.toUpperCase()
+				: eventCodeToCssQuery[ event.code ]
+
+			keyEngage( name, 'user keyboard' )
+			if( event.code === 'Space' ){
+
+				event.preventDefault()
+				comp.toggle()
+			}
+		}
 	})
+	window.addEventListener( 'keyup', function( event ){
+		
+		//const name = !!event.key.match( /[A-Z]|[0-9]/i )
+		const name = event.key.length == 1
+			? event.key.toUpperCase()
+			: eventCodeToCssQuery[ event.code ]
+
+		keyDisengage( name, 'user keyboard' )
+	})
+
+
 
 
 	//  Kick off the render loop.
@@ -852,9 +1270,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 function modifyClassList( cssQuery, addOrRemove, classToAddOrRemove ){
 
 	if( typeof classToAddOrRemove !== 'string' ) classToAddOrRemove = 'press'
-	Array
-	.from( document.querySelectorAll( cssQuery ))
-	.forEach( function( element ){
+	forEachElement( cssQuery, ( element ) => {
 
 		element.classList[ addOrRemove ]( classToAddOrRemove )
 	})
@@ -871,7 +1287,7 @@ const eventCodeToCssQuery = {
 	BracketRight: 'bracket-close',
 	Backslash:    'slash-backward',
 
-	// CapsLock:     'caps-lock',
+	CapsLock:     'capslock',
 	Semicolon:    'semicolon',
 	Quote:        'quote',
 	Enter:        'return',
@@ -893,145 +1309,11 @@ const eventCodeToCssQuery = {
 	ArrowDown:    'arrow-down',
 	ArrowRight:   'arrow-right'
 }
-function addChannelToggles( key, cssName, side ){
-
-	const channel = 'user pointer '+ side
-	key.addEventListener( 'mouseover', function(){
-
-		keyboard.channelAdd( cssName, channel )
-	})
-	key.addEventListener( 'mousedown', function(){
-
-		keyboard.channelAdd( cssName, channel )
-	})
-	key.addEventListener( 'mouseout', function(){
-
-		keyboard.channelRemove( cssName, channel )
-	})
-	key.addEventListener( 'mouseup', function(){
-
-		keyboard.channelRemove( cssName, channel )
-	})
-}
-window.addEventListener( 'keydown', function( event ){
-
-	if( event.code === 'Space' ){
-
-		event.preventDefault()
-		comp.toggle()
-	}
-	if( event.repeat !== true ){
-
-		if( event.code === 'ShiftLeft'    ) keyboard.channelAdd( 'shift',   'user keyboard left'  )
-		if( event.code === 'ShiftRight'   ) keyboard.channelAdd( 'shift',   'user keyboard right' )
-		if( event.code === 'ControlLeft'  ) keyboard.channelAdd( 'control', 'user keyboard left'  )
-		if( event.code === 'ControlRight' ) keyboard.channelAdd( 'control', 'user keyboard right' )
-
-
-
-
-		if( event.code === 'AltLeft' ||
-			event.code === 'AltRight' ){
-	
-			keyboard.channelAdd( 'option-lag', 'user keyboard' )
-		}
 
 
 
 
 
-		if( event.code === 'AltLeft'      ) keyboard.channelAdd( 'option',  'user keyboard left'  )
-		if( event.code === 'AltRight'     ) keyboard.channelAdd( 'option',  'user keyboard right' )
-
-
-		if( event.code === 'MetaLeft'     ) keyboard.channelAdd( 'command', 'user keyboard left'  )
-		if( event.code === 'MetaRight'    ) keyboard.channelAdd( 'command', 'user keyboard right' )
-
-		const cssQuery = eventCodeToCssQuery[ event.code ]
-		if( event.code === 'CapsLock' ){
-
-			keyboard.classList.add( 'caps-lock' )
-		}
-		else if( cssQuery !== undefined ){
-
-			modifyClassList( '.key-'+ cssQuery, 'add' )
-		}
-		else if( !!event.key.match( /[A-Z]|[0-9]/i )){
-
-			const keyElement = document.querySelector( '.key-'+ event.key.toUpperCase() )
-			if( keyElement instanceof HTMLElement ) keyElement.classList.add( 'press' )
-		}
-	}
-	comp.log( event.code.startsWith( 'Key' ) ? event.key : event.code )
-})
-window.addEventListener( 'keyup', function( event ){
-	
-	if( event.code === 'ShiftLeft'    ) keyboard.channelRemove( 'shift',   'user keyboard left'  )
-	if( event.code === 'ShiftRight'   ) keyboard.channelRemove( 'shift',   'user keyboard right' )
-	if( event.code === 'ControlLeft'  ) keyboard.channelRemove( 'control', 'user keyboard left'  )
-	if( event.code === 'ControlRight' ) keyboard.channelRemove( 'control', 'user keyboard right' )
-
-
-
-
-
-
-
-	if( event.code === 'AltLeft' ||
-		event.code === 'AltRight' ){
-
-		setTimeout( function(){
-
-			keyboard.channelRemove( 'option-lag', 'user keyboard' )
-		
-		}, 100 )
-	}
-
-
-
-	if( event.code === 'AltLeft'      ) keyboard.channelRemove( 'option',  'user keyboard left'  )
-	if( event.code === 'AltRight'     ) keyboard.channelRemove( 'option',  'user keyboard right' )
-
-
-
-	if( event.code === 'MetaLeft'     ) keyboard.channelRemove( 'command', 'user keyboard left'  )
-	if( event.code === 'MetaRight'    ) keyboard.channelRemove( 'command', 'user keyboard right' )
-
-	const cssQuery = eventCodeToCssQuery[ event.code ]
-	if( event.code === 'CapsLock' ){
-
-		keyboard.classList.remove( 'caps-lock' )
-	}
-	else if( cssQuery !== undefined ){
-
-		modifyClassList( '.key-'+ cssQuery, 'remove' )
-	}
-	else if( !!event.key.match( /[A-Z]|[0-9]/i )){
-
-		const keyElement = document.querySelector( '.key-'+ event.key.toUpperCase() )
-		if( keyElement instanceof HTMLElement ) keyElement.classList.remove( 'press' )
-	}
-})
-window.addEventListener( 'DOMContentLoaded', function(){
-
-	function addChannelTogglesGeneric( cssQuery, cssName, side ){
-
-		Array
-		.from( document.querySelectorAll( cssQuery ))
-		.forEach( function( key ){
-
-			addChannelToggles( key, cssName, side )
-		})
-	}
-	addChannelTogglesGeneric( '.key-shift-left',    'shift',   'left'  )
-	addChannelTogglesGeneric( '.key-shift-right',   'shift',   'right' )
-	addChannelTogglesGeneric( '.key-control-left',  'control', 'left'  )
-	addChannelTogglesGeneric( '.key-control-right', 'control', 'right' )
-	addChannelTogglesGeneric( '.key-option-left',   'option',  'left'  )
-	addChannelTogglesGeneric( '.key-option-right',  'option',  'right' )
-	addChannelTogglesGeneric( '.key-command-left',  'command', 'left'  )
-	addChannelTogglesGeneric( '.key-command-right', 'command', 'right' )
-})
 
 
 
