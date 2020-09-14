@@ -20,7 +20,7 @@ So we are forced to use keyframe animations to declare each color step in HSL in
 
 body {
 
-	--bpm: 101;
+	--beats-per-minute: 101;
 
 
 	/*  Based on the “Eraser” album artwork colors  */
@@ -473,8 +473,8 @@ footer {
 	--background-hue:          0;
 	--background-saturation:  90%;
 	--background-lightness:    0%;
-/*	transition: none;
-	animation:  none;*/
+	transition: none;
+	animation:  none;
 }
 .key.engaged {
 
@@ -488,16 +488,18 @@ footer {
 		0 0 calc( var( --size ) * 2 ) white,
 		0 0 calc( var( --size ) * 4 ) white;
 }
-.key.disenaging {
+.key.disengaging {
+
+	transition-duration: var( --beat-half );
+	animation-duration:  var( --beat-half );
 
 	animation-name: key-release-default;
 	animation-fill-mode: both;
-	animation-duration: var( --beat-eighth );
 	animation-iteration-count: 1;
 	animation-timing-function: linear;
 	animation-play-state: running;
 }
-.keyboard.option-lag .key.disenaging {
+.keyboard.option-lag .key.disegnaging {
 
 	animation-name: key-release-option;
 }
@@ -505,10 +507,12 @@ footer {
 
 .key.dead,
 .key.dead.engaged,
+.key.dead.disengaging,
 .key.blank,
-.key.blank.engaged {
+.key.blank.engaged,
+.key.blank.disengaging {
 
-	color: transparent;
+	color: transparent !important;
 }
 
 
@@ -751,7 +755,7 @@ footer {
 }
 
 
-.key-period.engaged {
+/*.key-period.engaged {
 
 	background-color: hsl( 0, 100%, 100% );
 	box-shadow: 
@@ -759,26 +763,30 @@ footer {
 		0
 		calc( var( --size ) * 6 )
 		hsl( 0, 100%, 100% );
-}
+}*/
 
 
 
 
 .keyboard.push-out .key.engaged {
 	
-	transform: translateZ( 90px ) !important;
-	transition: none;
+	transform: translateZ( 120px ) !important;
+	/*transition: none;*/
 }
 .keyboard.push-in .key.engaged {
 	
-	transform: translateZ( -90px ) !important;
-	transition: none;
+	transform: translateZ( -120px ) !important;
+	/*transition: none;*/
 }
-.keyboard.push-out .key.disenaging,
-.keyboard.push-in  .key.disenaging {
+.keyboard.push-out .key.disengaging,
+.keyboard.push-in  .key.disengaging {
 
-	transition: transform var( --beat ) ease-out;
-	animation-duration: var( --beat );
+	transition-property: transform;
+	transition-timing-function: ease-out;
+
+
+	transition-duration: calc( var( --beat ) * 2 );
+	animation-duration:  calc( var( --beat ) * 2 );
 }
 
 
@@ -788,7 +796,7 @@ footer {
 
 	transition: none;
 }
-.keyboard.long-sustain .key.disenaging {
+.keyboard.long-sustain .key.disengaging {
 
 	transition: transform var( --beat-eighth ) ease-out;
 	animation-duration: var( --beat );

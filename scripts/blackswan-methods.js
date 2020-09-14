@@ -134,28 +134,28 @@ function riff( durationInBeats, drumSolo, addLastHit, debug ){
 			timeStart + comp.beatsPerSecond * 0/8,
 			comp.beatsPerSecond * 2/8,
 			function(){ keyEngage( 'option-left' )},
-			'Riff. Guitar ON.'
+			'Riff. Bass beat ON.'
 		)
 		insert( 
 
 			timeStart + comp.beatsPerSecond * 2/8, 
 			0,//comp.beatsPerSecond * 1/4,
 			function(){ keyDisengage( 'option-left' )},
-			'Riff. Guitar ON.'
+			'Riff. Bass beat OFF.'
 		)
 		insert( 
 
 			timeStart + comp.beatsPerSecond * 4/8, 
 			comp.beatsPerSecond * 2/8,
 			function(){ keyEngage( 'option-left' )},
-			'Riff. Guitar ON.'
+			'Riff. Bass beat ON.'
 		)
 		insert(
 
 			timeStart + comp.beatsPerSecond * 8/8,
 			0,//comp.beatsPerSecond * 4/8,
 			function(){ keyDisengage( 'option-left' )},
-			'Riff. Guitar OFF.'
+			'Riff. Bass beat OFF.'
 		)
 	}
 	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Riff', durationInBeats )
@@ -177,28 +177,14 @@ function riffHalf( durationInBeats, debug ){
 
 			timeMark,
 			comp.beatsPerSecond * durationToOccupy,
-			function(){ 
-
-				// const keyElement = document.querySelector( '.key-'+ cssName )
-				// key.classList.add( 'press' )
-				keyEngage( cssName )
-				
-				// if( cssName === 'space' ) comp.log( ' ' )
-				// else if( cssName === 'period' ) comp.log( key.innerText )
-				// else if( cssName === 'tab' ) comp.log( '	' )
-				// else comp.log( cssName )
-			},
+			function(){ keyEngage( cssName )},
 			'Riff. Hit ON: '+ cssName
 		)
 		insert(
 
 			timeMark + comp.beatsPerSecond * durationVisible * 15/16,
 			0,
-			function(){ 
-
-				//document.querySelector( '.key-'+ cssName ).classList.remove( 'press' )
-				keyDisengage( document.querySelector( '.key-'+ cssName ))
-			},
+			function(){ keyDisengage( cssName )},
 			'Riff. Hit OFF: '+ cssName
 		)
 		timeMark += comp.beatsPerSecond * durationToOccupy
@@ -206,11 +192,11 @@ function riffHalf( durationInBeats, debug ){
 
 	let timeMark = timeStart
 
-	hit( 2/4, 'tab'    )
-	hit( 2/4, 'period' )
-	hit( 1/4, 'space'  )
-	hit( 1/4, 'period' )
-	hit( 2/4, 'space'  )
+	hit( 2/4, 'tab' )
+	hit( 2/4, '.' )
+	hit( 1/4, ' ' )
+	hit( 1/4, '.' )
+	hit( 2/4, ' ' )
 
 	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Riff Half', durationInBeats )
 }
@@ -250,32 +236,45 @@ function riffFuckedUp( durationInBeats, drumSolo, addLastHit, debug ){
 	let timeMark = timeStart
 
 	hit( 2/4, ' ', 1/4 )
-	hit( 2/4, ' '  )
+	hit( 2/4, ' ' )
 	if( durationInBeats > 1 ){
 	
 		hit( 1/4, '.' )
-		hit( 2/4, ' '  )
+		hit( 2/4, ' ' )
 		if( durationInBeats > 2 ){
 
-			hit( 2/4, 'tab'    )
+			hit( 2/4, 'tab' )
 			hit( 2/4, '.' )
 			if( durationInBeats > 3 ){
 			
-				hit( 1/4, ' '  )
+				hit( 1/4, ' ' )
 				hit( 1/4, '.' )
-				hit( 2/4, ' '  )
+				hit( 2/4, ' ' )
+
 				if( durationInBeats > 4 ){
 			
 					hit( 2/4, ' ', 1/4 )
-					hit( 2/4, ' '  )
+					hit( 2/4, ' ' )
 					if( durationInBeats > 5 ){
 
 						hit( 1/4, '.' )
-						hit( 2/4, ' '  )
+						hit( 2/4, ' ' )
+					}
+					if( durationInBeats > 6 ){
+
+						hit( 2/4, 'tab' )
+						hit( 2/4, '.' )
+						if( durationInBeats > 7 ){
+
+							hit( 1/4, ' ' )
+							hit( 1/4, '.' )
+							hit( 2/4, ' ' )
+							if( addLastHit ) hit( 1/4, ' ', 1/8 )
+							else append( 1/4 )
+						}
 					}
 				}
 			}
-
 			if( addLastHit ) hit( 1/4, ' ', 1/8 )
 			else append( 1/4 )
 		}
@@ -339,7 +338,7 @@ function riffFuckedUp( durationInBeats, drumSolo, addLastHit, debug ){
 		)
 	})
 
-
+	debug = true
 	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Riff', durationInBeats )
 }
 
@@ -654,7 +653,7 @@ function surfRider( durationInBeats ){
 		0,
 		function(){
 	
-			keyboard.classList.add( 'surf-rider' )
+			//keyboard.classList.add( 'surf-rider' )
 		}
 	)
 
@@ -918,7 +917,7 @@ function ripple( x, y ){
 	})
 }
 
-window.setInterval( ripple, 100 )
+// window.setInterval( ripple, 100 )
 
 
 

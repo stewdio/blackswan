@@ -648,6 +648,7 @@ appendLockAbilitiesTo = function( object ){
 	
 				delete object.locks[ requestor ]
 			})
+			this.classList.remove( 'engaged', 'disengaging' )
 		},
 		lockAdd: function( requestor ){
 

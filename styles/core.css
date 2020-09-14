@@ -117,8 +117,8 @@ html {
 }
 body {
 	
-	--bpm: 120;
-	--beat:         calc( 60s / var( --bpm ));
+	--beats-per-minute: 120;
+	--beat:         calc( 60s / var( --beats-per-minute ));
 	--beat-half:    calc( var( --beat ) / 2 );
 	--beat-quarter: calc( var( --beat ) / 4 );
 	--beat-eighth:  calc( var( --beat ) / 8 );
@@ -371,7 +371,7 @@ section, footer {
 	    -ms-user-select: none;
 	        user-select: none;
 }
-.key.engage/*,
+.key.engaged/*,
 .key:hover*/ {
 
 	position: relative;

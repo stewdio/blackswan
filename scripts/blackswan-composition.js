@@ -4,8 +4,6 @@
 
 
 
-//  x
-
 comp.beatsPerMinute = 101
 comp.beatsPerSecond =  60 / comp.beatsPerMinute
 Object.assign( comp.audio, {
@@ -14,6 +12,7 @@ Object.assign( comp.audio, {
 	volume: 0.2,
 	playbackRate: 1//0.25
 })
+
 
 
 
@@ -186,10 +185,12 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Beat range  169 – 200
 	//  Time range  1:40 – 1:59
 
-	riffFuckedUp( 6 )
-	// riff( 4 )
-	riffFuckedUp( 4 )
-
+	riffFuckedUp( 8 )
+	riff( 4 )
+	riff( 4 )
+	riffFuckedUp( 8 )
+	riff( 4 )
+	riff( 4 )
 /*
 	append(   0, function(){ keyboard.channelAdd( 'caps-lock' )}, 'Fucked up. Caps-lock ON.' )
 	fuckedUp( 2 )
@@ -317,7 +318,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	append( 16 )
 	append( 1, function(){
 
-		keyboard.classList.add( 'crazy' )
+		//keyboard.classList.add( 'crazy' )
 	})
 	// append( 2, function(){
 
@@ -340,7 +341,12 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Time range  2:36 – ?
 
 
-	append( 0, function(){ keyboard.classList.add( 'push-out' )})
+	append( 0, function(){ 
+		forEachElement( '.keyboard', ( e ) => {
+
+			e.classList.add( 'push-out' )
+		})
+	})
 
 	type(   6,   `You cannot kick-start a dead horse` )
 	append( 1    )
@@ -355,9 +361,9 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	riff(   3    )
 	
 	type(   4,   `With your fingers you can touch` )
-	append( 0,    function(){ keyboard.classList.add( 'long-sustain' )})
+	// append( 0,    function(){ keyboard.classList.add( 'long-sustain' )})
 	type(   5,   `measdfghjkl`, true )
-	append( 0,    function(){ keyboard.classList.remove( 'long-sustain' )})
+	// append( 0,    function(){ keyboard.classList.remove( 'long-sustain' )})
 	riff(   4    )
 	riff(   4    )
 
@@ -391,19 +397,19 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	riff( 4 )
 	
 
-	append(  0, 
+	// append(  0, 
 		
-		function(){ keyboard.channelAdd( 'caps-lock' )}, 
-		'Fucked up. Caps-lock ON.' 
-	)
+	// 	function(){ keyboard.channelAdd( 'caps-lock' )}, 
+	// 	'Fucked up. Caps-lock ON.' 
+	// )
 	fuckedUp( 2 )
 	append(   2 )
 	fuckedUp( 2 )
-	append(   0, 
+	// append(   0, 
 		
-		function(){ keyboard.channelRemove( 'caps-lock' )}, 
-		'Fucked up. Caps-lock OFF.' 
-	)
+	// 	function(){ keyboard.channelRemove( 'caps-lock' )}, 
+	// 	'Fucked up. Caps-lock OFF.' 
+	// )
 	append(  2 )
 	riff(    4 )
 	riff(    4 )
@@ -421,6 +427,18 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	//  EXIT
 
+
+
+
+/*
+
+
+Can this type ITSELF???
+Ajax load whatever javascript (or HTML, CSS, etc)
+and type that out super fast???
+
+
+*/
 
 
 
