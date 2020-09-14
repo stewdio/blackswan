@@ -4,13 +4,16 @@
 
 
 
-comp.audio.src = 'media/thom-yorke-blackswan.m4a'
-comp.audio.volume = 0.2
-// comp.audio.playbackRate = 0.25
-comp.bpm  = 101
-comp.beat = 60 / comp.bpm
+//  x
 
+comp.beatsPerMinute = 101
+comp.beatsPerSecond =  60 / comp.beatsPerMinute
+Object.assign( comp.audio, {
 
+	src: 'media/thom-yorke-blackswan.m4a',
+	volume: 0.2,
+	playbackRate: 1//0.25
+})
 
 
 
@@ -63,22 +66,39 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Beat range  40 – 88
 	//  Time range  0:24 – 0:52
 
-	type(   6,   `What will grow crooked, you can't make straight` )
+	//  Felt like we shouldn’t use uppercase in this first verse
+	//  as watching every key enter and exit SHIFT mode
+	//  just felt too jarring for an introductory experience.
+
+	type(   6,   `what will grow crooked, you can't make straight` )
 	append( 1    )
-	type(   4.5, `It's the price that you gotta pay` )
+	type(   4.5, `it's the price that you gotta pay` )
 	append( 0.5  )
 	riff(   4    )
 	
-	type(   6,   `Do yourself a favour and pack your bags` )
+	type(   6,   `do yourself a favour and pack your bags` )
 	append( 1    )
-	type(   4.5, `Buy a ticket and get on the train` )
+	type(   4.5, `buy a ticket and get on the train` )
 	append( 0.5  )
 	riff(   3    )
 	
-	type(   4,   `Buy a ticket and get on the` )
-	append( 0,    function(){ keyboard.classList.add( 'long-sustain' )})
+	type(   4,   `buy a ticket and get on the` )
+	append( 0,    function(){ 
+	
+		forEachElement( '.keyboard', function( keyboard ){ 
+
+			keyboard.classList.add( 'long-sustain' )
+		})
+	})
+	
 	train(  5    )
-	append( 0,    function(){ keyboard.classList.remove( 'long-sustain' )})
+	append( 0,    function(){ 
+
+		forEachElement( '.keyboard', function( keyboard ){ 
+
+			keyboard.classList.remove( 'long-sustain' )
+		})
+	})
 	riff(   4    )
 	riff(   4    )
 
@@ -91,21 +111,21 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Beat range  89 – 120
 	//  Time range  0:52 – 1:11
 
-	append(   0, function(){ keyboard.channelAdd( 'caps-lock' )}, 'Fucked up. Caps-lock ON.' )
+	append(   0, function(){ forEachElement( '.keyboard', (e)=>{e.stateAdd( 'capslock' )})}, 'Fucked up. Caps-lock ON.' )
 	fuckedUp( 2 )
 	append(   2 )
 	fuckedUp( 2 )
 	append(   2 )
-	append(   0, function(){ keyboard.channelRemove( 'caps-lock' )}, 'Fucked up. Caps-lock OFF.' )
+	append(   0, function(){ forEachElement( '.keyboard', (e)=>{e.stateRemove( 'capslock' )})}, 'Fucked up. Caps-lock OFF.' )
 	riff(     4 )
 	riff(     4 )
 
-	append(   0, function(){ keyboard.channelAdd( 'caps-lock' )}, 'Fucked up. Caps-lock ON.' )
+	append(   0, function(){ forEachElement( '.keyboard', (e)=>{e.stateAdd( 'capslock' )})}, 'Fucked up. Caps-lock ON.' )
 	fuckedUp( 2 )
 	append(   2 )
 	fuckedUp( 2 )
 	append(   2 )
-	append(   0, function(){ keyboard.channelRemove( 'caps-lock' )}, 'Fucked up. Caps-lock OFF.' )
+	append(   0, function(){ forEachElement( '.keyboard', (e)=>{e.stateRemove( 'capslock' )})}, 'Fucked up. Caps-lock OFF.' )
 	riff(     4 )
 	riff(     4 )
 
@@ -118,7 +138,13 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Beat range  121 – 168
 	//  Time range  1:11 – 1:40
 
-	append( 0, function(){ keyboard.classList.add( 'push-out' )})
+	append( 0, function(){ 
+
+		forEachElement( '.keyboard', ( e ) => {
+
+			e.classList.add( 'push-out' )
+		})
+	})
 
 	type(   6,   `People get crushed like biscuit crumbs` )
 	append( 1    )
@@ -133,9 +159,21 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	riff(   3    )
 	
 	type(   4,   `No, it just isn't` )
-	append( 0,    function(){ keyboard.classList.add( 'long-sustain' )})
+	append( 0,    function(){ 
+
+		forEachElement( '.keyboard', ( e ) => {
+
+			e.classList.add( 'long-sustain' )
+		})
+	})
 	type(   5,   `happening`, true )
-	append( 0,    function(){ keyboard.classList.remove( 'long-sustain' )})
+	append( 0,    function(){ 
+
+		forEachElement( '.keyboard', ( e ) => {
+
+			e.classList.remove( 'long-sustain' )
+		})
+	})
 	riff(   4    )
 	riff(   4    )
 
@@ -148,6 +186,11 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Beat range  169 – 200
 	//  Time range  1:40 – 1:59
 
+	riffFuckedUp( 6 )
+	// riff( 4 )
+	riffFuckedUp( 4 )
+
+/*
 	append(   0, function(){ keyboard.channelAdd( 'caps-lock' )}, 'Fucked up. Caps-lock ON.' )
 	fuckedUp( 2 )
 	append(   2 )
@@ -165,7 +208,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	append(   0, function(){ keyboard.channelRemove( 'caps-lock' )}, 'Fucked up. Caps-lock OFF.' )
 	riff(     4 )
 	riff(     4 )
-
+*/
 
 
 
@@ -196,10 +239,10 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 /// ~ 1:44
 
-	blackSwanOn( 2/4 )
+	// blackSwanOn( 2/4 )
 	append( 2 )
 	append( 1/4 )
-	blackSwanOff( 3/4 )
+	// blackSwanOff( 3/4 )
 	append( 5/4 )
 	riff( 4 )
 	riff( 4 )
@@ -283,7 +326,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-	insert( 156.7, comp.beat )
+	insert( 156.7, comp.beatsPerSecond )
 
 
 
@@ -379,6 +422,26 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  EXIT
 
 
+
+
+
+
+
+	//  When a viewer finishes watching the piece
+	//  let’s generate a receipt of the typed bits.
+	//  This includes the piece itself
+	//  but ALSO the viewer’s participation :)
+
+	comp.audio.addEventListener( 'ended', function( event ){
+
+		console.log( 
+
+			'\nGenerate receipt...',
+			'\n\n',
+			 comp.generateReceipt()
+		)		
+		comp.pause().seek( 0 )
+	})
 })
 
 

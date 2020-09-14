@@ -280,21 +280,21 @@ section, footer {
 
 
 
-.keyboard.caps-lock .shift,
-.keyboard.caps-lock .option,
-.keyboard.caps-lock .shift-option {
+.keyboard.capslock .shift,
+.keyboard.capslock .option,
+.keyboard.capslock .shift-option {
 
 	display: none;
 }
-.keyboard.caps-lock .default {
+.keyboard.capslock .default {
 
 	display: block;
 }
-.keyboard.caps-lock .letter .default {
+.keyboard.capslock .letter .default {
 
 	display: none;
 }
-.keyboard.caps-lock .letter .shift {
+.keyboard.capslock .letter .shift {
 
 	display: block;
 }
@@ -371,8 +371,8 @@ section, footer {
 	    -ms-user-select: none;
 	        user-select: none;
 }
-.key.press,
-.key:hover {
+.key.engage/*,
+.key:hover*/ {
 
 	position: relative;
 	top:  calc( var( --size ) * 0.1 );
@@ -415,7 +415,7 @@ section, footer {
 
 	width: calc( var( --size ) * 10 );
 }
-.key-caps-lock {
+.key-capslock {
 
 	width: calc( var( --size ) * 10.797 );
 }
@@ -474,7 +474,7 @@ section, footer {
 
 
 
-.caps-lock-indicator {
+.capslock-indicator {
 
 	display: none;
 	position: absolute;
@@ -486,7 +486,7 @@ section, footer {
 	background-color: hsl( 120, 100%, 50% );
 	overflow: hidden;
 }
-.keyboard.caps-lock .caps-lock-indicator {
+.keyboard.capslock .capslock-indicator {
 
 	display: block;
 }
@@ -507,7 +507,8 @@ section, footer {
 
 	background-color: var( --color-key-options-background );
 	color: var( --color-key-options-text );
-	transition: none;
+	/*transition: none;*/
+	/*animation:  none;*/
 	box-shadow: none;
 }
 .option {

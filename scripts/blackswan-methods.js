@@ -6,16 +6,21 @@
 
 function reset(){
 
-	keyboard.classList.remove( 
+	Array
+	.from( document.querySelectorAll( '.keyboard' ))
+	.forEach( function( keyboard ){
+	
+		keyboard.classList.remove( 
 
-		'caps-lock',
-		'push-out',
-		'push-in',
-		'long-sustain',
-		'wtf',
-		'crazy',
-		'surf-rider'
-	)
+			'caps-lock',
+			'push-out',
+			'push-in',
+			'long-sustain',
+			'wtf',
+			'crazy',
+			'surf-rider'
+		)
+	})
 
 	Array
 	.from( document.querySelectorAll( '.key' ))
@@ -35,7 +40,7 @@ function reset(){
 			'press', 
 			'black', 
 			'wtf',
-			'blank'//  A clone for “dead” but intended to be temporary.
+			'blank'//  A clone for “dead” but intended to be added / removed at random.
 		)
 		key.style.transform  = 'none'
 		key.style.visibility = 'visible'
@@ -74,148 +79,129 @@ function riff( durationInBeats, drumSolo, addLastHit, debug ){
 	if( typeof addLastHit !== 'boolean' ) addLastHit = true
 	
 	const 
-	timeStart = findLastBeat(),
+	timeStart = comp.findLastBeat(),
 	hit = function( durationToOccupy, cssName, durationVisible ){
 
 		if( typeof durationVisible !== 'number' ) durationVisible = durationToOccupy
 		insert(
 
 			timeMark,
-			comp.beat * durationToOccupy,
-			function(){ 
-
-				const key = document.querySelector( '.key-'+ cssName )
-				key.classList.add( 'press' )
-				
-				if( cssName === 'space' ) comp.log( ' ' )
-				else if( cssName === 'period' ) comp.log( key.innerText )
-				else if( cssName === 'tab' ) comp.log( '	' )
-				else comp.log( cssName )
-			},
+			comp.beatsPerSecond * durationToOccupy,
+			function(){ keyEngage( cssName )},
 			'Riff. Hit ON: '+ cssName
 		)
 		insert(
 
-			timeMark + comp.beat * durationVisible * 15/16,
+			timeMark + comp.beatsPerSecond * durationVisible * 15/16,
 			0,
-			function(){ document.querySelector( '.key-'+ cssName ).classList.remove( 'press' )},
+			function(){ keyDisengage( cssName )},
 			'Riff. Hit OFF: '+ cssName
 		)
-		timeMark += comp.beat * durationToOccupy
+		timeMark += comp.beatsPerSecond * durationToOccupy
 	}
 
 	let timeMark = timeStart
 
-	hit( 2/4, 'space', 1/4 )
-	hit( 2/4, 'space'  )
+	hit( 2/4, ' ', 1/4 )
+	hit( 2/4, ' '  )
 
 	if( durationInBeats > 1 ){
 	
-		hit( 1/4, 'period' )
-		hit( 2/4, 'space'  )
+		hit( 1/4, '.' )
+		hit( 2/4, ' '  )
 		
 		if( durationInBeats > 2 ){
 
 			hit( 2/4, 'tab'    )
-			hit( 2/4, 'period' )
+			hit( 2/4, '.' )
 
 			if( durationInBeats > 3 ){
 			
-				hit( 1/4, 'space'  )
-				hit( 1/4, 'period' )
-				hit( 2/4, 'space'  )
+				hit( 1/4, ' '  )
+				hit( 1/4, '.' )
+				hit( 2/4, ' '  )
 			}
 
-			if( addLastHit ) hit( 1/4, 'space', 1/8 )
+			if( addLastHit ) hit( 1/4, ' ', 1/8 )
 			else append( 1/4 )
 		}
 		else append( 1/4 )
 	}
-
-
 	if( drumSolo !== true ){
 
-		const optionKey = keyboard.querySelector( '.key-option-left' )
 		insert( 
 
-			timeStart + comp.beat * 0/8,
-			comp.beat * 2/8,
-			function(){ 
-
-				optionKey.classList.add( 'press' )
-				keyboard.classList.add( 'option' )
-			},
+			timeStart + comp.beatsPerSecond * 0/8,
+			comp.beatsPerSecond * 2/8,
+			function(){ keyEngage( 'option-left' )},
 			'Riff. Guitar ON.'
 		)
 		insert( 
 
-			timeStart + comp.beat * 2/8, 
-			0,//comp.beat * 1/4,
-			function(){ 
-
-				optionKey.classList.remove( 'press' )
-				keyboard.classList.remove( 'option' )
-			},
+			timeStart + comp.beatsPerSecond * 2/8, 
+			0,//comp.beatsPerSecond * 1/4,
+			function(){ keyDisengage( 'option-left' )},
 			'Riff. Guitar ON.'
 		)
 		insert( 
 
-			timeStart + comp.beat * 4/8, 
-			comp.beat * 2/8,
-			function(){ 
-				
-				optionKey.classList.add( 'press' )
-				keyboard.classList.add( 'option' )
-			},
+			timeStart + comp.beatsPerSecond * 4/8, 
+			comp.beatsPerSecond * 2/8,
+			function(){ keyEngage( 'option-left' )},
 			'Riff. Guitar ON.'
 		)
 		insert(
 
-			timeStart + comp.beat * 8/8,
-			0,//comp.beat * 4/8,
-			function(){ 
-
-				optionKey.classList.remove( 'press' )
-				keyboard.classList.remove( 'option' )
-			},
+			timeStart + comp.beatsPerSecond * 8/8,
+			0,//comp.beatsPerSecond * 4/8,
+			function(){ keyDisengage( 'option-left' )},
 			'Riff. Guitar OFF.'
 		)
 	}
-	if( debug ) assessDuration( timeStart, findLastBeat(), 'Riff', durationInBeats )
+	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Riff', durationInBeats )
 }
+
+
+
+
 function riffHalf( durationInBeats, debug ){
 
 	if( durationInBeats !== 2 ) console.error( 'Pretty sure this needs 2 beats here.' )
 
 	const 
-	timeStart = findLastBeat(),
+	timeStart = comp.findLastBeat(),
 	hit = function( durationToOccupy, cssName, durationVisible ){
 
 		if( typeof durationVisible !== 'number' ) durationVisible = durationToOccupy
 		insert(
 
 			timeMark,
-			comp.beat * durationToOccupy,
+			comp.beatsPerSecond * durationToOccupy,
 			function(){ 
 
-				const key = document.querySelector( '.key-'+ cssName )
-				key.classList.add( 'press' )
+				// const keyElement = document.querySelector( '.key-'+ cssName )
+				// key.classList.add( 'press' )
+				keyEngage( cssName )
 				
-				if( cssName === 'space' ) comp.log( ' ' )
-				else if( cssName === 'period' ) comp.log( key.innerText )
-				else if( cssName === 'tab' ) comp.log( '	' )
-				else comp.log( cssName )
+				// if( cssName === 'space' ) comp.log( ' ' )
+				// else if( cssName === 'period' ) comp.log( key.innerText )
+				// else if( cssName === 'tab' ) comp.log( '	' )
+				// else comp.log( cssName )
 			},
 			'Riff. Hit ON: '+ cssName
 		)
 		insert(
 
-			timeMark + comp.beat * durationVisible * 15/16,
+			timeMark + comp.beatsPerSecond * durationVisible * 15/16,
 			0,
-			function(){ document.querySelector( '.key-'+ cssName ).classList.remove( 'press' )},
+			function(){ 
+
+				//document.querySelector( '.key-'+ cssName ).classList.remove( 'press' )
+				keyDisengage( document.querySelector( '.key-'+ cssName ))
+			},
 			'Riff. Hit OFF: '+ cssName
 		)
-		timeMark += comp.beat * durationToOccupy
+		timeMark += comp.beatsPerSecond * durationToOccupy
 	}
 
 	let timeMark = timeStart
@@ -226,7 +212,135 @@ function riffHalf( durationInBeats, debug ){
 	hit( 1/4, 'period' )
 	hit( 2/4, 'space'  )
 
-	if( debug ) assessDuration( timeStart, findLastBeat(), 'Riff Half', durationInBeats )
+	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Riff Half', durationInBeats )
+}
+
+
+
+
+
+function riffFuckedUp( durationInBeats, drumSolo, addLastHit, debug ){
+
+	if( typeof durationInBeats !== 'number' ) durationInBeats = 4
+	if( typeof drumSolo !== 'boolean' ) drumSolo = false
+	if( typeof addLastHit !== 'boolean' ) addLastHit = true
+	
+	const 
+	timeStart = comp.findLastBeat(),
+	hit = function( durationToOccupy, cssName, durationVisible ){
+
+		if( typeof durationVisible !== 'number' ) durationVisible = durationToOccupy
+		insert(
+
+			timeMark,
+			comp.beatsPerSecond * durationToOccupy,
+			function(){ keyEngage( cssName )},
+			'Riff. Hit ON: '+ cssName
+		)
+		insert(
+
+			timeMark + comp.beatsPerSecond * durationVisible * 15/16,
+			0,
+			function(){ keyDisengage( cssName )},
+			'Riff. Hit OFF: '+ cssName
+		)
+		timeMark += comp.beatsPerSecond * durationToOccupy
+	}
+
+	let timeMark = timeStart
+
+	hit( 2/4, ' ', 1/4 )
+	hit( 2/4, ' '  )
+	if( durationInBeats > 1 ){
+	
+		hit( 1/4, '.' )
+		hit( 2/4, ' '  )
+		if( durationInBeats > 2 ){
+
+			hit( 2/4, 'tab'    )
+			hit( 2/4, '.' )
+			if( durationInBeats > 3 ){
+			
+				hit( 1/4, ' '  )
+				hit( 1/4, '.' )
+				hit( 2/4, ' '  )
+				if( durationInBeats > 4 ){
+			
+					hit( 2/4, ' ', 1/4 )
+					hit( 2/4, ' '  )
+					if( durationInBeats > 5 ){
+
+						hit( 1/4, '.' )
+						hit( 2/4, ' '  )
+					}
+				}
+			}
+
+			if( addLastHit ) hit( 1/4, ' ', 1/8 )
+			else append( 1/4 )
+		}
+		else append( 1/4 )
+	}
+
+
+	if( drumSolo !== true ){
+
+		insert( 
+
+			timeStart + comp.beatsPerSecond * 0/8,
+			comp.beatsPerSecond * 2/8,
+			function(){ keyEngage( 'option-left' )},
+			'Riff. Guitar ON.'
+		)
+		insert( 
+
+			timeStart + comp.beatsPerSecond * 2/8, 
+			0,//comp.beatsPerSecond * 1/4,
+			function(){ keyDisengage( 'option-left' )},
+			'Riff. Guitar ON.'
+		)
+		insert( 
+
+			timeStart + comp.beatsPerSecond * 4/8, 
+			comp.beatsPerSecond * 2/8,
+			function(){ keyEngage( 'option-left' )},
+			'Riff. Guitar ON.'
+		)
+		insert(
+
+			timeStart + comp.beatsPerSecond * 8/8,
+			0,//comp.beatsPerSecond * 4/8,
+			function(){ keyDisengage( 'option-left' )},
+			'Riff. Guitar OFF.'
+		)
+	}
+
+	const
+	fuckedUp  = 'fuckedup',
+	durationPerCharacter = comp.beatsPerSecond * 2 / fuckedUp.length
+
+	fuckedUp
+	.split( '' )
+	.forEach( function( letter, i ){
+
+		insert(
+
+			timeStart + durationPerCharacter * i,
+			durationPerCharacter,
+			function(){ keyToggle( letter.toUpperCase() )},
+			'Fucked up: '+ letter
+		)
+		insert(
+
+			timeStart + comp.beatsPerSecond * 4 + durationPerCharacter * i,
+			durationPerCharacter,
+			function(){ keyToggle( letter.toUpperCase() )},
+			'Fucked up: '+ letter
+		)
+	})
+
+
+	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Riff', durationInBeats )
 }
 
 
@@ -236,13 +350,10 @@ function riffHalf( durationInBeats, debug ){
 
 
 
-const characterToName = {
 
-	' ': 'space',
-	'.': 'period',
-	',': 'comma',
-	"'": 'quote'
-}
+
+
+
 function type( durationInBeats, text, holdUntilDone, debug ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 6
@@ -250,87 +361,56 @@ function type( durationInBeats, text, holdUntilDone, debug ){
 	if( typeof holdUntilDone !== 'boolean' ) holdUntilDone = false
 
 	const 
-	timeStart = findLastBeat(),
+	timeStart = comp.findLastBeat(),
 	durationPerCharacter = durationInBeats / text.length
 
 	text.split( '' ).forEach( function( character, i ){
 
-		if( characterToName[ character ] !== undefined ){
-
-			character = characterToName[ character ]
-		}
-
 		const 
-		cssName     = character.length > 1 ? character : character.toUpperCase(),
-		keyElement  = document.querySelector( '.key-'+ cssName ),
+		cssName = character.length > 1 ? character : character.toUpperCase(),
 		isMajuscule = character.match( /[A-Z]/ )
 
-		if( keyElement instanceof HTMLElement ){
-		
-			if( isMajuscule ){
 
-				const side = Math.random() >= 0.5 ? 'left' : 'right'
-				insert(
+		if( isMajuscule ){
 
-					timeStart + comp.beat * i * durationPerCharacter,
-					0,
-					function(){ 
-
-						keyboard.classList.add( 'shift' )
-						Array
-						.from( document.querySelectorAll( '.key-shift-'+ side ))
-						.forEach( function( element ){
-
-							element.classList.add( 'press' )
-						})
-						comp.log( 'Shift' )
-					},
-					'shift ON'
-				)
-				insert(
-
-					//timeStart + comp.beat * i * durationPerCharacter + durationPerCharacter,//  Is EXACT so can be overridden by a subsequent ON command!
-					timeStart + comp.beat * i * durationPerCharacter + durationPerCharacter * 1/2,
-					0,
-					function(){ 
-
-						keyboard.classList.remove( 'shift' )
-						Array
-						.from( document.querySelectorAll( '.key-shift-'+ side ))
-						.forEach( function( element ){
-
-							element.classList.remove( 'press' )
-						})
-					},
-					'shift OFF'
-				)
-			}
+			const side = Math.random() >= 0.5 ? 'left' : 'right'
 			insert(
 
-				timeStart + comp.beat * i * durationPerCharacter,
-				comp.beat * durationPerCharacter,
-				function(){ 
-
-					keyElement.classList.add( 'press' )
-					comp.log( keyElement.innerText )
-				},
-				'Type ON: '+ cssName
-			)
-
-			const releaseAfterDuration = holdUntilDone ? 
-				durationInBeats * comp.beat :
-				comp.beat * i * durationPerCharacter + durationPerCharacter * 15/16
-			
-			insert(
-
-				timeStart + releaseAfterDuration,
+				timeStart + comp.beatsPerSecond * i * durationPerCharacter,
 				0,
-				function(){ keyElement.classList.remove( 'press' )},
-				'Type OFF: '+ cssName
+				function(){ keyEngage( 'shift'+ side )},
+				'shift ON'
+			)
+			insert(
+
+				//timeStart + comp.beatsPerSecond * i * durationPerCharacter + durationPerCharacter,//  Is EXACT so can be overridden by a subsequent ON command!
+				timeStart + comp.beatsPerSecond * i * durationPerCharacter + durationPerCharacter * 1/2,
+				0,
+				function(){ keyDisengage( 'shift'+ side )},
+				'shift OFF'
 			)
 		}
+		insert(
+
+			timeStart + comp.beatsPerSecond * i * durationPerCharacter,
+			comp.beatsPerSecond * durationPerCharacter,
+			function(){ keyEngage( cssName )},
+			'Type ON: '+ cssName
+		)
+
+		const releaseAfterDuration = holdUntilDone ? 
+			durationInBeats * comp.beatsPerSecond :
+			comp.beatsPerSecond * i * durationPerCharacter + durationPerCharacter * 15/16
+		
+		insert(
+
+			timeStart + releaseAfterDuration,
+			0,
+			function(){ keyDisengage( cssName )},
+			'Type OFF: '+ cssName
+		)
 	})
-	if( debug ) assessDuration( timeStart, findLastBeat(), `Type (${ text })`, durationInBeats )
+	if( debug ) assessDuration( timeStart, comp.findLastBeat(), `Type (${ text })`, durationInBeats )
 }
 
 
@@ -344,24 +424,23 @@ function train( durationInBeats, debug ){
 
 	// if( durationInBeats !== 4.5 ) console.error( 'Pretty sure this needs 4.5 beats here.' )
 
-	const timeStart = findLastBeat()
+	const timeStart = comp.findLastBeat()
 
 	'train'.split( '' )
 	.forEach( function( letter, i ){
 
-		const key = keyboard.querySelector( '.key-'+ letter.toUpperCase() )
 		insert( 
 			
-			timeStart + i *1/4 * comp.beat,
-			0,//1/8 * comp.beat,
-			function(){ key.classList.add( 'press' )},
+			timeStart + i *1/4 * comp.beatsPerSecond,
+			0,//1/8 * comp.beatsPerSecond,
+			function(){ keyEngage( letter.toUpperCase() )},
 			'Train ON: '+ letter
 		)
 		insert(
 
-			timeStart + comp.beat * 4 + i * 1/8 * comp.beat,
+			timeStart + comp.beatsPerSecond * 4 + i * 1/8 * comp.beatsPerSecond,
 			0,
-			function(){ key.classList.remove( 'press' )},
+			function(){ keyDisengage( letter.toUpperCase() )},
 			'Train OFF: '+ letter
 		)
 	})
@@ -385,34 +464,35 @@ function train( durationInBeats, debug ){
 			for( let x = 0; x < xRange; x ++ ){
 
 				const 
-				key = keyboard.querySelector( `[x="${ x + lines[ y ].xStart }"][y="${ y + 1 }"]` ),
-				timeToShow = timeStart + comp.beat * (
+				key = document.querySelector( `[x="${ x + lines[ y ].xStart }"][y="${ y + 1 }"]` ),
+				name = key.getAttribute( 'data-name' )
+				timeToShow = timeStart + comp.beatsPerSecond * (
 
 					5/4 + 
 					i * xRange * 0.09 +
 					x * 1/12 +
 					( 2 - y ) * 0.4
 				),
-				timeToHide = timeToShow + comp.beat * 1/64
+				timeToHide = timeToShow + comp.beatsPerSecond * 1/64
 
 				insert(
 
 					timeToShow,
 					0,
-					function(){ key.classList.add( 'press' )},
+					function(){ keyEngage( name )},
 					`Train stream ON: x=${x} y=${y} i=${i}`
 				)
 				insert(
 
 					timeToHide,
 					0,
-					function(){ key.classList.remove( 'press' )},
+					function(){ keyDisengage( name )},
 					`Train stream OFF: x=${x} y=${y} i=${i}`
 				)
 			}	
 		}
 	}
-	if( debug ) assessDuration( timeStart, findLastBeat(), 'Traaaaiiiin', durationInBeats )
+	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Traaaaiiiin', durationInBeats )
 }
 
 
@@ -427,35 +507,34 @@ function fuckedUp( durationInBeats, debug ){
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 2/4
 
 	const 
-	timeStart = findLastBeat(),
+	timeStart = comp.findLastBeat(),
 	fuckedUp  = 'fuckedup',
 	durationPerCharacter = durationInBeats / fuckedUp.length
 
-	fuckedUp.split( '' ).forEach( function( letter, i ){
+	fuckedUp
+	.split( '' )
+	.forEach( function( letter, i ){
 
 		append(
 
 			durationPerCharacter,
-			function(){
-		
-				const key = document.querySelector( '.key-'+ letter.toUpperCase() )
-				if( key.classList.contains( 'press' )){
-
-					key.classList.remove( 'press' )
-				}
-				else key.classList.add( 'press' )
-			},
+			function(){ keyToggle( letter.toUpperCase() )},
 			'Fucked up: '+ letter
 		)
 	})
-	if( debug ) assessDuration( timeStart, findLastBeat(), 'Fucked up', durationInBeats )
+	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Fucked up', durationInBeats )
 }
+
+
+
+
+
 function blackSwanOn( durationInBeats, debug ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 2/4
 
 	const 
-	timeStart = findLastBeat(),
+	timeStart = comp.findLastBeat(),
 	text = [ ...new Set( 'blackswan'.split( '' ))],
 	durationPerCharacter = durationInBeats / text.length 
 
@@ -473,14 +552,14 @@ function blackSwanOn( durationInBeats, debug ){
 			'Black ON: '+ letter
 		)
 	})
-	if( debug ) assessDuration( timeStart, findLastBeat(), 'Black swan ON', durationInBeats )
+	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Black swan ON', durationInBeats )
 }
 function blackSwanOff( durationInBeats, debug ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 2/4
 
 	const 
-	timeStart = findLastBeat(),
+	timeStart = comp.findLastBeat(),
 	text = [ ...new Set( 'blackswan'.split( '' ))],
 	durationPerCharacter = durationInBeats / text.length 
 
@@ -499,7 +578,7 @@ function blackSwanOff( durationInBeats, debug ){
 		)
 	})
 	append( 0, function(){ keyboard.channelRemove( 'caps-lock', 'blackSwan' )}, 'caps-lock OFF' )
-	if( debug ) assessDuration( timeStart, findLastBeat(), 'Black swan OFF', durationInBeats )
+	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Black swan OFF', durationInBeats )
 }
 
 
@@ -510,7 +589,7 @@ function blindspotOLD( durationInBeats, debug ){
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 2
 
 	const 
-	timeStart = findLastBeat(),
+	timeStart = comp.findLastBeat(),
 	durationPerKey = durationInBeats / 14
 
 	Array
@@ -528,27 +607,29 @@ function blindspotOLD( durationInBeats, debug ){
 
 			insert(
 				
-				timeStart + comp.beat * x * durationPerKey,
-				comp.beat * durationPerKey,
+				timeStart + comp.beatsPerSecond * x * durationPerKey,
+				comp.beatsPerSecond * durationPerKey,
 				function(){
 
-					key.classList.add( 'press' )
+					//key.classList.add( 'press' )
+					keyEngage( key )
 				},
 				'Blindspot.'
 			)
 			insert(
 				
-				timeStart + durationInBeats + comp.beat * x * durationPerKey,
-				0,//comp.beat * durationPerKey,
+				timeStart + durationInBeats + comp.beatsPerSecond * x * durationPerKey,
+				0,//comp.beatsPerSecond * durationPerKey,
 				function(){
 
-					key.classList.remove( 'press' )
+					//key.classList.remove( 'press' )
+					keyDisengage( key )
 				},
 				'Blindspot.'
 			)
 		}
 	})
-	if( debug ) assessDuration( timeStart, findLastBeat(), 'Blind spot', durationInBeats )
+	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Blind spot', durationInBeats )
 }
 
 
@@ -565,7 +646,7 @@ function blindspot(){
 function surfRider( durationInBeats ){
 
 	const 
-	timeStart = findLastBeat()
+	timeStart = comp.findLastBeat()
 
 	insert(
 
@@ -579,7 +660,7 @@ function surfRider( durationInBeats ){
 
 
 
-	// assessDuration( timeStart, findLastBeat(), 'Blind spot', durationInBeats )
+	// assessDuration( timeStart, comp.findLastBeat(), 'Blind spot', durationInBeats )
 }
 
 
@@ -598,7 +679,7 @@ function ekg( durationInBeats ){//  Jed reference.
 	const 
 	text      = ` ASDFT6YJM .;' `,
 	// text      = ` ASDR5THNKL;' `,
-	timeStart = findLastBeat(),
+	timeStart = comp.findLastBeat(),
 	durationPerCharacter = durationInBeats / text.length
 
 	text.split( '' ).forEach( function( character, i ){
@@ -622,27 +703,29 @@ function ekg( durationInBeats ){//  Jed reference.
 
 			cssName = 'quote'
 		}
-		const key = keyboard.querySelector( '.key-'+ cssName )
+		const key = document.querySelector( '.key-'+ cssName )
 		insert(
 
-			timeStart + i * durationPerCharacter * comp.beat,
-			comp.beat * durationPerCharacter,
+			timeStart + i * durationPerCharacter * comp.beatsPerSecond,
+			comp.beatsPerSecond * durationPerCharacter,
 			function(){
 
-				key.classList.add( 'press' )
+				//key.classList.add( 'press' )
+				keyEngage( key )
 			}
 		)
 		insert(
 
-			timeStart + durationInBeats / 2 + i * durationPerCharacter * comp.beat,
+			timeStart + durationInBeats / 2 + i * durationPerCharacter * comp.beatsPerSecond,
 			0,// durationPerCharacter,
 			function(){
 
-				key.classList.remove( 'press' )
+				//key.classList.remove( 'press' )
+				keyDisengage( key )
 			}
 		)
 	})
-	// assessDuration( timeStart, findLastBeat(), 'EKG', durationInBeats )
+	// assessDuration( timeStart, comp.findLastBeat(), 'EKG', durationInBeats )
 }
 
 
@@ -693,7 +776,11 @@ function makePosterArt2(){
 
 		key.classList.add( 'blank' )
 		const found = keysToRemain.some( e => Array.from( key.classList ).includes( e ))
-		if( found ) key.classList.add( 'press' )
+		if( found ){
+
+			//key.classList.add( 'press' )
+			keyEngage( key )
+		}
 	})
 }
 
@@ -754,9 +841,17 @@ function makePosterArt4(){
 	.forEach( function( key ){
 
 		const found = fuckedUpkeysToRemain.some( e => Array.from( key.classList ).includes( e ))
-		if( found ) key.classList.add( 'press' )
+		if( found ){
+
+			//key.classList.add( 'press' )
+			keyEngage( key )
+		}
 	})
 }
+
+
+
+
 
 
 
@@ -788,6 +883,48 @@ function blowApart(){
 		element.style.transform = transform
 	})
 }
+
+
+
+
+
+
+
+
+
+
+
+function ripple( x, y ){
+
+	// if( typeof x !== 'number' ) x = 0.2
+	// if( typeof y !== 'number' ) y = 0.5
+
+	if( typeof x !== 'number' ) x = Math.sin( performance.now() / 1000 )
+	if( typeof y !== 'number' ) y = Math.sin( performance.now() / 100000 )
+
+
+	forEachElement( '.key', function( key ){
+
+		const distance = Math.sqrt(
+			
+			Math.pow( x - parseFloat( key.getAttribute( 'x-normalized' )), 2 ) +
+			Math.pow( y - parseFloat( key.getAttribute( 'y-normalized' )), 2 )
+		)
+		//console.log( key.getAttribute( 'data-name' ), distance )
+
+		key.style.transform = 'translate3d( 0px, 0px, '+ 
+			( Math.sin( distance ) * 100 )
+			+'px )'
+	})
+}
+
+window.setInterval( ripple, 100 )
+
+
+
+
+
+
 
 
 

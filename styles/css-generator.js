@@ -4,8 +4,7 @@
 
 
 
-
-/*function composeCssHslTween( params ){
+function composeCssHslTween( params ){
 
 
 	//  No need to specify anything 
@@ -102,7 +101,7 @@
 
 
 //  Blackswan key-press.
-
+/*
 composeCssHslTween({
 
 	backgroundColor: {
@@ -152,8 +151,8 @@ composeCssHslTween({
 			alpha:        0.5
 		}
 	}
-})*/
-
+})
+*/
 
 
 
@@ -180,5 +179,124 @@ composeCssHslTween({
 
 
 
+
+
+//  Blackswan key-release DEFAULT.
+/*
+composeCssHslTween({
+
+	backgroundColor: {
+
+		from: {
+
+			hue:          0,
+			saturation:  90,
+			lightness:   95
+		},
+		to: {
+
+			hue:          0,
+			saturation:  70,
+			lightness:    0
+		}
+	},
+	color: {
+
+		from: {
+
+			hue:          0,
+			saturation:  90,
+			lightness:  100
+		},
+		to: {
+
+			hue:          0,
+			saturation:  10,
+			lightness:   50
+		}
+	},
+	boxShadow: {
+
+		from: {
+
+			hue:          0,
+			saturation:  90,
+			lightness:   90,
+			alpha:        0.5
+		},
+		to: {
+
+			hue:          0,
+			saturation:  90,
+			lightness:   90,
+			alpha:        0.0
+		}
+	}
+})
+*/
+
+
+
+
+
+
+
+
+
+
+//  Blackswan key-release OPTION.
+//  --color-key-options-background: hsl(  0,  90%,  60% );
+//	--color-key-options-text:       hsl(  0,  90%, 100% );
+
+/*composeCssHslTween({
+
+	backgroundColor: {
+
+		from: {
+
+			hue:          0,
+			saturation:  90,
+			lightness:   60
+		},
+		to: {
+
+			hue:          0,
+			saturation:  70,
+			lightness:    0
+		}
+	},
+	color: {
+
+		from: {
+
+			hue:          0,
+			saturation:  90,
+			lightness:  100
+		},
+		to: {
+
+			hue:          0,
+			saturation:  10,
+			lightness:   50
+		}
+	},
+	boxShadow: {
+
+		from: {
+
+			hue:          0,
+			saturation:  90,
+			lightness:   90,
+			alpha:        0.5
+		},
+		to: {
+
+			hue:          0,
+			saturation:  90,
+			lightness:   90,
+			alpha:        0.0
+		}
+	}
+})*/
 
 

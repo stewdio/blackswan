@@ -16,11 +16,20 @@ Concept and animation by Stewart Smith.
 THE ART
 ------------------------------------------------------------------------
 
+
 - "traaaaaiiin" needs some work!
+but is a decent start to an idea.
+
+
+- second "FUCKED UP" (around 1:10) just before 2nd verse begins
+should be both "FUCKED UP" typing out *AND* the riff!!!
+and that should be the standard from there on out.
+
+
+
+
 
 - "happennnnniiiiiing" sucks.
-
-- FUUUUUUUUUCK how to not have the on-release animation play when an option’d key releases?!??!
 
 - "blindspot" sucks.
 
@@ -48,6 +57,21 @@ THIS SHOULD SHOW UP BEFORE THE SONG IS OVER AS AN OVERLAY DIV!!!!!!!!
 
 CODE
 ------------------------------------------------------------------------
+
+- PUSH-OUT longer transition of transform prop does not work for any non-letter / non-numeral when through event keyboard listener!!!! why?!?!?!? (does work on mouseover.)
+index.html#1:25
+
+- Should rename all keyPress to keyEngage? As compliment to keyRelease.
+
+- Hitting spacebar to play should also remove the load play button and enable controls.
+
+- Add a .key.dead.release and generate keyframes for having color: transparent. 
+*****OR maybe just do a .visibility= 'hidden' on all the text inside a .dead key????
+
+- Seems like the channelAdd / channelRemove shit is broken. This should only .release when all channels are blank, right???
+
+
+
 
 - Hover for DEAD keys doesnt use HSL tween for some reason. fix!!
 This is a result of the animation keyframes attached to it.
