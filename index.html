@@ -25,13 +25,15 @@
 <!-- 		<link href="media/favicon-064.png" rel="icon" type="image/png">
 		<link href="media/favicon-144.png" rel="apple-touch-icon"> -->
 		
-		<link rel="stylesheet" href="styles/core.css">
-		<link rel="stylesheet" href="styles/blackswan.css">
+		<link rel="stylesheet" href="core/styles.css">
+		<link rel="stylesheet" href="blackswan/styles.css">
 		
-		<script src="scripts/core.js"></script>
-		<script src="scripts/blackswan-methods.js"></script>
-		<script src="scripts/blackswan-composition.js"></script>
-		<script src="styles/css-generator.js"></script>
+		<script src="vendor/Moar/TaskList.js"></script>
+		<script src="vendor/Moar/Mode.js"></script>
+		<script src="core/main.js"></script>
+		<!-- <script src="core/css-generator.js"></script> -->
+		<script src="blackswan/methods.js"></script>
+		<script src="blackswan/composition.js"></script>
 	</head>
 	<body>
 		<div id="fullscreen-container">
@@ -39,7 +41,7 @@
 				<div id="receipt"></div>
 				<div class="keyboard">
 					<div class="row">
-						<div data-name="tick" class="key key-tick punctuation">
+						<div data-name="`" class="key key-tick punctuation">
 							<div class="default">`</div>
 							<div class="shift">~</div>
 							<div class="option">`</div>
@@ -193,7 +195,7 @@
 							<div class="option">‘</div>
 							<div class="shift-option">’</div>
 						</div>
-						<div data-name="\" class="key key-slash-backward punctuation">
+						<div data-name="slash-backward" class="key key-slash-backward punctuation">
 							<div class="default">\</div>
 							<div class="shift">|</div>
 							<div class="option">«</div>

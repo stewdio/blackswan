@@ -54,6 +54,9 @@ function reset(){
 			key.style.setProperty( '--rz', getRandomBetween( -1, 1 ))
 		}
 	})
+
+
+	tasks.updates.remove( ripple )
 }
 function applyCssClass( cssQuery, className ){
 
@@ -417,82 +420,72 @@ function type( durationInBeats, text, holdUntilDone, debug ){
 
 
 
-
+//  0:45
 
 function train( durationInBeats, debug ){
 
-	// if( durationInBeats !== 4.5 ) console.error( 'Pretty sure this needs 4.5 beats here.' )
+	const 
+	timeStart = comp.findLastBeat(),
+	action = function( timeMark ){
 
-	const timeStart = comp.findLastBeat()
+		return function( name, i ){
 
-	'train'.split( '' )
-	.forEach( function( letter, i ){
+			if( name.length === 1 ) name = name.toUpperCase()
+			insert( 
+				
+				timeMark + 1/16 * comp.beatsPerSecond * i,
+				0,
+				function(){ 
 
-		insert( 
-			
-			timeStart + i *1/4 * comp.beatsPerSecond,
-			0,//1/8 * comp.beatsPerSecond,
-			function(){ keyEngage( letter.toUpperCase() )},
-			'Train ON: '+ letter
-		)
-		insert(
+					console.log( 'ON:  name', name )
+					keyEngage( name )
+				},
+				'Traaaaiiiin ON: '+ name
+			)
+			insert(
 
-			timeStart + comp.beatsPerSecond * 4 + i * 1/8 * comp.beatsPerSecond,
-			0,
-			function(){ keyDisengage( letter.toUpperCase() )},
-			'Train OFF: '+ letter
-		)
-	})
-	append( durationInBeats )
-
-
-	const lines = [
-
-		{ xStart: 6, xEnd: 13 },
-		{ xStart: 2, xEnd: 12 },
-		{ xStart: 7, xEnd: 11 }
-	]
-	for( let y = 0; y < 3; y ++ ){
-
-		const 
-		xRange = lines[ y ].xEnd - lines[ y ].xStart + 1,
-		strikes = 3// could be based on xRange instead?
-		
-		for( let i = 0; i < strikes; i ++ ){
-
-			for( let x = 0; x < xRange; x ++ ){
-
-				const 
-				key = document.querySelector( `[x="${ x + lines[ y ].xStart }"][y="${ y + 1 }"]` ),
-				name = key.getAttribute( 'data-name' )
-				timeToShow = timeStart + comp.beatsPerSecond * (
-
-					5/4 + 
-					i * xRange * 0.09 +
-					x * 1/12 +
-					( 2 - y ) * 0.4
-				),
-				timeToHide = timeToShow + comp.beatsPerSecond * 1/64
-
-				insert(
-
-					timeToShow,
-					0,
-					function(){ keyEngage( name )},
-					`Train stream ON: x=${x} y=${y} i=${i}`
-				)
-				insert(
-
-					timeToHide,
-					0,
-					function(){ keyDisengage( name )},
-					`Train stream OFF: x=${x} y=${y} i=${i}`
-				)
-			}	
+				timeMark + 1/16 * comp.beatsPerSecond * ( i + 10 ),
+				0,
+				function(){ keyDisengage( name )},
+				'Traaaaiiiin OFF: '+ name
+			)
+			return name
 		}
-	}
-	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Traaaaiiiin', durationInBeats )
+	},
+	delayBetween = comp.beatsPerSecond *  3/4
+
+	'tyuiop[]'
+	.split( '' )
+	.concat( 'slash-backward' )
+	.map( action( timeStart ))
+	.map( action( timeStart + delayBetween * 2.5 ))
+	.map( action( timeStart + delayBetween * 5 ))
+
+	'asdfghjkl;\''
+	.split( '' )
+	.concat( 'return' )
+	.map( action( timeStart + delayBetween * 1 ))
+	.map( action( timeStart + delayBetween * 4 ))
+
+	'nm,./'
+	.split( '' )
+	.concat( 'shift-right' )
+	.map( action( timeStart + delayBetween * 2 ))
+	.map( action( timeStart + delayBetween * 3.5 ))
+	.map( action( timeStart + delayBetween * 6 ))
+
+	append( durationInBeats )
+	if( debug ) assessDuration( 
+
+		timeStart, 
+		comp.findLastBeat(), 
+		'Traaaaiiiin', 
+		durationInBeats
+	)
 }
+
+
+
 
 
 
@@ -537,7 +530,7 @@ function blackSwanOn( durationInBeats, debug ){
 	text = [ ...new Set( 'blackswan'.split( '' ))],
 	durationPerCharacter = durationInBeats / text.length 
 
-	append( 0, function(){ keyboard.channelAdd( 'caps-lock', 'blackSwan' )}, 'caps-lock ON' )
+	append( 0, function(){ forEachElement( '.keyboard', (e)=>{e.stateAdd( 'capslock' )})}, 'caps-lock ON' )
 	text.forEach( function( letter, i ){
 
 		append(
@@ -545,8 +538,12 @@ function blackSwanOn( durationInBeats, debug ){
 			durationPerCharacter,
 			function(){
 		
-				const key = document.querySelector( '.key-'+ letter.toUpperCase() )
-				key.classList.add( 'black' )
+				//const key = document.querySelector( '.key-'+ letter.toUpperCase() )
+				//key.classList.add( 'black' )
+				forEachElement( '.key-'+ letter.toUpperCase(), function( e ){
+
+					e.classList.add( 'black' )
+				})
 			},
 			'Black ON: '+ letter
 		)
@@ -562,7 +559,7 @@ function blackSwanOff( durationInBeats, debug ){
 	text = [ ...new Set( 'blackswan'.split( '' ))],
 	durationPerCharacter = durationInBeats / text.length 
 
-	append( 0, function(){ keyboard.channelAdd( 'caps-lock', 'blackSwan' )}, 'caps-lock ON' )
+	append( 0, function(){ forEachElement( '.keyboard', (e)=>{e.stateAdd( 'capslock' )})}, 'caps-lock ON' )
 	text.forEach( function( letter, i ){
 
 		append(
@@ -570,13 +567,17 @@ function blackSwanOff( durationInBeats, debug ){
 			durationPerCharacter,
 			function(){
 		
-				const key = document.querySelector( '.key-'+ letter.toUpperCase() )
-				key.classList.remove( 'black' )
+				// const key = document.querySelector( '.key-'+ letter.toUpperCase() )
+				// key.classList.remove( 'black' )
+				forEachElement( '.key-'+ letter.toUpperCase(), function( e ){
+
+					e.classList.remove( 'black' )
+				})
 			},
 			'Black OFF: '+ letter
 		)
 	})
-	append( 0, function(){ keyboard.channelRemove( 'caps-lock', 'blackSwan' )}, 'caps-lock OFF' )
+	append( 0, function(){ forEachElement( '.keyboard', (e)=>{e.stateRemove( 'capslock' )})}, 'caps-lock OFF' )
 	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Black swan OFF', durationInBeats )
 }
 
@@ -911,8 +912,13 @@ function ripple( x, y ){
 		)
 		//console.log( key.getAttribute( 'data-name' ), distance )
 
+
+		const
+		sine = Math.sin( distance ),
+		sign = Math.sign( sine )
+
 		key.style.transform = 'translate3d( 0px, 0px, '+ 
-			( Math.sin( distance ) * 100 )
+			Math.pow( sine * 20, 2 )
 			+'px )'
 	})
 }

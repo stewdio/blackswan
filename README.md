@@ -17,19 +17,15 @@ THE ART
 ------------------------------------------------------------------------
 
 
-- "traaaaaiiin" needs some work!
-but is a decent start to an idea.
 
 
-- second "FUCKED UP" (around 1:10) just before 2nd verse begins
-should be both "FUCKED UP" typing out *AND* the riff!!!
-and that should be the standard from there on out.
-
+- "happennnnniiiiiing" should have keys either
+1. flip over (no backside? vanish?) 
+2. or float up into nothingness
 
 
 
 
-- "happennnnniiiiiing" sucks.
 
 - "blindspot" sucks.
 
@@ -57,6 +53,24 @@ THIS SHOULD SHOW UP BEFORE THE SONG IS OVER AS AN OVERLAY DIV!!!!!!!!
 
 CODE
 ------------------------------------------------------------------------
+
+NEED TO rewrite check for char vs code.
+Do I just look for .startsWith( 'Digit' )
+and .startsWidth( 'Key' ) ???
+This will give codes to all PUNCTUATION and META keys alike:
+
+event.code Comma
+main.js:1296 event.code Period
+main.js:1296 event.code Slash
+main.js:1296 event.code Semicolon
+main.js:1296 event.code Quote
+main.js:1296 event.code BracketLeft
+main.js:1296 event.code BracketRight
+main.js:1296 event.code Digit1
+main.js:1296 event.code KeyA
+
+
+
 
 - PUSH-OUT longer transition of transform prop does not work for any non-letter / non-numeral when through event keyboard listener!!!! why?!?!?!? (does work on mouseover.)
 index.html#1:25

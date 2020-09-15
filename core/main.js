@@ -8,6 +8,13 @@ let
 timeAsTextPrevious = '',
 userHasPressedPlay = false
 
+
+
+
+
+//   Helpers   //
+
+
 const
 forEachElement = function( a, b, c ){
 
@@ -43,6 +50,34 @@ forEachElement = function( a, b, c ){
 	.from( rootElement.querySelectorAll( cssQuery ))
 	.forEach( action )
 }
+
+
+
+
+
+
+
+const
+tasks = {
+
+	setups: new TaskList(),
+	setup:  function(){
+
+		tasks.setups.run().clear()
+		tasks.update()
+	},
+	updates: new TaskList(),
+	update:  function( t ){
+
+		tasks.updates.run( t )
+	}
+}
+tasks.setups.add( function(){ Mode.switchTo( 'boot' )})
+tasks.updates.add( Mode.run )
+
+
+
+
 
 
 
@@ -586,7 +621,7 @@ function render(){
 
 
 
-
+	tasks.update( time )
 	requestAnimationFrame( render )
 }
 
@@ -1221,12 +1256,49 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
+	const eventCodeToCssQuery = {
+
+		Backquote:    'tick',
+		Minus:        'minus',
+		Equal:        'equal',
+		Backspace:    'delete',
+		
+		Tab:          'tab',
+		BracketLeft:  'bracket-open',
+		BracketRight: 'bracket-close',
+		Backslash:    'slash-backward',
+
+		CapsLock:     'capslock',
+		Semicolon:    'semicolon',
+		Quote:        'quote',
+		Enter:        'return',
+
+		ShiftLeft:    'shift-left',
+		Comma:        'comma',
+		Period:       'period',
+		Slash:        'slash-forward',
+		ShiftRight:   'shift-right',
+
+		ControlLeft:  'control',
+		AltLeft:      'option-left',
+		MetaLeft:     'command-left',
+		Space:        'space',
+		MetaRight:    'command-right',
+		AltRight:     'option-right',
+		ArrowLeft:    'arrow-left',
+		ArrowUp:      'arrow-up',
+		ArrowDown:    'arrow-down',
+		ArrowRight:   'arrow-right'
+	}
 	window.addEventListener( 'keydown', function( event ){
+
+
+console.log( 'event.code', event.code )
 
 		if( event.repeat !== true ){
 		
-			//const name = !!event.key.match( /^[A-Z]|[0-9]$/i )
-			const name = event.key.length == 1
+			const name = !!event.key.match( /^[A-Z]|[0-9]|(`\-\=[]\;\'\,.\/)$/i )
+			//const name = event.key.length == 1
 				? event.key.toUpperCase()
 				: eventCodeToCssQuery[ event.code ]
 
@@ -1240,8 +1312,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	})
 	window.addEventListener( 'keyup', function( event ){
 		
-		//const name = !!event.key.match( /[A-Z]|[0-9]/i )
-		const name = event.key.length == 1
+		const name = !!event.key.match( /^[A-Z]|[0-9]|(`\-\=[]\;\'\,.\/)$/i )
+		//const name = event.key.length == 1
 			? event.key.toUpperCase()
 			: eventCodeToCssQuery[ event.code ]
 
@@ -1249,6 +1321,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	})
 
 
+	tasks.setup()
 
 
 	//  Kick off the render loop.
@@ -1259,57 +1332,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-
-
-    ////////////////////////
-   //                    //
-  //    Participation   //
- //                    //
-////////////////////////
-
-
-function modifyClassList( cssQuery, addOrRemove, classToAddOrRemove ){
-
-	if( typeof classToAddOrRemove !== 'string' ) classToAddOrRemove = 'press'
-	forEachElement( cssQuery, ( element ) => {
-
-		element.classList[ addOrRemove ]( classToAddOrRemove )
-	})
-}
-const eventCodeToCssQuery = {
-
-	Backquote:    'tick',
-	Minus:        'minus',
-	Equal:        'equal',
-	Backspace:    'delete',
-	
-	Tab:          'tab',
-	BracketLeft:  'bracket-open',
-	BracketRight: 'bracket-close',
-	Backslash:    'slash-backward',
-
-	CapsLock:     'capslock',
-	Semicolon:    'semicolon',
-	Quote:        'quote',
-	Enter:        'return',
-
-	ShiftLeft:    'shift-left',
-	Comma:        'comma',
-	Period:       'period',
-	Slash:        'slash-forward',
-	ShiftRight:   'shift-right',
-
-	ControlLeft:  'control',
-	AltLeft:      'option-left',
-	MetaLeft:     'command-left',
-	Space:        'space',
-	MetaRight:    'command-right',
-	AltRight:     'option-right',
-	ArrowLeft:    'arrow-left',
-	ArrowUp:      'arrow-up',
-	ArrowDown:    'arrow-down',
-	ArrowRight:   'arrow-right'
-}
 
 
 

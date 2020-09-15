@@ -191,6 +191,17 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	riffFuckedUp( 8 )
 	riff( 4 )
 	riff( 4 )
+
+	append( 32, function(){
+
+		tasks.updates.add( ripple )
+	})
+	append( 0, function(){
+
+		tasks.updates.remove( ripple )
+	})
+
+
 /*
 	append(   0, function(){ keyboard.channelAdd( 'caps-lock' )}, 'Fucked up. Caps-lock ON.' )
 	fuckedUp( 2 )
