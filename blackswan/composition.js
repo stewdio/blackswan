@@ -137,14 +137,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Beat range  121 – 168
 	//  Time range  1:11 – 1:40
 
-	append( 0, function(){ 
-
-		forEachElement( '.keyboard', ( e ) => {
-
-			e.classList.add( 'push-out' )
-		})
-	})
-
+	append( 0,    function(){ forEachElement( '.keyboard', ( e ) => { e.classList.add( 'push-out' )})})
 	type(   6,   `People get crushed like biscuit crumbs` )
 	append( 1    )
 	type(   4.5, `and laid down in the bitumen` )
@@ -157,22 +150,14 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	append( 0.5  )
 	riff(   3    )
 	
-	type(   4,   `No, it just isn't` )
-	append( 0,    function(){ 
+	type(   3,   `No, it just isn't` )
+	Object.assign( Mode.all.happening, {
 
-		forEachElement( '.keyboard', ( e ) => {
-
-			e.classList.add( 'long-sustain' )
-		})
+		timeStart: comp.findLastBeat(),
+		durationInSeconds: comp.beatsPerSecond * 8
 	})
-	type(   5,   `happening`, true )
-	append( 0,    function(){ 
-
-		forEachElement( '.keyboard', ( e ) => {
-
-			e.classList.remove( 'long-sustain' )
-		})
-	})
+	append( 0,    function(){ Mode.switchTo( 'happening' )})
+	append( 6    )
 	riff(   4    )
 	riff(   4    )
 
@@ -192,6 +177,21 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	riff( 4 )
 	riff( 4 )
 
+
+
+
+	//  CHORUS EXTENDED
+	//  (Blindspot and Obvious)
+
+	//  Duration    ? beats
+	//  Beat range  201 – ?
+	//  Time range  1:59 – ?
+
+
+	// blindspot( 4 )
+	// append( 6 )
+	//obvious()
+
 	append( 32, function(){
 
 		tasks.updates.add( ripple )
@@ -200,42 +200,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 		tasks.updates.remove( ripple )
 	})
-
-
-/*
-	append(   0, function(){ keyboard.channelAdd( 'caps-lock' )}, 'Fucked up. Caps-lock ON.' )
-	fuckedUp( 2 )
-	append(   2 )
-	fuckedUp( 2 )
-	append(   2 )
-	append(   0, function(){ keyboard.channelRemove( 'caps-lock' )}, 'Fucked up. Caps-lock OFF.' )
-	riff(     4 )
-	riff(     4 )
-	
-	append(   0, function(){ keyboard.channelAdd( 'caps-lock' )}, 'Fucked up. Caps-lock ON.' )
-	fuckedUp( 2 )
-	append(   2 )
-	fuckedUp( 2 )
-	append(   2 )
-	append(   0, function(){ keyboard.channelRemove( 'caps-lock' )}, 'Fucked up. Caps-lock OFF.' )
-	riff(     4 )
-	riff(     4 )
-*/
-
-
-
-	//  CHORUS EXTENDED
-
-	//  Duration    ? beats
-	//  Beat range  201 – ?
-	//  Time range  1:59 – ?
-
-
-	blindspot( 4 )
-	append( 6 )
-	//obvious()
-
-
 
 
 	//  we can do grid stuff. big pixel type?
@@ -249,7 +213,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 // 2:17 no it isn’t
 
 
-/// ~ 1:44
+
+
 
 	// blackSwanOn( 2/4 )
 	append( 2 )
@@ -260,11 +225,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	riff( 4 )
 
 
-// ~ 2:00
-
-
-
-// ~ 2:03
 
 	ekg( 1 )
 	append( 1 )
@@ -293,12 +253,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	surfRider()
 
 
-
-	// append( 1 )
-	// type( 'this is normal text' )
-	// type( 'THIS IS A TEST OF TYPING WITH CAPS' )
-	// applyCssClass( '.key-H', 'press' )
-	// applyCssClass( '.key-I', 'press' )
 
 
 	// const timeStart = comp[ comp.length - 1 ].time
@@ -338,7 +292,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-	insert( 156.7, comp.beatsPerSecond )
+	//
+	insert( 156 - comp.beatsPerSecond, comp.beatsPerSecond )
 
 
 
@@ -350,6 +305,9 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Duration    48 beats
 	//  Beat range  ?
 	//  Time range  2:36 – ?
+
+
+//  bring in additional keyboards????
 
 
 	append( 0, function(){ 
@@ -430,13 +388,34 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	//  EXTENDED
 
-	//  BREAKDOWN
 
-	//  FOURTH CHORUS
+
+
+
+	//  BREAKDOWN 3:44
+
+	//  Keys scatter and do popcorn routine!
+	//  like the keyboards lay flat and popcorn keys pop and bounce up then fall back down.
+
+
+
+
+
+
+
+	//  FOURTH CHORUS 4:02
 	//  ~ 4m
 
+//  should this be a slow unroll of all the generated text
+//  while chorus plays?
 
-	//  EXIT
+	//  Fucked up, fucked up
+	//  Fucked up, fucked up
+	//  Black swans, black swans
+	//  Spare parts, broken up
+
+
+	//  EXIT 4:40 - 4:49
 
 
 

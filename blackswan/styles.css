@@ -496,7 +496,7 @@ footer {
 	animation-name: key-release-default;
 	animation-fill-mode: both;
 	animation-iteration-count: 1;
-	animation-timing-function: linear;
+	animation-timing-function: ease-out;
 	animation-play-state: running;
 }
 .keyboard.option-lag .key.disegnaging {
@@ -519,6 +519,9 @@ footer {
 
 
 @keyframes key-release-default {
+
+
+
 
 	  0% { background-color: hsl(   0.000,  90.000%,  95.000% ); color: hsl(   0.000,  90.000%, 100.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.500 ); }
 	  1% { background-color: hsl(   0.000,  89.800%,  94.050% ); color: hsl(   0.000,  89.200%,  99.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.495 ); }
@@ -621,6 +624,8 @@ footer {
 	 98% { background-color: hsl(   0.000,  70.400%,   1.900% ); color: hsl(   0.000,  11.600%,  51.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.010 ); }
 	 99% { background-color: hsl(   0.000,  70.200%,   0.950% ); color: hsl(   0.000,  10.800%,  50.500% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.005 ); }
 	100% { background-color: hsl(   0.000,  70.000%,   0.000% ); color: hsl(   0.000,  10.000%,  50.000% ); box-shadow: 0px 0px calc( var( --size ) * 4 ) hsla(   0.000,  90.000%,  90.000%,   0.000 ); }
+
+
 }
 @keyframes key-release-option {
 
@@ -770,12 +775,12 @@ footer {
 
 .keyboard.push-out .key.engaged {
 	
-	transform: translateZ( 120px ) !important;
+	transform: translateZ( 120px );
 	/*transition: none;*/
 }
 .keyboard.push-in .key.engaged {
 	
-	transform: translateZ( -120px ) !important;
+	transform: translateZ( -120px );
 	/*transition: none;*/
 }
 .keyboard.push-out .key.disengaging,
@@ -788,6 +793,42 @@ footer {
 	transition-duration: calc( var( --beat ) * 2 );
 	animation-duration:  calc( var( --beat ) * 2 );
 }
+
+
+
+
+.key.happening {
+
+	transition: transform calc( var( --beat ) * 2 ) ease-out;
+	transform: 
+		translate3d( 0px, -200px, 120px )
+		rotate3d( var( --rx ), var( --ry ), var( --rz ), 360deg );
+}
+.key.happening2 {
+
+	animation-name: happening;
+	animation-duration: calc( var( --beat ) * 2 );
+	animation-timing-function: ease-in-out;
+	animation-fill-mode: both;
+	animation-direction: alternate;
+}
+@keyframes happening {
+
+	0% {
+
+		transform: 
+			translate3d( 0, 0, 0 )
+			rotate3d( 0, 0, 0, 360deg );
+	}
+	100% {
+
+		transform: 
+			translate3d( 0px, -200px, 120px )
+			rotate3d( var( --rx ), var( --ry ), var( --rz ), 360deg );
+	}
+}
+
+
 
 
 

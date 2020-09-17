@@ -30,14 +30,14 @@ Mode.run = function(){
 
 	if( Mode.current && typeof Mode.current.update === 'function' ) Mode.current.update()
 }
-Mode.switchTo = function( nextMode ){
+Mode.switchTo = function( nextMode, ...args ){
 
 	if( typeof nextMode === 'string' ) nextMode = Mode.all[ nextMode ]
 	if( Mode.current && typeof Mode.current.teardown === 'function' ) Mode.current.teardown()
 	if( nextMode instanceof Mode ){
 
 		Mode.current = nextMode
-		if( typeof nextMode.setup === 'function' ) nextMode.setup()
+		if( typeof nextMode.setup === 'function' ) nextMode.setup.apply( nextMode, args )
 	}
 }
 

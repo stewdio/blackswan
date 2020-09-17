@@ -22,14 +22,24 @@ THE ART
 - "happennnnniiiiiing" should have keys either
 1. flip over (no backside? vanish?) 
 2. or float up into nothingness
+Does it need to behin 1/4 beat earlier??
 
 
+- The on-release gradient is too pink. Needs to fade to amber or something. Or be bright amber and as looses brightness curve from amber hue to red hue.
 
+maybe amber = 40˚
+then tweens down to 0˚
 
 
 - "blindspot" sucks.
 
 - is "blackswan" function nicer with key text visible? or better when whole key vanishes?
+
+
+
+- 3:44 until 4:02 keys shoud smash and scatter and do “popcorn” routine where they kind bounce up and down? but this needs to fade out to almost no popping by the end. 
+
+
 
 - needs to get cray after second chorus; rainbow bouncing keys and shit.
 
@@ -54,42 +64,15 @@ THIS SHOULD SHOW UP BEFORE THE SONG IS OVER AS AN OVERLAY DIV!!!!!!!!
 CODE
 ------------------------------------------------------------------------
 
-NEED TO rewrite check for char vs code.
-Do I just look for .startsWith( 'Digit' )
-and .startsWidth( 'Key' ) ???
-This will give codes to all PUNCTUATION and META keys alike:
-
-event.code Comma
-main.js:1296 event.code Period
-main.js:1296 event.code Slash
-main.js:1296 event.code Semicolon
-main.js:1296 event.code Quote
-main.js:1296 event.code BracketLeft
-main.js:1296 event.code BracketRight
-main.js:1296 event.code Digit1
-main.js:1296 event.code KeyA
+- 'F' key sometimes get engaged after doing a refresh. (Or a seek?) It is engaged by * which means the program is doing it. Seeking to around 1:23.
+file:///Users/stewarsm/Documents/Github/blackswan/index.html#1:23
 
 
 
+- Need a way to remove .option-lag class from keyboard elements only when all (or maybe just one if they’re all animating at the same speed?) reaches an animationend call back.
+In addition to 'animationend' do wee also need 'animationcancel' or similar?
 
-- PUSH-OUT longer transition of transform prop does not work for any non-letter / non-numeral when through event keyboard listener!!!! why?!?!?!? (does work on mouseover.)
-index.html#1:25
-
-- Should rename all keyPress to keyEngage? As compliment to keyRelease.
-
-- Hitting spacebar to play should also remove the load play button and enable controls.
-
-- Add a .key.dead.release and generate keyframes for having color: transparent. 
-*****OR maybe just do a .visibility= 'hidden' on all the text inside a .dead key????
-
-- Seems like the channelAdd / channelRemove shit is broken. This should only .release when all channels are blank, right???
-
-
-
-
-- Hover for DEAD keys doesnt use HSL tween for some reason. fix!!
-This is a result of the animation keyframes attached to it.
-Could this be the final straw for argument that keyframe on-release animation should NOT be attached to .key but instead manually attached to .key-armed and then removed when animation completes?
+- Caps lock as a true toggle works from keyboard, yet does NOT add a capslock class to the keyboard. why? Also, may need to do a custom no-hover (just mousedown/touchstart) on the capslock key for true toggle via pointers.
 
 - Key press borked on mobile. Looks like maybe touchstart is not writing to the channel? Or touchend / mouseup etc are interfering with each other.
 
@@ -105,6 +88,10 @@ Could this be the final straw for argument that keyframe on-release animation sh
 
 CONTROLS
 ------------------------------------------------------------------------
+
+- Hitting spacebar to play should also remove the load play button and enable controls.
+
+- I hate not being able to full-screen BEFORE hitting play when freshly loaded. maybe kill the central play button.
 
 - style the new LOAD button. pulses like regular play butto, maybe an ease-in-out slow bounce and glow?? fade out on hide(). size needs to be BIG. and maybe relative to viewport size. 
 

@@ -10,11 +10,13 @@ function reset(){
 	.from( document.querySelectorAll( '.keyboard' ))
 	.forEach( function( keyboard ){
 	
+		keyboard.statesReset()
 		keyboard.classList.remove( 
 
-			'caps-lock',
+			'capslock',
 			'push-out',
 			'push-in',
+
 			'long-sustain',
 			'wtf',
 			'crazy',
@@ -26,23 +28,18 @@ function reset(){
 	.from( document.querySelectorAll( '.key' ))
 	.forEach( function( key ){
 
-		function getRandomBetween( a, b ){
-
-			const 
-			range = b - a,
-			r = Math.random() * range
-
-			return a + r
-		}
-
+		key.locksReset()
 		key.classList.remove( 
 		
-			'press', 
+			'engage', 
+			'disengaging',
+			'happening',
+			
 			'black', 
 			'wtf',
 			'blank'//  A clone for “dead” but intended to be added / removed at random.
 		)
-		key.style.transform  = 'none'
+		// key.style.transform  = 'none'
 		key.style.visibility = 'visible'
 		if( !key.style.getPropertyValue( '--tx' )){
 		
@@ -55,6 +52,8 @@ function reset(){
 		}
 	})
 
+
+	Mode.switchTo( 'idle' )
 
 	tasks.updates.remove( ripple )
 }
@@ -105,27 +104,27 @@ function riff( durationInBeats, drumSolo, addLastHit, debug ){
 
 	let timeMark = timeStart
 
-	hit( 2/4, ' ', 1/4 )
-	hit( 2/4, ' '  )
+	hit( 2/4, 'space', 1/4 )
+	hit( 2/4, 'space'  )
 
 	if( durationInBeats > 1 ){
 	
-		hit( 1/4, '.' )
-		hit( 2/4, ' '  )
+		hit( 1/4, 'period' )
+		hit( 2/4, 'space'  )
 		
 		if( durationInBeats > 2 ){
 
 			hit( 2/4, 'tab'    )
-			hit( 2/4, '.' )
+			hit( 2/4, 'period' )
 
 			if( durationInBeats > 3 ){
 			
-				hit( 1/4, ' '  )
-				hit( 1/4, '.' )
-				hit( 2/4, ' '  )
+				hit( 1/4, 'space'  )
+				hit( 1/4, 'period' )
+				hit( 2/4, 'space'  )
 			}
 
-			if( addLastHit ) hit( 1/4, ' ', 1/8 )
+			if( addLastHit ) hit( 1/4, 'space', 1/8 )
 			else append( 1/4 )
 		}
 		else append( 1/4 )
@@ -197,9 +196,9 @@ function riffHalf( durationInBeats, debug ){
 
 	hit( 2/4, 'tab' )
 	hit( 2/4, '.' )
-	hit( 1/4, ' ' )
+	hit( 1/4, 'space' )
 	hit( 1/4, '.' )
-	hit( 2/4, ' ' )
+	hit( 2/4, 'spaces' )
 
 	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Riff Half', durationInBeats )
 }
@@ -211,7 +210,7 @@ function riffHalf( durationInBeats, debug ){
 function riffFuckedUp( durationInBeats, drumSolo, addLastHit, debug ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 4
-	if( typeof drumSolo !== 'boolean' ) drumSolo = false
+	if( typeof drumSolo !== 'boolean' ) drumSolo = true//false
 	if( typeof addLastHit !== 'boolean' ) addLastHit = true
 	
 	const 
@@ -238,47 +237,47 @@ function riffFuckedUp( durationInBeats, drumSolo, addLastHit, debug ){
 
 	let timeMark = timeStart
 
-	hit( 2/4, ' ', 1/4 )
-	hit( 2/4, ' ' )
+	hit( 2/4, 'space', 1/4 )
+	hit( 2/4, 'space' )
 	if( durationInBeats > 1 ){
 	
-		hit( 1/4, '.' )
-		hit( 2/4, ' ' )
+		hit( 1/4, 'period' )
+		hit( 2/4, 'space' )
 		if( durationInBeats > 2 ){
 
 			hit( 2/4, 'tab' )
-			hit( 2/4, '.' )
+			hit( 2/4, 'period' )
 			if( durationInBeats > 3 ){
 			
-				hit( 1/4, ' ' )
-				hit( 1/4, '.' )
-				hit( 2/4, ' ' )
+				hit( 1/4, 'space' )
+				hit( 1/4, 'period' )
+				hit( 2/4, 'space' )
 
 				if( durationInBeats > 4 ){
 			
-					hit( 2/4, ' ', 1/4 )
-					hit( 2/4, ' ' )
+					hit( 2/4, 'space', 1/4 )
+					hit( 2/4, 'space' )
 					if( durationInBeats > 5 ){
 
-						hit( 1/4, '.' )
-						hit( 2/4, ' ' )
+						hit( 1/4, 'period' )
+						hit( 2/4, 'space' )
 					}
 					if( durationInBeats > 6 ){
 
 						hit( 2/4, 'tab' )
-						hit( 2/4, '.' )
+						hit( 2/4, 'period' )
 						if( durationInBeats > 7 ){
 
-							hit( 1/4, ' ' )
-							hit( 1/4, '.' )
-							hit( 2/4, ' ' )
-							if( addLastHit ) hit( 1/4, ' ', 1/8 )
+							hit( 1/4, 'space' )
+							hit( 1/4, 'period' )
+							hit( 2/4, 'space' )
+							if( addLastHit ) hit( 1/4, 'space', 1/8 )
 							else append( 1/4 )
 						}
 					}
 				}
 			}
-			if( addLastHit ) hit( 1/4, ' ', 1/8 )
+			if( addLastHit ) hit( 1/4, 'space', 1/8 )
 			else append( 1/4 )
 		}
 		else append( 1/4 )
@@ -340,14 +339,14 @@ function riffFuckedUp( durationInBeats, drumSolo, addLastHit, debug ){
 			'Fucked up: '+ letter
 		)
 	})
+	if( debug ) assessDuration( 
 
-	debug = true
-	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Riff', durationInBeats )
+		timeStart, 
+		comp.findLastBeat(), 
+		'Riff + FuckedUp', 
+		durationInBeats
+	)
 }
-
-
-
-
 
 
 
@@ -366,10 +365,15 @@ function type( durationInBeats, text, holdUntilDone, debug ){
 	timeStart = comp.findLastBeat(),
 	durationPerCharacter = durationInBeats / text.length
 
-	text.split( '' ).forEach( function( character, i ){
+	text
+	.split( '' )
+	.forEach( function( character, i ){
 
 		const 
-		cssName = character.length > 1 ? character : character.toUpperCase(),
+		//cssName = character.length > 1 ? character : character.toUpperCase(),
+		cssName = characterToKeyName[ character ]
+			? characterToKeyName[ character ]
+			: character.toUpperCase(),
 		isMajuscule = character.match( /[A-Z]/ )
 
 
@@ -380,7 +384,7 @@ function type( durationInBeats, text, holdUntilDone, debug ){
 
 				timeStart + comp.beatsPerSecond * i * durationPerCharacter,
 				0,
-				function(){ keyEngage( 'shift'+ side )},
+				function(){ keyEngage( 'shift-'+ side )},
 				'shift ON'
 			)
 			insert(
@@ -388,7 +392,7 @@ function type( durationInBeats, text, holdUntilDone, debug ){
 				//timeStart + comp.beatsPerSecond * i * durationPerCharacter + durationPerCharacter,//  Is EXACT so can be overridden by a subsequent ON command!
 				timeStart + comp.beatsPerSecond * i * durationPerCharacter + durationPerCharacter * 1/2,
 				0,
-				function(){ keyDisengage( 'shift'+ side )},
+				function(){ keyDisengage( 'shift-'+ side )},
 				'shift OFF'
 			)
 		}
@@ -418,8 +422,6 @@ function type( durationInBeats, text, holdUntilDone, debug ){
 
 
 
-
-
 //  0:45
 
 function train( durationInBeats, debug ){
@@ -437,7 +439,7 @@ function train( durationInBeats, debug ){
 				0,
 				function(){ 
 
-					console.log( 'ON:  name', name )
+					// console.log( 'ON:  name', name )
 					keyEngage( name )
 				},
 				'Traaaaiiiin ON: '+ name
@@ -454,22 +456,38 @@ function train( durationInBeats, debug ){
 	},
 	delayBetween = comp.beatsPerSecond *  3/4
 
-	'tyuiop[]'
+	'tyuiop'
 	.split( '' )
-	.concat( 'slash-backward' )
+	.concat( 
+	
+		'bracket-open',
+		'bracket-close',
+		'slash-backward'
+	)
 	.map( action( timeStart ))
 	.map( action( timeStart + delayBetween * 2.5 ))
 	.map( action( timeStart + delayBetween * 5 ))
 
-	'asdfghjkl;\''
+	'asdfghjkl'
 	.split( '' )
-	.concat( 'return' )
+	.concat( 
+
+		'semicolon',
+		'quote',
+		'return'
+	)
 	.map( action( timeStart + delayBetween * 1 ))
 	.map( action( timeStart + delayBetween * 4 ))
 
-	'nm,./'
+	'nm'
 	.split( '' )
-	.concat( 'shift-right' )
+	.concat( 
+
+		'comma',
+		'period',
+		'slash-forward',
+		'shift-right'
+	)
 	.map( action( timeStart + delayBetween * 2 ))
 	.map( action( timeStart + delayBetween * 3.5 ))
 	.map( action( timeStart + delayBetween * 6 ))
@@ -483,13 +501,6 @@ function train( durationInBeats, debug ){
 		durationInBeats
 	)
 }
-
-
-
-
-
-
-
 
 
 
@@ -516,6 +527,146 @@ function fuckedUp( durationInBeats, debug ){
 	})
 	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Fucked up', durationInBeats )
 }
+
+
+
+
+//  1:32-ish
+
+new Mode({
+
+	name: 'happening',
+	timeStart: 0,
+	durationInSeconds: 0,
+	setup: function(){
+
+		const 
+		that = this,
+		text = 'hapening',//  Not it’s just a single P here.
+		gap  = comp.beatsPerSecond / text.length,
+		durationSeconds = comp.beatsPerSecond * 5.5
+
+		this.group = text
+		.split( '' )
+		.map( function( character, i ){
+
+			const delay = i * gap
+			return {
+
+				name: character,
+				timeStart: that.timeStart + delay,
+				durationSeconds: durationSeconds,// - delay,
+				hasEngaged: false,
+				hasDisengaged: false,
+
+				tx: 0,//randomWithinRangeEitherSign( 10, 20 ),
+				ty: 0,//randomWithinRangeEitherSign( 10, 20 ),
+				tz: getRandomBetween( 300, 600 ),
+
+
+				//  Technically these should be normalized
+				//  such that the vector length === 1.
+				//  But the browser will fix this for us. 
+
+				rx: getRandomBetweenEitherSign(),
+				ry: getRandomBetweenEitherSign(),
+				rz: getRandomBetweenEitherSign()
+			}
+		})
+	},
+	update: function(){
+		
+		if( comp.isPlaying ){
+
+			const that = this
+			this.group
+			.forEach( function( item, i ){
+
+				const 
+				elapsedSeconds = comp.audio.currentTime - item.timeStart,
+				elapsedPercent = Math.max(
+
+					0,
+					Math.min(
+
+						1,
+						elapsedSeconds / item.durationSeconds,
+					)
+				),
+				sine = Math.sin( elapsedPercent * Math.PI ),
+				angle = elapsedPercent,
+				[ tx, ty, tz ] = [
+
+					item.tx,
+					item.ty,
+					item.tz
+				
+				].map( function( value ){
+
+					return value * sine
+				})
+				
+				if( elapsedPercent > 0 && item.hasEngaged === false ){
+
+					item.hasEngaged = true
+					keyEngage( item.name.toUpperCase() )
+				}
+				if( elapsedPercent >= 0.9999 && item.hasDisengaged === false ){
+
+					item.hasDisengaged = true
+					keyDisengage( item.name.toUpperCase() )
+				}
+				forEachElement(
+
+					'.key-'+ item.name.toUpperCase(),
+					function( element ){
+
+						element.style.transform = 
+							`translate3d( ${tx}px, ${ty}px, ${tz}px )`+
+							`rotate3d( ${item.rx}, ${item.ry}, ${item.rz}, ${angle}turn )`
+					}
+				)
+			})
+		}
+		if( comp.audio.currentTime >= this.timeStart + this.durationInSeconds ){
+
+			Mode.switchTo( 'idle' )
+		}
+	},
+	teardown: function(){
+	
+		this.group
+		.forEach( function( character, i ){
+
+			forEachElement(
+
+				'.key-'+ character.name.toUpperCase(),
+				function( element ){
+
+					element.style.transition = 'none'
+					element.style.transform  = ''
+
+					setTimeout( function(){
+
+						element.style.transition = ''
+					})
+				}
+			)
+		})
+	}
+})
+
+
+
+
+
+
+// tasks.setups.add( function(){ Mode.switchTo( 'boot' )})
+// tasks.updates.add( Mode.run )
+
+
+
+
 
 
 
@@ -582,55 +733,6 @@ function blackSwanOff( durationInBeats, debug ){
 }
 
 
-
-
-function blindspotOLD( durationInBeats, debug ){
-
-	if( typeof durationInBeats !== 'number' ) durationInBeats = 2
-
-	const 
-	timeStart = comp.findLastBeat(),
-	durationPerKey = durationInBeats / 14
-
-	Array
-	.from( document.querySelectorAll( '.key' ))
-	.forEach( function( key ){
-
-		if( key.innerText.length > 0 && 
-			key.classList.contains( 'word' ) !== true &&
-			key.classList.contains( 'arrow' ) !== true &&
-			'blindspot'.indexOf( key.innerText ) < 0 ){
-
-			const 
-			x = +key.getAttribute( 'x' ),
-			y = +key.getAttribute( 'y' )
-
-			insert(
-				
-				timeStart + comp.beatsPerSecond * x * durationPerKey,
-				comp.beatsPerSecond * durationPerKey,
-				function(){
-
-					//key.classList.add( 'press' )
-					keyEngage( key )
-				},
-				'Blindspot.'
-			)
-			insert(
-				
-				timeStart + durationInBeats + comp.beatsPerSecond * x * durationPerKey,
-				0,//comp.beatsPerSecond * durationPerKey,
-				function(){
-
-					//key.classList.remove( 'press' )
-					keyDisengage( key )
-				},
-				'Blindspot.'
-			)
-		}
-	})
-	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Blind spot', durationInBeats )
-}
 
 
 

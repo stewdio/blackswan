@@ -6,16 +6,31 @@
 
 let 
 timeAsTextPrevious = '',
-userHasPressedPlay = false
+userHasPressedPlay = false,
+verbosity = 0//0.5
 
 
 
 
-
-//   Helpers   //
+    /////////////////
+   //             //
+  //   Helpers   //
+ //             //
+/////////////////
 
 
 const
+getRandomBetween = function( a, b ){
+
+	if( typeof a !== 'number' ) a = 0
+	if( typeof b !== 'number' ) b = 1
+	return a + Math.random() * ( b - a )
+},
+getRandomBetweenEitherSign = function( a, b ){
+
+	const value = getRandomBetween( a, b )
+	return Math.random() < 0.5 ? value : -value
+}
 forEachElement = function( a, b, c ){
 
 	let
@@ -191,10 +206,10 @@ const comp = Object.assign( [], {
 			comp[ comp.frameIndex ].time <= time ){//  time vs comp.audio.currentTime
 
 			const frame = comp[ comp.frameIndex ]
-			if( frame.time >= time - 20 &&//  Is 20 seconds enough?!?
+			if( frame.time >= time - 30 &&//  Is 30 seconds enough?!?
 				typeof frame.action === 'function' ){
 
-				frame.action()
+				frame.action( frame.time )
 			}
 			comp.frameIndex ++
 		}
@@ -670,7 +685,59 @@ function assessDuration( timeStart, timeEnd, name, expectedBeats ){
 //////////////
 
 
-const 
+const
+characterToKeyName = {
+
+	'`' : 'backtick',
+	'-' : 'minus',
+	'=' : 'equal',
+	'\t': 'tab',
+	'[' : 'bracket-open',
+	']' : 'bracket-close',
+	'\\': 'slash-backward',
+	';' : 'semicolon',
+	'\'': 'quote',
+	'\n': 'return',
+	'\r': 'return',
+	',' : 'comma',
+	'.' : 'period',
+	'/' : 'slash-forward',
+	' ' : 'space'
+},
+eventCodeToKeyName = {
+
+	Backquote:    'backtick',
+	Minus:        'minus',
+	Equal:        'equal',
+	Backspace:    'delete',
+	
+	Tab:          'tab',
+	BracketLeft:  'bracket-open',
+	BracketRight: 'bracket-close',
+	Backslash:    'slash-backward',
+
+	CapsLock:     'capslock',
+	Semicolon:    'semicolon',
+	Quote:        'quote',
+	Enter:        'return',
+
+	ShiftLeft:    'shift-left',
+	Comma:        'comma',
+	Period:       'period',
+	Slash:        'slash-forward',
+	ShiftRight:   'shift-right',
+
+	ControlLeft:  'control',
+	AltLeft:      'option-left',
+	MetaLeft:     'command-left',
+	Space:        'space',
+	MetaRight:    'command-right',
+	AltRight:     'option-right',
+	ArrowLeft:    'arrow-left',
+	ArrowUp:      'arrow-up',
+	ArrowDown:    'arrow-down',
+	ArrowRight:   'arrow-right'
+},
 appendLockAbilitiesTo = function( object ){
 
 	Object.assign( object, {
@@ -715,7 +782,7 @@ appendKeyAbilitiesTo = function( keyElement ){
 			
 
 
-console.log( 'keyName:', name, '\trequestor:', requestor )
+			if( verbosity >= 0.5 ) console.log( '🔣 Key engaged:', name, '\trequestor:', requestor )
 
 			if( name.length > 1 ){
 				
@@ -753,6 +820,10 @@ turns capslock on OR off depending on current state.
 		disengage: function( requestor ){
 
 			if( typeof requestor !== 'string' ) requestor = '*'
+
+
+			if( verbosity >= 0.6 ) console.log( '🔣 Key disengaged:', name, '\trequestor:', requestor )
+
 			this.lockRemove( requestor )
 			if( Object.keys( this.locks ).length === 0 ){
 
@@ -904,7 +975,7 @@ appendKeyboardAbilitiesTo = function( keyboardElement ){
 		},
 		stateAdd: function( stateName, requestor ){
 
-			console.log( 'stateName:', stateName, '\t requestor:', requestor )
+			if( verbosity > 0.3 ) console.log( '⌨️ Keyboard state added:', stateName, '\t requestor:', requestor )
 
 			if( keyboardElement.states[ stateName ] === undefined ){
 
@@ -914,6 +985,8 @@ appendKeyboardAbilitiesTo = function( keyboardElement ){
 			keyboardElement.classList.add( stateName )
 		},
 		stateRemove: function( stateName, requestor ){
+
+			if( verbosity >= 0.4 ) console.log( '⌨️ Keyboard state removed:', stateName, '\t requestor:', requestor )
 
 			if( keyboardElement.states[ stateName ] === undefined ){
 
@@ -1066,6 +1139,24 @@ keyboardStatesReset = function(){
 
 
 
+
+
+new Mode({
+
+	name: 'idle',
+	setup: function(){
+	
+		//  add the class name
+	},
+	update: function( time ){
+	
+		//  draw based on comp.audio.currentTime
+	},
+	teardown: function(){
+	
+		//  take away the class name
+	}
+})
 
 
 
@@ -1253,73 +1344,54 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-
-
-
-	const eventCodeToCssQuery = {
-
-		Backquote:    'tick',
-		Minus:        'minus',
-		Equal:        'equal',
-		Backspace:    'delete',
-		
-		Tab:          'tab',
-		BracketLeft:  'bracket-open',
-		BracketRight: 'bracket-close',
-		Backslash:    'slash-backward',
-
-		CapsLock:     'capslock',
-		Semicolon:    'semicolon',
-		Quote:        'quote',
-		Enter:        'return',
-
-		ShiftLeft:    'shift-left',
-		Comma:        'comma',
-		Period:       'period',
-		Slash:        'slash-forward',
-		ShiftRight:   'shift-right',
-
-		ControlLeft:  'control',
-		AltLeft:      'option-left',
-		MetaLeft:     'command-left',
-		Space:        'space',
-		MetaRight:    'command-right',
-		AltRight:     'option-right',
-		ArrowLeft:    'arrow-left',
-		ArrowUp:      'arrow-up',
-		ArrowDown:    'arrow-down',
-		ArrowRight:   'arrow-right'
-	}
+	
 	window.addEventListener( 'keydown', function( event ){
-
-
-console.log( 'event.code', event.code )
 
 		if( event.repeat !== true ){
 		
-			const name = !!event.key.match( /^[A-Z]|[0-9]|(`\-\=[]\;\'\,.\/)$/i )
-			//const name = event.key.length == 1
-				? event.key.toUpperCase()
-				: eventCodeToCssQuery[ event.code ]
+			const name = (
 
+				event.code.startsWith( 'Key' ) || 
+				event.code.startsWith( 'Digit' )
+			)
+			? event.key.toUpperCase()
+			: eventCodeToKeyName[ event.code ]
 			keyEngage( name, 'user keyboard' )
-			if( event.code === 'Space' ){
+			if([
+				
+				'Tab',
+				'Backspace',
+				'Enter',
+				'Space',
+				'ArrowUp',
+				'ArrowRight',
+				'ArrowDown',
+				'ArrowLeft'
+
+				].includes( event.code )){
 
 				event.preventDefault()
-				comp.toggle()
 			}
+			if( event.code === 'Space' ) comp.toggle()
 		}
 	})
 	window.addEventListener( 'keyup', function( event ){
 		
-		const name = !!event.key.match( /^[A-Z]|[0-9]|(`\-\=[]\;\'\,.\/)$/i )
-		//const name = event.key.length == 1
-			? event.key.toUpperCase()
-			: eventCodeToCssQuery[ event.code ]
+		const name = (
 
+			event.code.startsWith( 'Key' ) || 
+			event.code.startsWith( 'Digit' )
+		)
+		? event.key.toUpperCase()
+		: eventCodeToKeyName[ event.code ]
 		keyDisengage( name, 'user keyboard' )
 	})
 
+
+
+
+	//  Execute any other setup tasks
+	//  that have been queued with tasks.setups.add( ƒ… )
 
 	tasks.setup()
 
@@ -1328,15 +1400,6 @@ console.log( 'event.code', event.code )
 
 	render()
 })
-
-
-
-
-
-
-
-
-
 
 
 
