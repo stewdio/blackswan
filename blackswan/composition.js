@@ -82,22 +82,9 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	riff(   3    )
 	
 	type(   4,   `buy a ticket and get on the` )
-	append( 0,    function(){ 
-	
-		forEachElement( '.keyboard', function( keyboard ){ 
-
-			keyboard.classList.add( 'long-sustain' )
-		})
-	})
-	
+	changeKeyboardState( 'long-sustain', 'add' )
 	train(  5    )
-	append( 0,    function(){ 
-
-		forEachElement( '.keyboard', function( keyboard ){ 
-
-			keyboard.classList.remove( 'long-sustain' )
-		})
-	})
+	changeKeyboardState( 'long-sustain', 'remove' )
 	riff(   4    )
 	riff(   4    )
 
@@ -110,21 +97,21 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Beat range  89 – 120
 	//  Time range  0:52 – 1:11
 
-	append(   0, function(){ forEachElement( '.keyboard', (e)=>{e.stateAdd( 'capslock' )})}, 'Fucked up. Caps-lock ON.' )
+	capslockOn()
 	fuckedUp( 2 )
 	append(   2 )
 	fuckedUp( 2 )
 	append(   2 )
-	append(   0, function(){ forEachElement( '.keyboard', (e)=>{e.stateRemove( 'capslock' )})}, 'Fucked up. Caps-lock OFF.' )
+	capslockOff()
 	riff(     4 )
 	riff(     4 )
 
-	append(   0, function(){ forEachElement( '.keyboard', (e)=>{e.stateAdd( 'capslock' )})}, 'Fucked up. Caps-lock ON.' )
+	capslockOn()
 	fuckedUp( 2 )
 	append(   2 )
 	fuckedUp( 2 )
 	append(   2 )
-	append(   0, function(){ forEachElement( '.keyboard', (e)=>{e.stateRemove( 'capslock' )})}, 'Fucked up. Caps-lock OFF.' )
+	capslockOff()
 	riff(     4 )
 	riff(     4 )
 
@@ -137,7 +124,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Beat range  121 – 168
 	//  Time range  1:11 – 1:40
 
-	append( 0,    function(){ forEachElement( '.keyboard', ( e ) => { e.classList.add( 'push-out' )})})
+	pushOutOn()//  Redundant, but necessary because seek() only looks behind so far. 
 	type(   6,   `People get crushed like biscuit crumbs` )
 	append( 1    )
 	type(   4.5, `and laid down in the bitumen` )
@@ -150,6 +137,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	append( 0.5  )
 	riff(   3    )
 	
+	pushOutOn()//  Redundant, but necessary because seek() only looks behind so far.
 	type(   3,   `No, it just isn't` )
 	Object.assign( Mode.all.happening, {
 
@@ -170,12 +158,18 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Beat range  169 – 200
 	//  Time range  1:40 – 1:59
 
-	riffFuckedUp( 8 )
-	riff( 4 )
-	riff( 4 )
-	riffFuckedUp( 8 )
-	riff( 4 )
-	riff( 4 )
+	pushOutOn()//  Redundant, but necessary because seek() only looks behind so far.
+	capslockOn()
+	riffedUp( 8 )
+	capslockOff()
+	riff(     4 )
+	riff(     4 )
+
+	capslockOn()
+	riffedUp( 8 )
+	capslockOff()
+	riff(     4 )
+	riff(     4 )
 
 
 
@@ -183,23 +177,185 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  CHORUS EXTENDED
 	//  (Blindspot and Obvious)
 
-	//  Duration    ? beats
-	//  Beat range  201 – ?
-	//  Time range  1:59 – ?
+	//  Duration    32 beats
+	//  Beat range  201 – 236
+	//  Time range  1:59 – 2:18
+
+	pushOutOn()//  Redundant, but necessary because seek() only looks behind so far.
+	capslockOn()
+	blindSpot( 8 )
+	capslockOff()
+	riff(      4 )
+	riff(      4 )
+
+	capslockOn()
+	obvious(   8 )
+	riff(      4 )
+	capslockOff()
+	riff(      4 )
 
 
-	// blindspot( 4 )
-	// append( 6 )
-	//obvious()
 
-	append( 32, function(){
 
-		tasks.updates.add( ripple )
+	//  NO IT ISN’T
+
+	//  Duration    32 beats
+	//  Beat range  237 – 268
+	//  Time range  2:18 – 2:36
+
+//  ripple that shit?????????????
+
+	riff( 4 )
+	riff( 4 )
+	riff( 4 )
+	riff( 4 )
+	riff( 4 )
+	riff( 4 )
+	riff( 4 )
+	riff( 4 )
+
+
+
+
+	//  THIRD VERSE
+	
+	//  Duration    48 beats
+	//  Beat range  ?
+	//  Time range  2:36 – ?
+
+
+//  bring in additional keyboards????
+
+
+	append( 0, function(){ 
+		forEachElement( '.keyboard', ( e ) => {
+
+			e.classList.add( 'push-out' )
+		})
 	})
-	append( 0, function(){
 
-		tasks.updates.remove( ripple )
-	})
+	type(   6,   `You cannot kick-start a dead horse` )
+	append( 1    )
+	type(   4.5, `You just cross yourself and walk away` )
+	append( 0.5  )
+	riff(   4    )
+	
+	type(   6,   `I don't care what the future holds` )
+	append( 1    )
+	type(   4.5, `Cause I'm right here, and I'm today` )
+	append( 0.5  )
+	riff(   3    )
+	
+	type(   4,   `With your fingers you can touch` )
+	type(   5,   `measdfghjkl`, true )
+	riff(   4    )
+	riff(   4    )
+
+
+
+
+	//  THIRD CHORUS
+
+	//  Duration    ??32 beats
+	//  Beat range  ?
+	//  Time range  ?
+
+	// I am your black swan, black swan
+	// (But I made it to the top, made it to the top)
+	// And this is fucked up, fucked up
+	// Be your black swan, be your black swan
+	// (But I made it to the top, made it to the top)
+	// And for spare parts, we're broken up
+	// You are fucked up, fucked up
+	// This is fucked up, fucked up
+	// We are black swans, black swans
+	// And for spare parts, we're broken up
+
+
+	blackSwanOn( 2/4 )
+	append( 2 )
+	append( 1/4 )
+	blackSwanOff( 3/4 )
+	append( 5/4 )
+	riff( 4 )
+	riff( 4 )
+	
+
+	// append(  0, 
+		
+	// 	function(){ keyboard.channelAdd( 'caps-lock' )}, 
+	// 	'Fucked up. Caps-lock ON.' 
+	// )
+	fuckedUp( 2 )
+	append(   2 )
+	fuckedUp( 2 )
+	// append(   0, 
+		
+	// 	function(){ keyboard.channelRemove( 'caps-lock' )}, 
+	// 	'Fucked up. Caps-lock OFF.' 
+	// )
+	append(  2 )
+	riff(    4 )
+	riff(    4 )
+
+	//spareParts()
+
+
+	//  EXTENDED
+
+
+
+
+
+	//  BREAKDOWN 3:44
+
+	// **** POP CORN !!!
+	//  Keys scatter and do popcorn routine!
+	//  like the keyboards lay flat and popcorn keys pop and bounce up then fall back down.
+
+
+
+
+
+
+
+
+
+	//  FOURTH CHORUS 4:02
+	//  ~ 4m
+
+//  **********
+//  should this be a slow unroll of all the generated text
+//  while chorus plays?
+
+	//  Fucked up, fucked up
+	//  Fucked up, fucked up
+	//  Black swans, black swans
+	//  Spare parts, broken up
+
+
+	//  EXIT 4:40 - 4:49
+
+
+
+
+/*
+
+
+Can this type ITSELF???
+Ajax load whatever javascript (or HTML, CSS, etc)
+and type that out super fast???
+
+
+*/
+
+
+
+
+
+
+
+
 
 
 	//  we can do grid stuff. big pixel type?
@@ -210,20 +366,25 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 
-// 2:17 no it isn’t
 
-
-
-
-
-	// blackSwanOn( 2/4 )
+	blackSwanOn( 2/4 )
 	append( 2 )
 	append( 1/4 )
-	// blackSwanOff( 3/4 )
+	blackSwanOff( 3/4 )
 	append( 5/4 )
 	riff( 4 )
 	riff( 4 )
 
+
+
+	append( 32, function(){
+
+		tasks.updates.add( ripple )
+	})
+	append( 0, function(){
+
+		tasks.updates.remove( ripple )
+	})
 
 
 	ekg( 1 )
@@ -290,145 +451,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	// 	blowApart()
 	// })
 
-
-
-	//
-	insert( 156 - comp.beatsPerSecond, comp.beatsPerSecond )
-
-
-
-
-
-
-	//  THIRD VERSE
-	
-	//  Duration    48 beats
-	//  Beat range  ?
-	//  Time range  2:36 – ?
-
-
-//  bring in additional keyboards????
-
-
-	append( 0, function(){ 
-		forEachElement( '.keyboard', ( e ) => {
-
-			e.classList.add( 'push-out' )
-		})
-	})
-
-	type(   6,   `You cannot kick-start a dead horse` )
-	append( 1    )
-	type(   4.5, `You just cross yourself and walk away` )
-	append( 0.5  )
-	riff(   4    )
-	
-	type(   6,   `I don't care what the future holds` )
-	append( 1    )
-	type(   4.5, `Cause I'm right here, and I'm today` )
-	append( 0.5  )
-	riff(   3    )
-	
-	type(   4,   `With your fingers you can touch` )
-	// append( 0,    function(){ keyboard.classList.add( 'long-sustain' )})
-	type(   5,   `measdfghjkl`, true )
-	// append( 0,    function(){ keyboard.classList.remove( 'long-sustain' )})
-	riff(   4    )
-	riff(   4    )
-
-
-
-
-	//  THIRD CHORUS
-
-	//  Duration    ??32 beats
-	//  Beat range  ?
-	//  Time range  ?
-
-	// I am your black swan, black swan
-	// (But I made it to the top, made it to the top)
-	// And this is fucked up, fucked up
-	// Be your black swan, be your black swan
-	// (But I made it to the top, made it to the top)
-	// And for spare parts, we're broken up
-	// You are fucked up, fucked up
-	// This is fucked up, fucked up
-	// We are black swans, black swans
-	// And for spare parts, we're broken up
-
-
-	blackSwanOn( 2/4 )
-	append( 2 )
-	append( 1/4 )
-	blackSwanOff( 3/4 )
-	append( 5/4 )
-	riff( 4 )
-	riff( 4 )
-	
-
-	// append(  0, 
-		
-	// 	function(){ keyboard.channelAdd( 'caps-lock' )}, 
-	// 	'Fucked up. Caps-lock ON.' 
-	// )
-	fuckedUp( 2 )
-	append(   2 )
-	fuckedUp( 2 )
-	// append(   0, 
-		
-	// 	function(){ keyboard.channelRemove( 'caps-lock' )}, 
-	// 	'Fucked up. Caps-lock OFF.' 
-	// )
-	append(  2 )
-	riff(    4 )
-	riff(    4 )
-
-	//spareParts()
-
-
-	//  EXTENDED
-
-
-
-
-
-	//  BREAKDOWN 3:44
-
-	//  Keys scatter and do popcorn routine!
-	//  like the keyboards lay flat and popcorn keys pop and bounce up then fall back down.
-
-
-
-
-
-
-
-	//  FOURTH CHORUS 4:02
-	//  ~ 4m
-
-//  should this be a slow unroll of all the generated text
-//  while chorus plays?
-
-	//  Fucked up, fucked up
-	//  Fucked up, fucked up
-	//  Black swans, black swans
-	//  Spare parts, broken up
-
-
-	//  EXIT 4:40 - 4:49
-
-
-
-
-/*
-
-
-Can this type ITSELF???
-Ajax load whatever javascript (or HTML, CSS, etc)
-and type that out super fast???
-
-
-*/
 
 
 

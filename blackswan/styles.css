@@ -797,7 +797,7 @@ footer {
 
 
 
-.key.happening {
+/*.key.happening {
 
 	transition: transform calc( var( --beat ) * 2 ) ease-out;
 	transform: 
@@ -826,7 +826,7 @@ footer {
 			translate3d( 0px, -200px, 120px )
 			rotate3d( var( --rx ), var( --ry ), var( --rz ), 360deg );
 	}
-}
+}*/
 
 
 
@@ -850,14 +850,40 @@ footer {
 .key.black {
 
 	background: none;
-	background-color: black;
+	/*background-color: black;*/
 	/*color: transparent;*/
+	background-color: transparent;
+	color: transparent;
+}
+.key.blindspot {
+
+	visibility: hidden;
 }
 .key.invisible {
 
 	color: transparent;
 	transition: none;
 }
+
+
+.key.not-obvious {
+
+	backface-visibility: hidden;
+	transform: rotateY( 0.5turn );
+	transition: transform calc( var( --beat ) * 2 ) ease-out;
+}
+.key.not-obvious-release {
+
+	backface-visibility: hidden;
+	transition: transform calc( var( --beat ) * 5 ) ease-out;
+} 
+
+
+
+
+
+
+
 
 
 

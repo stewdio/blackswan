@@ -34,13 +34,16 @@ function reset(){
 			'engage', 
 			'disengaging',
 			'happening',
-			
+			'blindspot',
+			'not-obvious',
+
 			'black', 
 			'wtf',
 			'blank'//  A clone for “dead” but intended to be added / removed at random.
 		)
 		// key.style.transform  = 'none'
-		key.style.visibility = 'visible'
+		//key.style.visibility = 'visible'
+		key.style.visibility = ''
 		if( !key.style.getPropertyValue( '--tx' )){
 		
 			key.style.setProperty( '--tx', getRandomBetween( -100, 100 ) +'px' )
@@ -66,8 +69,42 @@ function applyCssClass( cssQuery, className ){
 		element.classList.add( className )
 	})
 }
+function changeKeyboardState( stateName, addOrRemove, description ){
 
+	const actionName = 'state'+ addOrRemove.charAt( 0 ).toUpperCase() + addOrRemove.slice( 1 )
+	append( 
 
+		0, 
+		function(){ 
+
+			forEachElement( 
+
+				'.keyboard', 
+				function( element ){
+
+					element[ actionName ]( stateName )
+				}
+			)
+		}, 
+		description
+	)
+}
+function capslockOn(){
+
+	changeKeyboardState( 'capslock', 'add', 'Caps-lock ON.' )
+}
+function capslockOff(){
+
+	changeKeyboardState( 'capslock', 'remove', 'Caps-lock OFF.' )
+}
+function pushOutOn(){
+
+	changeKeyboardState( 'push-out', 'add', 'Push-out ON.' )
+}
+function pushOutOff(){
+
+	changeKeyboardState( 'push-out', 'remove', 'Push-out OFF.' )
+}
 
 
 
@@ -207,7 +244,7 @@ function riffHalf( durationInBeats, debug ){
 
 
 
-function riffFuckedUp( durationInBeats, drumSolo, addLastHit, debug ){
+function riffedUp( durationInBeats, drumSolo, addLastHit, debug ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 4
 	if( typeof drumSolo !== 'boolean' ) drumSolo = true//false
@@ -543,8 +580,8 @@ new Mode({
 		const 
 		that = this,
 		text = 'hapening',//  Not it’s just a single P here.
-		gap  = comp.beatsPerSecond / text.length,
-		durationSeconds = comp.beatsPerSecond * 5.5
+		gap  = comp.beatsPerSecond * 2 / text.length,
+		durationSeconds = comp.beatsPerSecond * 4.5
 
 		this.group = text
 		.split( '' )
@@ -611,6 +648,7 @@ new Mode({
 					item.hasEngaged = true
 					keyEngage( item.name.toUpperCase() )
 				}
+				// if( elapsedPercent >= 0.5 && item.hasDisengaged === false ){
 				if( elapsedPercent >= 0.9999 && item.hasDisengaged === false ){
 
 					item.hasDisengaged = true
@@ -663,6 +701,192 @@ new Mode({
 
 // tasks.setups.add( function(){ Mode.switchTo( 'boot' )})
 // tasks.updates.add( Mode.run )
+
+
+
+
+
+
+
+
+
+
+
+function blindSpot( durationInBeats, debug ){
+
+	if( typeof durationInBeats !== 'number' ) durationInBeats = 8
+	
+	const 
+	timeStart = comp.findLastBeat(),
+	text = 'blindspot',
+	durationPerCharacter = ( comp.beatsPerSecond * 2 ) / text.length
+
+	text
+	.split( '' )
+	.forEach( function( letter, i ){
+
+		insert(
+
+			timeStart + durationPerCharacter * i,
+			0,
+			function(){
+
+				forEachElement( 
+
+					'.key-'+ letter.toUpperCase(),
+					function( key ){
+
+						key.classList.add( 'blindspot' )
+					}
+				 )
+			},
+			'Blind spot ON: '+ letter.toUpperCase()
+		)
+		insert(
+
+			timeStart + comp.beatsPerSecond * 4 + durationPerCharacter * i,
+			0,
+			function(){ 
+
+				forEachElement( 
+
+					'.key-'+ letter.toUpperCase(),
+					function( key ){
+
+						key.classList.remove( 'blindspot' )
+					}
+				 )				
+			},
+			'Blind spot OFF: '+ letter.toUpperCase()
+		)
+	})
+	append( durationInBeats )
+	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Blind spot', durationInBeats )
+}
+
+
+
+
+
+function obvious( durationInBeats, debug ){
+
+	//  yes, type out the words/
+	//  but at the same time flip all the tiles over
+	//  except for 'obvious'
+
+	const 
+	timeStart = comp.findLastBeat(),
+	text = 'OBVIOUS'.split( '' )
+
+	forEachElement(
+
+		'.key',
+		function( element ){
+
+			if( text.includes( element.getAttribute( 'data-name' )) === false ){
+				const x = parseFloat( element.getAttribute( 'x' ))
+				insert( 
+
+					timeStart + x * 0.07,
+					0,
+					function(){
+
+						element.classList.add( 'not-obvious' )
+					}
+				)
+				insert( 
+
+					timeStart + comp.beatsPerSecond * 6 + x * 0.07,
+					0,
+					function(){
+
+						const cleanup = function(){
+
+							element.removeEventListener( 'transitionend', cleanup )
+							element.classList.remove( 'not-obvious-release' )
+						}
+						element.addEventListener( 'transitionend', cleanup )
+						element.classList.add( 'not-obvious-release' )
+						element.classList.remove( 'not-obvious' )
+					}
+				)
+			}
+		}
+	)
+	insert(
+
+		timeStart + comp.beatsPerSecond * 3,
+		0,
+		function(){
+
+			forEachElement( '.keyboard', ( e ) => { e.classList.remove( 'push-out' )})
+		}
+	)
+	insert(
+
+		timeStart + comp.beatsPerSecond * 6,
+		0,
+		function(){
+
+			forEachElement( '.keyboard', ( e ) => { e.classList.add( 'push-out' )})
+		}
+	)
+	const durationPerCharacter = comp.beatsPerSecond / ( text.length + 2 )
+	text
+	.forEach( function( character, i ){
+
+		insert( 
+
+			timeStart + comp.beatsPerSecond * 4 + durationPerCharacter * i,
+			0,
+			function(){
+
+				keyEngage( character.toUpperCase() )
+			}
+		)
+		insert(
+
+			timeStart + comp.beatsPerSecond * 5 + durationPerCharacter * i,
+			0,
+			function(){
+
+				keyDisengage( character.toUpperCase() )
+			}
+		)
+	})
+	append( durationInBeats )
+	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Obvious', durationInBeats )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -730,16 +954,6 @@ function blackSwanOff( durationInBeats, debug ){
 	})
 	append( 0, function(){ forEachElement( '.keyboard', (e)=>{e.stateRemove( 'capslock' )})}, 'caps-lock OFF' )
 	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Black swan OFF', durationInBeats )
-}
-
-
-
-
-
-function blindspot(){
-
-	// 'blindspot'.split()
-	// should keys dissolve? fall into distance? flip over to blank side?
 }
 
 
