@@ -10,36 +10,24 @@ Song by Thom Yorke, Nigel Godrich, et al.
 Artwork inspired by Stanley Donwood.
 Concept and animation by Stewart Smith.  
 
-  
+
   
 
 THE ART
 ------------------------------------------------------------------------
 
+— Make TOUCH ME. should be an entire keyboard ripple from left to right.
 
+- Make BLACK SWAN.
 
+- Make SPARE PARTS.
 
-- "happennnnniiiiiing" should have keys either
-1. flip over (no backside? vanish?) 
-2. or float up into nothingness
-Does it need to behin 1/4 beat earlier??
+- Make NOT IT ISN’T. 3:44 until 4:02 keys shoud smash and scatter and do “popcorn” routine where they kind bounce up and down? but this needs to fade out to almost no popping by the end. 
 
 
 - The on-release gradient is too pink. Needs to fade to amber or something. Or be bright amber and as looses brightness curve from amber hue to red hue.
-
 maybe amber = 40˚
 then tweens down to 0˚
-
-
-- "blindspot" sucks.
-
-- is "blackswan" function nicer with key text visible? or better when whole key vanishes?
-
-
-
-- 3:44 until 4:02 keys shoud smash and scatter and do “popcorn” routine where they kind bounce up and down? but this needs to fade out to almost no popping by the end. 
-
-
 
 - needs to get cray after second chorus; rainbow bouncing keys and shit.
 
@@ -51,12 +39,12 @@ then tweens down to 0˚
 
 - ERASE GUY scatters the keys. should red fade to white and then “eraser guy” comes in and commands all the keys to fly away, like commanding the flood waters to recede? he fails. the shit comes back.
 
-- NOW WORKS: hover / click on SHIFT, OPTION, CAPS, etc should activate those things just like hitting the real buttons. EXCEPTIONS: caps-lock. does not log to the receipt generator. does this require adding "channels" to every single key?!
+- RECEIPT. comp.generateReceipt() now outputs a receipt of the experience. Need to capture hover events as well tho. Needs more debugging too. auto downloads as text file when song ends? Does Capslock log to receipts?
 
-- RECEIPT. comp.generateReceipt() now outputs a receipt of the experience. Need to capture hover events as well tho. Needs more debugging too. auto downloads as text file when song ends?
 THIS SHOULD SHOW UP BEFORE THE SONG IS OVER AS AN OVERLAY DIV!!!!!!!!
 
 - Can we make a sphere out of the keyboard keys? And the key press fires them outward (larger radius) from the sphere?
+
 
 
 
@@ -66,8 +54,10 @@ CODE
 
 - 'F' key sometimes get engaged after doing a refresh. (Or a seek?) It is engaged by * which means the program is doing it. Seeking to around 1:23.
 file:///Users/stewarsm/Documents/Github/blackswan/index.html#1:23
+Rewrite fuckedUp to NOT use a toggle. Definitively turn ON or turn OFF. That’s what’s causing shit to stick when the seek window hits it oddly. 
 
 
+—Can we add an “obvious-release.engaged” that forces transition to none? Will that fiix the spacebar issue post “obvious” routine?
 
 - Need a way to remove .option-lag class from keyboard elements only when all (or maybe just one if they’re all animating at the same speed?) reaches an animationend call back.
 In addition to 'animationend' do wee also need 'animationcancel' or similar?
@@ -82,7 +72,6 @@ In addition to 'animationend' do wee also need 'animationcancel' or similar?
 
 - Receipt does not seem to record Shift OFF.
 
-- Receipt does not record FUCKED UP and possibly other methods....
 
 
 

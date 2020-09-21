@@ -797,42 +797,6 @@ footer {
 
 
 
-/*.key.happening {
-
-	transition: transform calc( var( --beat ) * 2 ) ease-out;
-	transform: 
-		translate3d( 0px, -200px, 120px )
-		rotate3d( var( --rx ), var( --ry ), var( --rz ), 360deg );
-}
-.key.happening2 {
-
-	animation-name: happening;
-	animation-duration: calc( var( --beat ) * 2 );
-	animation-timing-function: ease-in-out;
-	animation-fill-mode: both;
-	animation-direction: alternate;
-}
-@keyframes happening {
-
-	0% {
-
-		transform: 
-			translate3d( 0, 0, 0 )
-			rotate3d( 0, 0, 0, 360deg );
-	}
-	100% {
-
-		transform: 
-			translate3d( 0px, -200px, 120px )
-			rotate3d( var( --rx ), var( --ry ), var( --rz ), 360deg );
-	}
-}*/
-
-
-
-
-
-
 .keyboard.long-sustain .key.engaged {
 
 	transition: none;

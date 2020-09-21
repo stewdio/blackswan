@@ -4,6 +4,15 @@
 
 
 
+
+
+    /////////////////
+   //             //
+  //   Helpers   //
+ //             //
+/////////////////
+
+
 function reset(){
 
 	Array
@@ -105,6 +114,177 @@ function pushOutOff(){
 
 	changeKeyboardState( 'push-out', 'remove', 'Push-out OFF.' )
 }
+
+
+
+
+
+
+
+
+
+
+function insertHit( timeCursor, durationToOccupy, keyName, durationVisible ){
+	
+	if( typeof durationVisible !== 'number' ) durationVisible = durationToOccupy
+	insert(
+
+		timeCursor,
+		0,//comp.beatsPerSecond * durationToOccupy,
+		function(){ keyEngage( keyName )},
+		'Hit ON: '+ keyName
+	)
+	insert(
+
+		timeCursor + comp.beatsPerSecond * durationVisible * 15/16,
+		0,
+		function(){ keyDisengage( keyName )},
+		'Hit OFF: '+ keyName
+	)
+}
+function insertRiffBeat( timeStart, durationInBeats, skipLastHit ){
+
+	if( typeof durationInBeats !== 'number' ) durationInBeats = 4
+	let timeCursor = timeStart
+	;[
+		[
+			[ 2/4, 'space', 1/4 ],
+			[ 2/4, 'space'  ]
+		],
+		[
+			[ 1/4, 'period' ],
+			[ 2/4, 'space'  ],
+			
+		],
+		[
+			[ 2/4, 'tab'    ],
+			[ 2/4, 'period' ],			
+		],
+		[
+			[ 1/4, 'space'  ],
+			[ 1/4, 'period' ],
+			[ 2/4, 'space'  ]
+		]
+	]
+	.filter( function( item, i ){
+
+		return i < durationInBeats
+	})
+	.flat()
+	.forEach( function( item ){
+
+		insertHit.call( this, timeCursor, ...item )
+		timeCursor += item[ 0 ] * comp.beatsPerSecond
+	})
+	if( !skipLastHit ) insertHit( timeCursor, 1/4, 'space', 1/8 )
+}
+function insertRiffBumpBump( timeStart ){
+
+	let timeCursor = timeStart
+	;[
+		[ 2/4, 'option-left', 1/4 ],
+		[ 2/4, 'option-left', 0.4 ]
+
+	].forEach( function( item ){
+
+		insertHit.call( this, timeCursor, ...item )
+		timeCursor += item[ 0 ] * comp.beatsPerSecond
+	})
+}
+function insertRiffDeadOrAlive( timeStart ){
+
+	let timeCursor = timeStart
+	;[
+		[ 1/2, 'arrow-left'  ],
+		[ 1/2, 'arrow-down'  ],
+		[ 1/2, 'arrow-up'    ],
+		[ 2/2, 'arrow-right' ]
+
+	].forEach( function( item ){
+
+		insertHit.call( this, timeCursor, ...item )
+		timeCursor += item[ 0 ] * comp.beatsPerSecond
+	})
+}
+function insertRiffOptions( timeStart, options ){
+
+	if( options.includes( 'bump-bump' )) insertRiffBumpBump( timeStart )
+	if( options.includes( 'dead-or-alive' )) insertRiffDeadOrAlive( timeStart )
+}
+function appendRiff( durationInBeats, options ){
+
+	if( typeof durationInBeats !== 'number' ) durationInBeats = 4
+	if( typeof options !== 'string' ) options = ''
+	
+	let i = 0
+	while( i < durationInBeats ){
+
+		const 
+		timeStart = comp.findLastBeat(),
+		beatsRemaining = durationInBeats - i,
+		beatsThisLoop  = beatsRemaining >= 4
+			? 4
+			: beatsRemaining
+
+		insertRiffBeat( timeStart, beatsThisLoop, options.includes( 'skip-last-hit' ))
+		insertRiffOptions( timeStart, options )
+		append( beatsThisLoop )
+		i += 4
+	}
+}
+function appendRiffBackside(){
+
+
+}
+
+
+
+
+
+function appendRiffedUp( text, options ){
+
+	if( typeof options !== 'string' ) options = ''
+	if( typeof text !== 'string' ) text = 'fuckedup'
+
+	const durationPerCharacter = comp.beatsPerSecond * 2 / text.length
+	let timeStart = comp.findLastBeat()
+
+	text
+	.split( '' )
+	.forEach( function( letter, i ){
+
+		insert(
+
+			timeStart + durationPerCharacter * i,
+			0,
+			function(){ keyToggle( letter.toUpperCase() )},
+			'Riffed up: '+ letter
+		)
+		insert(
+
+			timeStart + comp.beatsPerSecond * 4 + durationPerCharacter * i,
+			0,
+			function(){ keyToggle( letter.toUpperCase() )},
+			'Riffed up: '+ letter
+		)
+	})
+	for( let i = 0; i < 2; i ++ ){
+
+		timeStart = comp.findLastBeat()
+		if( options.includes( 'riff' )) insertRiffBeat( timeStart, 4, options.includes( 'skip-last-hit' ))	
+		insertRiffOptions( timeStart, options )
+		append( 4 )
+	}
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -659,6 +839,10 @@ new Mode({
 					'.key-'+ item.name.toUpperCase(),
 					function( element ){
 
+						// element.style.boxShadow = `
+						// 	0 0 calc( var( --size ) * 2 * ${( 1 - sine * 0.8 )} ) white,
+						// 	0 0 calc( var( --size ) * 4 * ${( 1 - sine * 0.8 )} ) white`
+
 						element.style.transform = 
 							`translate3d( ${tx}px, ${ty}px, ${tz}px )`+
 							`rotate3d( ${item.rx}, ${item.ry}, ${item.rz}, ${angle}turn )`
@@ -683,6 +867,7 @@ new Mode({
 
 					element.style.transition = 'none'
 					element.style.transform  = ''
+					// element.style.boxShadow  = ''
 
 					setTimeout( function(){
 
@@ -760,6 +945,8 @@ function blindSpot( durationInBeats, debug ){
 			'Blind spot OFF: '+ letter.toUpperCase()
 		)
 	})
+	insertRiffBeat( timeStart, 4 )
+	insertRiffBeat( timeStart + 4 * comp.beatsPerSecond, 4 )
 	append( durationInBeats )
 	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Blind spot', durationInBeats )
 }

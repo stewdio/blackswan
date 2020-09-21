@@ -44,17 +44,9 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Duration    40 beats
 	//  Beat range  0 – 39
 	//  Time range  0:01 – 0:24
-	
-	riff( 4, true )
-	riff( 4, true )
-	riff( 4 )
-	riff( 4 )
-	riff( 4 )
-	riff( 4 )
-	riff( 4 )
-	riff( 4 )
-	riff( 4 )
-	riff( 4, false, false )
+		
+	appendRiff( 4 * 2 )
+	appendRiff( 4 * 8, 'bump-bump' )
 
 
 
@@ -73,20 +65,19 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	append( 1    )
 	type(   4.5, `it's the price that you gotta pay` )
 	append( 0.5  )
-	riff(   4    )
+	appendRiff( 4, 'bump-bump' )
 	
 	type(   6,   `do yourself a favour and pack your bags` )
 	append( 1    )
 	type(   4.5, `buy a ticket and get on the train` )
 	append( 0.5  )
-	riff(   3    )
+	appendRiff( 3, 'bump-bump' )
 	
 	type(   4,   `buy a ticket and get on the` )
 	changeKeyboardState( 'long-sustain', 'add' )
 	train(  5    )
 	changeKeyboardState( 'long-sustain', 'remove' )
-	riff(   4    )
-	riff(   4    )
+	appendRiff( 4 * 2, 'bump-bump' )
 
 
 
@@ -98,22 +89,14 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Time range  0:52 – 1:11
 
 	capslockOn()
-	fuckedUp( 2 )
-	append(   2 )
-	fuckedUp( 2 )
-	append(   2 )
+	appendRiffedUp( 'fuckedup' )
 	capslockOff()
-	riff(     4 )
-	riff(     4 )
+	appendRiff( 4 * 2, 'bump-bump' )
 
 	capslockOn()
-	fuckedUp( 2 )
-	append(   2 )
-	fuckedUp( 2 )
-	append(   2 )
+	appendRiffedUp( 'fuckedup' )
 	capslockOff()
-	riff(     4 )
-	riff(     4 )
+	appendRiff( 4 * 2, 'bump-bump' )
 
 
 
@@ -129,25 +112,24 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	append( 1    )
 	type(   4.5, `and laid down in the bitumen` )
 	append( 0.5  )
-	riff(   4    )
+	appendRiff( 4, 'bump-bump' )
 	
 	type(   6,   `You have tried your best to please everyone` )
 	append( 1    )
 	type(   4.5, `But it just isn't happening` )
 	append( 0.5  )
-	riff(   3    )
+	appendRiff( 3, 'bump-bump' )
 	
 	pushOutOn()//  Redundant, but necessary because seek() only looks behind so far.
-	type(   3,   `No, it just isn't` )
+	type( 3, `No, it just isn't` )
 	Object.assign( Mode.all.happening, {
 
 		timeStart: comp.findLastBeat(),
 		durationInSeconds: comp.beatsPerSecond * 8
 	})
-	append( 0,    function(){ Mode.switchTo( 'happening' )})
-	append( 6    )
-	riff(   4    )
-	riff(   4    )
+	append( 0, function(){ Mode.switchTo( 'happening' )})
+	append( 6  )
+	appendRiff( 4 * 2, 'bump-bump' )
 
 
 
@@ -160,16 +142,14 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	pushOutOn()//  Redundant, but necessary because seek() only looks behind so far.
 	capslockOn()
-	riffedUp( 8 )
+	appendRiffedUp( 'fuckedup', 'riff bump-bump' )
 	capslockOff()
-	riff(     4 )
-	riff(     4 )
+	appendRiff( 4 * 2, 'bump-bump dead-or-alive' )
 
 	capslockOn()
-	riffedUp( 8 )
+	appendRiffedUp( 'fuckedup', 'riff bump-bump' )
 	capslockOff()
-	riff(     4 )
-	riff(     4 )
+	appendRiff( 4 * 2, 'bump-bump dead-or-alive' )
 
 
 
@@ -185,14 +165,13 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	capslockOn()
 	blindSpot( 8 )
 	capslockOff()
-	riff(      4 )
-	riff(      4 )
+	appendRiff( 4 * 2, 'bump-bump dead-or-alive' )
 
 	capslockOn()
-	obvious(   8 )
-	riff(      4 )
+	obvious( 8 )
+	appendRiff( 4, 'bump-bump dead-or-alive' )
 	capslockOff()
-	riff(      4 )
+	appendRiff( 4, 'bump-bump dead-or-alive' )
 
 
 
@@ -205,14 +184,10 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 //  ripple that shit?????????????
 
-	riff( 4 )
-	riff( 4 )
-	riff( 4 )
-	riff( 4 )
-	riff( 4 )
-	riff( 4 )
-	riff( 4 )
-	riff( 4 )
+	appendRiff( 8, 'bump-bump' )
+	appendRiff( 8, 'bump-bump dead-or-alive' )
+	appendRiff( 8, 'bump-bump' )
+	appendRiff( 8, 'bump-bump dead-or-alive' )
 
 
 
@@ -220,13 +195,23 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  THIRD VERSE
 	
 	//  Duration    48 beats
-	//  Beat range  ?
-	//  Time range  2:36 – ?
+	//  Beat range  269 – 316
+	//  Time range  2:36 – 3:05
 
 
 //  bring in additional keyboards????
+/*
 
 
+keyboard = $('.keyboard')
+var keyboard2 = keyboard.cloneNode( true )
+document.body.appendChild( keyboard2 )
+appendKeyboardAbilitiesTo( keyboard2 )
+appendKeyAbilitiesToAllKeys( keyboard2 )//  works?????
+
+
+
+*/
 	append( 0, function(){ 
 		forEachElement( '.keyboard', ( e ) => {
 
@@ -256,9 +241,9 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	//  THIRD CHORUS
 
-	//  Duration    ??32 beats
-	//  Beat range  ?
-	//  Time range  ?
+	//  Duration    32 beats
+	//  Beat range  317 – 348
+	//  Time range  3:05 – 3:24
 
 	// I am your black swan, black swan
 	// (But I made it to the top, made it to the top)
@@ -272,57 +257,61 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	// And for spare parts, we're broken up
 
 
-	blackSwanOn( 2/4 )
-	append( 2 )
-	append( 1/4 )
-	blackSwanOff( 3/4 )
-	append( 5/4 )
-	riff( 4 )
-	riff( 4 )
+	pushOutOff()//  Redundant, but necessary because seek() only looks behind so far.
+	capslockOn()
+	appendRiffedUp( 'blackswan', 'riff bump-bump' )
+	capslockOff()
+	appendRiff( 8, 'bump-bump dead-or-alive' )
+
+	capslockOn()
+	appendRiffedUp( 'fuckedup', 'riff bump-bump' )
+	capslockOff()
+	appendRiff( 8, 'bump-bump dead-or-alive' )
+
+
+
+
+	//  THIRD CHORUS EXTENDED
+
+	//  Duration    32 beats
+	//  Beat range  349 – 380
+	//  Time range  3:24 – 3:44
+
+	capslockOn()
+	appendRiffedUp( 'blackswans', 'riff bump-bump' )
+	capslockOff()
+	appendRiff( 8, 'bump-bump dead-or-alive' )
 	
-
-	// append(  0, 
-		
-	// 	function(){ keyboard.channelAdd( 'caps-lock' )}, 
-	// 	'Fucked up. Caps-lock ON.' 
-	// )
-	fuckedUp( 2 )
-	append(   2 )
-	fuckedUp( 2 )
-	// append(   0, 
-		
-	// 	function(){ keyboard.channelRemove( 'caps-lock' )}, 
-	// 	'Fucked up. Caps-lock OFF.' 
-	// )
-	append(  2 )
-	riff(    4 )
-	riff(    4 )
-
-	//spareParts()
-
-
-	//  EXTENDED
+	capslockOn()
+	appendRiffedUp( 'spareparts', 'riff bump-bump' )
+	capslockOff()
+	appendRiff( 8, 'bump-bump dead-or-alive' )
 
 
 
 
+	//  BREAKDOWN
 
-	//  BREAKDOWN 3:44
+	//  Duration    32 beats
+	//  Beat range  349 – 380
+	//  Time range  3:44 – 4:03
+
 
 	// **** POP CORN !!!
 	//  Keys scatter and do popcorn routine!
 	//  like the keyboards lay flat and popcorn keys pop and bounce up then fall back down.
 
+	appendRiff( 32 )
 
 
 
 
+	//  FOURTH CHORUS
+	
+	//  Duration    32 beats
+	//  Beat range  381 – 412
+	//  Time range  4:03 – 4:22
 
-
-
-
-	//  FOURTH CHORUS 4:02
-	//  ~ 4m
 
 //  **********
 //  should this be a slow unroll of all the generated text
@@ -333,10 +322,45 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Black swans, black swans
 	//  Spare parts, broken up
 
+	capslockOn()
+	appendRiffedUp( 'blackswans', 'riff bump-bump' )
+	capslockOff()
+	appendRiff( 8, 'bump-bump dead-or-alive' )
 
-	//  EXIT 4:40 - 4:49
+	capslockOn()
+	appendRiffedUp( 'spareparts', 'riff bump-bump' )
+	capslockOff()
+	appendRiff( 8, 'bump-bump dead-or-alive' )
 
 
+
+
+	//  FOURTH CHORUS EXTENDED
+	
+	//  Duration    32 beats
+	//  Beat range  413 – 444
+	//  Time range  4:22 – 4:40
+
+	capslockOn()
+	appendRiffedUp( 'blackswans', 'riff bump-bump' )
+	capslockOff()
+	appendRiff( 8, 'bump-bump dead-or-alive' )
+
+	capslockOn()
+	appendRiffedUp( 'spareparts', 'riff bump-bump' )
+	capslockOff()
+	appendRiff( 8, 'bump-bump dead-or-alive' )
+
+
+
+
+	//  EXIT
+
+	//  Duration    ?? beats
+	//  Beat range  445 – ?
+	//  Time range  4:40 – 4:49
+
+	
 
 
 /*
@@ -367,13 +391,13 @@ and type that out super fast???
 
 
 
-	blackSwanOn( 2/4 )
-	append( 2 )
-	append( 1/4 )
-	blackSwanOff( 3/4 )
-	append( 5/4 )
-	riff( 4 )
-	riff( 4 )
+	// blackSwanOn( 2/4 )
+	// append( 2 )
+	// append( 1/4 )
+	// blackSwanOff( 3/4 )
+	// append( 5/4 )
+	// riff( 4 )
+	// riff( 4 )
 
 
 
@@ -415,24 +439,11 @@ and type that out super fast???
 
 
 
+	append( 8, function(){
 
-	// const timeStart = comp[ comp.length - 1 ].time
-
-	// Array
-	// .from( keyboard.querySelectorAll( '.key' ))
-	// .forEach( function( key, i ){
-
-	// 	insert( timeStart + i * 0.02, 0, function(){ key.classList.add( 'press' )})
-	// 	insert( timeStart + 0.5 + i * 0.02, 0, function(){ key.classList.remove( 'press' )})
-	// })
-
-
-
-	// append( 8, function(){
-
-	// 	keyboard.classList.add( 'wtf' )
-	// 	keyboard.classList.add( 'crazy' )
-	// })
+		keyboard.classList.add( 'wtf' )
+		keyboard.classList.add( 'crazy' )
+	})
 
 	// append( 4, function(){
 
@@ -441,15 +452,15 @@ and type that out super fast???
 	// 	document.querySelector( '.key-F' ).classList.add( 'wtf' )
 	// })
 
-	append( 16 )
+	append( 2 )
 	append( 1, function(){
 
-		//keyboard.classList.add( 'crazy' )
+		keyboard.classList.add( 'crazy' )
 	})
-	// append( 2, function(){
+	append( 2, function(){
 
-	// 	blowApart()
-	// })
+		blowApart()
+	})
 
 
 
