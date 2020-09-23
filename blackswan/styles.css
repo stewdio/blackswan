@@ -94,7 +94,7 @@ section {
 }
 .section-separator svg {
 
-	fill: hsl( 0, 0%, 90% );
+	/*fill: hsl( 0, 0%, 90% );*/
 }
 
 
@@ -841,6 +841,10 @@ footer {
 	backface-visibility: hidden;
 	transition: transform calc( var( --beat ) * 5 ) ease-out;
 } 
+.key.no-backface {
+
+	backface-visibility: hidden;
+}
 
 
 

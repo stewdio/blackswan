@@ -1055,9 +1055,88 @@ function obvious( durationInBeats, debug ){
 
 
 
+//  2:58
+
+
+function createGaussianFunction( mean, standardDeviation, maxHeight ){
+
+	if( typeof mean !== 'number' ) mean = 0
+	if( typeof standardDeviation !== 'number' ) standardDeviation = 1
+	if( typeof maxHeight !== 'number' ) maxHeight = 1
+	return function getNormal( x ){
+	
+		return maxHeight * Math.pow( Math.E, -Math.pow( x - mean, 2 ) / ( 2 * ( standardDeviation * standardDeviation )))
+	}
+}
 
 
 
+new Mode({
+
+	name: 'me',
+	timeStart: 0,
+	durationInSeconds: 0,
+	setup: function(){
+
+		document.querySelector( '.keyboard' ).style.transform = 'rotateX( 45deg )'
+		// forEachElement( '.key', function( key ){
+
+		// 	key.classList.add( 'no-backface' )
+		// })
+		// comp.audio.playbackRate = 0.1
+	},
+	update: function(){
+		
+		if( comp.isPlaying ){
+
+			const
+			elapsedSeconds = comp.audio.currentTime - this.timeStart,
+			elapsedPercent = elapsedSeconds / this.durationInSeconds,
+			elapsedX3 = elapsedPercent * 3 - 1,
+			gaus = createGaussianFunction( elapsedX3, 0.1, 1 )
+
+			forEachElement( '.key', function( key, i ){
+
+				const 
+				x = parseFloat( key.getAttribute( 'x-normalized' )),
+				amp = 240 * gaus( x ) * elapsedX3 * ( 0.2 + 0.8 * x ),
+				rotation = x < elapsedX3
+					? gaus( x )
+					: 0
+
+				if( amp > 0.5 ){
+				
+					key.style.transform = 'translate3d( 0px, 0px, '+ 
+						amp
+						+'px ) rotateY( '+ rotation +'turn )'
+					if( rotation > 0.7 ) key.classList.add( 'engaged' )
+					if( rotation < 0.3 ) key.classList.remove( 'engaged' )
+				}
+				else {
+
+					key.style.transform  = ''
+				}
+			})
+		}
+		if( comp.audio.currentTime >= this.timeStart + this.durationInSeconds ){
+
+			Mode.switchTo( 'idle' )
+		}
+	},
+	teardown: function(){
+	
+		forEachElement( '.key', function( key ){
+
+			// key.classList.remove( 'no-backface' )
+			key.style.transition = 'none'
+			key.style.transform  = ''
+			setTimeout( function(){
+
+				key.style.transition = ''
+			})
+		})
+	}
+})
 
 
 

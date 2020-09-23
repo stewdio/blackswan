@@ -9,7 +9,7 @@ comp.beatsPerSecond =  60 / comp.beatsPerMinute
 Object.assign( comp.audio, {
 
 	src: 'media/thom-yorke-blackswan.m4a',
-	volume: 0.2,
+	volume: 0.8,
 	playbackRate: 1//0.25
 })
 
@@ -121,7 +121,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	appendRiff( 3, 'bump-bump' )
 	
 	pushOutOn()//  Redundant, but necessary because seek() only looks behind so far.
-	type( 3, `No, it just isn't` )
+	type( 3, `No, it just isn't` )	
 	Object.assign( Mode.all.happening, {
 
 		timeStart: comp.findLastBeat(),
@@ -200,6 +200,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 
 //  bring in additional keyboards????
+//  ROTATE KEYBOARD 30 DEGREES !
+//  $('.keyboard').style.transform='rotateX(30deg)'
 /*
 
 
@@ -212,29 +214,39 @@ appendKeyAbilitiesToAllKeys( keyboard2 )//  works?????
 
 
 */
-	append( 0, function(){ 
-		forEachElement( '.keyboard', ( e ) => {
-
-			e.classList.add( 'push-out' )
-		})
-	})
+	pushOutOn()
 
 	type(   6,   `You cannot kick-start a dead horse` )
 	append( 1    )
 	type(   4.5, `You just cross yourself and walk away` )
 	append( 0.5  )
-	riff(   4    )
+	appendRiff( 4, 'bump-bump' )
 	
 	type(   6,   `I don't care what the future holds` )
 	append( 1    )
 	type(   4.5, `Cause I'm right here, and I'm today` )
 	append( 0.5  )
-	riff(   3    )
+	appendRiff( 3, 'bump-bump' )
 	
-	type(   4,   `With your fingers you can touch` )
-	type(   5,   `measdfghjkl`, true )
-	riff(   4    )
-	riff(   4    )
+	type(   3,   `With your fingers you can touch` )
+
+
+//  This may need to start SOONER than where append() would put it.
+//  so... need to do a special insert() statement here?
+//  Also: this will be so much cooler if the keyboard itself is titled on the X axis
+//  so these keys fly UP and not just toward the viewer.
+//  $('.keyboard').style.transform='rotateX(30deg)'
+//  should each key do a full rotation about its Y axis????
+pushOutOn()
+	const insertMeEarlier = comp.findLastBeat() - comp.beatsPerSecond * 6
+	Object.assign( Mode.all.me, {
+
+		timeStart: insertMeEarlier,
+		durationInSeconds: comp.beatsPerSecond * 18
+	})
+	insert( insertMeEarlier, 0, function(){ Mode.switchTo( 'me' )})
+	append( 6  )
+	appendRiff( 4 * 2, 'bump-bump' )
 
 
 
@@ -257,7 +269,7 @@ appendKeyAbilitiesToAllKeys( keyboard2 )//  works?????
 	// And for spare parts, we're broken up
 
 
-	pushOutOff()//  Redundant, but necessary because seek() only looks behind so far.
+	// pushOutOn()//  Redundant, but necessary because seek() only looks behind so far.
 	capslockOn()
 	appendRiffedUp( 'blackswan', 'riff bump-bump' )
 	capslockOff()
@@ -323,12 +335,12 @@ appendKeyAbilitiesToAllKeys( keyboard2 )//  works?????
 	//  Spare parts, broken up
 
 	capslockOn()
-	appendRiffedUp( 'blackswans', 'riff bump-bump' )
+	appendRiffedUp( 'fuckedup', 'riff bump-bump' )
 	capslockOff()
 	appendRiff( 8, 'bump-bump dead-or-alive' )
 
 	capslockOn()
-	appendRiffedUp( 'spareparts', 'riff bump-bump' )
+	appendRiffedUp( 'fuckedup', 'riff bump-bump' )
 	capslockOff()
 	appendRiff( 8, 'bump-bump dead-or-alive' )
 

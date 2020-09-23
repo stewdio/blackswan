@@ -114,13 +114,13 @@ const comp = Object.assign( [], {
 
 	//  KEYFRAME CREATION.
 	
-	insert: function( time, durationInSeconds, action, comment ){
+	insert: function( timeInSeconds, durationInSeconds, action, comment ){
 
-		if( typeof time !== 'number' ) console.error( `A+ for creativity, but “time” ought to be a number.`, time )
+		if( typeof timeInSeconds !== 'number' ) console.error( `A+ for creativity, but “time” ought to be a number.`, time )
 		if( typeof durationInSeconds !== 'number' ) console.error( `A+ for creativity, but “durationInSeconds” ought to be a number.`, durationInSeconds )
 		comp.push({
 
-			time,
+			time:     timeInSeconds,
 			duration: durationInSeconds,
 			action,
 			comment
