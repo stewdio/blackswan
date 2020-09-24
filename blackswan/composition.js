@@ -8,7 +8,7 @@ comp.beatsPerMinute = 101
 comp.beatsPerSecond =  60 / comp.beatsPerMinute
 Object.assign( comp.audio, {
 
-	src: 'media/thom-yorke-blackswan.m4a',
+	src: 'media/thom-yorke-black-swan.m4a',
 	volume: 0.8,
 	playbackRate: 1//0.25
 })
@@ -18,6 +18,7 @@ Object.assign( comp.audio, {
 
 window.addEventListener( 'DOMContentLoaded', function(){
 
+	let insertMeEarlier = 0
 	reset()	
 
 
@@ -182,8 +183,14 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Beat range  237 – 268
 	//  Time range  2:18 – 2:36
 
-//  ripple that shit?????????????
+	insertMeEarlier = comp.findLastBeat() - comp.beatsPerSecond * 10
+	Object.assign( Mode.all.noitisnt, {
 
+		timeStart: insertMeEarlier,
+		durationInSeconds: comp.beatsPerSecond * 44
+	})
+	insert( insertMeEarlier, 0, function(){ Mode.switchTo( 'noitisnt' )})
+	append( 0, function(){ Mode.switchTo( 'noitisnt' )})
 	appendRiff( 8, 'bump-bump' )
 	appendRiff( 8, 'bump-bump dead-or-alive' )
 	appendRiff( 8, 'bump-bump' )
@@ -237,8 +244,7 @@ appendKeyAbilitiesToAllKeys( keyboard2 )//  works?????
 //  so these keys fly UP and not just toward the viewer.
 //  $('.keyboard').style.transform='rotateX(30deg)'
 //  should each key do a full rotation about its Y axis????
-pushOutOn()
-	const insertMeEarlier = comp.findLastBeat() - comp.beatsPerSecond * 6
+	insertMeEarlier = comp.findLastBeat() - comp.beatsPerSecond * 6
 	Object.assign( Mode.all.me, {
 
 		timeStart: insertMeEarlier,

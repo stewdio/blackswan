@@ -775,12 +775,13 @@ footer {
 
 .keyboard.push-out .key.engaged {
 	
-	transform: translateZ( 120px );
+	/*transform: translateZ( 120px );*/
+	transform: translateZ( calc( var( --size ) * 10 ));
 	/*transition: none;*/
 }
 .keyboard.push-in .key.engaged {
 	
-	transform: translateZ( -120px );
+	transform: translateZ( calc( var( --size ) * -10 ));
 	/*transition: none;*/
 }
 .keyboard.push-out .key.disengaging,
@@ -848,6 +849,19 @@ footer {
 
 
 
+
+.keyboard.tilt-complete {
+
+	transform: 
+		translate3d( 
+
+			calc( var( --size ) * -5 ), 
+			calc( var( --size ) *  5 ), 
+			calc( var( --size ) * -5 )
+		) 
+		rotateX(  45deg )
+		rotateY( -13deg );
+}
 
 
 

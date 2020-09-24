@@ -25,11 +25,12 @@ function reset(){
 			'capslock',
 			'push-out',
 			'push-in',
+			'tilt-complete',
 
-			'long-sustain',
-			'wtf',
-			'crazy',
-			'surf-rider'
+			// 'long-sustain',
+			// 'wtf',
+			// 'crazy',
+			// 'surf-rider'
 		)
 	})
 
@@ -1054,8 +1055,127 @@ function obvious( durationInBeats, debug ){
 
 
 
+function constrain( n, a, b ){
 
-//  2:58
+	if( typeof a !== 'number' ) a = 0
+	if( typeof b !== 'number' ) b = 1
+
+	const
+	min = Math.min( a, b ),
+	max = Math.max( a, b )
+
+	return Math.max( min, ( Math.min( max, n )))
+}
+function lerp( a, b, n ){
+
+	return ( b - a ) * n + a
+}
+function norm( n, a, b ){
+
+	return ( n - a ) / ( b - a )
+}
+function easeInOutCubic( n ){
+	
+	return n < 0.5 
+		? 4 * n * n * n 
+		: 1 - Math.pow( -2 * n + 2, 3 ) / 2
+}
+
+
+//  2:18 – 2:36  “NO IT ISN’T”
+
+new Mode({
+
+	name: 'noitisnt',
+	setup: function(){
+		
+		this.move = {
+
+			//      n    tx  ty  tz  rx  ry
+			from: [ 0.0,  0, 0,  0,  0,   0 ],
+			to:   [ 1.0, -5, 5, -5, 45, -13 ]
+		}
+		this.orbit = {
+
+			//       n     r
+			from: [  0.4, 10, ],
+			to:   [  1.0, 30, ]
+		}
+		this.keyboard = document.querySelector( '.keyboard' )
+		this.keyboard.classList.remove( 'tilt-complete' )
+	},
+	update: function(){
+		
+		if( comp.isPlaying ){
+
+			const
+			elapsedSeconds = comp.audio.currentTime - this.timeStart,
+			elapsedPercent = elapsedSeconds / this.durationInSeconds
+
+			const
+			n1 = easeInOutCubic( constrain( norm( elapsedPercent, this.move.from[ 0 ], this.move.to[ 0 ]))),
+			x1 = lerp( this.move.from[ 1 ], this.move.to[ 1 ], n1 ),
+			y1 = lerp( this.move.from[ 2 ], this.move.to[ 2 ], n1 ),
+			z1 = lerp( this.move.from[ 3 ], this.move.to[ 3 ], n1 ),
+			rx = lerp( this.move.from[ 4 ], this.move.to[ 4 ], n1 ),
+			ry = lerp( this.move.from[ 5 ], this.move.to[ 5 ], n1 )
+
+			// const
+			// n2 = constrain( norm( elapsedPercent, this.orbit.from[ 0 ], this.orbit.to[ 0 ])),
+			// radius = lerp( this.orbit.from[ 1 ], this.orbit.to[ 1 ], n2 ),
+			// x2 = Math.cos( n2 * Math.PI * 2 ) * radius,
+			// y2 = Math.sin( n2 * Math.PI * 2 ) * radius
+
+			// const 
+			// mix = constrain( norm( elapsedPercent, this.orbit.from[ 0 ], this.move.to[ 0 ])),
+			// tx = lerp( x1, x2, mix ),
+			// ty = lerp( y1, y2, mix ),
+			// tz = z1
+
+			const
+			tx = x1,
+			ty = y1,
+			tz = z1
+
+
+// console.log( elapsedPercent, n1 )
+// console.log( mix, tx, ty )
+
+			this.keyboard.style.transition = 'none'
+			this.keyboard.style.transform = 
+				`translate3d( 
+
+					calc( var( --size ) * ${ tx } ), 
+					calc( var( --size ) * ${ ty } ), 
+					calc( var( --size ) * ${ tz } )
+				) 
+				rotateX( ${ rx }deg )
+				rotateY( ${ ry }deg )`
+		}
+		if( comp.audio.currentTime >= this.timeStart + this.durationInSeconds ){
+
+			Mode.switchTo( 'idle' )
+		}
+	},
+	teardown: function(){
+	
+		const that = this
+		this.keyboard.classList.add( 'tilt-complete' )
+		this.keyboard.style.transition = 'none'
+		setTimeout( function(){
+
+			that.keyboard.style.transform  = ''
+		})
+	}
+})
+
+
+
+
+
+
+
+//  2:58  you can touch meeeeeeeeeeee
 
 
 function createGaussianFunction( mean, standardDeviation, maxHeight ){
@@ -1068,9 +1188,6 @@ function createGaussianFunction( mean, standardDeviation, maxHeight ){
 		return maxHeight * Math.pow( Math.E, -Math.pow( x - mean, 2 ) / ( 2 * ( standardDeviation * standardDeviation )))
 	}
 }
-
-
-
 new Mode({
 
 	name: 'me',
@@ -1078,7 +1195,7 @@ new Mode({
 	durationInSeconds: 0,
 	setup: function(){
 
-		document.querySelector( '.keyboard' ).style.transform = 'rotateX( 45deg )'
+		//document.querySelector( '.keyboard' ).style.transform = 'rotateX( 45deg )'
 		// forEachElement( '.key', function( key ){
 
 		// 	key.classList.add( 'no-backface' )
@@ -1099,16 +1216,15 @@ new Mode({
 
 				const 
 				x = parseFloat( key.getAttribute( 'x-normalized' )),
-				amp = 240 * gaus( x ) * elapsedX3 * ( 0.2 + 0.8 * x ),
+				amp = 80 * gaus( x ) * elapsedX3 * ( 0.2 + 0.8 * x ),
 				rotation = x < elapsedX3
 					? gaus( x )
 					: 0
 
 				if( amp > 0.5 ){
 				
-					key.style.transform = 'translate3d( 0px, 0px, '+ 
-						amp
-						+'px ) rotateY( '+ rotation +'turn )'
+					// key.style.transform = 'translate3d( 0px, 0px, '+ amp +'px ) rotateY( '+ rotation +'turn )'
+					key.style.transform = 'translate3d( 0px, 0px, calc( var( --size ) * '+ amp +' )) rotateY( '+ rotation +'turn )'
 					if( rotation > 0.7 ) key.classList.add( 'engaged' )
 					if( rotation < 0.3 ) key.classList.remove( 'engaged' )
 				}
@@ -1320,7 +1436,8 @@ function ekg( durationInBeats ){//  Jed reference.
 function makePosterArt1(){
 
 	reset()
-	keyboard.classList.add( 'caps-lock' )
+	const keyboard = document.querySelector( '.keyboard' )
+	keyboard.classList.add( 'capslock' )
 
 	const keysToRemain = 
 	'BLACKSWAN'.split( '' )
@@ -1344,7 +1461,8 @@ function makePosterArt1(){
 function makePosterArt2(){
 
 	reset()
-	keyboard.classList.add( 'caps-lock' )
+	const keyboard = document.querySelector( '.keyboard' )
+	keyboard.classList.add( 'capslock' )
 
 	const keysToRemain = 
 	'BLACKSWAN'.split( '' )
@@ -1361,7 +1479,7 @@ function makePosterArt2(){
 		if( found ){
 
 			//key.classList.add( 'press' )
-			keyEngage( key )
+			keyEngage( key.getAttribute( 'data-name' ) )
 		}
 	})
 }
@@ -1374,7 +1492,8 @@ function makePosterArt2(){
 function makePosterArt3(){
 
 	reset()
-	keyboard.classList.add( 'caps-lock' )
+	const keyboard = document.querySelector( '.keyboard' )
+	keyboard.classList.add( 'capslock' )
 
 	const keysToRemain = 
 	'BLACKSWAN'.split( '' )
@@ -1396,7 +1515,8 @@ function makePosterArt3(){
 function makePosterArt4(){
 
 	reset()
-	keyboard.classList.add( 'caps-lock' )
+	const keyboard = document.querySelector( '.keyboard' )
+	keyboard.classList.add( 'capslock' )
 
 	const keysToRemain = 
 	'BLACKSWANFUCKEDUP'.split( '' )
@@ -1426,13 +1546,32 @@ function makePosterArt4(){
 		if( found ){
 
 			//key.classList.add( 'press' )
-			keyEngage( key )
+			keyEngage( key.getAttribute( 'data-name' ))
 		}
 	})
 }
 
 
+function makeFavicon1(){
 
+	reset()
+	const keyboard = document.querySelector( '.keyboard' )
+	keyboard.classList.add( 'capslock' )
+	forEachElement( '.key', function( key ){
+
+		const name = key.getAttribute( 'data-name' )
+		if( name === 'B' ){
+
+			key.style.backgroundColor = 'transparent'
+			key.style.color = 'black'
+			key.style.fontWeight = '900'
+		}
+		else {
+
+			key.style.visibility = 'hidden'
+		}
+	})
+}
 
 
 

@@ -12,6 +12,80 @@ Concept and animation by Stewart Smith.
 
 
 
+REAMAINING PARTS TO ANIMATE:
+------------------------------------------------------------------------
+
+
+
+*
+Background color flashes
+
+ripple
+
+blow apart
+
+sphere = Can we make a sphere out of the keyboard keys? And the key press fires them outward (larger radius) from the sphere?
+
+NOPE: Analyser node to drive the keyboaord scope
+
+
+
+
+
+
+
+2:18 – 2:36  “NO IT ISN’T”
+
+must type “no it isnt” really fast.
+also should articulate more of the musical notes.
+AND it needs more pizzazz, like a ripple() or sphere()??
+
+blow apart()??? then type? then come back together in time for 3rd verse.
+
+
+
+
+
+
+
+
+
+
+THIRD VERSE
+
+Needs some more background riff pizzazz.
+
+
+
+BLACK SWAN
+
+Needs a routine different from “fucked up”
+
+
+SPARE PARTS
+
+Needs a routine different from “fucked up”
+
+
+
+3:44 – 4:03 BREAK DOWN
+
+Needs “pop corn” routine.
+This is the time to bring in multipe keyboards!!
+do we glide across one to reveal the other? opacity fade in? replace first w the second by gliding across and first one vanishes behind us?
+keys shoud smash and scatter and do “popcorn” routine where they kind bounce up and down? but this needs to fade out to almost no popping by the end. s
+
+
+RECEIPT GENERATION
+
+how? where? 
+
+
+
+BUGS
+------------------------------------------------------------------------
+
+After the "meeeeee" around 3:00 the keys falling back into place seem to have a loooong transition on them that they shouldn’t have. 
 
 
 
@@ -19,38 +93,17 @@ Concept and animation by Stewart Smith.
 
   
 
-THE ART
+IN GENERAL
 ------------------------------------------------------------------------
-
-— Make TOUCH ME. should be an entire keyboard ripple from left to right.
-
-- Make BLACK SWAN.
-
-- Make SPARE PARTS.
-
-- Make NOT IT ISN’T. 3:44 until 4:02 keys shoud smash and scatter and do “popcorn” routine where they kind bounce up and down? but this needs to fade out to almost no popping by the end. 
 
 
 - The on-release gradient is too pink. Needs to fade to amber or something. Or be bright amber and as looses brightness curve from amber hue to red hue.
 maybe amber = 40˚
 then tweens down to 0˚
 
-- needs to get cray after second chorus; rainbow bouncing keys and shit.
-
-- use keyboard as tilted pixel grid for drawing to.
-
-- radial shit? pick a point and then ripple starts from them using radius?
+- use keyboard as tilted pixel grid for drawing to?
 
 - animation needs to end such that looping back to beginning is not visually distracting; so must end with keyboard reassembled and ready.
-
-- ERASE GUY scatters the keys. should red fade to white and then “eraser guy” comes in and commands all the keys to fly away, like commanding the flood waters to recede? he fails. the shit comes back.
-
-- RECEIPT. comp.generateReceipt() now outputs a receipt of the experience. Need to capture hover events as well tho. Needs more debugging too. auto downloads as text file when song ends? Does Capslock log to receipts?
-
-THIS SHOULD SHOW UP BEFORE THE SONG IS OVER AS AN OVERLAY DIV!!!!!!!!
-
-- Can we make a sphere out of the keyboard keys? And the key press fires them outward (larger radius) from the sphere?
-
 
 
 
@@ -58,12 +111,12 @@ THIS SHOULD SHOW UP BEFORE THE SONG IS OVER AS AN OVERLAY DIV!!!!!!!!
 CODE
 ------------------------------------------------------------------------
 
-- 'F' key sometimes get engaged after doing a refresh. (Or a seek?) It is engaged by * which means the program is doing it. Seeking to around 1:23.
+- TranslateZ *is relative* so need to use calc( var( --size ) * ? ) instead of absolute pixels.
+
+- Rewrite fuckedUp to NOT use a toggle. Definitively turn ON or turn OFF. That’s what’s causing shit to stick when the seek window hits it oddly. 'F' key sometimes get engaged after doing a refresh. (Or a seek?) It is engaged by * which means the program is doing it. Seeking to around 1:23.
 file:///Users/stewarsm/Documents/Github/blackswan/index.html#1:23
-Rewrite fuckedUp to NOT use a toggle. Definitively turn ON or turn OFF. That’s what’s causing shit to stick when the seek window hits it oddly. 
 
-
-—Can we add an “obvious-release.engaged” that forces transition to none? Will that fiix the spacebar issue post “obvious” routine?
+- Can we add an “obvious-release.engaged” that forces transition to none? Will that fiix the spacebar issue post “obvious” routine?
 
 - Need a way to remove .option-lag class from keyboard elements only when all (or maybe just one if they’re all animating at the same speed?) reaches an animationend call back.
 In addition to 'animationend' do wee also need 'animationcancel' or similar?
@@ -75,8 +128,6 @@ In addition to 'animationend' do wee also need 'animationcancel' or similar?
 - Re-confirm yet again that it is 101bpm by eye-testing strenuously ;)
 
 - experiment w "maintain perspective" because on entire BODY is too much. main + some of #about is prob fiinie and still looks cool when scrolling. 
-
-- Receipt does not seem to record Shift OFF.
 
 
 
@@ -98,13 +149,21 @@ pressiing play wiill starrt audio but will NOT sync the animationi!
 
 
 
-
 FINISHING
 ------------------------------------------------------------------------
-- need site preview image / poster image. makePosterArt() `./media/stewart-smith-blackswan.jpg`
-- need favicons based on poster image.
+- Pick or create a LICENSE !
 - Consider pushing all SVGs into index.html both for quicker load and to make it possible to run from file:/// again.
 - Need hand written section titles for “Puchase” and “Colophon”?
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -134,3 +193,43 @@ riffHalf( 4, true )
 
 
 
+How to: Run this from your Mac desktop
+------------------------------------------------------------------------
+Sadly, you cannot just drag and drop the `index.html` file onto a 
+browser window to view this application from your own 
+[Macintosh](https://www.apple.com/macos/) desktop. You’ll need to spin
+up a server and view the application from a URL like 
+[http://localhost:8000/](http://localhost:8000/) instead. But don’t 
+worry—that’s easy!  
+
+1. Open the **Terminal** application. (Just hit ⌘ + Spacebar, then type
+“terminal” to search for it on your Mac. Once found, hit Enter to open 
+it.)
+
+2. Type `cd `&nbsp;(yes, with that space after it), then drag and drop this
+whole code package folder that you’ve downloaded onto the **Terminal** 
+window—it will fill in the folder’s full path address for you. 
+(You’ll see something like `cd ~/YourName/Downloads/cornell-torus/`.) 
+Now hit Enter to tell **Terminal** it must `c`hange `d`irectories to 
+that folder.
+
+3. Paste this into **Terminal**, then hit Enter: 
+`python -m SimpleHTTPServer 8000`. You are now running a web server on 
+port `8000`. (You could instead use a different number to listen on a 
+different port. This is handy if you need many servers running at once;
+each will need to listen to a different port.)
+
+4. Now you can visit this website at 
+[http://localhost:8000](http://localhost:8000) and everything should be 
+fine 👍  
+
+When you’re ready to shut down the server, go back to **Terminal**  and
+tap Control + C. That’s all!  
+  
+For more information on running a barebones local server, (including 
+Python 3 commands) see Mozilla’s
+[Set up a local testing server](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server)
+article.  
+  
+  
+  

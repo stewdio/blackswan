@@ -5,9 +5,11 @@
 
 
 let 
+verbosity = 0,//0.5
 timeAsTextPrevious = '',
-userHasPressedPlay = false,
-verbosity = 0//0.5
+userHasInteracted  = false
+
+
 
 
 
@@ -30,7 +32,7 @@ getRandomBetweenEitherSign = function( a, b ){
 
 	const value = getRandomBetween( a, b )
 	return Math.random() < 0.5 ? value : -value
-}
+},
 forEachElement = function( a, b, c ){
 
 	let
@@ -67,13 +69,29 @@ forEachElement = function( a, b, c ){
 }
 
 
+//  Damn you, iOS Safari. Damn you to Hell.
+//  This absolutely lowers the quality of the analysis.
+
+const AudioContext = window.AudioContext || window.webkitAudioContext
+// if( 
+// 	typeof window.AnalyserNode === 'function' && 
+// 	typeof window.AnalyserNode.prototype.getFloatTimeDomainData !== 'function' ){
+  
+// 	const uint8 = new Uint8Array( bufferLength )
+// 	window.AnalyserNode.prototype.getFloatTimeDomainData = function( array ){
+		
+// 		this.getByteTimeDomainData( uint8 )
+// 		for( let i = 0, length = array.length; i < length; i ++ ){
+		
+// 			array[ i ] = ( uint8[ i ] - 128 ) * 0.0078125
+// 		}
+// 	}
+// }
 
 
+//  Enable function queueing conveniences.
 
-
-
-const
-tasks = {
+const tasks = {
 
 	setups: new TaskList(),
 	setup:  function(){
@@ -90,6 +108,98 @@ tasks = {
 tasks.setups.add( function(){ Mode.switchTo( 'boot' )})
 tasks.updates.add( Mode.run )
 
+
+
+
+
+
+
+/*
+
+
+THIS TURNED OUT TO BE TERRIBLE
+
+let
+audioContext,
+analyser,
+source,
+dataArray,
+bufferLength
+
+const engageAudio = function(){
+
+	audioContext = new AudioContext()
+	
+	analyser = audioContext.createAnalyser()
+	analyser.smoothingTimeConstant = 0.3
+	analyser.fftSize = 32//  As small as we can go, apparently.
+	analyser.connect( audioContext.destination )
+	bufferLength = analyser.frequencyBinCount
+	dataArray = new Uint8Array( bufferLength )	
+	
+	source = audioContext.createMediaElementSource( comp.audio )
+	source.connect( analyser )
+}
+function analyzeAudio(){
+	
+	analyser.getByteTimeDomainData( dataArray )
+	forEachElement( '.key', function( key ){
+
+		const
+		kx = parseFloat( key.getAttribute( 'x-normalized' )),
+		ky = parseFloat( key.getAttribute( 'y-normalized' )),
+		kr = parseInt( key.getAttribute( 'y' ), 10 )
+
+		// console.log( 'KEY: ', key.getAttribute( 'data-name' ), kx, ky )
+		for( let i = 0; i < bufferLength; i ++ ){
+
+			const 
+			x0 =   i / bufferLength,
+			x1 = ( i + 1 ) / bufferLength,
+			y = dataArray[ i ] / 256
+			
+			//console.log( 'band:', x0, '  volume in this band:', y )
+			if( kr < 4 && x0 < kx && kx < x1 ){
+
+				if( ( 1 - ky ) <= y ){
+
+					//key.classList.add( 'engaged' )
+					// console.log( '   + ON' )
+					key.style.opacity = y
+				}
+				else {
+
+					key.style.opacity = 0
+					//key.classList.remove( 'engaged' )
+					// console.log( '   - off' )
+				}
+			}
+		}
+	})
+}
+function getAverageVolume( array ){
+	
+	// var values = 0
+	// var average
+	// var length = array.length
+
+	// // get all the frequency amplitudes
+	// for( let i = 0; i < length; i ++ ){
+		
+	// 	values += array[ i ]
+	// }
+	// average = values / length
+	// return average
+
+	array
+	.reduce( function( sum, item ){
+
+		return sum + item
+
+	}, 0 ) / array.length
+}
+
+*/
 
 
 
@@ -321,7 +431,7 @@ comp.audio.addEventListener( 'canplaythrough', function( event ){
 
 
 
-	if( userHasPressedPlay &&//  Some platform require user interaction before playback is allowed.
+	if( userHasInteracted &&//  Some platform require user interaction before playback is allowed.
 		( 
 			comp.isPlaying ||//  If we were seeking from a paused state then don’t autoplay.
 			comp.hasPlayedSome !== true//  If this is a virgin play canplaythrough then autoplay.
@@ -1282,7 +1392,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	const playPauseElement = document.getElementById( 'play-pause' )
 	playPauseElement.addEventListener( 'mousedown',  function(){
 
-		userHasPressedPlay = true
+		userHasInteracted = true
 		comp.toggle()
 	})
 
@@ -1319,7 +1429,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	.getElementById( 'button-load' )
 	.addEventListener( 'mousedown', function(){
 
-		userHasPressedPlay = true
+		userHasInteracted = true
 
 
 		//  Hide this “load” button
