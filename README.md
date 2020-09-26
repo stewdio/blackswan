@@ -39,26 +39,19 @@ REAMAINING PARTS TO ANIMATE:
 ------------------------------------------------------------------------
 
 
-2:18 – 2:36  “NO IT ISN’T”
-
-Must add more text typing.
-
-
 
 THIRD VERSE
-
-Needs some more background riff pizzazz.
-
+Are insertRiff bits too much? Should use background color flashes instead?
 
 
 BLACK SWAN
-
 Needs a routine different from “fucked up”
 
 
 SPARE PARTS
-
 Needs a routine different from “fucked up”
+
+
 
 
 
@@ -67,7 +60,12 @@ Needs a routine different from “fucked up”
 Needs “pop corn” routine.
 This is the time to bring in multipe keyboards!!
 do we glide across one to reveal the other? opacity fade in? replace first w the second by gliding across and first one vanishes behind us?
-keys shoud smash and scatter and do “popcorn” routine where they kind bounce up and down? but this needs to fade out to almost no popping by the end. s
+keys shoud smash and scatter and do “popcorn” routine where they kind bounce up and down? but this needs to fade out to almost no popping by the end.
+
+Should the background slowly fade down and pulse for this shit? So popcorn .engaged is extra bright??
+
+
+
 
 
 RECEIPT GENERATION
@@ -82,27 +80,17 @@ Perhaps the generated receipt appears under that??? Or further down the page????
 
 
 
-BUGS
-------------------------------------------------------------------------
-
-- Should “blind spot” actually flip the keys instead of just turn them off? r maybe fade out / fade back in?
-
-- The un-flip after "obvious" has lost is CSS transition. 
-
-- The keyboard blow apart should have a full keyboard element rotation!
 
 
-- After the "meeeeee" around 3:00 can soften the landing of those letters?
-
-
-
-
-
-  
 
 IN GENERAL
 ------------------------------------------------------------------------
 
+- Add BLACK SWAN title to page upon load (gooes away when not paused). Will look sort of like poster image. Also add PRESS PLAY TO START. SCROLL DOWN FOR MORE INFO. on bottom like where URL is on poster image.
+
+- Make the required viewport more square so we can see more off-keyboard animation on landscape phones or landscape browsers. like the "meeeeee" roll.
+
+- After the "meeeeee" around 3:00 can soften the landing of those letters?
 
 - The on-release gradient is too pink. Needs to fade to amber or something. Or be bright amber and as looses brightness curve from amber hue to red hue.
 maybe amber = 40˚
@@ -157,7 +145,9 @@ pressiing play wiill starrt audio but will NOT sync the animationi!
 FINISHING
 ------------------------------------------------------------------------
 - Pick or create a LICENSE !
+
 - Consider pushing all SVGs into index.html both for quicker load and to make it possible to run from file:/// again.
+
 - Need hand written section titles for “Puchase” and “Colophon”?
 
 
@@ -179,12 +169,12 @@ Kicking the tires
 
 What’s the current state of the playback queue?  
 ```javascript
-console.log( ...comp.report() )
+console.log( ...comp.inspect() )
 
 ```
 How can I see the composition’s entire playback queue?  
 ```javascript
-console.log( ...comp.reportAll() )
+console.log( ...comp.inspectAll() )
 
 ```
   

@@ -239,26 +239,53 @@ function insertRiffOptions( timeStart, options ){
 	if( options.includes( 'bump-bump' )) insertRiffBumpBump( timeStart )
 	if( options.includes( 'dead-or-alive' )) insertRiffDeadOrAlive( timeStart )
 }
-function appendRiff( durationInBeats, options ){
+function insertRiff( timeStart, durationInBeats, options ){
 
+	if( typeof timeStart !== 'number' ) timeStart = comp.findLastBeat()
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 4
 	if( typeof options !== 'string' ) options = ''
 	
-	let i = 0
+	let 
+	timeCursor = timeStart,
+	i = 0
+	
 	while( i < durationInBeats ){
 
 		const 
-		timeStart = comp.findLastBeat(),
 		beatsRemaining = durationInBeats - i,
 		beatsThisLoop  = beatsRemaining >= 4
 			? 4
 			: beatsRemaining
 
-		insertRiffBeat( timeStart, beatsThisLoop, options.includes( 'skip-last-hit' ))
-		insertRiffOptions( timeStart, options )
-		append( beatsThisLoop )
+		insertRiffBeat( timeCursor, beatsThisLoop, options.includes( 'skip-last-hit' ))
+		insertRiffOptions( timeCursor, options )
+		timeCursor += beatsThisLoop * comp.beatsPerSecond
 		i += 4
 	}
+}
+function appendRiff( durationInBeats, options ){
+
+	insertRiff( comp.findLastBeat(), durationInBeats, options )
+	append( durationInBeats )
+
+	// if( typeof durationInBeats !== 'number' ) durationInBeats = 4
+	// if( typeof options !== 'string' ) options = ''
+	
+	// let i = 0
+	// while( i < durationInBeats ){
+
+	// 	const 
+	// 	timeStart = comp.findLastBeat(),
+	// 	beatsRemaining = durationInBeats - i,
+	// 	beatsThisLoop  = beatsRemaining >= 4
+	// 		? 4
+	// 		: beatsRemaining
+
+	// 	insertRiffBeat( timeStart, beatsThisLoop, options.includes( 'skip-last-hit' ))
+	// 	insertRiffOptions( timeStart, options )
+	// 	append( beatsThisLoop )
+	// 	i += 4
+	// }
 }
 function appendRiffBackside(){
 
@@ -1182,16 +1209,27 @@ function noitisnt( timeStart, durationInBeats ){
 
 	let timeCursor = timeStart
 	timeCursor += 0.25
+
+
+	//  Notice, no captial letters here.
+	//  The Shift key flash is too distracting at this point
+	//  in the subtle ease-in to the keyboard breakup.
+
 	insertType( timeCursor, 1.25, 'no it isnt', false )
 	timeCursor += 1.25
 	insertType( timeCursor, 1.00, 'but it isnt', false )
 	timeCursor += 1.25
-	insertType( timeCursor, 3.00, 'but it isnt Woa this is from Stew', false )
+	insertType( timeCursor, 3.00, 'but it isnt woa this is from stew', false )
 	timeCursor += 2.25
-	insertType( timeCursor, 1.50, 'Self unemployed', false )
+	insertType( timeCursor, 1.50, 'self unemployed', false )
 	timeCursor += 1.50
-	insertType( timeCursor, 3.00, 'But its too much fun to stop.', false )
+	insertType( timeCursor, 3.00, 'but its too much fun to stop.', false )
 	timeCursor += 2.25
+
+
+	//  But by here the keyboard is an exploded nebula
+	//  so it’s ok to flash it up.
+
 	insertType( timeCursor, 3.50, 'Much love to Pilot and Atlas.', false )
 	timeCursor += 2.50
 	insertType( timeCursor, 3.25, 'Much love to Meredith, Charlie, and Dexter.', false )

@@ -218,31 +218,17 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Beat range  269 – 316
 	//  Time range  2:36 – 3:05
 
-
-//  bring in additional keyboards????
-//  ROTATE KEYBOARD 30 DEGREES !
-//  $('.keyboard').style.transform='rotateX(30deg)'
-/*
-
-
-keyboard = $('.keyboard')
-var keyboard2 = keyboard.cloneNode( true )
-document.body.appendChild( keyboard2 )
-appendKeyboardAbilitiesTo( keyboard2 )
-appendKeyAbilitiesToAllKeys( keyboard2 )//  works?????
-
-
-
-*/
 	pushOutOn()
 	tiltCompleteOn()
-
+	
+	insertRiff( comp.findLastBeat() + comp.beatsPerSecond * 0.5, 12 )
 	type(   6.5, `you cannot kick-start a dead horse` )//  NOTE: Begins 0.5 beats sooner so we add 0.5 beats here. And lowercase Y so less distraction.
 	append( 1    )
 	type(   4.5, `You just cross yourself and walk away` )
 	append( 0.5  )
 	appendRiff( 4, 'bump-bump' )
 	
+	insertRiff( comp.findLastBeat(), 12 )
 	type(   6,   `I don't care what the future holds` )
 	append( 1    )
 	type(   4.5, `Cause I'm right here, and I'm today` )
@@ -333,6 +319,30 @@ appendKeyAbilitiesToAllKeys( keyboard2 )//  works?????
 	// **** POP CORN !!!
 	//  Keys scatter and do popcorn routine!
 	//  like the keyboards lay flat and popcorn keys pop and bounce up then fall back down.
+/*
+
+
+rotate into a surfboard. ripple it while popcorning?
+
+
+*/
+
+
+//  bring in additional keyboards????
+//  ROTATE KEYBOARD 30 DEGREES !
+//  $('.keyboard').style.transform='rotateX(30deg)'
+/*
+
+
+keyboard = $('.keyboard')
+var keyboard2 = keyboard.cloneNode( true )
+document.body.appendChild( keyboard2 )
+appendKeyboardAbilitiesTo( keyboard2 )
+appendKeyAbilitiesToAllKeys( keyboard2 )//  works?????
+
+
+
+*/
 
 	appendRiff( 32 )
 
