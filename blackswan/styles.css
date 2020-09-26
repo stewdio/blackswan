@@ -467,6 +467,8 @@ footer {
 
 	color: hsl( 0, 0%, 80% );
 	vertical-align: bottom;
+	backface-visibility: visible;
+	-webkit-backface-visibility: visible;
 }
 .key {
 
@@ -475,6 +477,8 @@ footer {
 	--background-lightness:    0%;
 	transition: none;
 	animation:  none;
+	backface-visibility: visible;
+	-webkit-backface-visibility: visible;
 }
 .key.engaged {
 
@@ -754,9 +758,9 @@ footer {
 
 .keyboard {
 
-	transition-property: transform;
-	transition-duration: 1s;
-	transition-timing-function: ease-in-out;
+	/*transition-property: transform;*/
+	/*transition-duration: 1s;*/
+	/*transition-timing-function: ease-in-out;*/
 }
 
 
@@ -775,22 +779,19 @@ footer {
 
 .keyboard.push-out .key.engaged {
 	
-	/*transform: translateZ( 120px );*/
-	transform: translateZ( calc( var( --size ) * 10 ));
-	/*transition: none;*/
+	transform: translateZ( calc( var( --size ) * 12 ));
+	transition: none;
 }
 .keyboard.push-in .key.engaged {
 	
-	transform: translateZ( calc( var( --size ) * -10 ));
-	/*transition: none;*/
+	transform: translateZ( calc( var( --size ) * -12 ));
+	transition: none;
 }
 .keyboard.push-out .key.disengaging,
 .keyboard.push-in  .key.disengaging {
 
 	transition-property: transform;
 	transition-timing-function: ease-out;
-
-
 	transition-duration: calc( var( --beat ) * 2 );
 	animation-duration:  calc( var( --beat ) * 2 );
 }
@@ -831,20 +832,25 @@ footer {
 }
 
 
+
+
 .key.not-obvious {
 
 	backface-visibility: hidden;
-	transform: rotateY( 0.5turn );
+	-webkit-backface-visibility: hidden;/*  Stupid iOS Safari WTF  */
 	transition: transform calc( var( --beat ) * 2 ) ease-out;
+	transform: rotateY( 0.5turn );
 }
 .key.not-obvious-release {
 
 	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;/*  Stupid iOS Safari WTF  */
 	transition: transform calc( var( --beat ) * 5 ) ease-out;
 } 
 .key.no-backface {
 
 	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;/*  Stupid iOS Safari WTF  */
 }
 
 
@@ -876,37 +882,6 @@ footer {
 		translate3d( 0, 0, 100px )
 		rotate3d( 0, 0, -1, 80deg ) 
 		rotate3d( 0, 1,  0, 60deg );
-}
-
-
-
-
-.keyboard.crazy .key {
-
-/*	box-shadow: 
-		0
-		0
-		calc( var( --size ) * 2 )
-		hsla( 25, 0%, 0%, 0.5 );*/
-	transition: none;
-	transform: 
-		translate3d( 
-		
-			var( --tx ),
-			var( --ty ),
-			var( --tz )
-		)
-		rotate3d( 
-
-			var( --rx ),
-			var( --ry ),
-			var( --rz ),
-			180deg
-		) !important;
-}
-.keyboard.crazy .key.engaged {
-
-
 }
 
 

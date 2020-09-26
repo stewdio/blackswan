@@ -18,8 +18,11 @@ Object.assign( comp.audio, {
 
 window.addEventListener( 'DOMContentLoaded', function(){
 
-	let insertMeEarlier = 0
-	reset()	
+	let
+	insertAtSeconds = 0,
+	duration =0
+	
+	boot()	
 
 
 
@@ -143,12 +146,12 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	pushOutOn()//  Redundant, but necessary because seek() only looks behind so far.
 	capslockOn()
-	appendRiffedUp( 'fuckedup', 'riff bump-bump' )
+	appendRiffedUp( 'fuckedup', 'riff' )
 	capslockOff()
 	appendRiff( 4 * 2, 'bump-bump dead-or-alive' )
 
 	capslockOn()
-	appendRiffedUp( 'fuckedup', 'riff bump-bump' )
+	appendRiffedUp( 'fuckedup', 'riff' )
 	capslockOff()
 	appendRiff( 4 * 2, 'bump-bump dead-or-alive' )
 
@@ -183,18 +186,28 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Beat range  237 – 268
 	//  Time range  2:18 – 2:36
 
-	insertMeEarlier = comp.findLastBeat() - comp.beatsPerSecond * 10
+	// insertAtSeconds   = comp.findLastBeat() - comp.beatsPerSecond * 12
+	// durationInBeats   = 43.5//  Should be 44, but we pull it back ONE HALF beat to make room for “YOU” in 3rd verse.
+
+
+	insertAtSeconds   = comp.findLastBeat()// - comp.beatsPerSecond * 2
+	durationInBeats   = 31.5//  Should be 32, but we pull it back ONE HALF beat to make room for “YOU” in 3rd verse.
+
+
+	durationInSeconds = comp.beatsPerSecond * durationInBeats
 	Object.assign( Mode.all.noitisnt, {
 
-		timeStart: insertMeEarlier,
-		durationInSeconds: comp.beatsPerSecond * 44
+		timeStart: insertAtSeconds,
+		durationInSeconds: durationInSeconds
 	})
-	insert( insertMeEarlier, 0, function(){ Mode.switchTo( 'noitisnt' )})
-	append( 0, function(){ Mode.switchTo( 'noitisnt' )})
-	appendRiff( 8, 'bump-bump' )
-	appendRiff( 8, 'bump-bump dead-or-alive' )
-	appendRiff( 8, 'bump-bump' )
-	appendRiff( 8, 'bump-bump dead-or-alive' )
+	insert( insertAtSeconds, 0, function(){ Mode.switchTo( 'noitisnt' )})
+	noitisnt( insertAtSeconds, durationInBeats )
+	append( 8 * 4 - 0.5 )	
+	// appendRiff( 8, 'bump-bump' )
+	// appendRiff( 8, 'bump-bump dead-or-alive' )
+	// appendRiff( 8, 'bump-bump' )
+	// appendRiff( 7, 'bump-bump dead-or-alive' )//  NOTE THIS ENDS ONE BEAT *SOONER*
+	// append( 0.5 )
 
 
 
@@ -222,8 +235,9 @@ appendKeyAbilitiesToAllKeys( keyboard2 )//  works?????
 
 */
 	pushOutOn()
+	tiltCompleteOn()
 
-	type(   6,   `You cannot kick-start a dead horse` )
+	type(   6.5, `you cannot kick-start a dead horse` )//  NOTE: Begins 0.5 beats sooner so we add 0.5 beats here. And lowercase Y so less distraction.
 	append( 1    )
 	type(   4.5, `You just cross yourself and walk away` )
 	append( 0.5  )
@@ -244,13 +258,14 @@ appendKeyAbilitiesToAllKeys( keyboard2 )//  works?????
 //  so these keys fly UP and not just toward the viewer.
 //  $('.keyboard').style.transform='rotateX(30deg)'
 //  should each key do a full rotation about its Y axis????
-	insertMeEarlier = comp.findLastBeat() - comp.beatsPerSecond * 6
+	tiltCompleteOn()
+	insertAtSeconds = comp.findLastBeat() - comp.beatsPerSecond * 6
 	Object.assign( Mode.all.me, {
 
-		timeStart: insertMeEarlier,
+		timeStart: insertAtSeconds,
 		durationInSeconds: comp.beatsPerSecond * 18
 	})
-	insert( insertMeEarlier, 0, function(){ Mode.switchTo( 'me' )})
+	insert( insertAtSeconds, 0, function(){ Mode.switchTo( 'me' )})
 	append( 6  )
 	appendRiff( 4 * 2, 'bump-bump' )
 

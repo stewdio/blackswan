@@ -171,7 +171,8 @@ main {
 	text-align: center;
 	overflow: hidden;
 
-	perspective: 600px;
+	/*perspective: 600px;*/
+	perspective: calc( var( --size ) * 90 );
 	perspective-origin: 50vw 50vh;
 	transform-style: preserve-3d;
 }

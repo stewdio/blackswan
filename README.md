@@ -12,42 +12,36 @@ Concept and animation by Stewart Smith.
 
 
 
+
+
+
+
+THINGS WE MIGHT STILL USE:
+------------------------------------------------------------------------
+
+
+1. Background color flashes
+
+2. ripple
+
+3. sphere = Can we make a sphere out of the keyboard keys? And the key press fires them outward (larger radius) from the sphere?
+
+
+SUCKED: Analyser node to drive the keyboaord scope
+
+
+
+
+
+
+
 REAMAINING PARTS TO ANIMATE:
 ------------------------------------------------------------------------
 
 
-
-*
-Background color flashes
-
-ripple
-
-blow apart
-
-sphere = Can we make a sphere out of the keyboard keys? And the key press fires them outward (larger radius) from the sphere?
-
-NOPE: Analyser node to drive the keyboaord scope
-
-
-
-
-
-
-
 2:18 – 2:36  “NO IT ISN’T”
 
-must type “no it isnt” really fast.
-also should articulate more of the musical notes.
-AND it needs more pizzazz, like a ripple() or sphere()??
-
-blow apart()??? then type? then come back together in time for 3rd verse.
-
-
-
-
-
-
-
+Must add more text typing.
 
 
 
@@ -80,12 +74,25 @@ RECEIPT GENERATION
 
 how? where? 
 
+“Scroll down for more info” should appear at the end. 
+Perhaps the generated receipt appears under that??? Or further down the page?????
+
+
+
+
 
 
 BUGS
 ------------------------------------------------------------------------
 
-After the "meeeeee" around 3:00 the keys falling back into place seem to have a loooong transition on them that they shouldn’t have. 
+- Should “blind spot” actually flip the keys instead of just turn them off? r maybe fade out / fade back in?
+
+- The un-flip after "obvious" has lost is CSS transition. 
+
+- The keyboard blow apart should have a full keyboard element rotation!
+
+
+- After the "meeeeee" around 3:00 can soften the landing of those letters?
 
 
 
@@ -100,8 +107,6 @@ IN GENERAL
 - The on-release gradient is too pink. Needs to fade to amber or something. Or be bright amber and as looses brightness curve from amber hue to red hue.
 maybe amber = 40˚
 then tweens down to 0˚
-
-- use keyboard as tilted pixel grid for drawing to?
 
 - animation needs to end such that looping back to beginning is not visually distracting; so must end with keyboard reassembled and ready.
 

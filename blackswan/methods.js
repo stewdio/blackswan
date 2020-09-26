@@ -54,21 +54,41 @@ function reset(){
 		// key.style.transform  = 'none'
 		//key.style.visibility = 'visible'
 		key.style.visibility = ''
-		if( !key.style.getPropertyValue( '--tx' )){
+		// if( !key.style.getPropertyValue( '--tx' )){
 		
-			key.style.setProperty( '--tx', getRandomBetween( -100, 100 ) +'px' )
-			key.style.setProperty( '--ty', getRandomBetween( -100, 100 ) +'px' )
-			key.style.setProperty( '--tz', getRandomBetween( -100, 100 ) +'px' )
-			key.style.setProperty( '--rx', getRandomBetween( -1, 1 ))
-			key.style.setProperty( '--ry', getRandomBetween( -1, 1 ))
-			key.style.setProperty( '--rz', getRandomBetween( -1, 1 ))
-		}
+		// 	key.style.setProperty( '--tx', getRandomBetween( -100, 100 ) +'px' )
+		// 	key.style.setProperty( '--ty', getRandomBetween( -100, 100 ) +'px' )
+		// 	key.style.setProperty( '--tz', getRandomBetween( -100, 100 ) +'px' )
+		// 	key.style.setProperty( '--rx', getRandomBetween( -1, 1 ))
+		// 	key.style.setProperty( '--ry', getRandomBetween( -1, 1 ))
+		// 	key.style.setProperty( '--rz', getRandomBetween( -1, 1 ))
+		// }
 	})
 
 
 	Mode.switchTo( 'idle' )
 
 	tasks.updates.remove( ripple )
+}
+function boot(){
+
+	reset()
+	forEachElement( '.key', function( key ){
+
+		'tx ty tz'
+		.split( ' ' )
+		.forEach( function( name ){
+
+			key.setAttribute( name, getRandomBetween( -22, 22 ))
+		})
+
+		'rx ry rz'
+		.split( ' ' )
+		.forEach( function( name ){
+
+			key.setAttribute( name, getRandomBetween( -1, 1 ))
+		})
+	})
 }
 function applyCssClass( cssQuery, className ){
 
@@ -115,7 +135,14 @@ function pushOutOff(){
 
 	changeKeyboardState( 'push-out', 'remove', 'Push-out OFF.' )
 }
+function tiltCompleteOn(){
 
+	changeKeyboardState( 'tilt-complete', 'add', 'Tilt-complete ON.' )
+}
+function tiltCompleteOff(){
+
+	changeKeyboardState( 'tilt-complete', 'remove', 'Tilt-complete OFF.' )
+}
 
 
 
@@ -573,11 +600,12 @@ function riffedUp( durationInBeats, drumSolo, addLastHit, debug ){
 
 
 
-function type( durationInBeats, text, holdUntilDone, debug ){
+function type( durationInBeats, text, holdUntilDone, insertOnly, debug ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 6
 	text = text.replace( /\s/g, '' )
 	if( typeof holdUntilDone !== 'boolean' ) holdUntilDone = false
+	if( typeof insertOnly !== 'boolean' ) insertOnly = false
 
 	const 
 	timeStart = comp.findLastBeat(),
@@ -614,10 +642,13 @@ function type( durationInBeats, text, holdUntilDone, debug ){
 				'shift OFF'
 			)
 		}
+
+
+
 		insert(
 
 			timeStart + comp.beatsPerSecond * i * durationPerCharacter,
-			comp.beatsPerSecond * durationPerCharacter,
+			insertOnly ? 0 : comp.beatsPerSecond * durationPerCharacter,
 			function(){ keyEngage( cssName )},
 			'Type ON: '+ cssName
 		)
@@ -635,6 +666,68 @@ function type( durationInBeats, text, holdUntilDone, debug ){
 		)
 	})
 	if( debug ) assessDuration( timeStart, comp.findLastBeat(), `Type (${ text })`, durationInBeats )
+}
+
+
+
+
+function insertType( timeStart, durationInBeats, text, holdUntilDone ){
+
+	if( typeof durationInBeats !== 'number' ) durationInBeats = 6
+	text = text.replace( /\s/g, '' )
+	if( typeof holdUntilDone !== 'boolean' ) holdUntilDone = false
+
+	const 
+	durationPerCharacter = durationInBeats / text.length
+
+	text
+	.split( '' )
+	.forEach( function( character, i ){
+
+		const 
+		cssName = characterToKeyName[ character ]
+			? characterToKeyName[ character ]
+			: character.toUpperCase(),
+		isMajuscule = character.match( /[A-Z]/ )
+
+		if( isMajuscule ){
+
+			const side = Math.random() >= 0.5 ? 'left' : 'right'
+			insert(
+
+				timeStart + comp.beatsPerSecond * i * durationPerCharacter,
+				0,
+				function(){ keyEngage( 'shift-'+ side )},
+				'insertType() ON: Shift'
+			)
+			insert(
+
+				timeStart + comp.beatsPerSecond * i * durationPerCharacter + durationPerCharacter * 1/2,
+				0,
+				function(){ keyDisengage( 'shift-'+ side )},
+				'insertType() OFF: Shift'
+			)
+		}
+		insert(
+
+			timeStart + comp.beatsPerSecond * i * durationPerCharacter,
+			0,
+			function(){ keyEngage( cssName )},
+			'insertType() ON: '+ cssName
+		)
+		
+		const releaseAfterDuration = holdUntilDone ? 
+			durationInBeats * comp.beatsPerSecond :
+			comp.beatsPerSecond * i * durationPerCharacter + durationPerCharacter * 15/16
+		
+		insert(
+
+			timeStart + releaseAfterDuration,
+			0,
+			function(){ keyDisengage( cssName )},
+			'insertType() OFF: '+ cssName
+		)
+	})
 }
 
 
@@ -990,6 +1083,7 @@ function obvious( durationInBeats, debug ){
 
 						const cleanup = function(){
 
+							// console.log( 'finished cleanup', element.getAttribute( 'data-name' ), element.classList )
 							element.removeEventListener( 'transitionend', cleanup )
 							element.classList.remove( 'not-obvious-release' )
 						}
@@ -1084,6 +1178,44 @@ function easeInOutCubic( n ){
 
 //  2:18 – 2:36  “NO IT ISN’T”
 
+function noitisnt( timeStart, durationInBeats ){
+
+	let timeCursor = timeStart
+	timeCursor += 0.25
+	insertType( timeCursor, 1.25, 'no it isnt', false )
+	timeCursor += 1.25
+	insertType( timeCursor, 1.00, 'but it isnt', false )
+	timeCursor += 1.25
+	insertType( timeCursor, 3.00, 'but it isnt Woa this is from Stew', false )
+	timeCursor += 2.25
+	insertType( timeCursor, 1.50, 'Self unemployed', false )
+	timeCursor += 1.50
+	insertType( timeCursor, 3.00, 'But its too much fun to stop.', false )
+	timeCursor += 2.25
+	insertType( timeCursor, 3.50, 'Much love to Pilot and Atlas.', false )
+	timeCursor += 2.50
+	insertType( timeCursor, 3.25, 'Much love to Meredith, Charlie, and Dexter.', false )
+	timeCursor += 2.50
+	insertType( timeCursor, 3.00, 'What do you sing here, Thom?', true )
+	timeCursor += 2.25
+	insertType( timeCursor, 3.00, 'Now lets get back to it, eh.', true )
+	insert( 
+
+		timeStart + durationInBeats * comp.beatsPerSecond,
+		0,
+		function(){
+
+			forEachElement( 
+
+				'.keyboard', 
+				function( keyboard ){
+
+					keyboard.classList.add( 'tilt-complete' )
+				}
+			)
+		}
+	)
+}
 new Mode({
 
 	name: 'noitisnt',
@@ -1092,14 +1224,29 @@ new Mode({
 		this.move = {
 
 			//      n    tx  ty  tz  rx  ry
-			from: [ 0.0,  0, 0,  0,  0,   0 ],
-			to:   [ 1.0, -5, 5, -5, 45, -13 ]
+			// from: [ 0.0,  0, 0,  0,  0,   0 ],
+			// to:   [ 1.0, -5, 5, -5, 45, -13 ]
+
+			from: [ 0.3,  0, 0,  0,  0,    0 ],
+			to:   [ 1.0, -5, 5, -5, 45, -373 ]
 		}
 		this.orbit = {
 
-			//       n     r
+			//       n    r
 			from: [  0.4, 10, ],
 			to:   [  1.0, 30, ]
+		}
+		this.explode = {
+
+			//      n
+			from: [ 0.10 ],
+			to:   [ 0.90 ]
+		}
+		this.cohese = {
+
+			//      n
+			from: [ 0.90 ],
+			to:   [ 0.99 ]
 		}
 		this.keyboard = document.querySelector( '.keyboard' )
 		this.keyboard.classList.remove( 'tilt-complete' )
@@ -1137,10 +1284,6 @@ new Mode({
 			ty = y1,
 			tz = z1
 
-
-// console.log( elapsedPercent, n1 )
-// console.log( mix, tx, ty )
-
 			this.keyboard.style.transition = 'none'
 			this.keyboard.style.transform = 
 				`translate3d( 
@@ -1148,9 +1291,61 @@ new Mode({
 					calc( var( --size ) * ${ tx } ), 
 					calc( var( --size ) * ${ ty } ), 
 					calc( var( --size ) * ${ tz } )
-				) 
+				)
 				rotateX( ${ rx }deg )
 				rotateY( ${ ry }deg )`
+		
+
+
+
+			//  Blow apart and then come back together.
+
+			const
+			explodeGain = norm( elapsedPercent, this.explode.from[ 0 ], this.explode.to[ 0 ]),
+			coheseGain  = norm( elapsedPercent, this.cohese.from[ 0 ], this.cohese.to[ 0 ])
+
+			let gain = constrain( explodeGain )
+			if( coheseGain >= 0 ){
+
+				gain = 1 - constrain( coheseGain )
+			}
+			gain = easeInOutCubic( gain )
+
+			if( coheseGain <= 1 ){
+			
+				forEachElement( '.key', function( key ){
+
+					const [ tx, ty, tz ] = 'tx ty tz'
+					.split( ' ' )
+					.map( function( attribute ){
+
+						return lerp(
+
+							0, 
+							parseFloat( key.getAttribute( attribute )), 
+							gain
+						)
+					})
+
+					const [ rx, ry, rz ] = 'rx ry rz'
+					.split( ' ' )
+					.map( function( attribute ){
+
+						return parseFloat( key.getAttribute( attribute ))
+					})
+
+					// console.log( 'tx', tx, 'ty', ty, 'tz', tz )
+
+					key.style.transition = 'none'
+					key.style.transform = `translate3d( 
+
+						calc( var( --size ) * ${ tx } ), 
+						calc( var( --size ) * ${ ty } ), 
+						calc( var( --size ) * ${ tz } )
+					)
+					rotate3d( ${ rx }, ${ ry }, ${ rz }, ${ gain * 45 }deg )`
+				})
+			}
 		}
 		if( comp.audio.currentTime >= this.timeStart + this.durationInSeconds ){
 
@@ -1159,12 +1354,25 @@ new Mode({
 	},
 	teardown: function(){
 	
+
+		console.log( 'ENDED!' )
+
 		const that = this
-		this.keyboard.classList.add( 'tilt-complete' )
 		this.keyboard.style.transition = 'none'
 		setTimeout( function(){
 
 			that.keyboard.style.transform  = ''
+			that.keyboard.style.transition = ''
+		})
+
+		forEachElement( '.key', function( key ){
+
+			key.style.transition = 'none'
+			setTimeout( function(){
+
+				key.style.transform  = ''
+				key.style.transition = ''
+			})
 		})
 	}
 })
@@ -1187,6 +1395,10 @@ function createGaussianFunction( mean, standardDeviation, maxHeight ){
 	
 		return maxHeight * Math.pow( Math.E, -Math.pow( x - mean, 2 ) / ( 2 * ( standardDeviation * standardDeviation )))
 	}
+}
+function easeOutCubic( n ){
+	
+	return 1 - Math.pow( 1 - n, 3 )
 }
 new Mode({
 
