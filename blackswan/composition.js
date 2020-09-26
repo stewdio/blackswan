@@ -20,7 +20,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	let
 	insertAtSeconds = 0,
-	duration =0
+	duration = 0
 	
 	boot()	
 
@@ -49,8 +49,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Beat range  0 – 39
 	//  Time range  0:01 – 0:24
 		
-	appendRiff( 4 * 2 )
-	appendRiff( 4 * 8, 'bump-bump' )
+	appendRiff(  8 )
+	appendRiff( 32, 'bump-bump' )
 
 
 
@@ -61,27 +61,25 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Beat range  40 – 88
 	//  Time range  0:24 – 0:52
 
-	//  Felt like we shouldn’t use uppercase in this first verse
-	//  as watching every key enter and exit SHIFT mode
+	//  I felt like we shouldn’t uppercase in this first verse
+	//  as watching each key’s state enter and exit SHIFT mode
 	//  just felt too jarring for an introductory experience.
 
-	type(   6,   `what will grow crooked, you can't make straight` )
-	append( 1    )
-	type(   4.5, `it's the price that you gotta pay` )
-	append( 0.5  )
-	appendRiff( 4, 'bump-bump' )
+	appendType( 6.0, `what will grow crooked, you can't make straight` )
+	append(     1.0   )
+	appendType( 4.5, `it's the price that you gotta pay` )
+	append(     0.5   )
+	appendRiff( 4.0, 'bump-bump' )
 	
-	type(   6,   `do yourself a favour and pack your bags` )
-	append( 1    )
-	type(   4.5, `buy a ticket and get on the train` )
-	append( 0.5  )
-	appendRiff( 3, 'bump-bump' )
+	appendType( 6.0, `do yourself a favour and pack your bags` )
+	append(     1.0   )
+	appendType( 4.5, `buy a ticket and get on the train` )
+	append(     0.5   )
+	appendRiff( 3.0, 'bump-bump' )
 	
-	type(   4,   `buy a ticket and get on the` )
-	changeKeyboardState( 'long-sustain', 'add' )
-	train(  5    )
-	changeKeyboardState( 'long-sustain', 'remove' )
-	appendRiff( 4 * 2, 'bump-bump' )
+	appendType( 4.0, `buy a ticket and get on the` )	
+	train(      5.0   )
+	appendRiff( 8.0, 'bump-bump' )
 
 
 
@@ -112,28 +110,30 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Time range  1:11 – 1:40
 
 	pushOutOn()//  Redundant, but necessary because seek() only looks behind so far. 
-	type(   6,   `People get crushed like biscuit crumbs` )
-	append( 1    )
-	type(   4.5, `and laid down in the bitumen` )
-	append( 0.5  )
-	appendRiff( 4, 'bump-bump' )
 	
-	type(   6,   `You have tried your best to please everyone` )
-	append( 1    )
-	type(   4.5, `But it just isn't happening` )
-	append( 0.5  )
-	appendRiff( 3, 'bump-bump' )
+	appendType( 6.0, `People get crushed like biscuit crumbs` )
+	append(     1.0   )
+	appendType( 4.5, `and laid down in the bitumen` )
+	append(     0.5   )
+	appendRiff( 4.0, 'bump-bump' )
+	
+	appendType( 6.0, `You have tried your best to please everyone` )
+	append(     1.0   )
+	appendType( 4.5, `But it just isn't happening` )
+	append(     0.5   )
+	appendRiff( 3.0, 'bump-bump' )
 	
 	pushOutOn()//  Redundant, but necessary because seek() only looks behind so far.
-	type( 3, `No, it just isn't` )	
+	
+	appendType( 3.0, `No, it just isn't` )	
 	Object.assign( Mode.all.happening, {
 
 		timeStart: comp.findLastBeat(),
 		durationInSeconds: comp.beatsPerSecond * 8
 	})
-	append( 0, function(){ Mode.switchTo( 'happening' )})
-	append( 6  )
-	appendRiff( 4 * 2, 'bump-bump' )
+	append(     0.0,  function(){ Mode.switchTo( 'happening' )})
+	append(     6.0   )
+	appendRiff( 8.0, 'bump-bump' )
 
 
 
@@ -145,6 +145,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Time range  1:40 – 1:59
 
 	pushOutOn()//  Redundant, but necessary because seek() only looks behind so far.
+
 	capslockOn()
 	appendRiffedUp( 'fuckedup', 'riff' )
 	capslockOff()
@@ -166,6 +167,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Time range  1:59 – 2:18
 
 	pushOutOn()//  Redundant, but necessary because seek() only looks behind so far.
+	
 	capslockOn()
 	blindSpot( 8 )
 	capslockOff()
@@ -222,29 +224,32 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	tiltCompleteOn()
 	
 	insertRiff( comp.findLastBeat() + comp.beatsPerSecond * 0.5, 12 )
-	type(   6.5, `you cannot kick-start a dead horse` )//  NOTE: Begins 0.5 beats sooner so we add 0.5 beats here. And lowercase Y so less distraction.
-	append( 1    )
-	type(   4.5, `You just cross yourself and walk away` )
-	append( 0.5  )
-	appendRiff( 4, 'bump-bump' )
+	appendType( 6.5, `you cannot kick-start a dead horse` )//  NOTE: Begins 0.5 beats sooner so we add 0.5 beats here. And lowercase Y so less distraction.
+	append(     1.0   )
+	appendType( 4.5, `You just cross yourself and walk away` )
+	append(     0.5   )
+	appendRiff( 4.0, 'bump-bump' )
 	
-	insertRiff( comp.findLastBeat(), 12 )
-	type(   6,   `I don't care what the future holds` )
-	append( 1    )
-	type(   4.5, `Cause I'm right here, and I'm today` )
-	append( 0.5  )
-	appendRiff( 3, 'bump-bump' )
-	
-	type(   3,   `With your fingers you can touch` )
-
-
-//  This may need to start SOONER than where append() would put it.
-//  so... need to do a special insert() statement here?
-//  Also: this will be so much cooler if the keyboard itself is titled on the X axis
-//  so these keys fly UP and not just toward the viewer.
-//  $('.keyboard').style.transform='rotateX(30deg)'
-//  should each key do a full rotation about its Y axis????
+	pushOutOn()
 	tiltCompleteOn()
+
+	insertRiff( comp.findLastBeat(), 12 )
+	appendType( 6.0, `I don't care what the future holds` )
+	append(     1.0   )
+	appendType( 4.5, `Cause I'm right here, and I'm today` )
+	append(     0.5   )
+	appendRiff( 3.0, 'bump-bump' )
+	
+	appendType( 3.0, `With your fingers you can touch` )
+
+
+	//  For the rolliing wave to hit its peak at the correct moment
+	//  along the left edge of the keyboard,
+	//  we need to begin executing this logic BEFORE the moment
+	//  where append() would allow us to schedule it.
+	//  Therefore we need to insert this execution
+	//  a few beats PRIOR to where append’s cursor currently sits.
+
 	insertAtSeconds = comp.findLastBeat() - comp.beatsPerSecond * 6
 	Object.assign( Mode.all.me, {
 
@@ -252,8 +257,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 		durationInSeconds: comp.beatsPerSecond * 18
 	})
 	insert( insertAtSeconds, 0, function(){ Mode.switchTo( 'me' )})
-	append( 6  )
-	appendRiff( 4 * 2, 'bump-bump' )
+	append(     6.0   )
+	appendRiff( 8.0, 'bump-bump' )
 
 
 
@@ -275,8 +280,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	// We are black swans, black swans
 	// And for spare parts, we're broken up
 
-
-	// pushOutOn()//  Redundant, but necessary because seek() only looks behind so far.
 	capslockOn()
 	appendRiffedUp( 'blackswan', 'riff bump-bump' )
 	capslockOff()
@@ -314,6 +317,17 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Duration    32 beats
 	//  Beat range  349 – 380
 	//  Time range  3:44 – 4:03
+
+	insertAtSeconds = comp.findLastBeat()
+	Object.assign( Mode.all.popcorn, {
+
+		timeStart: insertAtSeconds,
+		durationInSeconds: comp.beatsPerSecond * 32
+	})
+	insert( insertAtSeconds, 0, function(){ Mode.switchTo( 'popcorn' )})
+
+
+
 
 
 	// **** POP CORN !!!

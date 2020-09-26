@@ -143,16 +143,60 @@ function tiltCompleteOff(){
 
 	changeKeyboardState( 'tilt-complete', 'remove', 'Tilt-complete OFF.' )
 }
+function constrain( n, a, b ){
+
+	if( typeof a !== 'number' ) a = 0
+	if( typeof b !== 'number' ) b = 1
+
+	const
+	min = Math.min( a, b ),
+	max = Math.max( a, b )
+
+	return Math.max( min, ( Math.min( max, n )))
+}
+function lerp( a, b, n ){
+
+	return ( b - a ) * n + a
+}
+function norm( n, a, b ){
+
+	return ( n - a ) / ( b - a )
+}
+function createGaussianFunction( mean, standardDeviation, maxHeight ){
+
+	if( typeof mean !== 'number' ) mean = 0
+	if( typeof standardDeviation !== 'number' ) standardDeviation = 1
+	if( typeof maxHeight !== 'number' ) maxHeight = 1
+	return function getNormal( x ){
+	
+		return maxHeight * Math.pow( Math.E, -Math.pow( x - mean, 2 ) / ( 2 * ( standardDeviation * standardDeviation )))
+	}
+}
+function easeInOutCubic( n ){
+	
+	return n < 0.5 
+		? 4 * n * n * n 
+		: 1 - Math.pow( -2 * n + 2, 3 ) / 2
+}
+function easeOutCubic( n ){
+	
+	return 1 - Math.pow( 1 - n, 3 )
+}
 
 
 
 
 
 
+    ///////////////
+   //           //
+  //   Riffs   //
+ //           //
+///////////////
 
 
-
-function insertHit( timeCursor, durationToOccupy, keyName, durationVisible ){
+const
+insertHit = function( timeCursor, durationToOccupy, keyName, durationVisible ){
 	
 	if( typeof durationVisible !== 'number' ) durationVisible = durationToOccupy
 	insert(
@@ -169,8 +213,8 @@ function insertHit( timeCursor, durationToOccupy, keyName, durationVisible ){
 		function(){ keyDisengage( keyName )},
 		'Hit OFF: '+ keyName
 	)
-}
-function insertRiffBeat( timeStart, durationInBeats, skipLastHit ){
+},
+insertRiffBeat = function( timeStart, durationInBeats, skipLastHit ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 4
 	let timeCursor = timeStart
@@ -205,8 +249,8 @@ function insertRiffBeat( timeStart, durationInBeats, skipLastHit ){
 		timeCursor += item[ 0 ] * comp.beatsPerSecond
 	})
 	if( !skipLastHit ) insertHit( timeCursor, 1/4, 'space', 1/8 )
-}
-function insertRiffBumpBump( timeStart ){
+},
+insertRiffBumpBump = function( timeStart ){
 
 	let timeCursor = timeStart
 	;[
@@ -218,8 +262,8 @@ function insertRiffBumpBump( timeStart ){
 		insertHit.call( this, timeCursor, ...item )
 		timeCursor += item[ 0 ] * comp.beatsPerSecond
 	})
-}
-function insertRiffDeadOrAlive( timeStart ){
+},
+insertRiffDeadOrAlive = function( timeStart ){
 
 	let timeCursor = timeStart
 	;[
@@ -233,13 +277,13 @@ function insertRiffDeadOrAlive( timeStart ){
 		insertHit.call( this, timeCursor, ...item )
 		timeCursor += item[ 0 ] * comp.beatsPerSecond
 	})
-}
-function insertRiffOptions( timeStart, options ){
+},
+insertRiffOptions = function( timeStart, options ){
 
 	if( options.includes( 'bump-bump' )) insertRiffBumpBump( timeStart )
 	if( options.includes( 'dead-or-alive' )) insertRiffDeadOrAlive( timeStart )
-}
-function insertRiff( timeStart, durationInBeats, options ){
+},
+insertRiff = function( timeStart, durationInBeats, options ){
 
 	if( typeof timeStart !== 'number' ) timeStart = comp.findLastBeat()
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 4
@@ -262,41 +306,30 @@ function insertRiff( timeStart, durationInBeats, options ){
 		timeCursor += beatsThisLoop * comp.beatsPerSecond
 		i += 4
 	}
-}
-function appendRiff( durationInBeats, options ){
+},
+appendRiff =function( durationInBeats, options ){
 
 	insertRiff( comp.findLastBeat(), durationInBeats, options )
 	append( durationInBeats )
+},
+appendRiffBackside = function(){
 
-	// if( typeof durationInBeats !== 'number' ) durationInBeats = 4
-	// if( typeof options !== 'string' ) options = ''
-	
-	// let i = 0
-	// while( i < durationInBeats ){
+	let timeCursor = comp.findLastBeat()
+	;[//  Only TWO beats long.
 
-	// 	const 
-	// 	timeStart = comp.findLastBeat(),
-	// 	beatsRemaining = durationInBeats - i,
-	// 	beatsThisLoop  = beatsRemaining >= 4
-	// 		? 4
-	// 		: beatsRemaining
+		[ 2/4, 'tab'    ],
+		[ 2/4, 'period' ],
+		[ 1/4, 'space'  ],
+		[ 1/4, 'period' ],
+		[ 2/4, 'spaces' ]
 
-	// 	insertRiffBeat( timeStart, beatsThisLoop, options.includes( 'skip-last-hit' ))
-	// 	insertRiffOptions( timeStart, options )
-	// 	append( beatsThisLoop )
-	// 	i += 4
-	// }
-}
-function appendRiffBackside(){
+	].forEach( function(){
 
-
-}
-
-
-
-
-
-function appendRiffedUp( text, options ){
+		insertHit.call( this, timeCursor, ...item )
+		timeCursor += item[ 0 ] * comp.beatsPerSecond
+	})
+},
+appendRiffedUp = function( text, options ){
 
 	if( typeof options !== 'string' ) options = ''
 	if( typeof text !== 'string' ) text = 'fuckedup'
@@ -337,368 +370,14 @@ function appendRiffedUp( text, options ){
 
 
 
-
-
-
-
-
-
-
-
-
-function riff( durationInBeats, drumSolo, addLastHit, debug ){
-
-	if( typeof durationInBeats !== 'number' ) durationInBeats = 4
-	if( typeof drumSolo !== 'boolean' ) drumSolo = false
-	if( typeof addLastHit !== 'boolean' ) addLastHit = true
-	
-	const 
-	timeStart = comp.findLastBeat(),
-	hit = function( durationToOccupy, cssName, durationVisible ){
-
-		if( typeof durationVisible !== 'number' ) durationVisible = durationToOccupy
-		insert(
-
-			timeMark,
-			comp.beatsPerSecond * durationToOccupy,
-			function(){ keyEngage( cssName )},
-			'Riff. Hit ON: '+ cssName
-		)
-		insert(
-
-			timeMark + comp.beatsPerSecond * durationVisible * 15/16,
-			0,
-			function(){ keyDisengage( cssName )},
-			'Riff. Hit OFF: '+ cssName
-		)
-		timeMark += comp.beatsPerSecond * durationToOccupy
-	}
-
-	let timeMark = timeStart
-
-	hit( 2/4, 'space', 1/4 )
-	hit( 2/4, 'space'  )
-
-	if( durationInBeats > 1 ){
-	
-		hit( 1/4, 'period' )
-		hit( 2/4, 'space'  )
-		
-		if( durationInBeats > 2 ){
-
-			hit( 2/4, 'tab'    )
-			hit( 2/4, 'period' )
-
-			if( durationInBeats > 3 ){
-			
-				hit( 1/4, 'space'  )
-				hit( 1/4, 'period' )
-				hit( 2/4, 'space'  )
-			}
-
-			if( addLastHit ) hit( 1/4, 'space', 1/8 )
-			else append( 1/4 )
-		}
-		else append( 1/4 )
-	}
-	if( drumSolo !== true ){
-
-		insert( 
-
-			timeStart + comp.beatsPerSecond * 0/8,
-			comp.beatsPerSecond * 2/8,
-			function(){ keyEngage( 'option-left' )},
-			'Riff. Bass beat ON.'
-		)
-		insert( 
-
-			timeStart + comp.beatsPerSecond * 2/8, 
-			0,//comp.beatsPerSecond * 1/4,
-			function(){ keyDisengage( 'option-left' )},
-			'Riff. Bass beat OFF.'
-		)
-		insert( 
-
-			timeStart + comp.beatsPerSecond * 4/8, 
-			comp.beatsPerSecond * 2/8,
-			function(){ keyEngage( 'option-left' )},
-			'Riff. Bass beat ON.'
-		)
-		insert(
-
-			timeStart + comp.beatsPerSecond * 8/8,
-			0,//comp.beatsPerSecond * 4/8,
-			function(){ keyDisengage( 'option-left' )},
-			'Riff. Bass beat OFF.'
-		)
-	}
-	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Riff', durationInBeats )
-}
-
-
-
-
-function riffHalf( durationInBeats, debug ){
-
-	if( durationInBeats !== 2 ) console.error( 'Pretty sure this needs 2 beats here.' )
-
-	const 
-	timeStart = comp.findLastBeat(),
-	hit = function( durationToOccupy, cssName, durationVisible ){
-
-		if( typeof durationVisible !== 'number' ) durationVisible = durationToOccupy
-		insert(
-
-			timeMark,
-			comp.beatsPerSecond * durationToOccupy,
-			function(){ keyEngage( cssName )},
-			'Riff. Hit ON: '+ cssName
-		)
-		insert(
-
-			timeMark + comp.beatsPerSecond * durationVisible * 15/16,
-			0,
-			function(){ keyDisengage( cssName )},
-			'Riff. Hit OFF: '+ cssName
-		)
-		timeMark += comp.beatsPerSecond * durationToOccupy
-	}
-
-	let timeMark = timeStart
-
-	hit( 2/4, 'tab' )
-	hit( 2/4, '.' )
-	hit( 1/4, 'space' )
-	hit( 1/4, '.' )
-	hit( 2/4, 'spaces' )
-
-	if( debug ) assessDuration( timeStart, comp.findLastBeat(), 'Riff Half', durationInBeats )
-}
-
-
-
-
-
-function riffedUp( durationInBeats, drumSolo, addLastHit, debug ){
-
-	if( typeof durationInBeats !== 'number' ) durationInBeats = 4
-	if( typeof drumSolo !== 'boolean' ) drumSolo = true//false
-	if( typeof addLastHit !== 'boolean' ) addLastHit = true
-	
-	const 
-	timeStart = comp.findLastBeat(),
-	hit = function( durationToOccupy, cssName, durationVisible ){
-
-		if( typeof durationVisible !== 'number' ) durationVisible = durationToOccupy
-		insert(
-
-			timeMark,
-			comp.beatsPerSecond * durationToOccupy,
-			function(){ keyEngage( cssName )},
-			'Riff. Hit ON: '+ cssName
-		)
-		insert(
-
-			timeMark + comp.beatsPerSecond * durationVisible * 15/16,
-			0,
-			function(){ keyDisengage( cssName )},
-			'Riff. Hit OFF: '+ cssName
-		)
-		timeMark += comp.beatsPerSecond * durationToOccupy
-	}
-
-	let timeMark = timeStart
-
-	hit( 2/4, 'space', 1/4 )
-	hit( 2/4, 'space' )
-	if( durationInBeats > 1 ){
-	
-		hit( 1/4, 'period' )
-		hit( 2/4, 'space' )
-		if( durationInBeats > 2 ){
-
-			hit( 2/4, 'tab' )
-			hit( 2/4, 'period' )
-			if( durationInBeats > 3 ){
-			
-				hit( 1/4, 'space' )
-				hit( 1/4, 'period' )
-				hit( 2/4, 'space' )
-
-				if( durationInBeats > 4 ){
-			
-					hit( 2/4, 'space', 1/4 )
-					hit( 2/4, 'space' )
-					if( durationInBeats > 5 ){
-
-						hit( 1/4, 'period' )
-						hit( 2/4, 'space' )
-					}
-					if( durationInBeats > 6 ){
-
-						hit( 2/4, 'tab' )
-						hit( 2/4, 'period' )
-						if( durationInBeats > 7 ){
-
-							hit( 1/4, 'space' )
-							hit( 1/4, 'period' )
-							hit( 2/4, 'space' )
-							if( addLastHit ) hit( 1/4, 'space', 1/8 )
-							else append( 1/4 )
-						}
-					}
-				}
-			}
-			if( addLastHit ) hit( 1/4, 'space', 1/8 )
-			else append( 1/4 )
-		}
-		else append( 1/4 )
-	}
-
-
-	if( drumSolo !== true ){
-
-		insert( 
-
-			timeStart + comp.beatsPerSecond * 0/8,
-			comp.beatsPerSecond * 2/8,
-			function(){ keyEngage( 'option-left' )},
-			'Riff. Guitar ON.'
-		)
-		insert( 
-
-			timeStart + comp.beatsPerSecond * 2/8, 
-			0,//comp.beatsPerSecond * 1/4,
-			function(){ keyDisengage( 'option-left' )},
-			'Riff. Guitar ON.'
-		)
-		insert( 
-
-			timeStart + comp.beatsPerSecond * 4/8, 
-			comp.beatsPerSecond * 2/8,
-			function(){ keyEngage( 'option-left' )},
-			'Riff. Guitar ON.'
-		)
-		insert(
-
-			timeStart + comp.beatsPerSecond * 8/8,
-			0,//comp.beatsPerSecond * 4/8,
-			function(){ keyDisengage( 'option-left' )},
-			'Riff. Guitar OFF.'
-		)
-	}
-
-	const
-	fuckedUp  = 'fuckedup',
-	durationPerCharacter = comp.beatsPerSecond * 2 / fuckedUp.length
-
-	fuckedUp
-	.split( '' )
-	.forEach( function( letter, i ){
-
-		insert(
-
-			timeStart + durationPerCharacter * i,
-			durationPerCharacter,
-			function(){ keyToggle( letter.toUpperCase() )},
-			'Fucked up: '+ letter
-		)
-		insert(
-
-			timeStart + comp.beatsPerSecond * 4 + durationPerCharacter * i,
-			durationPerCharacter,
-			function(){ keyToggle( letter.toUpperCase() )},
-			'Fucked up: '+ letter
-		)
-	})
-	if( debug ) assessDuration( 
-
-		timeStart, 
-		comp.findLastBeat(), 
-		'Riff + FuckedUp', 
-		durationInBeats
-	)
-}
-
-
-
-
-
-
-
-
-function type( durationInBeats, text, holdUntilDone, insertOnly, debug ){
-
-	if( typeof durationInBeats !== 'number' ) durationInBeats = 6
-	text = text.replace( /\s/g, '' )
-	if( typeof holdUntilDone !== 'boolean' ) holdUntilDone = false
-	if( typeof insertOnly !== 'boolean' ) insertOnly = false
-
-	const 
-	timeStart = comp.findLastBeat(),
-	durationPerCharacter = durationInBeats / text.length
-
-	text
-	.split( '' )
-	.forEach( function( character, i ){
-
-		const 
-		//cssName = character.length > 1 ? character : character.toUpperCase(),
-		cssName = characterToKeyName[ character ]
-			? characterToKeyName[ character ]
-			: character.toUpperCase(),
-		isMajuscule = character.match( /[A-Z]/ )
-
-
-		if( isMajuscule ){
-
-			const side = Math.random() >= 0.5 ? 'left' : 'right'
-			insert(
-
-				timeStart + comp.beatsPerSecond * i * durationPerCharacter,
-				0,
-				function(){ keyEngage( 'shift-'+ side )},
-				'shift ON'
-			)
-			insert(
-
-				//timeStart + comp.beatsPerSecond * i * durationPerCharacter + durationPerCharacter,//  Is EXACT so can be overridden by a subsequent ON command!
-				timeStart + comp.beatsPerSecond * i * durationPerCharacter + durationPerCharacter * 1/2,
-				0,
-				function(){ keyDisengage( 'shift-'+ side )},
-				'shift OFF'
-			)
-		}
-
-
-
-		insert(
-
-			timeStart + comp.beatsPerSecond * i * durationPerCharacter,
-			insertOnly ? 0 : comp.beatsPerSecond * durationPerCharacter,
-			function(){ keyEngage( cssName )},
-			'Type ON: '+ cssName
-		)
-
-		const releaseAfterDuration = holdUntilDone ? 
-			durationInBeats * comp.beatsPerSecond :
-			comp.beatsPerSecond * i * durationPerCharacter + durationPerCharacter * 15/16
-		
-		insert(
-
-			timeStart + releaseAfterDuration,
-			0,
-			function(){ keyDisengage( cssName )},
-			'Type OFF: '+ cssName
-		)
-	})
-	if( debug ) assessDuration( timeStart, comp.findLastBeat(), `Type (${ text })`, durationInBeats )
-}
-
-
-
-
-function insertType( timeStart, durationInBeats, text, holdUntilDone ){
+    //////////////
+   //          //
+  //   Type   //
+ //          //
+//////////////
+
+const
+insertType = function( timeStart, durationInBeats, text, holdUntilDone ){
 
 	if( typeof durationInBeats !== 'number' ) durationInBeats = 6
 	text = text.replace( /\s/g, '' )
@@ -755,7 +434,26 @@ function insertType( timeStart, durationInBeats, text, holdUntilDone ){
 			'insertType() OFF: '+ cssName
 		)
 	})
+},
+appendType = function( durationInBeats, text, holdUntilDone, debug ){
+
+	insertType( comp.findLastBeat(), ...arguments )
+	append( durationInBeats )
+	if( debug ) assessDuration( timeStart, comp.findLastBeat(), `Type (${ text })`, durationInBeats )
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -794,6 +492,8 @@ function train( durationInBeats, debug ){
 	},
 	delayBetween = comp.beatsPerSecond *  3/4
 
+	changeKeyboardState( 'long-sustain', 'add' )
+
 	'tyuiop'
 	.split( '' )
 	.concat( 
@@ -831,6 +531,7 @@ function train( durationInBeats, debug ){
 	.map( action( timeStart + delayBetween * 6 ))
 
 	append( durationInBeats )
+	changeKeyboardState( 'long-sustain', 'remove' )
 	if( debug ) assessDuration( 
 
 		timeStart, 
@@ -1005,14 +706,6 @@ new Mode({
 
 
 
-// tasks.setups.add( function(){ Mode.switchTo( 'boot' )})
-// tasks.updates.add( Mode.run )
-
-
-
-
-
-
 
 
 
@@ -1176,31 +869,6 @@ function obvious( durationInBeats, debug ){
 
 
 
-function constrain( n, a, b ){
-
-	if( typeof a !== 'number' ) a = 0
-	if( typeof b !== 'number' ) b = 1
-
-	const
-	min = Math.min( a, b ),
-	max = Math.max( a, b )
-
-	return Math.max( min, ( Math.min( max, n )))
-}
-function lerp( a, b, n ){
-
-	return ( b - a ) * n + a
-}
-function norm( n, a, b ){
-
-	return ( n - a ) / ( b - a )
-}
-function easeInOutCubic( n ){
-	
-	return n < 0.5 
-		? 4 * n * n * n 
-		: 1 - Math.pow( -2 * n + 2, 3 ) / 2
-}
 
 
 //  2:18 – 2:36  “NO IT ISN’T”
@@ -1423,35 +1091,12 @@ new Mode({
 
 //  2:58  you can touch meeeeeeeeeeee
 
-
-function createGaussianFunction( mean, standardDeviation, maxHeight ){
-
-	if( typeof mean !== 'number' ) mean = 0
-	if( typeof standardDeviation !== 'number' ) standardDeviation = 1
-	if( typeof maxHeight !== 'number' ) maxHeight = 1
-	return function getNormal( x ){
-	
-		return maxHeight * Math.pow( Math.E, -Math.pow( x - mean, 2 ) / ( 2 * ( standardDeviation * standardDeviation )))
-	}
-}
-function easeOutCubic( n ){
-	
-	return 1 - Math.pow( 1 - n, 3 )
-}
 new Mode({
 
 	name: 'me',
 	timeStart: 0,
 	durationInSeconds: 0,
-	setup: function(){
-
-		//document.querySelector( '.keyboard' ).style.transform = 'rotateX( 45deg )'
-		// forEachElement( '.key', function( key ){
-
-		// 	key.classList.add( 'no-backface' )
-		// })
-		// comp.audio.playbackRate = 0.1
-	},
+	setup:  function(){},
 	update: function(){
 		
 		if( comp.isPlaying ){
@@ -1472,16 +1117,12 @@ new Mode({
 					: 0
 
 				if( amp > 0.5 ){
-				
-					// key.style.transform = 'translate3d( 0px, 0px, '+ amp +'px ) rotateY( '+ rotation +'turn )'
+
 					key.style.transform = 'translate3d( 0px, 0px, calc( var( --size ) * '+ amp +' )) rotateY( '+ rotation +'turn )'
 					if( rotation > 0.7 ) key.classList.add( 'engaged' )
 					if( rotation < 0.3 ) key.classList.remove( 'engaged' )
 				}
-				else {
-
-					key.style.transform  = ''
-				}
+				else key.style.transform  = ''
 			})
 		}
 		if( comp.audio.currentTime >= this.timeStart + this.durationInSeconds ){
@@ -1493,7 +1134,6 @@ new Mode({
 	
 		forEachElement( '.key', function( key ){
 
-			// key.classList.remove( 'no-backface' )
 			key.style.transition = 'none'
 			key.style.transform  = ''
 			setTimeout( function(){
@@ -1508,6 +1148,67 @@ new Mode({
 
 
 
+//  3:44 – 4:03
+
+new Mode({
+
+	name: 'popcorn',
+	setup:  function(){
+
+		this.keyboard = document.querySelector( '.keyboard' )
+		this.clone = this.keyboard.cloneNode( true )
+		appendKeyAbilitiesToAllKeys( this.clone )
+		appendKeyboardAbilitiesTo( this.clone )
+		this.keyboard.parentNode.appendChild( this.clone )
+	},
+	update: function(){
+		
+		if( comp.isPlaying ){
+
+			// const
+			// elapsedSeconds = comp.audio.currentTime - this.timeStart,
+			// elapsedPercent = elapsedSeconds / this.durationInSeconds,
+			// elapsedX3 = elapsedPercent * 3 - 1,
+			// gaus = createGaussianFunction( elapsedX3, 0.1, 1 )
+
+			// forEachElement( '.key', function( key, i ){
+
+			// 	const 
+			// 	x = parseFloat( key.getAttribute( 'x-normalized' )),
+			// 	amp = 80 * gaus( x ) * elapsedX3 * ( 0.2 + 0.8 * x ),
+			// 	rotation = x < elapsedX3
+			// 		? gaus( x )
+			// 		: 0
+
+			// 	if( amp > 0.5 ){
+
+			// 		key.style.transform = 'translate3d( 0px, 0px, calc( var( --size ) * '+ amp +' )) rotateY( '+ rotation +'turn )'
+			// 		if( rotation > 0.7 ) key.classList.add( 'engaged' )
+			// 		if( rotation < 0.3 ) key.classList.remove( 'engaged' )
+			// 	}
+			// 	else key.style.transform  = ''
+			// })
+		}
+		if( comp.audio.currentTime >= this.timeStart + this.durationInSeconds ){
+
+			Mode.switchTo( 'idle' )
+		}
+	},
+	teardown: function(){
+	
+		this.clone.parentNode.removeChild( this.clone )
+
+		// forEachElement( '.key', function( key ){
+
+		// 	key.style.transition = 'none'
+		// 	key.style.transform  = ''
+		// 	setTimeout( function(){
+
+		// 		key.style.transition = ''
+		// 	})
+		// })
+	}
+})
 
 
 
@@ -1679,6 +1380,63 @@ function ekg( durationInBeats ){//  Jed reference.
 
 
 
+
+
+
+function ripple( x, y ){
+
+	// if( typeof x !== 'number' ) x = 0.2
+	// if( typeof y !== 'number' ) y = 0.5
+
+	if( typeof x !== 'number' ) x = Math.sin( performance.now() / 1000 )
+	if( typeof y !== 'number' ) y = Math.sin( performance.now() / 100000 )
+
+
+	forEachElement( '.key', function( key ){
+
+		const distance = Math.sqrt(
+			
+			Math.pow( x - parseFloat( key.getAttribute( 'x-normalized' )), 2 ) +
+			Math.pow( y - parseFloat( key.getAttribute( 'y-normalized' )), 2 )
+		)
+		//console.log( key.getAttribute( 'data-name' ), distance )
+
+		const
+		sine = Math.sin( distance ),
+		sign = Math.sign( sine )
+
+		key.style.transform = 'translate3d( 0px, 0px, '+ 
+			Math.pow( sine * 20, 2 )
+			+'px )'
+	})
+}
+//  window.setInterval( ripple, 100 )
+//    OR
+//  tasks.updates.add( ripple )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /////////////////
+   //             //
+  //   Posters   //
+ //             //
+/////////////////
+
+
 //  From a default state
 //  remove the labels from all keys
 //  aside from the keys for B, L, A, C, K, S, W, and N.
@@ -1761,6 +1519,11 @@ function makePosterArt3(){
 }
 
 
+//  From a default state
+//  remove all keys
+//  aside from the keys for B, L, A, C, K, S, W, N,
+//  and F, U, C, K, E, D, and P.
+//  Highlight the keys for “FUCKEDUP”.
 
 function makePosterArt4(){
 
@@ -1802,6 +1565,12 @@ function makePosterArt4(){
 }
 
 
+//  From a default state
+//  remove all keys
+//  aside from the key for B.
+//  Remove its background.
+//  Change the color and weight of the text.
+
 function makeFavicon1(){
 
 	reset()
@@ -1813,8 +1582,8 @@ function makeFavicon1(){
 		if( name === 'B' ){
 
 			key.style.backgroundColor = 'transparent'
-			key.style.color = 'black'
-			key.style.fontWeight = '900'
+			key.style.color = 'white'
+			key.style.fontWeight = '700'
 		}
 		else {
 
@@ -1822,82 +1591,6 @@ function makeFavicon1(){
 		}
 	})
 }
-
-
-
-
-
-
-function blowApart(){
-
-
-	//  For consistency -- 
-	//  we need to determine these values AT LOAD TIME
-	//  so onSeek we don’t create new values every single seek!!!
-
-	Array
-	.from( document.querySelectorAll( '.key' ))
-	.forEach( function( element ){
-
-		const
-		tx = Math.random() * 60,
-		ty = Math.random() * 60,
-		tz = Math.random() * 60,
-		translate = `translate3d( ${tx}px, ${ty}px, ${tz}px )`,
-		rx = Math.random(),
-		ry = Math.random(),
-		rz = Math.random(),
-		rotate = `rotate3d( ${rx}, ${ry}, ${rz}, 180deg )`,
-		transform = translate +' '+ rotate
-
-		// console.log( transform )
-		element.style.transform = transform
-	})
-}
-
-
-
-
-
-
-
-
-
-
-
-function ripple( x, y ){
-
-	// if( typeof x !== 'number' ) x = 0.2
-	// if( typeof y !== 'number' ) y = 0.5
-
-	if( typeof x !== 'number' ) x = Math.sin( performance.now() / 1000 )
-	if( typeof y !== 'number' ) y = Math.sin( performance.now() / 100000 )
-
-
-	forEachElement( '.key', function( key ){
-
-		const distance = Math.sqrt(
-			
-			Math.pow( x - parseFloat( key.getAttribute( 'x-normalized' )), 2 ) +
-			Math.pow( y - parseFloat( key.getAttribute( 'y-normalized' )), 2 )
-		)
-		//console.log( key.getAttribute( 'data-name' ), distance )
-
-
-		const
-		sine = Math.sin( distance ),
-		sign = Math.sign( sine )
-
-		key.style.transform = 'translate3d( 0px, 0px, '+ 
-			Math.pow( sine * 20, 2 )
-			+'px )'
-	})
-}
-
-// window.setInterval( ripple, 100 )
-
-
-
 
 
 

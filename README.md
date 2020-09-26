@@ -42,10 +42,12 @@ REAMAINING PARTS TO ANIMATE:
 
 THIRD VERSE
 Are insertRiff bits too much? Should use background color flashes instead?
+Background dies down to black, pulses back up to red?
 
 
 BLACK SWAN
 Needs a routine different from “fucked up”
+Background fades to black and BLACKSWAN lights up?
 
 
 SPARE PARTS
