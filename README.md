@@ -1,6 +1,6 @@
 
 
-<img src="https://raw.githubusercontent.com/stewdio/darkwave/master/media/stewart-smith-black-swan.jpg" title="Black Swan" width="300" height="300">  
+<img src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/stewart-smith-black-swan.jpg" title="Black Swan" width="300" height="300">  
 
 
 Black Swan
@@ -38,7 +38,7 @@ featuring visual artwork by
 **Black Swan**—the song featured here—is the fourth track from this 
 record.
 
-<img src="https://raw.githubusercontent.com/stewdio/darkwave/master/media/thom-yorke-the-eraser@768.jpg" title="Black Swan" width="300" height="300"> 
+<img src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/thom-yorke-the-eraser@768.jpg" title="Black Swan" width="300" height="300"> 
   
   
 **The Eraser** is available for 
@@ -46,7 +46,7 @@ record.
 in various physical and spectral formats.
 
 [<img 
-	src="https://raw.githubusercontent.com/stewdio/darkwave/master/media/various-marks.svg#XL_Recordings" 
+	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/various-marks.svg#XL_Recordings" 
 	title="XL Recordings" 
 	width="200" 
 	height="200">](https://xlrecordings.com/buy/thomyorke-theeraser)
@@ -56,7 +56,7 @@ virtualized currency for aural stimulation.
 
 
 [<img 
-	src="https://raw.githubusercontent.com/stewdio/darkwave/master/media/various-marks.svg#Spotify" 
+	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/various-marks.svg#Spotify" 
 	title="Spotify" 
 	width="100" 
 	height="100">](https://open.spotify.com/album/4QSIeDnAnGag2YZ5DjB2eB)
