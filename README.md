@@ -3,6 +3,8 @@
 <img src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/stewart-smith-black-swan.jpg" title="Black Swan" width="300" height="300">  
 
 
+
+
 Black Swan
 ========================================================================
 This interactive composition for **Black Swan** is a tribute to—and 
@@ -18,12 +20,14 @@ the [Anthropocene](https://en.wikipedia.org/wiki/Anthropocene)
 [climate crisis](https://en.wikipedia.org/wiki/Climate_change). 
 “Fucked up”, as it were.  
   
-Upon each completion of the song a list of keyboard engagements will 
+Upon each completion of the song, a list of keyboard engagements will 
 be displayed under _Receipt_. This includes both the activations 
 scripted for the animation as well as your own keystrokes and pointer 
 interactions. You are part of the artwork. This is your personal 
 receipt for this experience. It is unique and for your eyes only.
     
+
+
 
 The music
 ------------------------------------------------------------------------
@@ -48,188 +52,118 @@ in various physical and spectral formats.
 [<img 
 	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/various-marks.svg#XL_Recordings" 
 	title="XL Recordings" 
-	width="200" 
-	height="200">](https://xlrecordings.com/buy/thomyorke-theeraser)
-
+	width="100" 
+	height="100">](https://xlrecordings.com/buy/thomyorke-theeraser)  
+  
 Capitalist data brokers are also standing by to exchange your 
-virtualized currency for aural stimulation.
-
+virtualized currency for aural stimulation.  
 
 [<img 
 	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/various-marks.svg#Spotify" 
-	title="Spotify" 
-	width="100" 
-	height="100">](https://open.spotify.com/album/4QSIeDnAnGag2YZ5DjB2eB)
+	title="“The Eraser” on Spotify" 
+	width="50" 
+	height="50">](https://open.spotify.com/album/4QSIeDnAnGag2YZ5DjB2eB)
 
+[<img 
+	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/various-marks.svg#Apple_Music" 
+	title="“The Eraser” on Apple Music"
+	width="50" 
+	height="50">](https://music.apple.com/us/album/the-eraser/161162568)
 
+[<img 
+	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/various-marks.svg#Google_Play_Music" 
+	title="“The Eraser” on Google Play Music" 
+	width="50" 
+	height="50">](https://play.google.com/store/music/album/The_Eraser?id=B5n7dgsji4qeky2ldz5bifk6lu4&hl)
 
+[<img 
+	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/various-marks.svg#Amazon_Music" 
+	title="“The Eraser” on Amazon Music" 
+	width="50" 
+	height="50">](https://www.amazon.com/Eraser-Thom-Yorke/dp/B000FPYNR6)  
   
-Colphon
-------------------------------------------------------------------------
-
-
-
-
-
-FINISHING
-------------------------------------------------------------------------
-
-- Need hand written section titles for “Puchase” and “Colophon” and “Receipt”
-
-- Finish the animation.
-
-- Clean up this READ ME.
-
-
-
-
-
-THINGS WE MIGHT STILL USE:
-------------------------------------------------------------------------
-
-
-1. Background color flashes
-
-2. ripple
-
-3. sphere = Can we make a sphere out of the keyboard keys? And the key press fires them outward (larger radius) from the sphere?
-
-
-SUCKED: Analyser node to drive the keyboaord scope
-
-
-
-
-
-
-
-REAMAINING PARTS TO ANIMATE:
-------------------------------------------------------------------------
-
-
-
-THIRD VERSE
-Are insertRiff bits too much? Should use background color flashes instead?
-Background dies down to black, pulses back up to red?
-
-
-BLACK SWAN
-Needs a routine different from “fucked up”
-Background fades to black and BLACKSWAN lights up?
-
-
-SPARE PARTS
-Needs a routine different from “fucked up”
-
-
-
-
-
-3:44 – 4:03 BREAK DOWN
-
-Needs “pop corn” routine.
-This is the time to bring in multipe keyboards!!
-do we glide across one to reveal the other? opacity fade in? replace first w the second by gliding across and first one vanishes behind us?
-keys shoud smash and scatter and do “popcorn” routine where they kind bounce up and down? but this needs to fade out to almost no popping by the end.
-
-Should the background slowly fade down and pulse for this shit? So popcorn .engaged is extra bright??
-
-
-
-
-
-
-
-
-
-
-IN GENERAL
-------------------------------------------------------------------------
-
-- After the "meeeeee" around 3:00 can soften the landing of those letters?
-
-- The on-release gradient is too pink. Needs to fade to amber or something. Or be bright amber and as looses brightness curve from amber hue to red hue.
-maybe amber = 40˚
-then tweens down to 0˚
-
-- animation needs to end such that looping back to beginning is not visually distracting; so must end with keyboard reassembled and ready.
-
-
-
-
-
-BAD BUGS
-------------------------------------------------------------------------
-
-- Rewrite fuckedUp to NOT use a toggle. Definitively turn ON or turn OFF. That’s what’s causing shit to stick when the seek window hits it oddly. 'F' key sometimes get engaged after doing a refresh. (Or a seek?) It is engaged by * which means the program is doing it. Seeking to around 1:23.
-file:///Users/stewarsm/Documents/Github/blackswan/index.html#1:23
-
-
-- When loaded on mobile from a scpeific time (say, 1:03)
-pressiing play wiill starrt audio but will NOT sync the animationi!
-
-
-
-
-LESSER EVILS
-------------------------------------------------------------------------
-
-- TranslateZ *is relative* so need to use calc( var( --size ) * ? ) instead of absolute pixels.
-
-
-- Can we add an “obvious-release.engaged” that forces transition to none? Will that fiix the spacebar issue post “obvious” routine?
-
-- Need a way to remove .option-lag class from keyboard elements only when all (or maybe just one if they’re all animating at the same speed?) reaches an animationend call back.
-In addition to 'animationend' do wee also need 'animationcancel' or similar?
-
-- Caps lock as a true toggle works from keyboard, yet does NOT add a capslock class to the keyboard. why? Also, may need to do a custom no-hover (just mousedown/touchstart) on the capslock key for true toggle via pointers.
-
-- Key press borked on mobile. Looks like maybe touchstart is not writing to the channel? Or touchend / mouseup etc are interfering with each other.
-
-- Re-confirm yet again that it is 101bpm by eye-testing strenuously ;)
-
-- experiment w "maintain perspective" because on entire BODY is too much. main + some of #about is prob fiinie and still looks cool when scrolling. 
-
-- Consider pushing all SVGs into index.html both for quicker load and to make it possible to run from file:/// again.
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 Kicking the tires
 ------------------------------------------------------------------------
+Yes, each element of this animation is a real 
+[`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement). 
+(There is no 
+[`canvas`](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) or 
+[WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API) 
+within this project.) It’s entirely
+[HTML](https://developer.mozilla.org/en-US/docs/Web/HTML), 
+[JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript), and 
+[CSS](https://developer.mozilla.org/en-US/docs/Web/CSS). The 
+composition is stored as keyframes; a queue of functions to be executed
+at particular time stamps. The composition summary can be found in 
+[blackswan/composition.js](https://github.com/stewdio/blackswan/blob/master/blackswan/composition.js).  
 
-What’s the current state of the playback queue?  
+What’s the current state of the composition’s playback queue? Load up
+this project, open your browser’s 
+[JavaScript console](https://developers.google.com/web/tools/chrome-devtools/console/javascript), and enter the following:
 ```javascript
 console.log( ...comp.inspect() )
 
 ```
-How can I see the composition’s entire playback queue?  
+Want to see the composition’s entire playback queue?  
 ```javascript
 console.log( ...comp.inspectAll() )
 
-```
+```  
   
-How can I be sure that the amount of time a queue method is taking up 
-is equal to the amount of time I have intended for it to take up?
-```javascript
-riffHalf( 2, true )
-riffHalf( 4, true )
-
-```
-
-
-
+The code for this animation artwork—is © 
+Copyright 2020, [Stewart Smith](https://stewartsmith/). It is free, 
+open-source, and available for download and reuse from 
+[GitHub](https://github.com/stewdio/blackswan/s). (See 
+[license](https://github.com/stewdio/blackswan/blob/master/LICENSE.md) 
+for details.) It was created on my personal computing devices during 
+personal time and is not affiliated with any employers past or present. 
+The audio is owned by 
+[XL Recordings](https://xlrecordings.com/buy/thomyorke-theeraser) and 
+is _not_ available as part of this free code package. Consider 
+[purchasing it from them](https://xlrecordings.com/buy/thomyorke-theeraser).  
   
+
+
+
+Seeds
+------------------------------------------------------------------------
+
+<img 
+	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/stewart-smith-black-swan-2006-clip.gif" 
+	title="A clip of Stewart’s 2006 sketch for a “Black Swan” music video; performed via Apple’s Keyboard Viewer application." 
+	width="300">  
   
+I originally sketched my concept for a “Black Swan” music video in 2006 
+as screen captures of live typographic performances using the 
+[OS X 10.4 Tiger](https://en.wikipedia.org/wiki/Mac_OS_X_Tiger) 
+[Keyboard Viewer](https://support.apple.com/guide/mac-help/use-the-keyboard-viewer-on-mac-mchlp1015/mac) 
+application. Keyboard Viewer, which replaced Apple’s old Key Caps 
+program, highlights keys depressed by the user and displays available 
+characters from the current keyboard palette. Sketches like the clip 
+above were made by recording the screen while typing along to the song 
+as it played back at half speed. Byproduct “receipts” of the live 
+performance were created by capturing the performed typing in 
+[TextEdit](https://en.wikipedia.org/wiki/TextEdit). 
+Have you ever hit a 14-year pause button on a personal project?  
   
+
+
+
+Last flowers
+------------------------------------------------------------------------
+If you are an American, please 
+[register to vote](https://vote.gov/) as soon as possible
+for the general election this November. 
+I implore you to help vote Trump out
+and to [flip The Senate blue](https://flipthesenate.com/). 
+[Black lives matter](https://blacklivesmatter.com/).  
+  
+
+
+
+
+
+
