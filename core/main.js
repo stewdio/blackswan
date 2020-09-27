@@ -747,6 +747,10 @@ fullscreenToggle = function(){
 //////////////////
 
 
+let 
+mouseIdleSince = Date.now(),
+mouseShouldHideAfterSeconds = 2
+
 function render(){
 
 	const
@@ -792,6 +796,18 @@ function render(){
 	}
 
 
+	//  Hide the mouse cursor when it’s idle within the MAIN area.
+	//  This will only work AFTER a first mouse interaction.
+	// (Browser security thing?)
+
+	if( Date.now() - mouseIdleSince >= 
+		mouseShouldHideAfterSeconds * 1000 ){
+
+		document
+		.querySelector( 'main' )
+		.style
+		.cursor = 'none'
+	}
 
 	tasks.update( time )
 	requestAnimationFrame( render )
@@ -1336,18 +1352,9 @@ new Mode({
 window.addEventListener( 'DOMContentLoaded', function(){
 
 
-	//  Setup all keys to engage or disengage
-	//  in response to both
-	//  the programmed composition
-	//  as well as any user input.
-
-	appendKeyAbilitiesToAllKeys()
-	appendKeyboardAbilitiesToAllKeyboards()
-
-
-
-
-
+	//  We’d like to hide the play controls
+	//  when the user hasn’t done anything
+	//  in a while. 
 
 	const updateInterfaceIdleSince = function(){
 
@@ -1360,11 +1367,19 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	window.addEventListener( 'scroll',     updateInterfaceIdleSince )
 
 
+	//  We want to hide the mouse cursor in the MAIN area
+	//  when the mouse is not in use for a while.
+	// (Handled in our render loop.)
+	//  Then reveal it when it moves again:
 
+	document
+	.querySelector( 'main' )
+	.addEventListener( 'mousemove', function(){
 
+		mouseIdleSince = Date.now()
+		this.style.cursor = ''	
+	})
 
-
-	
 
 	//  Enable control panel reveal when in fullscreen mode.
 
@@ -1483,6 +1498,14 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	
 
 	
+
+	//  Setup all keys to engage or disengage
+	//  in response to both
+	//  the programmed composition
+	//  as well as any user input.
+
+	appendKeyAbilitiesToAllKeys()
+	appendKeyboardAbilitiesToAllKeyboards()
 
 	window.addEventListener( 'keydown', function( event ){
 

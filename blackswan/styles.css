@@ -96,6 +96,12 @@ section {
 
 	/*fill: hsl( 0, 0%, 90% );*/
 }
+h2 {
+
+	margin-bottom: 54px;
+	font-weight: normal;
+	color: black;
+}
 
 
 

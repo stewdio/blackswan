@@ -1,16 +1,84 @@
 
 
-![Blackswan](./media/stewart-smith-blackswan.jpg "Blackswan")  
+<img src="https://raw.githubusercontent.com/stewdio/darkwave/master/media/stewart-smith-black-swan.jpg" title="Black Swan" width="300" height="300">  
 
-Blackswan
+
+Black Swan
 ========================================================================
+This interactive composition for **Black Swan** is a tribute to—and 
+birthday present for—[Thom Yorke](https://en.wikipedia.org/wiki/Thom_Yorke) 
+and [Stanley Donwood](https://en.wikipedia.org/wiki/Stanley_Donwood) 
+who share my birth month of October; the best month. This is also an ode
+to [Web browsers](https://en.wikipedia.org/wiki/Web_browser). It was 
+created by myself, [Stewart Smith](https://stewartsmith.io), in 
+Brooklyn, New York during the 
+[COVID-19 pandemic](https://en.wikipedia.org/wiki/COVID-19_pandemic) / 
+[America’s descent into fascism](https://duckduckgo.com/?q=America%E2%80%99s+descent+into+fascism) / 
+the [Anthropocene](https://en.wikipedia.org/wiki/Anthropocene) 
+[climate crisis](https://en.wikipedia.org/wiki/Climate_change). 
+“Fucked up”, as it were.  
+  
+Upon each completion of the song a list of keyboard engagements will 
+be displayed under _Receipt_. This includes both the activations 
+scripted for the animation as well as your own keystrokes and pointer 
+interactions. You are part of the artwork. This is your personal 
+receipt for this experience. It is unique and for your eyes only.
+    
 
-A browser-based music video for Thom Yorke’s song of the same name.
-Song by Thom Yorke, Nigel Godrich, et al.
-Artwork inspired by Stanley Donwood.
-Concept and animation by Stewart Smith.  
+The music
+------------------------------------------------------------------------
+Released in July 2006, 
+[**The Eraser**](https://en.wikipedia.org/wiki/The_Eraser) is 
+[Radiohead](https://en.wikipedia.org/wiki/Radiohead) frontperson 
+[Thom Yorke](https://en.wikipedia.org/wiki/Thom_Yorke)’s debut solo 
+album, produced by 
+[Nigel Godrich](https://en.wikipedia.org/wiki/Nigel_Godrich) and 
+featuring visual artwork by 
+[Stanley Donwood](https://en.wikipedia.org/wiki/Stanley_Donwood). 
+**Black Swan**—the song featured here—is the fourth track from this 
+record.
+
+<img src="https://raw.githubusercontent.com/stewdio/darkwave/master/media/thom-yorke-the-eraser@768.jpg" title="Black Swan" width="300" height="300"> 
+  
+  
+**The Eraser** is available for 
+[purchase from XL Recordings](https://xlrecordings.com/buy/thomyorke-theeraser) 
+in various physical and spectral formats.
+
+[<img 
+	src="https://raw.githubusercontent.com/stewdio/darkwave/master/media/various-marks.svg#XL_Recordings" 
+	title="XL Recordings" 
+	width="200" 
+	height="200">](https://xlrecordings.com/buy/thomyorke-theeraser)
+
+Capitalist data brokers are also standing by to exchange your 
+virtualized currency for aural stimulation.
 
 
+[<img 
+	src="https://raw.githubusercontent.com/stewdio/darkwave/master/media/various-marks.svg#Spotify" 
+	title="Spotify" 
+	width="100" 
+	height="100">](https://open.spotify.com/album/4QSIeDnAnGag2YZ5DjB2eB)
+
+
+
+  
+Colphon
+------------------------------------------------------------------------
+
+
+
+
+
+FINISHING
+------------------------------------------------------------------------
+
+- Need hand written section titles for “Puchase” and “Colophon” and “Receipt”
+
+- Finish the animation.
+
+- Clean up this READ ME.
 
 
 
@@ -70,16 +138,6 @@ Should the background slowly fade down and pulse for this shit? So popcorn .enga
 
 
 
-RECEIPT GENERATION
-
-how? where? 
-
-“Scroll down for more info” should appear at the end. 
-Perhaps the generated receipt appears under that??? Or further down the page?????
-
-
-
-
 
 
 
@@ -99,13 +157,25 @@ then tweens down to 0˚
 
 
 
-CODE
+
+BAD BUGS
+------------------------------------------------------------------------
+
+- Rewrite fuckedUp to NOT use a toggle. Definitively turn ON or turn OFF. That’s what’s causing shit to stick when the seek window hits it oddly. 'F' key sometimes get engaged after doing a refresh. (Or a seek?) It is engaged by * which means the program is doing it. Seeking to around 1:23.
+file:///Users/stewarsm/Documents/Github/blackswan/index.html#1:23
+
+
+- When loaded on mobile from a scpeific time (say, 1:03)
+pressiing play wiill starrt audio but will NOT sync the animationi!
+
+
+
+
+LESSER EVILS
 ------------------------------------------------------------------------
 
 - TranslateZ *is relative* so need to use calc( var( --size ) * ? ) instead of absolute pixels.
 
-- Rewrite fuckedUp to NOT use a toggle. Definitively turn ON or turn OFF. That’s what’s causing shit to stick when the seek window hits it oddly. 'F' key sometimes get engaged after doing a refresh. (Or a seek?) It is engaged by * which means the program is doing it. Seeking to around 1:23.
-file:///Users/stewarsm/Documents/Github/blackswan/index.html#1:23
 
 - Can we add an “obvious-release.engaged” that forces transition to none? Will that fiix the spacebar issue post “obvious” routine?
 
@@ -120,25 +190,7 @@ In addition to 'animationend' do wee also need 'animationcancel' or similar?
 
 - experiment w "maintain perspective" because on entire BODY is too much. main + some of #about is prob fiinie and still looks cool when scrolling. 
 
-
-
-
-CONTROLS
-------------------------------------------------------------------------
-
-- When loaded on mobile from a scpeific time (say, 1:03)
-pressiing play wiill starrt audio but will NOT sync the animationi!
-
-
-
-
-FINISHING
-------------------------------------------------------------------------
-- Pick or create a LICENSE !
-
 - Consider pushing all SVGs into index.html both for quicker load and to make it possible to run from file:/// again.
-
-- Need hand written section titles for “Puchase” and “Colophon” and “Receipt”
 
 
 
@@ -178,43 +230,6 @@ riffHalf( 4, true )
 
 
 
-How to: Run this from your Mac desktop
-------------------------------------------------------------------------
-Sadly, you cannot just drag and drop the `index.html` file onto a 
-browser window to view this application from your own 
-[Macintosh](https://www.apple.com/macos/) desktop. You’ll need to spin
-up a server and view the application from a URL like 
-[http://localhost:8000/](http://localhost:8000/) instead. But don’t 
-worry—that’s easy!  
-
-1. Open the **Terminal** application. (Just hit ⌘ + Spacebar, then type
-“terminal” to search for it on your Mac. Once found, hit Enter to open 
-it.)
-
-2. Type `cd `&nbsp;(yes, with that space after it), then drag and drop this
-whole code package folder that you’ve downloaded onto the **Terminal** 
-window—it will fill in the folder’s full path address for you. 
-(You’ll see something like `cd ~/YourName/Downloads/cornell-torus/`.) 
-Now hit Enter to tell **Terminal** it must `c`hange `d`irectories to 
-that folder.
-
-3. Paste this into **Terminal**, then hit Enter: 
-`python -m SimpleHTTPServer 8000`. You are now running a web server on 
-port `8000`. (You could instead use a different number to listen on a 
-different port. This is handy if you need many servers running at once;
-each will need to listen to a different port.)
-
-4. Now you can visit this website at 
-[http://localhost:8000](http://localhost:8000) and everything should be 
-fine 👍  
-
-When you’re ready to shut down the server, go back to **Terminal**  and
-tap Control + C. That’s all!  
-  
-For more information on running a barebones local server, (including 
-Python 3 commands) see Mozilla’s
-[Set up a local testing server](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server)
-article.  
   
   
   

@@ -649,13 +649,13 @@ new Mode({
 				if( elapsedPercent > 0 && item.hasEngaged === false ){
 
 					item.hasEngaged = true
-					keyEngage( item.name.toUpperCase() )
+					// keyEngage( item.name.toUpperCase() )
 				}
 				// if( elapsedPercent >= 0.5 && item.hasDisengaged === false ){
 				if( elapsedPercent >= 0.9999 && item.hasDisengaged === false ){
 
 					item.hasDisengaged = true
-					keyDisengage( item.name.toUpperCase() )
+					// keyDisengage( item.name.toUpperCase() )
 				}
 				forEachElement(
 
