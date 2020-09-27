@@ -425,9 +425,13 @@ const comp = Object.assign( [], {
 	},
 	generateReceipt: function(){
 
-		const receipt = this.logs.join( '&ZeroWidthSpace;' )
-		document.getElementById( 'receipt' ).innerHTML = receipt
-		return receipt
+		const 
+		receiptContent = this.logs.join( '&ZeroWidthSpace;' ),
+		receiptContentEl = document.getElementById( 'receipt-content' )
+
+		receiptContentEl.innerHTML = receiptContent
+		receiptContentEl.classList.add( 'show' )
+		return receiptContent
 	}
 })
 
@@ -587,8 +591,27 @@ timeFromText = function( text ){
 },
 seekByLocationHash = function(){
 
-	const time = timeFromText( document.location.hash.substr( 1 ))
+	const 
+	hash = document.location.hash.substr( 1 ),
+	time = timeFromText( hash )
+
 	if( time !== false ) setTimeout( comp.seek.bind( this, time ))
+
+	//  Ug. Read this:
+	//  https://support.google.com/chrome/thread/11993079?hl=en
+	
+	// else {
+
+	// 	const element = document.getElementById( hash )
+	// 	console.log( 'scrll to????', element )
+
+	// 	//  iOS Safari does not yet support element.scrollIntoView().
+	// 	if( element ) window.scrollTo({
+
+	// 		top: element.getBoundingClientRect().top,
+	// 		behavior: 'smooth'
+	// 	})
+	// }
 },
 updateLocationHashFromTime = function(){
 
@@ -1455,46 +1478,12 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	
 
+
 	seekByLocationHash()
 	
 
-	//  If a viewer clicks on the LOAD button
-	//  it will attempt to play --
-	//  which on mobile means it will load first.
-
-	/*
-	document
-	.getElementById( 'button-load' )
-	.addEventListener( 'mousedown', function(){
-
-		userHasInteracted = true
-
-
-		//  Hide this “load” button
-		//  and enable the regular playback controls.
-		//  NOTE: WHAT WE *SHOULD* DO HERE
-		//  IS BEGIN A LOADING ANIMATION
-		//  THAT IS LATER DISABLED BY "CANPLAYTHROUGH" EVENT.
-
-		document
-		.getElementById( 'button-load' )
-		.style
-		.display = 'none'
-
-		controlsEnable()
-
-
-		//  This will set isPlaying to true
-		//  among other things.
-
-		comp.play()
-	})
-
-	*/
-
-
-
 	
+
 	window.addEventListener( 'keydown', function( event ){
 
 		if( event.repeat !== true ){

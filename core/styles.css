@@ -242,14 +242,42 @@ section, footer {
 }
 #receipt {
 
-	position: absolute;
-	top:  0;
-	left: 0;
+	background-color: hsl( 0, 0%, 96% );
+	background: linear-gradient(
+
+		hsl( 0, 0%, 92% ),
+		hsl( 0, 0%, 84% )
+	);
+}
+#receipt-content {
+
+	max-width:  540px;
+	max-height: 420px;
+	overflow: auto;
+	margin: 
+		calc( var( --size ) * 8 )
+		auto
+		0
+		auto;
+	border-radius: calc( var( --size ) * 1 );
+	background-color: white;
+	padding: 
+		calc( var( --size ) *  6 )
+		calc( var( --size ) *  6 )
+		calc( var( --size ) * 10 )
+		calc( var( --size ) *  6 );
+	font-size:   18px;
+	line-height: 24px;
+	color: hsl( 0, 0%, 75% );
 	text-align: left;
 	white-space: pre-wrap;
 	word-break: break-all;
 	overflow-wrap: break-word;
 	font-family: "Roboto Mono", "Courier New", "Courier", monospace;
+}
+#receipt-content.show {
+
+	color: black;
 }
 
 

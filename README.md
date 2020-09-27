@@ -88,10 +88,6 @@ Perhaps the generated receipt appears under that??? Or further down the page????
 IN GENERAL
 ------------------------------------------------------------------------
 
-- Add BLACK SWAN title to page upon load (gooes away when not paused). Will look sort of like poster image. Also add PRESS PLAY TO START. SCROLL DOWN FOR MORE INFO. on bottom like where URL is on poster image.
-
-- Make the required viewport more square so we can see more off-keyboard animation on landscape phones or landscape browsers. like the "meeeeee" roll.
-
 - After the "meeeeee" around 3:00 can soften the landing of those letters?
 
 - The on-release gradient is too pink. Needs to fade to amber or something. Or be bright amber and as looses brightness curve from amber hue to red hue.
@@ -130,14 +126,6 @@ In addition to 'animationend' do wee also need 'animationcancel' or similar?
 CONTROLS
 ------------------------------------------------------------------------
 
-- Hitting spacebar to play should also remove the load play button and enable controls.
-
-- I hate not being able to full-screen BEFORE hitting play when freshly loaded. maybe kill the central play button.
-
-- style the new LOAD button. pulses like regular play butto, maybe an ease-in-out slow bounce and glow?? fade out on hide(). size needs to be BIG. and maybe relative to viewport size. 
-
-- need a progress bar or pie chart or something on new LOAD button. 
-
 - When loaded on mobile from a scpeific time (say, 1:03)
 pressiing play wiill starrt audio but will NOT sync the animationi!
 
@@ -150,7 +138,7 @@ FINISHING
 
 - Consider pushing all SVGs into index.html both for quicker load and to make it possible to run from file:/// again.
 
-- Need hand written section titles for “Puchase” and “Colophon”?
+- Need hand written section titles for “Puchase” and “Colophon” and “Receipt”
 
 
 

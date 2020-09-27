@@ -342,22 +342,6 @@ rotate into a surfboard. ripple it while popcorning?
 */
 
 
-//  bring in additional keyboards????
-//  ROTATE KEYBOARD 30 DEGREES !
-//  $('.keyboard').style.transform='rotateX(30deg)'
-/*
-
-
-keyboard = $('.keyboard')
-var keyboard2 = keyboard.cloneNode( true )
-document.body.appendChild( keyboard2 )
-appendKeyboardAbilitiesTo( keyboard2 )
-appendKeyAbilitiesToAllKeys( keyboard2 )//  works?????
-
-
-
-*/
-
 	appendRiff( 32 )
 
 
@@ -420,19 +404,6 @@ appendKeyAbilitiesToAllKeys( keyboard2 )//  works?????
 	
 
 
-/*
-
-
-Can this type ITSELF???
-Ajax load whatever javascript (or HTML, CSS, etc)
-and type that out super fast???
-
-
-*/
-
-
-
-
 
 
 
@@ -475,51 +446,6 @@ and type that out super fast???
 	ekg( 1 )
 	append( 1 )
 	ekg( 1 )
-
-	// append( 0, function(){
-
-	// 	Array
-	// 	.from( keyboard.querySelectorAll( '[x="3"]' ))
-	// 	.forEach( function( key ){
-
-	// 		key.classList.add( 'press' )
-	// 	})
-	// })
-
-
-
-	append( 4 )
-
-
-
-	surfRider()
-
-
-
-	append( 8, function(){
-
-		keyboard.classList.add( 'wtf' )
-		keyboard.classList.add( 'crazy' )
-	})
-
-	// append( 4, function(){
-
-	// 	document.querySelector( '.key-W' ).classList.add( 'wtf' )
-	// 	document.querySelector( '.key-T' ).classList.add( 'wtf' )
-	// 	document.querySelector( '.key-F' ).classList.add( 'wtf' )
-	// })
-
-	append( 2 )
-	append( 1, function(){
-
-		keyboard.classList.add( 'crazy' )
-	})
-	append( 2, function(){
-
-		blowApart()
-	})
-
-
 
 
 
