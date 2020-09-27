@@ -277,8 +277,20 @@ const comp = Object.assign( [], {
 		comp.isPlaying = true
 		comp.isPaused  = false
 		comp.audio.play()
-		const playPauseButton = document.getElementById( 'play-pause' )
-		playPauseButton.classList.add( 'playing' )
+		;[
+
+			'play-pause',
+			'title',
+			'instructions'
+		
+		].forEach( function( elementName ){
+
+			const element = document.getElementById( elementName )
+			if( element instanceof HTMLElement ){
+
+				element.classList.add( 'playing' )
+			}
+		})
 		return this
 	},
 	pause: function(){
@@ -286,8 +298,20 @@ const comp = Object.assign( [], {
 		comp.isPlaying = false
 		comp.isPaused  = true
 		comp.audio.pause()
-		const playPauseButton = document.getElementById( 'play-pause' )
-		playPauseButton.classList.remove( 'playing' )
+		;[
+
+			'play-pause',
+			'title',
+			'instructions'
+		
+		].forEach( function( elementName ){
+
+			const element = document.getElementById( elementName )
+			if( element instanceof HTMLElement ){
+
+				element.classList.remove( 'playing' )
+			}
+		})
 		return this
 	},
 	toggle: function(){
@@ -600,7 +624,7 @@ controlsDisable = function(){
 	
 	}, 500 )
 },
-controlsEnable = function(){
+controlsEnable = function( enableButDoNotShow ){
 
 	controlsHide()
 	document
@@ -608,7 +632,7 @@ controlsEnable = function(){
 	.style
 	.display = 'block'
 	controlsShouldHide = false
-	setTimeout( controlsShow )	
+	if( enableButDoNotShow !== true ) setTimeout( controlsShow )
 },
 controlsHide = function(){
 
@@ -1004,9 +1028,10 @@ turns capslock on OR off depending on current state.
 		keyElement.disengage( 'user mouse' )
 	})
 },
-appendKeyAbilitiesToAllKeys = function(){
+appendKeyAbilitiesToAllKeys = function( rootElement ){
 
-	forEachElement( '.key', appendKeyAbilitiesTo )
+	if( rootElement instanceof HTMLElement !== true ) rootElement = document.body
+	forEachElement( rootElement, '.key', appendKeyAbilitiesTo )
 }
 
 
@@ -1027,7 +1052,11 @@ keyEngage = function( keyName, requestor ){
 	forEachElement(
 
 		'[data-name="'+ keyName +'"]', 
-		( element ) => element.engage( requestor )
+		function( element ){
+
+			if( typeof element.engage === 'function' ) element.engage( requestor )
+			else console.warn( 'Tried to call .engage() on a key that didn’t support it!', keyName, requestor )
+		}
 	)
 },
 keyDisengage = function( keyName, requestor ){
@@ -1036,7 +1065,11 @@ keyDisengage = function( keyName, requestor ){
 	forEachElement(
 
 		'[data-name="'+ keyName +'"]', 
-		( element ) => element.disengage( requestor )
+		function( element ){
+
+			if( typeof element.disengage === 'function' ) element.disengage( requestor )
+			else console.warn( 'Tried to call .disengage() on a key that didn’t support it!', keyName, requestor )
+		}
 	)
 },
 keyToggle = function( keyName, requestor ){
@@ -1045,7 +1078,11 @@ keyToggle = function( keyName, requestor ){
 	forEachElement(
 
 		'[data-name="'+ keyName +'"]', 
-		( element ) => element.toggle( requestor )
+		function( element ){
+
+			if( typeof element.toggle === 'function' ) element.toggle( requestor )
+			else console.warn( 'Tried to call .toggle() on a key that didn’t support it!', keyName, requestor )
+		}
 	)
 }
 
@@ -1425,6 +1462,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  it will attempt to play --
 	//  which on mobile means it will load first.
 
+	/*
 	document
 	.getElementById( 'button-load' )
 	.addEventListener( 'mousedown', function(){
@@ -1451,6 +1489,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 		comp.play()
 	})
+
+	*/
 
 
 
@@ -1498,8 +1538,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	})
 
 
-
-
 	//  Execute any other setup tasks
 	//  that have been queued with tasks.setups.add( ƒ… )
 
@@ -1509,6 +1547,12 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Kick off the render loop.
 
 	render()
+
+
+	//  Roll that beautiful bean footage.
+
+	controlsEnable( true )
+	setTimeout( controlsShow, comp.beatsPerSecond * 2 * 1000 )
 })
 
 

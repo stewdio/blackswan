@@ -100,6 +100,68 @@ section {
 
 
 
+    /************/
+   /*          */
+  /*   Main   */
+ /*          */
+/************/
+
+
+#title,
+#instructions {
+
+	position: absolute;
+	right: 0;
+	left:  0;
+	text-align: center;
+	transition: opacity calc( var( --beat ) * 2 );
+
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
+}
+#title {
+
+	top: 18vh;
+	color: black;
+	font-size:   calc( var( --size ) * 3 );
+	line-height: calc( var( --size ) * 3 );
+	letter-spacing: calc( var( --size ) * 1.8 );
+	font-weight: normal;
+}
+#title .kern-SW {
+
+	letter-spacing: calc( var( --size ) * 1.5 );
+}
+#title .kern-WA {
+
+	letter-spacing: calc( var( --size ) * 1.4 );
+}
+#title .kern-AN {
+
+	letter-spacing: calc( var( --size ) * 1.6 );
+}
+#instructions {
+
+	top: 75vh;
+	color: white;
+	font-size:   calc( var( --size ) * 3 );
+	line-height: calc( var( --size ) * 4 );
+}
+#instructions .lesser {
+
+	opacity: 0.5;
+}
+#title.playing, 
+#instructions.playing {
+
+	opacity: 0
+}
+
+
+
+
     /**************/
    /*            */
   /*   Eraser   */

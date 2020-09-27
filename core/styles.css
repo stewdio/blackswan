@@ -67,12 +67,22 @@ body {
 	
 	--size: 8px;
 }
+/*
 @media all and ( min-aspect-ratio: 294/100 ){
 
 	body { --size: calc( 2.94vh * 0.8 ); }
-	/*main { background-color: green; }*/
 }
 @media all and ( max-aspect-ratio: 294/100 ){
+
+	body { --size: calc( 1vw * 0.8 ); }
+}
+*/
+@media all and ( min-aspect-ratio: 1/1 ){
+
+	body { --size: calc( 1vh * 0.8 ); }
+	/*main { background-color: green; }*/
+}
+@media all and ( max-aspect-ratio: 1/1 ){
 
 	body { --size: calc( 1vw * 0.8 ); }
 	/*main { background-color: blue; }*/
@@ -197,13 +207,14 @@ section, footer {
 /****************/
 
 
+.keyboards-rotation,
+.keyboards-translation,
 .keyboard {
 	
 	position: absolute;
 	top:    0;
 	left:   0;
 	right:  0;
-	/*bottom: calc( var( --size ) * 6 );*/
 	bottom: 0;
 	margin: auto;
 	width:  calc( var( --size ) * 106 );

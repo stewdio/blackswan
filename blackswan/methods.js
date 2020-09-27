@@ -112,7 +112,8 @@ function changeKeyboardState( stateName, addOrRemove, description ){
 				'.keyboard', 
 				function( element ){
 
-					element[ actionName ]( stateName )
+					if( typeof element[ actionName ] === 'function') element[ actionName ]( stateName )
+					else console.warn( `Tried to apply state “${ stateName }” to a keyboard but ${ actionName } did not exist.`, element )
 				}
 			)
 		}, 
@@ -1154,40 +1155,139 @@ new Mode({
 
 	name: 'popcorn',
 	setup:  function(){
+		
+		// pushOutOn()
 
-		this.keyboard = document.querySelector( '.keyboard' )
-		this.clone = this.keyboard.cloneNode( true )
-		appendKeyAbilitiesToAllKeys( this.clone )
-		appendKeyboardAbilitiesTo( this.clone )
-		this.keyboard.parentNode.appendChild( this.clone )
+		const that = this
+
+
+		this.keyboards = [ 
+
+			document.querySelector( '.keyboard' )
+		]
+
+		//  Remove our “tilt-complete” CSS class
+		//  as we’re about to move things manually.
+
+		this.keyboards[ 0 ].classList.remove( 'tilt-complete' )
+		this.keyboards[ 0 ].classList.add( 'push-out' )
+
+
+		//  Create our clone keyboard.
+		
+		for( let i = 0; i < 2; i ++ ){
+
+			const clone = this.keyboards[ 0 ].cloneNode( true )
+			clone.style.left = `calc( var( --size ) * ${ 99 * ( i + 1 )} )`
+			clone.style.opacity = 0
+			appendKeyAbilitiesToAllKeys( clone )
+			appendKeyboardAbilitiesTo( clone )
+			this.keyboards[ 0 ].parentNode.appendChild( clone )
+			this.keyboards.push( clone )
+		}
+
+
+
+		const 
+		keyboardsTranslation = document.querySelector( '.keyboards-translation' ),
+		keyboardsRotation = document.querySelector( '.keyboards-rotation' )
+		
+		keyboardsTranslation.style.transform = `
+			translate3d(
+		 		calc( var( --size ) * ${ -5 } ), 
+		 		calc( var( --size ) * ${  5 } ), 
+		 		calc( var( --size ) * ${ -5 } )
+		 	)`
+
+
+
+		//  Setup our tweens.
+
+		this.tweens = [
+
+
+			//  Rotate the keyboards into place.
+
+			new TWEEN.Tween({ 
+
+					rx:  45,
+					ry: -13,
+					rz:   0
+				})
+				.to({ 
+
+					rx:  80,
+					ry:   0,
+					rz: -90
+
+				}, 0.5 )
+				.easing( TWEEN.Easing.Cubic.InOut )
+				.onUpdate( function(){
+
+					keyboardsRotation.style.transform = `
+						rotateX( ${ this.rx }deg )
+						rotateY( ${ this.ry }deg )
+						rotateZ( ${ this.rz }deg )`
+				})
+				.start( 0 ),
+
+
+			//  Push keyboard forward.
+
+			new TWEEN.Tween({ 
+
+					tx:  -5,
+					ty:   5,
+					tz:  -5
+				})
+				.to({ 
+
+					tx:  10,
+					ty:  50,
+					tz: 200
+
+				}, 0.8 )
+				.easing( TWEEN.Easing.Cubic.InOut )
+				.onUpdate( function(){
+
+					keyboardsTranslation.style.transform = `
+						translate3d( 
+
+					 		calc( var( --size ) * ${ this.tx } ), 
+					 		calc( var( --size ) * ${ this.ty } ), 
+					 		calc( var( --size ) * ${ this.tz } )
+					 	)`
+				})
+				.start( 0.2 ),
+
+
+			//  Fade in our keyboard clones.
+
+			new TWEEN.Tween({ opacity: 0 })
+				.to({ opacity: 1 }, 0.1 )
+				.onUpdate( function(){
+
+					that.keyboards[ 1 ].style.opacity = this.opacity
+					that.keyboards[ 2 ].style.opacity = this.opacity
+				})
+				.start( 0 )
+
+
+		]
 	},
 	update: function(){
 		
 		if( comp.isPlaying ){
 
-			// const
-			// elapsedSeconds = comp.audio.currentTime - this.timeStart,
-			// elapsedPercent = elapsedSeconds / this.durationInSeconds,
-			// elapsedX3 = elapsedPercent * 3 - 1,
-			// gaus = createGaussianFunction( elapsedX3, 0.1, 1 )
+			const
+			elapsedSeconds = comp.audio.currentTime - this.timeStart,
+			elapsedPercent = elapsedSeconds / this.durationInSeconds
 
-			// forEachElement( '.key', function( key, i ){
+			this.tweens
+			.forEach( function( tween ){
 
-			// 	const 
-			// 	x = parseFloat( key.getAttribute( 'x-normalized' )),
-			// 	amp = 80 * gaus( x ) * elapsedX3 * ( 0.2 + 0.8 * x ),
-			// 	rotation = x < elapsedX3
-			// 		? gaus( x )
-			// 		: 0
-
-			// 	if( amp > 0.5 ){
-
-			// 		key.style.transform = 'translate3d( 0px, 0px, calc( var( --size ) * '+ amp +' )) rotateY( '+ rotation +'turn )'
-			// 		if( rotation > 0.7 ) key.classList.add( 'engaged' )
-			// 		if( rotation < 0.3 ) key.classList.remove( 'engaged' )
-			// 	}
-			// 	else key.style.transform  = ''
-			// })
+				tween.update( elapsedPercent )
+			})
 		}
 		if( comp.audio.currentTime >= this.timeStart + this.durationInSeconds ){
 
@@ -1196,17 +1296,32 @@ new Mode({
 	},
 	teardown: function(){
 	
-		this.clone.parentNode.removeChild( this.clone )
+		const that = this
 
-		// forEachElement( '.key', function( key ){
+		const 
+		keyboardsTranslation = document.querySelector( '.keyboards-translation' ),
+		keyboardsRotation = document.querySelector( '.keyboards-rotation' )
 
-		// 	key.style.transition = 'none'
-		// 	key.style.transform  = ''
-		// 	setTimeout( function(){
+		this.tweens
+		.forEach( TWEEN.remove )
 
-		// 		key.style.transition = ''
-		// 	})
-		// })
+		while( this.keyboards.length > 1 ){
+
+			const clone = this.keyboards[ this.keyboards.length - 1 ]
+			clone.parentNode.removeChild( clone )
+			this.keyboards.pop()
+		}
+
+
+		keyboardsTranslation.style.transform = ''
+		keyboardsRotation.style.transform = ''
+
+		this.keyboards[ 0 ].transition = 'none'
+		this.keyboards[ 0 ].transform = ''
+		setTimeout( function(){
+
+			that.keyboards[ 0 ].style.transition = ''
+		})
 	}
 })
 
