@@ -23,14 +23,10 @@ function reset(){
 		keyboard.classList.remove( 
 
 			'capslock',
+			'long-sustain',
 			'push-out',
 			'push-in',
-			'tilt-complete',
-
-			// 'long-sustain',
-			// 'wtf',
-			// 'crazy',
-			// 'surf-rider'
+			'tilt-complete'
 		)
 	})
 
@@ -54,15 +50,6 @@ function reset(){
 		// key.style.transform  = 'none'
 		//key.style.visibility = 'visible'
 		key.style.visibility = ''
-		// if( !key.style.getPropertyValue( '--tx' )){
-		
-		// 	key.style.setProperty( '--tx', getRandomBetween( -100, 100 ) +'px' )
-		// 	key.style.setProperty( '--ty', getRandomBetween( -100, 100 ) +'px' )
-		// 	key.style.setProperty( '--tz', getRandomBetween( -100, 100 ) +'px' )
-		// 	key.style.setProperty( '--rx', getRandomBetween( -1, 1 ))
-		// 	key.style.setProperty( '--ry', getRandomBetween( -1, 1 ))
-		// 	key.style.setProperty( '--rz', getRandomBetween( -1, 1 ))
-		// }
 	})
 
 
@@ -88,15 +75,6 @@ function boot(){
 
 			key.setAttribute( name, getRandomBetween( -1, 1 ))
 		})
-	})
-}
-function applyCssClass( cssQuery, className ){
-
-	Array
-	.from( document.querySelectorAll( cssQuery ))
-	.forEach( function( element ){
-
-		element.classList.add( className )
 	})
 }
 function changeKeyboardState( stateName, addOrRemove, description ){
@@ -143,45 +121,6 @@ function tiltCompleteOn(){
 function tiltCompleteOff(){
 
 	changeKeyboardState( 'tilt-complete', 'remove', 'Tilt-complete OFF.' )
-}
-function constrain( n, a, b ){
-
-	if( typeof a !== 'number' ) a = 0
-	if( typeof b !== 'number' ) b = 1
-
-	const
-	min = Math.min( a, b ),
-	max = Math.max( a, b )
-
-	return Math.max( min, ( Math.min( max, n )))
-}
-function lerp( a, b, n ){
-
-	return ( b - a ) * n + a
-}
-function norm( n, a, b ){
-
-	return ( n - a ) / ( b - a )
-}
-function createGaussianFunction( mean, standardDeviation, maxHeight ){
-
-	if( typeof mean !== 'number' ) mean = 0
-	if( typeof standardDeviation !== 'number' ) standardDeviation = 1
-	if( typeof maxHeight !== 'number' ) maxHeight = 1
-	return function getNormal( x ){
-	
-		return maxHeight * Math.pow( Math.E, -Math.pow( x - mean, 2 ) / ( 2 * ( standardDeviation * standardDeviation )))
-	}
-}
-function easeInOutCubic( n ){
-	
-	return n < 0.5 
-		? 4 * n * n * n 
-		: 1 - Math.pow( -2 * n + 2, 3 ) / 2
-}
-function easeOutCubic( n ){
-	
-	return 1 - Math.pow( 1 - n, 3 )
 }
 
 
@@ -1155,12 +1094,8 @@ new Mode({
 
 	name: 'popcorn',
 	setup:  function(){
-		
-		// pushOutOn()
 
 		const that = this
-
-
 		this.keyboards = [ 
 
 			document.querySelector( '.keyboard' )
@@ -1171,15 +1106,20 @@ new Mode({
 
 		this.keyboards[ 0 ].classList.remove( 'tilt-complete' )
 		this.keyboards[ 0 ].classList.add( 'push-out' )
+		this.keyboards[ 0 ].isOriginal = true
 
 
 		//  Create our clone keyboard.
+		//  This will clone all the HTMLElement bits of it
+		//  but *NOT* the raw properties we’ve globbed on
+		//  so we’ll need to do that for each clone.
 		
 		for( let i = 0; i < 2; i ++ ){
 
 			const clone = this.keyboards[ 0 ].cloneNode( true )
 			clone.style.left = `calc( var( --size ) * ${ 99 * ( i + 1 )} )`
 			clone.style.opacity = 0
+			clone.isClone = true
 			appendKeyAbilitiesToAllKeys( clone )
 			appendKeyboardAbilitiesTo( clone )
 			this.keyboards[ 0 ].parentNode.appendChild( clone )
@@ -1203,6 +1143,7 @@ new Mode({
 
 		//  Setup our tweens.
 
+		this.offset = 0
 		this.tweens = [
 
 
@@ -1232,7 +1173,7 @@ new Mode({
 				.start( 0 ),
 
 
-			//  Push keyboard forward.
+			//  Push keyboards forward.
 
 			new TWEEN.Tween({ 
 
@@ -1242,14 +1183,34 @@ new Mode({
 				})
 				.to({ 
 
-					tx:  10,
-					ty:  50,
-					tz: 200
+					tx:  0,//10,
+					ty:  0,//50,
+					tz: 600
 
 				}, 0.8 )
 				.easing( TWEEN.Easing.Cubic.InOut )
 				.onUpdate( function(){
 
+					// console.log( 'z:', this.tz, '  offset:', that.offset )
+					if( this.tz - that.offset > 99 ){
+
+						that.offset += 99
+
+						const translation = getCssTranslation( keyboardsTranslation )
+
+
+						console.log( 'bumped offset up!!!!!!!!!', translation )
+						
+						
+
+						that.keyboards.push( that.keyboards.shift())
+						that.keyboards
+						.forEach( function( keyboard ){
+
+							keyboard.style.transform = `
+								translate3d( calc( var( --size ) * ${ -this.offset * 3 } ), 0, 0 )`
+						})
+					}
 					keyboardsTranslation.style.transform = `
 						translate3d( 
 
@@ -1288,6 +1249,39 @@ new Mode({
 
 				tween.update( elapsedPercent )
 			})
+
+
+			const rect = this.keyboards[ 0 ].getBoundingClientRect()
+			// console.log( 'left edge?', Math.round( rect.left ))
+			// if( rect.left < -1000 ){
+
+				// this.offset += 99
+			// }
+ 
+
+
+
+ // https://zellwk.com/blog/css-translate-values-in-javascript/
+
+			const style  = window.getComputedStyle( this.keyboards[ 1 ])
+			const matrix = style.transform
+			
+			//const matrixValues = matrix.match(/matrix.*\((.+)\)/)[1].split(', ')
+			// console.log( 'matrix', matrix )
+
+
+			/*
+
+
+			if any keyboard is “too close”
+			then we need to fade it out
+			once opacity = 0%, move it “to the right” by 99*size
+			then face opacity back up to 100%
+
+
+
+
+			*/
 		}
 		if( comp.audio.currentTime >= this.timeStart + this.durationInSeconds ){
 

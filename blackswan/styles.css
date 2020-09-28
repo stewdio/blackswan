@@ -78,7 +78,7 @@ section, footer {
 section {
 
 	margin:  0;
-	padding: 20vh 0 0 0;
+	padding: 12vh 0 18vh 0;
 }
 .section-description {
 
@@ -87,21 +87,18 @@ section {
 	width:  90vw;
 	max-width: 640px;
 }
-.section-separator {
-
-	margin: 20vh auto 0 auto;
-	width:  40px;
-}
-.section-separator svg {
-
-	/*fill: hsl( 0, 0%, 90% );*/
-}
 h2 {
 
-	margin-bottom: 54px;
+	margin-bottom: 13px;
 	font-weight: normal;
 	color: black;
 }
+h2 svg {
+
+	height: 108px;
+}
+
+
 
 
 
@@ -130,7 +127,7 @@ h2 {
 #title {
 
 	top: 18vh;
-	color: black;
+	color: rgba( 0, 0, 0, 0.7 );
 	font-size:   calc( var( --size ) * 3 );
 	line-height: calc( var( --size ) * 3 );
 	letter-spacing: calc( var( --size ) * 1.8 );
@@ -157,13 +154,15 @@ h2 {
 }
 #instructions .lesser {
 
-	opacity: 0.5;
+	opacity: 0.4;
 }
 #title.playing, 
 #instructions.playing {
 
 	opacity: 0
 }
+
+
 
 
 

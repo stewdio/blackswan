@@ -158,8 +158,11 @@ If you are an American, please
 [register to vote](https://vote.gov/) as soon as possible
 for the general election this November. 
 I implore you to help vote Trump out
-and to [flip The Senate blue](https://flipthesenate.com/). 
-[Black lives matter](https://blacklivesmatter.com/).  
+and to [flip The Senate blue](https://flipthesenate.com/).  
+  
+[**BLACK  
+LIVES  
+MATTER**](https://blacklivesmatter.com/)  
   
 
 
