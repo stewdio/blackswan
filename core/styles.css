@@ -207,8 +207,8 @@ section, footer {
 /****************/
 
 
-.keyboards-rotation,
-.keyboards-translation,
+.keyboards-rotator,
+.keyboards-translator,
 .keyboard {
 	
 	position: absolute;

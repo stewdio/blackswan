@@ -9,7 +9,7 @@ comp.beatsPerSecond =  60 / comp.beatsPerMinute
 Object.assign( comp.audio, {
 
 	src: 'media/thom-yorke-black-swan.m4a',
-	volume: 0.1,
+	volume: 0.8,
 	playbackRate: 1//0.25
 })
 
@@ -50,7 +50,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Time range  0:01 – 0:24
 		
 	appendRiff(  8 )
-	appendRiff( 32, 'bump-bump' )
+	appendRiff( 28, 'bump-bump' )
+	appendRiff(  4, 'bump-bump skip-last-hit')
 
 
 
@@ -69,7 +70,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	append(     1.0   )
 	appendType( 4.5, `it's the price that you gotta pay` )
 	append(     0.5   )
-	appendRiff( 4.0, 'bump-bump' )
+	appendRiff( 4.0, 'bump-bump skip-last-hit' )
 	
 	appendType( 6.0, `do yourself a favour and pack your bags` )
 	append(     1.0   )
@@ -200,7 +201,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	Object.assign( Mode.all.noitisnt, {
 
 		timeStart: insertAtSeconds,
-		durationInSeconds: durationInSeconds
+		durationInSeconds,
+		durationInBeats
 	})
 	insert( insertAtSeconds, 0, function(){ Mode.switchTo( 'noitisnt' )})
 	noitisnt( insertAtSeconds, durationInBeats )
@@ -221,18 +223,25 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Time range  2:36 – 3:05
 
 	pushOutOn()
-	tiltCompleteOn()
 	
-	insertRiff( comp.findLastBeat() + comp.beatsPerSecond * 0.5, 12 )
+	insertAtSeconds = comp.findLastBeat() + comp.beatsPerSecond * 0.5
+	insertRiff( insertAtSeconds, 12 )
+	Object.assign( Mode.all.dimmerOn, {
+
+		timeStart: insertAtSeconds,
+		durationInSeconds: comp.beatsPerSecond * 6
+	})
+	insert( insertAtSeconds, 0, function(){ Mode.switchTo( 'dimmerOn' )})
 	appendType( 6.5, `you cannot kick-start a dead horse` )//  NOTE: Begins 0.5 beats sooner so we add 0.5 beats here. And lowercase Y so less distraction.
 	append(     1.0   )
+	// dimmerOn()
 	appendType( 4.5, `You just cross yourself and walk away` )
 	append(     0.5   )
 	appendRiff( 4.0, 'bump-bump' )
 	
 	pushOutOn()
-	tiltCompleteOn()
-
+	tiltedOn()
+	
 	insertRiff( comp.findLastBeat(), 12 )
 	appendType( 6.0, `I don't care what the future holds` )
 	append(     1.0   )
@@ -241,6 +250,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	appendRiff( 3.0, 'bump-bump' )
 	
 	appendType( 3.0, `With your fingers you can touch` )
+	// dimmerOff()
 
 
 	//  For the rolliing wave to hit its peak at the correct moment
@@ -250,6 +260,7 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Therefore we need to insert this execution
 	//  a few beats PRIOR to where append’s cursor currently sits.
 
+	tiltedOn()
 	insertAtSeconds = comp.findLastBeat() - comp.beatsPerSecond * 6
 	Object.assign( Mode.all.me, {
 
@@ -280,6 +291,8 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	// We are black swans, black swans
 	// And for spare parts, we're broken up
 
+	tiltedOn()
+
 	capslockOn()
 	appendRiffedUp( 'blackswan', 'riff bump-bump' )
 	capslockOff()
@@ -299,11 +312,15 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Beat range  349 – 380
 	//  Time range  3:24 – 3:44
 
+	tiltedOn()
+
 	capslockOn()
 	appendRiffedUp( 'blackswans', 'riff bump-bump' )
 	capslockOff()
 	appendRiff( 8, 'bump-bump dead-or-alive' )
-	
+
+	tiltedOn()
+
 	capslockOn()
 	appendRiffedUp( 'spareparts', 'riff bump-bump' )
 	capslockOff()
@@ -318,15 +335,33 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  Beat range  349 – 380
 	//  Time range  3:44 – 4:03
 
+
+	//  Ok, here’s the deal: 
+	//  I thought it would be BEAUTIFUL
+	//  to glide along the surface of these keyboards
+	//  as the keys push up from the surface
+	//  but it turns out all those CSS tweens 
+	//  are just WAY TOO MUCH for even my GPU.
+	//  F’ing seriously.
+	//  So instead we need to disable “push-out”.
+	//  I know. So very sad. 
+	//  Maybe some day in the future browsers
+	//  and GPUs will be in a place this can run smoothly.
+
+	pushOutOff()
+	tiltedOn()
+
 	insertAtSeconds = comp.findLastBeat()
 	Object.assign( Mode.all.popcorn, {
 
 		timeStart: insertAtSeconds,
-		durationInSeconds: comp.beatsPerSecond * 32
+		durationInBeats: 108,
+		durationInSeconds: comp.beatsPerSecond * 108//  Instead of 32, carry it to the end!
 	})
 	insert( insertAtSeconds, 0, function(){ Mode.switchTo( 'popcorn' )})
 
 
+	insertStreamFun( 232 )
 
 
 
@@ -343,6 +378,7 @@ rotate into a surfboard. ripple it while popcorning?
 
 
 	appendRiff( 32 )
+	// appendRiff( 8 )
 
 
 
@@ -397,7 +433,7 @@ rotate into a surfboard. ripple it while popcorning?
 
 	//  EXIT
 
-	//  Duration    ?? beats
+	//  Duration    ?? beats  round to 12 beats? (15.5 by the math)
 	//  Beat range  445 – ?
 	//  Time range  4:40 – 4:49
 
@@ -407,14 +443,6 @@ rotate into a surfboard. ripple it while popcorning?
 
 
 
-
-
-
-	//  we can do grid stuff. big pixel type?
-
-	//		####  #  #   ###  #  #  ####  ###    #  #  ###
-	//		###   #  #  #     ###   ###   #  #   #  #  ###
-	//		#      ##    ###  #  #  ####  ###     ##   #
 
 
 
@@ -446,6 +474,14 @@ rotate into a surfboard. ripple it while popcorning?
 	ekg( 1 )
 	append( 1 )
 	ekg( 1 )
+
+
+
+	//  we can do grid stuff. big pixel type?
+
+	//		####  #  #   ###  #  #  ####  ###    #  #  ###
+	//		###   #  #  #     ###   ###   #  #   #  #  ###
+	//		#      ##    ###  #  #  ####  ###     ##   #
 
 
 

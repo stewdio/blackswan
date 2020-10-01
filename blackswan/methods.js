@@ -15,47 +15,75 @@
 
 function reset(){
 
-	Array
-	.from( document.querySelectorAll( '.keyboard' ))
-	.forEach( function( keyboard ){
-	
-		keyboard.statesReset()
-		keyboard.classList.remove( 
+	document
+	.querySelector( 'main' )
+	.classList
+	.remove( 
 
-			'capslock',
-			'long-sustain',
-			'push-out',
-			'push-in',
-			'tilt-complete'
-		)
-	})
+		'tilted',
+		'spin'
+	)
 
-	Array
-	.from( document.querySelectorAll( '.key' ))
-	.forEach( function( key ){
+	forEachElement( 
 
-		key.locksReset()
-		key.classList.remove( 
-		
-			'engage', 
-			'disengaging',
-			'happening',
-			'blindspot',
-			'not-obvious',
+		'.keyboards-rotator, .keyboards-translator',
+		resetElement
+	)
 
-			'black', 
-			'wtf',
-			'blank'//  A clone for “dead” but intended to be added / removed at random.
-		)
-		// key.style.transform  = 'none'
-		//key.style.visibility = 'visible'
-		key.style.visibility = ''
-	})
+	forEachElement( 
 
+		'.keyboard', 
+		function( el ){
 
+			el.statesReset()
+			el.classList.remove( 
+
+				'capslock',
+				'long-sustain',
+				'push-out',
+				'push-in',
+				'tilt-complete'
+			)
+			resetElement( el )
+		}
+	)
+	forEachElement( 
+
+		'.key', 
+		function( el ){
+
+			el.locksReset()
+			el.classList.remove( 
+			
+				'engage', 
+				'disengaging',
+				'happening',
+				'blindspot',
+				'not-obvious',
+
+				'black', 
+				'wtf',
+				'blank'//  A clone for “dead” but intended to be added / removed at random.
+			)
+			resetElement( el )
+		}
+	)
 	Mode.switchTo( 'idle' )
+	
+
 
 	tasks.updates.remove( ripple )
+}
+function resetElement( el ){
+			
+	el.style.transition = 'none'
+	el.style.animation = 'none'
+	setTimeout( function(){
+
+		el.removeAttribute( 'style' )				
+		el.style.removeProperty( 'transition' )
+		// visibility?
+	})
 }
 function boot(){
 
@@ -114,13 +142,39 @@ function pushOutOff(){
 
 	changeKeyboardState( 'push-out', 'remove', 'Push-out OFF.' )
 }
-function tiltCompleteOn(){
+function dimmerOn(){
 
-	changeKeyboardState( 'tilt-complete', 'add', 'Tilt-complete ON.' )
+	append( 0, function(){
+
+		document
+		.getElementById( 'fullscreen-container' )
+		.classList
+		.add( 'dim' )
+	})
 }
-function tiltCompleteOff(){
+function dimmerOff(){
 
-	changeKeyboardState( 'tilt-complete', 'remove', 'Tilt-complete OFF.' )
+	append( 0, function(){
+		
+		document
+		.getElementById( 'fullscreen-container' )
+		.classList
+		.remove( 'dim' )
+	})
+}
+function tiltedOn(){
+
+	document
+	.querySelector( 'main' )
+	.classList
+	.add( 'tilted' )
+}
+function tiltedOff(){
+
+	document
+	.querySelector( 'main' )
+	.classList
+	.remove( 'tilted' )
 }
 
 
@@ -203,6 +257,35 @@ insertRiffBumpBump = function( timeStart ){
 		timeCursor += item[ 0 ] * comp.beatsPerSecond
 	})
 },
+// insertRiffDim = function( timeStart ){
+
+// 	const el = document.getElementById( 'fullscreen-container' )
+// 	console.log( ' dim it at ', timeStart )
+// 	insert(
+		
+// 		timeStart, 
+// 		0,
+// 		function(){
+
+// 			console.log( 'dim??' )
+// 			//el.style.backgroundColor = 'black'
+// 			el.classList.add( 'dim' )
+// 		},
+// 		'Dim Dim'
+// 	)
+// 	insert(
+		
+// 		timeStart + comp.beatsPerSecond * 2, 
+// 		0,
+// 		function(){
+
+// 			console.log( 'dim OFF' )
+// 			// el.style.backgroundColor = ''
+// 			el.classList.remove( 'dim' )
+// 		},
+// 		'Dim Dim'
+// 	)
+// },
 insertRiffDeadOrAlive = function( timeStart ){
 
 	let timeCursor = timeStart
@@ -221,6 +304,7 @@ insertRiffDeadOrAlive = function( timeStart ){
 insertRiffOptions = function( timeStart, options ){
 
 	if( options.includes( 'bump-bump' )) insertRiffBumpBump( timeStart )
+	if( options.includes( 'dim' )) insertRiffDim( timeStart )
 	if( options.includes( 'dead-or-alive' )) insertRiffDeadOrAlive( timeStart )
 },
 insertRiff = function( timeStart, durationInBeats, options ){
@@ -404,14 +488,18 @@ function train( durationInBeats, debug ){
 
 	const 
 	timeStart = comp.findLastBeat(),
-	action = function( timeMark ){
+	action = function( timeMark, durationInBeatsPerCharacter ){
 
+		if( typeof durationInBeatsPerCharacter !== 'number' ){
+
+			durationInBeatsPerCharacter = 1/16
+		}
 		return function( name, i ){
 
 			if( name.length === 1 ) name = name.toUpperCase()
 			insert( 
 				
-				timeMark + 1/16 * comp.beatsPerSecond * i,
+				timeMark + durationInBeatsPerCharacter * comp.beatsPerSecond * i,
 				0,
 				function(){ 
 
@@ -422,7 +510,7 @@ function train( durationInBeats, debug ){
 			)
 			insert(
 
-				timeMark + 1/16 * comp.beatsPerSecond * ( i + 10 ),
+				timeMark + durationInBeatsPerCharacter * comp.beatsPerSecond * ( i + 8 ),
 				0,
 				function(){ keyDisengage( name )},
 				'Traaaaiiiin OFF: '+ name
@@ -430,9 +518,28 @@ function train( durationInBeats, debug ){
 			return name
 		}
 	},
-	delayBetween = comp.beatsPerSecond *  3/4
+	beat = comp.beatsPerSecond
 
 	changeKeyboardState( 'long-sustain', 'add' )
+	
+
+	insertType( timeStart, beat / 8, 'tr' )
+
+
+	'567890'
+	.split( '' )
+	.concat( 
+	
+		'minus',
+		'equal',
+		'delete'
+	)
+	.map( action( timeStart + beat * 0.50 ))
+	
+	.map( action( timeStart + beat * 1.50 ))
+	.map( action( timeStart + beat * 2.50 ))
+	.map( action( timeStart + beat * 3.50, 1/32 ))
+
 
 	'tyuiop'
 	.split( '' )
@@ -442,9 +549,14 @@ function train( durationInBeats, debug ){
 		'bracket-close',
 		'slash-backward'
 	)
-	.map( action( timeStart ))
-	.map( action( timeStart + delayBetween * 2.5 ))
-	.map( action( timeStart + delayBetween * 5 ))
+	.map( action( timeStart + beat * 0.25 ))
+	
+	.map( action( timeStart + beat * 1.00 ))
+	.map( action( timeStart + beat * 2.00 ))
+	.map( action( timeStart + beat * 3.00 ))
+
+	.map( action( timeStart + beat * 4.00, 1/32 ))
+
 
 	'asdfghjkl'
 	.split( '' )
@@ -454,8 +566,9 @@ function train( durationInBeats, debug ){
 		'quote',
 		'return'
 	)
-	.map( action( timeStart + delayBetween * 1 ))
-	.map( action( timeStart + delayBetween * 4 ))
+	.map( action( timeStart ))
+	.map( action( timeStart + beat * 4.50, 1/32 ))
+
 
 	'nm'
 	.split( '' )
@@ -466,9 +579,8 @@ function train( durationInBeats, debug ){
 		'slash-forward',
 		'shift-right'
 	)
-	.map( action( timeStart + delayBetween * 2 ))
-	.map( action( timeStart + delayBetween * 3.5 ))
-	.map( action( timeStart + delayBetween * 6 ))
+	.map( action( timeStart + beat * 5.00, 1/32 ))
+
 
 	append( durationInBeats )
 	changeKeyboardState( 'long-sustain', 'remove' )
@@ -540,7 +652,7 @@ new Mode({
 
 				tx: 0,//randomWithinRangeEitherSign( 10, 20 ),
 				ty: 0,//randomWithinRangeEitherSign( 10, 20 ),
-				tz: getRandomBetween( 300, 600 ),
+				tz: getRandomBetween( 400, 500 ),
 
 
 				//  Technically these should be normalized
@@ -549,7 +661,11 @@ new Mode({
 
 				rx: getRandomBetweenEitherSign(),
 				ry: getRandomBetweenEitherSign(),
-				rz: getRandomBetweenEitherSign()
+				rz: 0//getRandomBetweenEitherSign()
+
+				// rx: getRandomBetweenEitherSign(),
+				// ry: 10 + Math.floor( Math.random( 7 )),
+				// rz: 0
 			}
 		})
 	},
@@ -588,13 +704,13 @@ new Mode({
 				if( elapsedPercent > 0 && item.hasEngaged === false ){
 
 					item.hasEngaged = true
-					// keyEngage( item.name.toUpperCase() )
+					keyEngage( item.name.toUpperCase() )
 				}
 				// if( elapsedPercent >= 0.5 && item.hasDisengaged === false ){
 				if( elapsedPercent >= 0.9999 && item.hasDisengaged === false ){
 
 					item.hasDisengaged = true
-					// keyDisengage( item.name.toUpperCase() )
+					keyDisengage( item.name.toUpperCase() )
 				}
 				forEachElement(
 
@@ -608,6 +724,11 @@ new Mode({
 						element.style.transform = 
 							`translate3d( ${tx}px, ${ty}px, ${tz}px )`+
 							`rotate3d( ${item.rx}, ${item.ry}, ${item.rz}, ${angle}turn )`
+
+						// element.style.transform = `
+						// 	translate3d( ${ tx }px, ${ ty }px, ${ tz }px )
+						// 	rotateX( ${ item.rx * elapsedPercent * 360 }deg )
+						// 	rotateY( ${ item.ry * elapsedPercent * 360 }deg )`
 					}
 				)
 			})
@@ -845,57 +966,131 @@ function noitisnt( timeStart, durationInBeats ){
 	insertType( timeCursor, 3.00, 'What do you sing here, Thom?', true )
 	timeCursor += 2.25
 	insertType( timeCursor, 3.00, 'Now lets get back to it, eh.', true )
-	insert( 
-
-		timeStart + durationInBeats * comp.beatsPerSecond,
-		0,
-		function(){
-
-			forEachElement( 
-
-				'.keyboard', 
-				function( keyboard ){
-
-					keyboard.classList.add( 'tilt-complete' )
-				}
-			)
-		}
-	)
 }
 new Mode({
 
 	name: 'noitisnt',
 	setup: function(){
 		
-		this.move = {
+		const 
+		that = this,
+		keyboardWidth = 99,
+		beatToNorm = function( beats ){
 
-			//      n    tx  ty  tz  rx  ry
-			// from: [ 0.0,  0, 0,  0,  0,   0 ],
-			// to:   [ 1.0, -5, 5, -5, 45, -13 ]
+			return beats / that.durationInBeats
+		},
+		keyboardsTranslator  = document.querySelector( '.keyboards-translator' ),
+		keyboardsRotator     = document.querySelector( '.keyboards-rotator' ),
+		moveKeys = function(){
 
-			from: [ 0.3,  0, 0,  0,  0,    0 ],
-			to:   [ 1.0, -5, 5, -5, 45, -373 ]
+			const that = this
+			forEachElement( '.key', function( key ){
+
+				const [ tx, ty, tz ] = 'tx ty tz'
+				.split( ' ' )
+				.map( function( attribute ){
+
+					// console.log( attribute, parseFloat( key.getAttribute( attribute )) )
+					return lerp(
+
+						0, 
+						parseFloat( key.getAttribute( attribute )), 
+						that.n
+					)
+				})
+
+				const [ rx, ry, rz ] = 'rx ry rz'
+				.split( ' ' )
+				.map( function( attribute ){
+
+					return parseFloat( key.getAttribute( attribute ))
+				})
+
+				key.style.transition = 'none'
+				key.style.transform = `translate3d( 
+
+					calc( var( --size ) * ${ tx } ), 
+					calc( var( --size ) * ${ ty } ), 
+					calc( var( --size ) * ${ tz } )
+				)
+				rotate3d( ${ rx }, ${ ry }, ${ rz }, ${ that.n * 45 }deg )`
+			})
 		}
-		this.orbit = {
+			
+		keyboardsRotator.style.transform = `rotate3d( 0, 0, 0, 0turn )`
+		this.tweens = [
 
-			//       n    r
-			from: [  0.4, 10, ],
-			to:   [  1.0, 30, ]
-		}
-		this.explode = {
 
-			//      n
-			from: [ 0.10 ],
-			to:   [ 0.90 ]
-		}
-		this.cohese = {
+			//  Explode the keys out.
 
-			//      n
-			from: [ 0.90 ],
-			to:   [ 0.99 ]
-		}
-		this.keyboard = document.querySelector( '.keyboard' )
-		this.keyboard.classList.remove( 'tilt-complete' )
+			new TWEEN.Tween({ n: 0 })
+				.to({ n: 1 }, beatToNorm( 24 ))
+				.easing( TWEEN.Easing.Cubic.InOut )
+				.onUpdate( moveKeys )
+				.start( 0 ),
+
+
+			//  Translate the keyboard.
+
+			new TWEEN.Tween({ 
+
+					tx: 0,
+					ty: 0,
+					tz: 0
+				})
+				.to({ 
+
+					tx: -5,
+					ty:  5,
+					tz: -5
+
+				}, beatToNorm( that.durationInBeats - 8 ))
+				.easing( TWEEN.Easing.Cubic.InOut )
+				.onUpdate( function(){
+
+					keyboardsTranslator.style.transform = `
+						translate3d(
+							calc( var( --size ) * ${ this.tx } ), 
+							calc( var( --size ) * ${ this.ty } ), 
+							calc( var( --size ) * ${ this.tz } )
+						)`
+				})
+				.start( beatToNorm( 8 )),
+
+
+			//  Rotate the keyboard.
+
+			new TWEEN.Tween({ 
+
+					rx: 0,
+					ry: 0
+				})
+				.to({ 
+
+					rx:   45,
+					ry: -373
+
+				}, beatToNorm( that.durationInBeats - 12 ))
+				.easing( TWEEN.Easing.Cubic.InOut )
+				.onUpdate( function(){
+
+					keyboardsRotator.style.transform = `
+						rotateX( ${ this.rx }deg )
+						rotateY( ${ this.ry }deg )`
+				})
+				.start( beatToNorm( 12 )),
+
+
+			//  Contract the keys in.
+
+			new TWEEN.Tween({ n: 1 })
+				.to({ n: 0 }, beatToNorm( 1 ))
+				.easing( TWEEN.Easing.Cubic.InOut )
+				.onUpdate( moveKeys )
+				.start( beatToNorm( that.durationInBeats - 1 ))
+
+		]
+		document.querySelector( 'main' ).classList.add( 'spin' )
 	},
 	update: function(){
 		
@@ -905,93 +1100,78 @@ new Mode({
 			elapsedSeconds = comp.audio.currentTime - this.timeStart,
 			elapsedPercent = elapsedSeconds / this.durationInSeconds
 
-			const
-			n1 = easeInOutCubic( constrain( norm( elapsedPercent, this.move.from[ 0 ], this.move.to[ 0 ]))),
-			x1 = lerp( this.move.from[ 1 ], this.move.to[ 1 ], n1 ),
-			y1 = lerp( this.move.from[ 2 ], this.move.to[ 2 ], n1 ),
-			z1 = lerp( this.move.from[ 3 ], this.move.to[ 3 ], n1 ),
-			rx = lerp( this.move.from[ 4 ], this.move.to[ 4 ], n1 ),
-			ry = lerp( this.move.from[ 5 ], this.move.to[ 5 ], n1 )
+			this.tweens
+			.forEach( function( tween ){
 
-			// const
-			// n2 = constrain( norm( elapsedPercent, this.orbit.from[ 0 ], this.orbit.to[ 0 ])),
-			// radius = lerp( this.orbit.from[ 1 ], this.orbit.to[ 1 ], n2 ),
-			// x2 = Math.cos( n2 * Math.PI * 2 ) * radius,
-			// y2 = Math.sin( n2 * Math.PI * 2 ) * radius
+				tween.update( elapsedPercent )
+			})
+		}
+		if( comp.audio.currentTime >= this.timeStart + this.durationInSeconds ){
 
-			// const 
-			// mix = constrain( norm( elapsedPercent, this.orbit.from[ 0 ], this.move.to[ 0 ])),
-			// tx = lerp( x1, x2, mix ),
-			// ty = lerp( y1, y2, mix ),
-			// tz = z1
+			Mode.switchTo( 'idle' )
+		}
+	},
+	teardown: function(){
 
-			const
-			tx = x1,
-			ty = y1,
-			tz = z1
+		const 
+		that = this,
+		keyboardsTranslator  = document.querySelector( '.keyboards-translator' ),
+		keyboardsRotator     = document.querySelector( '.keyboards-rotator' )
 
-			this.keyboard.style.transition = 'none'
-			this.keyboard.style.transform = 
-				`translate3d( 
+		keyboardsTranslator.style.transition = 'none'
+		keyboardsRotator.style.transition = 'none'
+		setTimeout( function(){
 
-					calc( var( --size ) * ${ tx } ), 
-					calc( var( --size ) * ${ ty } ), 
-					calc( var( --size ) * ${ tz } )
-				)
-				rotateX( ${ rx }deg )
-				rotateY( ${ ry }deg )`
+			keyboardsTranslator.style.removeProperty( 'transform' )
+			keyboardsTranslator.style.removeProperty( 'transition' )
+
+			keyboardsRotator.style.removeProperty( 'transform' )
+			keyboardsRotator.style.removeProperty( 'transition' )
+
+			document
+			.querySelector( 'main' )
+			.classList
+			.add( 'tilted' )
+		})
+
+		forEachElement( '.key', function( key ){
+
+			key.style.transition = 'none'
+			setTimeout( function(){
+
+				key.style.removeProperty( 'transform' )
+				key.style.removeProperty( 'transition' )
+			})
+		})
+		document
+		.querySelector( 'main' )
+		.classList
+		.remove( 'spin' )
+	}
+})
+
+
+
+
+
+
+new Mode({
+
+	name: 'dimmerOn',
+	setup:  function(){
+
+		this.el = document.getElementById( 'fullscreen-container' )
+		this.el.classList.remove( 'dim' )
+	},
+	update: function(){
 		
-
-
-
-			//  Blow apart and then come back together.
+		if( comp.isPlaying ){
 
 			const
-			explodeGain = norm( elapsedPercent, this.explode.from[ 0 ], this.explode.to[ 0 ]),
-			coheseGain  = norm( elapsedPercent, this.cohese.from[ 0 ], this.cohese.to[ 0 ])
+			elapsedSeconds = comp.audio.currentTime - this.timeStart,		
+			elapsedPercent = elapsedSeconds / this.durationInSeconds
 
-			let gain = constrain( explodeGain )
-			if( coheseGain >= 0 ){
-
-				gain = 1 - constrain( coheseGain )
-			}
-			gain = easeInOutCubic( gain )
-
-			if( coheseGain <= 1 ){
-			
-				forEachElement( '.key', function( key ){
-
-					const [ tx, ty, tz ] = 'tx ty tz'
-					.split( ' ' )
-					.map( function( attribute ){
-
-						return lerp(
-
-							0, 
-							parseFloat( key.getAttribute( attribute )), 
-							gain
-						)
-					})
-
-					const [ rx, ry, rz ] = 'rx ry rz'
-					.split( ' ' )
-					.map( function( attribute ){
-
-						return parseFloat( key.getAttribute( attribute ))
-					})
-
-					// console.log( 'tx', tx, 'ty', ty, 'tz', tz )
-
-					key.style.transition = 'none'
-					key.style.transform = `translate3d( 
-
-						calc( var( --size ) * ${ tx } ), 
-						calc( var( --size ) * ${ ty } ), 
-						calc( var( --size ) * ${ tz } )
-					)
-					rotate3d( ${ rx }, ${ ry }, ${ rz }, ${ gain * 45 }deg )`
-				})
-			}
+			// this.el.style.backgroundColor = `hsl( 0, 90%, ${ 40 - elapsedPercent * 30 }% )`
 		}
 		if( comp.audio.currentTime >= this.timeStart + this.durationInSeconds ){
 
@@ -1000,30 +1180,10 @@ new Mode({
 	},
 	teardown: function(){
 	
-
-		console.log( 'ENDED!' )
-
-		const that = this
-		this.keyboard.style.transition = 'none'
-		setTimeout( function(){
-
-			that.keyboard.style.transform  = ''
-			that.keyboard.style.transition = ''
-		})
-
-		forEachElement( '.key', function( key ){
-
-			key.style.transition = 'none'
-			setTimeout( function(){
-
-				key.style.transform  = ''
-				key.style.transition = ''
-			})
-		})
+		this.el.style.backgroundColor = ''
+		// this.el.classList.add( 'dim' )
 	}
 })
-
-
 
 
 
@@ -1034,9 +1194,11 @@ new Mode({
 new Mode({
 
 	name: 'me',
-	timeStart: 0,
-	durationInSeconds: 0,
-	setup:  function(){},
+	setup:  function(){
+
+		this.el = document.getElementById( 'fullscreen-container' )
+		this.el.classList.remove( 'dim' )
+	},
 	update: function(){
 		
 		if( comp.isPlaying ){
@@ -1045,8 +1207,10 @@ new Mode({
 			elapsedSeconds = comp.audio.currentTime - this.timeStart,
 			elapsedPercent = elapsedSeconds / this.durationInSeconds,
 			elapsedX3 = elapsedPercent * 3 - 1,
-			gaus = createGaussianFunction( elapsedX3, 0.1, 1 )
+			gaus = createGaussianFunction( elapsedX3, 0.1, 1 ),
+			lightnessGain = constrain( norm( elapsedPercent, 0.2, 0.4 ), 0, 1 )
 
+			// this.el.style.backgroundColor = `hsl( 0, 90%, ${ 10 + lightnessGain * 30 }% )`
 			forEachElement( '.key', function( key, i ){
 
 				const 
@@ -1072,6 +1236,7 @@ new Mode({
 	},
 	teardown: function(){
 	
+		this.el.style.backgroundColor = ''
 		forEachElement( '.key', function( key ){
 
 			key.style.transition = 'none'
@@ -1095,18 +1260,40 @@ new Mode({
 	name: 'popcorn',
 	setup:  function(){
 
-		const that = this
-		this.keyboards = [ 
+		// console.log('~~~~~~~~~~ POPCORN TIME')
 
-			document.querySelector( '.keyboard' )
-		]
+		const 
+		that = this,
+		beatToNorm = function( beats ){
 
+			return beats / that.durationInBeats
+		},
+		keyboardsTranslator = document.querySelector( '.keyboards-translator' ),
+		keyboardsRotator    = document.querySelector( '.keyboards-rotator' ),
+		keyboard = document.querySelector( '.keyboard' ),
+		keyboardWidth = 99//  `calc( var( --size ) * ${ keyboardWidth })`
+		// initialTranslation = getCssTranslation( keyboardsTranslator )
+
+		let
+		translation = getCssTranslation( keyboardsTranslator )
+
+		// let
+		// sharedX = initialTranslation.x,
+		// sharedY = initialTranslation.y,
+		// sharedZ = initialTranslation.z
+
+		// console.log( sharedX, sharedY, sharedZ )
+
+
+		//  Now we can zero out the translation on our original keyboard
+		//  and further prep for running in a series.
 		//  Remove our “tilt-complete” CSS class
 		//  as we’re about to move things manually.
 
-		this.keyboards[ 0 ].classList.remove( 'tilt-complete' )
-		this.keyboards[ 0 ].classList.add( 'push-out' )
-		this.keyboards[ 0 ].isOriginal = true
+		// tiltedOff()
+		keyboard.classList.add( 'popcorn' )
+		keyboard.isOriginal = true
+		this.keyboards = [ keyboard ]
 
 
 		//  Create our clone keyboard.
@@ -1116,34 +1303,54 @@ new Mode({
 		
 		for( let i = 0; i < 2; i ++ ){
 
-			const clone = this.keyboards[ 0 ].cloneNode( true )
-			clone.style.left = `calc( var( --size ) * ${ 99 * ( i + 1 )} )`
-			clone.style.opacity = 0
+			const clone = keyboard.cloneNode( true )
 			clone.isClone = true
 			appendKeyAbilitiesToAllKeys( clone )
 			appendKeyboardAbilitiesTo( clone )
-			this.keyboards[ 0 ].parentNode.appendChild( clone )
+			keyboard.parentNode.appendChild( clone )
+			clone.style.opacity = 0
+			setTimeout( function(){
+
+				clone.style.transform = `translate3d( calc( var( --size ) * ${ keyboardWidth * ( i + 1 )} ), 0, 0 )`
+			})
 			this.keyboards.push( clone )
 		}
 
 
+		function keyboardGlide(){
 
-		const 
-		keyboardsTranslation = document.querySelector( '.keyboards-translation' ),
-		keyboardsRotation = document.querySelector( '.keyboards-rotation' )
-		
-		keyboardsTranslation.style.transform = `
-			translate3d(
-		 		calc( var( --size ) * ${ -5 } ), 
-		 		calc( var( --size ) * ${  5 } ), 
-		 		calc( var( --size ) * ${ -5 } )
-		 	)`
+			translation = getCssTranslation( keyboardsTranslator )
+			keyboardsTranslator.style.transform = `
+				translate3d( 
+					calc( var( --size ) * ${ this.tx } ),
+					${ translation.y }px,
+					${ translation.z }px
+				)`
+			translation = getCssTranslation( keyboardsTranslator )
 
+
+			if( this.tx + that.keyboardOffsets * keyboardWidth < keyboardWidth * -1.5 ){
+
+				that.keyboardOffsets ++
+				forEachElement( '.keyboard', function( keyboard ){
+
+					keyboard.classList.remove( 'fade-in')
+				})
+				that.keyboards[ 0 ].style.transform = `
+					translate3d( calc( var( --size ) * ${( that.keyboardOffsets + 2 ) * keyboardWidth } ), 0, 0 )`
+				that.keyboards[ 0 ].classList.add( 'fade-in' )
+				that.keyboards.push( that.keyboards.shift())
+			}
+		}
+		function beatToDistance( beats ){
+
+			return beats * 10
+		}
 
 
 		//  Setup our tweens.
 
-		this.offset = 0
+		this.keyboardOffsets = 0
 		this.tweens = [
 
 
@@ -1161,78 +1368,103 @@ new Mode({
 					ry:   0,
 					rz: -90
 
-				}, 0.5 )
+				}, beatToNorm( 16 ))
 				.easing( TWEEN.Easing.Cubic.InOut )
 				.onUpdate( function(){
 
-					keyboardsRotation.style.transform = `
+					keyboardsRotator.style.transform = `
 						rotateX( ${ this.rx }deg )
 						rotateY( ${ this.ry }deg )
 						rotateZ( ${ this.rz }deg )`
 				})
-				.start( 0 ),
+				.start( beatToNorm( 0 )),
 
 
-			//  Push keyboards forward.
+			//  Raise up the camera high.
 
-			new TWEEN.Tween({ 
-
-					tx:  -5,
-					ty:   5,
-					tz:  -5
-				})
-				.to({ 
-
-					tx:  0,//10,
-					ty:  0,//50,
-					tz: 600
-
-				}, 0.8 )
+			new TWEEN.Tween({ tz: -5 })
+				.to({ tz: -50 }, beatToNorm( 8 ))
 				.easing( TWEEN.Easing.Cubic.InOut )
 				.onUpdate( function(){
 
-					// console.log( 'z:', this.tz, '  offset:', that.offset )
-					if( this.tz - that.offset > 99 ){
-
-						that.offset += 99
-
-						const translation = getCssTranslation( keyboardsTranslation )
-
-
-						console.log( 'bumped offset up!!!!!!!!!', translation )
-						
-						
-
-						that.keyboards.push( that.keyboards.shift())
-						that.keyboards
-						.forEach( function( keyboard ){
-
-							keyboard.style.transform = `
-								translate3d( calc( var( --size ) * ${ -this.offset * 3 } ), 0, 0 )`
-						})
-					}
-					keyboardsTranslation.style.transform = `
+					translation = getCssTranslation( keyboardsTranslator )
+					keyboardsTranslator.style.transform = `
 						translate3d( 
-
-					 		calc( var( --size ) * ${ this.tx } ), 
-					 		calc( var( --size ) * ${ this.ty } ), 
+					 		${ translation.x }px,
+					 		${ translation.y }px,
 					 		calc( var( --size ) * ${ this.tz } )
 					 	)`
+					 translation = getCssTranslation( keyboardsTranslator )
 				})
-				.start( 0.2 ),
+				.start( beatToNorm( 0 )),
 
 
 			//  Fade in our keyboard clones.
 
 			new TWEEN.Tween({ opacity: 0 })
-				.to({ opacity: 1 }, 0.1 )
+				.to({ opacity: 1 }, beatToNorm( 6 ))
+				.easing( TWEEN.Easing.Cubic.In )
 				.onUpdate( function(){
 
 					that.keyboards[ 1 ].style.opacity = this.opacity
+				})
+				.start( beatToNorm( 6 )),
+			
+			new TWEEN.Tween({ opacity: 0 })
+				.to({ opacity: 1 }, beatToNorm( 6 ))
+				.easing( TWEEN.Easing.Cubic.In )
+				.onUpdate( function(){
+
 					that.keyboards[ 2 ].style.opacity = this.opacity
 				})
-				.start( 0 )
+				.start( beatToNorm( 8 )),
 
+
+			//  Now pull the camera down close to the keyboards.
+
+			new TWEEN.Tween({ tz: -50 })
+				.to({ tz: 1 }, beatToNorm( 4 ))
+				.easing( TWEEN.Easing.Cubic.InOut )
+				.onUpdate( function(){
+
+					translation = getCssTranslation( keyboardsTranslator )
+					keyboardsTranslator.style.transform = `
+						translate3d( 
+					 		${ translation.x }px,
+					 		${ translation.y }px,
+					 		calc( var( --size ) * ${ this.tz } )
+					 	)`
+					 translation = getCssTranslation( keyboardsTranslator )
+				})
+				.start( beatToNorm( 12 )),
+
+
+
+
+			//  Ramp UP keyboard glide.
+
+			new TWEEN.Tween({ tx: -5 })
+				.to({ tx: -5 - beatToDistance( 16 )}, beatToNorm( 16 ))
+				.easing( TWEEN.Easing.Cubic.In )
+				.onUpdate( keyboardGlide )
+				.start( beatToNorm( 10 )),
+
+
+			//  Steady keyboard glide.
+
+			new TWEEN.Tween({ tx: -5 - beatToDistance( 16 + 64 )})
+				.to({ tx: -5 - beatToDistance( 16 + 64 )}, beatToNorm( 64 ))
+				.onUpdate( keyboardGlide )
+				.start( beatToNorm( 26 )),
+
+
+			//  Ramp DOWN keyboard glide.
+
+			new TWEEN.Tween({ tx: -5 - beatToDistance( 16 + 64 + 16 )})
+				.to({ tx: -5 - beatToDistance( 16 + 64 + 16 )}, beatToNorm( 16 ))
+				.easing( TWEEN.Easing.Cubic.Out )
+				.onUpdate( keyboardGlide )
+				.start( beatToNorm( 90 ))
 
 		]
 	},
@@ -1249,39 +1481,6 @@ new Mode({
 
 				tween.update( elapsedPercent )
 			})
-
-
-			const rect = this.keyboards[ 0 ].getBoundingClientRect()
-			// console.log( 'left edge?', Math.round( rect.left ))
-			// if( rect.left < -1000 ){
-
-				// this.offset += 99
-			// }
- 
-
-
-
- // https://zellwk.com/blog/css-translate-values-in-javascript/
-
-			const style  = window.getComputedStyle( this.keyboards[ 1 ])
-			const matrix = style.transform
-			
-			//const matrixValues = matrix.match(/matrix.*\((.+)\)/)[1].split(', ')
-			// console.log( 'matrix', matrix )
-
-
-			/*
-
-
-			if any keyboard is “too close”
-			then we need to fade it out
-			once opacity = 0%, move it “to the right” by 99*size
-			then face opacity back up to 100%
-
-
-
-
-			*/
 		}
 		if( comp.audio.currentTime >= this.timeStart + this.durationInSeconds ){
 
@@ -1292,9 +1491,17 @@ new Mode({
 	
 		const that = this
 
+		// console.log(
+
+		// 	'\n\n\n   TURNING OFF “POPCORN”',
+		// 	'\nthis.keyboards[ 0 ].styletransform', this.keyboards[ 0 ].style.transform,
+		// 	'\n'
+		// )
+
 		const 
-		keyboardsTranslation = document.querySelector( '.keyboards-translation' ),
-		keyboardsRotation = document.querySelector( '.keyboards-rotation' )
+		keyboardsTranslator = document.querySelector( '.keyboards-translator' ),
+		keyboardsRotator = document.querySelector( '.keyboards-rotator' ),
+		keyboard = this.keyboards[ 0 ]
 
 		this.tweens
 		.forEach( TWEEN.remove )
@@ -1307,15 +1514,35 @@ new Mode({
 		}
 
 
-		keyboardsTranslation.style.transform = ''
-		keyboardsRotation.style.transform = ''
+		keyboardsTranslator.style.transition = 'none'
+		keyboardsRotator.style.transition = 'none'
+		keyboard.style.transition = 'none'
+		keyboard.classList.remove( 
 
-		this.keyboards[ 0 ].transition = 'none'
-		this.keyboards[ 0 ].transform = ''
+			'popcorn',
+			'tilt-complete',
+			'fade-in'
+		)
 		setTimeout( function(){
 
-			that.keyboards[ 0 ].style.transition = ''
+			keyboardsTranslator.style.removeProperty( 'transform' )
+			keyboardsTranslator.style.removeProperty( 'transition' )
+
+			keyboardsRotator.style.removeProperty( 'transform' )
+			keyboardsRotator.style.removeProperty( 'transition' )
+
+			keyboard.style.removeProperty( 'transform' )
+			keyboard.style.removeProperty( 'transition' )
 		})
+	
+		console.log(
+
+			'\n\n\n   IS OFF NOW --- OFF “POPCORN”',
+			'\nthis.keyboards[ 0 ].styletransform', this.keyboards[ 0 ].style.transform,
+			'\n'
+		)
+
+
 	}
 })
 
@@ -1323,7 +1550,298 @@ new Mode({
 
 
 
+function insertRowStream( timeStart, keyboard, rowIndex, engageDelay ){
 
+	let timeCursor = timeStart
+	if( keyboard instanceof HTMLElement !== true ){
+
+		keyboard = document.querySelector( '.keyboard' )
+	}
+	if( typeof rowIndex !== 'number' ) rowIndex = 1
+	if( typeof engageDelay !== 'number' ) engageDelay = 0.01
+
+	Array
+	.from( 
+
+		keyboard
+		.querySelectorAll( `.key[y='${ rowIndex }']` )
+	)
+	.forEach( function( key, i ){
+
+		timeCursor += i * engageDelay
+		insert(
+
+			timeCursor,
+			0,
+			function(){
+
+				key.engage()
+			}
+		)
+		insert(
+
+			timeCursor + 1,
+			0,
+			function(){
+
+				key.disengage()
+			}
+		)
+	})
+	return timeCursor
+}
+function insertRowStreamAllKeyboards( timeStart, rowIndex ){
+
+	let timeCursor = timeStart
+	Array
+	.from(
+
+		document
+		.querySelectorAll( `.keyboard` )
+	)
+	.sort( function( a, b ){
+
+		// console.log( getCssTranslation( a ).x, getCssTranslation( b ).x )
+		return (
+
+			getCssTranslation( a ).x - getCssTranslation( b ).x
+		)
+	})
+	.forEach( function( keyboard, i ){
+
+		// console.log( keyboard, i )
+		timeCursor = insertRowStream( timeCursor, keyboard, rowIndex )
+	})
+}
+function insertStreamFun( timeStart ){
+
+	insert( 
+
+		timeStart,
+		0,
+		function(){
+
+			for( let i = 0; i < 5; i ++ ){
+
+				insertRowStreamAllKeyboards( 
+
+					timeStart + i * 1,
+					i
+				)
+			}
+		}
+	)
+}
+
+
+
+
+const glyphs = {
+
+' ':`
+
+
+
+
+
+`,
+
+A:`
+███
+█ █
+█ █
+███
+█ █
+`,
+
+B:`
+███
+█ █
+██ 
+█ █
+███
+`,
+
+C:
+`
+███
+█
+█
+█
+ ██
+`,
+
+D:`
+██ 
+█ █
+█ █
+█ █
+██ 
+`,
+
+E:`
+███
+█
+███
+█
+███
+`,
+
+F:`
+███
+█
+█
+███
+█
+`,
+
+K:
+`
+█ █
+█ █
+██
+█ █
+█ █
+`,
+
+L:`
+█
+█
+█
+█
+███
+`,
+
+N:`
+██ 
+█ █
+█ █
+█ █
+█ █
+`,
+
+P:`
+███
+█ █
+█ █
+███
+█
+`,
+
+S:`
+███
+█  
+███
+  █
+███
+`,
+
+U:
+`
+█ █
+█ █
+█ █
+█ █
+ ██
+`,
+
+W:`
+██
+  █
+ █ 
+  █
+██
+`,//  yikes. W is the W-orst.
+
+W3:`
+ ██
+█  
+ █ 
+█  
+ ██
+`,//  yikes. W is the W-orst.
+
+W2:`
+█ █
+███
+███
+█ █
+█ █
+`//  yikes. W is the W-orst.
+
+
+}
+
+function composeStringOfGlyphs( text ){
+
+	return (
+
+		text
+		.split( '' )
+		.reduce( function( lines, character ){
+
+			glyphs[ character.toUpperCase() ]
+			.split( '\n' )
+			.forEach( function( c, i ){
+
+				lines[ i ] += c.padEnd( 4 )
+			})
+			return lines
+		
+		}, new Array( 7 ).fill( '' ))
+		.join( '\n' )
+	)
+}
+
+console.log( 
+
+	'\n\n\n',
+	 composeStringOfGlyphs( 'BLACK SWAN' ),
+	'\n\nThursday, 01 October 2020.',
+	'\n\nLive: https://stewartsmith.io/blackswan',
+	'\nRepo: https://github.com/stewdio/blackswan',
+	'\n\n\n\n\n'
+)
+
+
+
+function drawGlyph( glyph, params ){
+
+	if( params === undefined ) params = {}
+	if( params.rootElement === undefined ) params.rootElement = document.body
+	if( typeof params.offset !== 'number' ) params.offset = 7
+	if( typeof params.shouldErase !== 'boolean' ) params.shouldErase = !!params.shouldErase
+
+	glyph
+	.substring( 1, glyph.length - 1 )
+	.split( '\n' )
+	.forEach( function( row, r ){
+
+		row
+		.split( '' )
+		.forEach( function( column, c ){
+
+			const
+			x = params.offset - r,
+			y = c
+
+			console.log( `[x='${ x }'][y='${ y }']` )
+			if( column === '█' ){
+				
+				forEachElement( 
+
+					params.rootElement,
+					`[x='${ x }'][y='${ y }']`,
+					function( key ){
+
+						if( params.shouldErase ) key.disengage( 'drawGlyph' )
+						else key.engage( 'drawGlyph' )
+					}
+				)
+			}
+		})
+	})
+}
 
 
 

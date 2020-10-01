@@ -6,8 +6,9 @@
 
 let 
 verbosity = 0,//0.5
-timeAsTextPrevious = '',
-userHasInteracted  = false
+timeAsTextPrevious  = '',
+userHasInteracted   = false,
+hasLoadedEntireSong = false
 
 
 
@@ -63,6 +64,7 @@ forEachElement = function( a, b, c ){
 
 		console.error( `Stop makng sense.` )
 	}
+
 	Array
 	.from( rootElement.querySelectorAll( cssQuery ))
 	.forEach( action )
@@ -440,10 +442,38 @@ const comp = Object.assign( [], {
 
 //  Comp audio-specific.
 
-comp.audio.pause()
+// comp.audio.pause()
+// audioElement.addEventListener('loadeddata', () => {
+//   let duration = audioElement.duration;
+//   // The duration variable now holds the duration (in seconds) of the audio clip 
+// })
+
+comp.audio.addEventListener( 
+
+	'loadeddata',
+	 function( event ){
+
+	 	// console.log( 'buffered', comp.audio.buffered )
+	 	const b = comp.audio.buffered
+	 	if( b.length === 1 ){
+		
+			// only one range?! so it’s all or nothing.
+
+			if( b.start( 0 ) === 0 && 
+				b.end( 0 ) === comp.audio.duration ){
+				
+				// The one range starts at the beginning and ends at
+				// the end of the video, so the whole thing is loaded
+
+				// console.log( 'ENTIRE THING IS LOADED!' )
+				hasLoadedEntireSong = true
+			}
+		}
+	}
+)
 comp.audio.addEventListener( 'canplaythrough', function( event ){
 
-	console.log( '\n\n\nCAN PLAY THROUGH', event )
+	// console.log( '\n\n\nCAN PLAY THROUGH', event )
 
 
 	//  Why would we need this next line of code?!
@@ -753,6 +783,8 @@ mouseShouldHideAfterSeconds = 2
 
 function render(){
 
+	if( window.stats !== undefined ) stats.update()
+
 	const
 	time = comp.audio.currentTime,
 	timeAsText = timeToText( time )
@@ -975,6 +1007,7 @@ appendKeyAbilitiesTo = function( keyElement ){
 
 					this.keyboard.classList.add( keyboardTagName )
 					this.keyboard.stateAdd( keyboardTagName, requestor )
+					comp.log( `<${ keyboardTagName.toUpperCase() }>` )
 				}
 /*
 
@@ -1187,7 +1220,7 @@ appendKeyboardAbilitiesTo = function( keyboardElement ){
 				keyboardElement.classList.remove( stateName )
 				if( stateName === 'option' ){
 
-					console.log( ' THIS IS WHERE I SHOULD DO option-lag')
+					//console.log( ' THIS IS WHERE I SHOULD DO option-lag')
 					// for each option-able key
 					// listen for animation end?
 					//  then remove
@@ -1418,13 +1451,17 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	},
 	seekByGui = function( event ){
 
-		event.preventDefault()
-
-		const 
-		rectangle = timelineElement.getBoundingClientRect(),
-		x = getInteractionCoordinates( event ).x - rectangle.left
+		//if( hasLoadedEntireSong || hasLoadedThisMoment( x )){
+		if( hasLoadedEntireSong ){
 		
-		comp.seek( x / timelineElement.clientWidth * comp.audio.duration )
+			event.preventDefault()
+
+			const 
+			rectangle = timelineElement.getBoundingClientRect(),
+			x = getInteractionCoordinates( event ).x - rectangle.left
+			
+			comp.seek( x / timelineElement.clientWidth * comp.audio.duration )
+		}
 	},
 	updateSeekerFromPointer = function( event ){
 		
@@ -1554,6 +1591,20 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	//  that have been queued with tasks.setups.add( ƒ… )
 
 	tasks.setup()
+
+
+	//  Setup the Statistics measurement tool
+	//  if we’ve loaded the Stats code.
+
+	if( typeof window.Stats === 'function' ){
+
+		window.stats = new Stats()
+		stats.showPanel( 0 )//  0: fps, 1: ms, 2: mb, 3+: custom
+		
+		document
+		.querySelector( 'main' )
+		.appendChild( stats.dom )
+	}
 
 
 	//  Kick off the render loop.

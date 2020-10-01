@@ -517,8 +517,16 @@ footer {
 
 
 
+#fullscreen-container {
 
+	/*transition: background-color calc( var( --beat ) * 6 ) ease-in;*/
+}
+#fullscreen-container.dim {
 
+	/*background-color: hsl( 0, 90%, 40% );*/
+	background-color: hsl( 0, 90%, 10% );
+	/*transition: none;*/
+}
 
 
 
@@ -536,6 +544,32 @@ footer {
 	vertical-align: bottom;
 	backface-visibility: visible;
 	-webkit-backface-visibility: visible;
+}
+main.spin .keyboard-rotator,
+main.spin .keyboard-translator {
+
+	will-change: transform;
+}
+main.spin .key {
+
+	will-change: transform, background-color, color, box-shadow;
+}
+.keyboard.popcorn {
+
+	will-change: transform, opacity;
+}
+.keyboard.popcorn .keys {
+
+	will-change: transform, background-color, color, box-shadow;
+}
+.keyboard.fade-in {
+
+	animation: fade-in calc( var( --beat ) * 4 );
+}
+@keyframes fade-in {
+
+	  0% { opacity: 0; }
+	100% { opacity: 1; }
 }
 .key {
 
@@ -556,8 +590,8 @@ footer {
 	animation:  none;
 	transition: none;
 	box-shadow: 
-		0 0 calc( var( --size ) * 2 ) white,
-		0 0 calc( var( --size ) * 4 ) white;
+		0 0 calc( var( --size ) * 1 ) white,
+		0 0 calc( var( --size ) * 3 ) white;
 }
 .key.disengaging {
 
@@ -873,7 +907,9 @@ footer {
 .keyboard.long-sustain .key.disengaging {
 
 	transition: transform var( --beat-eighth ) ease-out;
+	/*transition: transform calc( var( --beat-eighth ) / 2 ) ease-out;*/
 	animation-duration: var( --beat );
+	/*animation-duration: var( --beat-eighth );*/
 }
 
 
@@ -923,7 +959,13 @@ footer {
 
 
 
-.keyboard.tilt-complete {
+main.tilted .keyboards-rotator {
+
+	transform: 
+		rotateX(  45deg )
+		rotateY( -13deg );
+}
+main.tilted .keyboards-translator {
 
 	transform: 
 		translate3d( 
@@ -931,9 +973,7 @@ footer {
 			calc( var( --size ) * -5 ), 
 			calc( var( --size ) *  5 ), 
 			calc( var( --size ) * -5 )
-		) 
-		rotateX(  45deg )
-		rotateY( -13deg );
+		);
 }
 
 

@@ -43,6 +43,8 @@ function easeOutCubic( n ){
 }
 
 
+
+
 function applyCssClass( cssQuery, className ){
 
 	Array
@@ -67,22 +69,15 @@ function getCssTranslation( element ){
 	values = matrix.match( /matrix.*\((.+)\)/ )[ 1 ].split( ', ' )
 	if( type === '2d' ) return {
 	
-		x: values[ 4 ],
-		y: values[ 5 ],
+		x: parseFloat( values[ 4 ]),
+		y: parseFloat( values[ 5 ]),
 		z: 0
 	}
 	else if( type === '3d' ) return {
 
-		x: values[ 12 ],
-		y: values[ 13 ],
-		z: values[ 14 ]
-	}
-
-	return {
-
-		x: NaN,
-		y: NaN,
-		z: NaN
+		x: parseFloat( values[ 12 ]),
+		y: parseFloat( values[ 13 ]),
+		z: parseFloat( values[ 14 ])
 	}
 }
 
