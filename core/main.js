@@ -355,7 +355,7 @@ const comp = Object.assign( [], {
 			forEachElement( '.keyboard', action )
 			forEachElement( '.key', action )
 		})
-		updateLocationHashFromTime( comp.audio.currentTime )
+		// updateLocationHashFromTime( comp.audio.currentTime )
 		return this
 	},
 
@@ -785,6 +785,17 @@ function render(){
 
 	if( window.stats !== undefined ) stats.update()
 
+
+	//  This will correspond perfectly to our CSS variable --size
+	//  which is either 1wh * 0.8 or 1vh * 0.8.
+	//  Note that the actual value can therefore change
+	//  at any moment if the window is resized by the user!
+
+	window.size = window.innerWidth / window.innerHeight < 1
+		? window.innerWidth  * 0.008
+		: window.innerHeight * 0.008
+
+
 	const
 	time = comp.audio.currentTime,
 	timeAsText = timeToText( time )
@@ -814,7 +825,7 @@ function render(){
 
 	if( timeAsText !== timeAsTextPrevious ){
 
-		if( timeAsTextPrevious !== '' && time !== 0 ) updateLocationHashFromTime()
+		// if( timeAsTextPrevious !== '' && time !== 0 ) updateLocationHashFromTime()
 		timeAsTextPrevious = timeAsText
 		progressClockElement.innerText = timeAsText
 	}

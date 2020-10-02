@@ -66,6 +66,7 @@
 body {
 	
 	--size: 8px;
+	--size: calc( 1vh * 0.8 );
 }
 /*
 @media all and ( min-aspect-ratio: 294/100 ){

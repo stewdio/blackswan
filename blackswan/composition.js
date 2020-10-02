@@ -364,7 +364,6 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	insertStreamFun( 232 )
 
 
-
 	// **** POP CORN !!!
 	//  Keys scatter and do popcorn routine!
 	//  like the keyboards lay flat and popcorn keys pop and bounce up then fall back down.
@@ -386,7 +385,7 @@ rotate into a surfboard. ripple it while popcorning?
 	//  FOURTH CHORUS
 	
 	//  Duration    32 beats
-	//  Beat range  381 – 412
+	//  Beat range  408 – 440
 	//  Time range  4:03 – 4:22
 
 
@@ -399,32 +398,93 @@ rotate into a surfboard. ripple it while popcorning?
 	//  Black swans, black swans
 	//  Spare parts, broken up
 
+
+
+
 	capslockOn()
-	appendRiffedUp( 'fuckedup', 'riff bump-bump' )
+	insert(
+
+		comp.findLastBeat() - 2 * comp.beatsPerSecond,
+		0,
+		function(){
+
+			forEachElement( 
+
+				'.keyboard', 
+				function( keyboard ){
+
+					keyboard.classList.add( 'popcorn-dead' )
+				}
+			)
+			// Mode.all.popcorn.messagesReady =[ 'FU', 'CK', 'ED', 'UP' ]
+			//Mode.all.popcorn.messagesReady =[ 'KC', 'UF', 'KC', 'UF' ]
+			Mode.all.popcorn.messagesReady =[ 'PU', 'DE', 'KC', 'UF' ]
+		},
+		'Glyphs: “FUCKEDUP”'
+	)
+	appendRiff( 8 )
 	capslockOff()
 	appendRiff( 8, 'bump-bump dead-or-alive' )
 
-	capslockOn()
-	appendRiffedUp( 'fuckedup', 'riff bump-bump' )
+	
+	capslockOn()		
+	insert(
+
+		comp.findLastBeat() - 2 * comp.beatsPerSecond,
+		0,
+		function(){
+
+			// Mode.all.popcorn.messagesReady =[ 'FU', 'CK', 'ED', 'UP' ]
+			// Mode.all.popcorn.messagesReady =[ 'KC', 'UF', 'KC', 'UF' ]
+			Mode.all.popcorn.messagesReady =[ 'PU', 'DE', 'KC', 'UF' ]
+		},
+		'Glyphs: “FUCKEDUP”'
+	)
+	appendRiff( 8 )
 	capslockOff()
 	appendRiff( 8, 'bump-bump dead-or-alive' )
-
 
 
 
 	//  FOURTH CHORUS EXTENDED
 	
 	//  Duration    32 beats
-	//  Beat range  413 – 444
+	//  Beat range  440 – 472
 	//  Time range  4:22 – 4:40
 
 	capslockOn()
-	appendRiffedUp( 'blackswans', 'riff bump-bump' )
+	insert(
+
+		comp.findLastBeat() - 2 * comp.beatsPerSecond,
+		0,
+		function(){
+
+			// Mode.all.popcorn.messagesReady =[ 'BL', 'CK', 'SW', 'NS' ]
+			// Mode.all.popcorn.messagesReady =[ 'KC', 'LB', 'SN', 'WS' ]
+			// Mode.all.popcorn.messagesReady =[ 'SN', 'WS', 'KC', 'LB' ]
+			Mode.all.popcorn.messagesReady =[ 'NA', 'WS', 'KC', 'LB' ]
+		},
+		'Glyphs: BLACKSWANS'
+	)
+	appendRiff( 8 )
 	capslockOff()
 	appendRiff( 8, 'bump-bump dead-or-alive' )
 
-	capslockOn()
-	appendRiffedUp( 'spareparts', 'riff bump-bump' )
+	capslockOn()	
+	// insert(
+
+	// 	comp.findLastBeat() - 2 * comp.beatsPerSecond,
+	// 	0,
+	// 	function(){
+
+	// 		// Mode.all.popcorn.messagesReady =[ 'SP','RE', 'PR', 'TS' ]
+	// 		// Mode.all.popcorn.messagesReady =[ 'ER','PS', 'ST', 'RP' ]
+	// 		Mode.all.popcorn.messagesReady =[ 'ST', 'RP', 'ER','PS' ]
+	// 	},
+	// 	'Glyphs: SPAREPARTS'
+	// )
+	appendType( 8, 'spare parts broken up')
+	// appendRiff( 8, 'bump-bump dead-or-alive' )
 	capslockOff()
 	appendRiff( 8, 'bump-bump dead-or-alive' )
 
@@ -437,52 +497,36 @@ rotate into a surfboard. ripple it while popcorning?
 	//  Beat range  445 – ?
 	//  Time range  4:40 – 4:49
 
-	
-
-
-
-
-
-
-
-
-
-	// blackSwanOn( 2/4 )
-	// append( 2 )
-	// append( 1/4 )
-	// blackSwanOff( 3/4 )
-	// append( 5/4 )
-	// riff( 4 )
-	// riff( 4 )
-
-
-
-	append( 32, function(){
-
-		tasks.updates.add( ripple )
-	})
 	append( 0, function(){
 
-		tasks.updates.remove( ripple )
+		forEachElement( 
+
+			'.keyboard', 
+			function( keyboard ){
+
+				keyboard.classList.remove( 'popcorn-dead' )
+			}
+		)
 	})
 
 
-	ekg( 1 )
-	append( 1 )
-	ekg( 1 )
-	append( 1 )
-	ekg( 1 )
-	append( 1 )
-	ekg( 1 )
 
 
+	// append( 32, function(){
 
-	//  we can do grid stuff. big pixel type?
+	// 	tasks.updates.add( ripple )
+	// })
+	// append( 0, function(){
 
-	//		####  #  #   ###  #  #  ####  ###    #  #  ###
-	//		###   #  #  #     ###   ###   #  #   #  #  ###
-	//		#      ##    ###  #  #  ####  ###     ##   #
-
+	// 	tasks.updates.remove( ripple )
+	// })
+	// ekg( 1 )
+	// append( 1 )
+	// ekg( 1 )
+	// append( 1 )
+	// ekg( 1 )
+	// append( 1 )
+	// ekg( 1 )
 
 
 
@@ -492,16 +536,21 @@ rotate into a surfboard. ripple it while popcorning?
 	//  This includes the piece itself
 	//  but ALSO the viewer’s participation :)
 
-	comp.audio.addEventListener( 'ended', function( event ){
+	comp.audio.addEventListener( 
 
-		console.log( 
+		'ended', 
+		 function( event ){
 
-			'\nGenerate receipt...',
-			'\n\n',
-			 comp.generateReceipt()
-		)		
-		comp.pause().seek( 0 )
-	})
+			// console.log( 
+
+			// 	'\nGenerate receipt...',
+			// 	'\n\n',
+			// 	 comp.generateReceipt()
+			// )
+			comp.generateReceipt()
+			comp.pause().seek( 0 )
+		}
+	)
 })
 
 

@@ -978,6 +978,16 @@ main.tilted .keyboards-translator {
 
 
 
+.keyboard.popcorn-dead .key.engaged {
+
+	transition: none;
+}
+.keyboard.popcorn-dead .key.disengaging {
+
+	transition: none;
+	animation:  none;
+}
+
 
 
 

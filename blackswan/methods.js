@@ -42,7 +42,9 @@ function reset(){
 				'long-sustain',
 				'push-out',
 				'push-in',
-				'tilt-complete'
+				'tilt-complete',
+				'popcorn',
+				'popcorn-dead'
 			)
 			resetElement( el )
 		}
@@ -164,17 +166,23 @@ function dimmerOff(){
 }
 function tiltedOn(){
 
-	document
-	.querySelector( 'main' )
-	.classList
-	.add( 'tilted' )
+	append( 0, function(){
+	
+		document
+		.querySelector( 'main' )
+		.classList
+		.add( 'tilted' )
+	})
 }
 function tiltedOff(){
 
-	document
-	.querySelector( 'main' )
-	.classList
-	.remove( 'tilted' )
+	append( 0, function(){
+	
+		document
+		.querySelector( 'main' )
+		.classList
+		.remove( 'tilted' )
+	})
 }
 
 
@@ -1078,6 +1086,13 @@ new Mode({
 						rotateX( ${ this.rx }deg )
 						rotateY( ${ this.ry }deg )`
 				})
+				.onComplete( function(){
+
+					document
+					.querySelector( 'main' )
+					.classList
+					.add( 'tilted' )
+				})
 				.start( beatToNorm( 12 )),
 
 
@@ -1127,11 +1142,6 @@ new Mode({
 
 			keyboardsRotator.style.removeProperty( 'transform' )
 			keyboardsRotator.style.removeProperty( 'transition' )
-
-			document
-			.querySelector( 'main' )
-			.classList
-			.add( 'tilted' )
 		})
 
 		forEachElement( '.key', function( key ){
@@ -1253,6 +1263,14 @@ new Mode({
 
 
 
+
+
+
+
+
+
+
+
 //  3:44 – 4:03
 
 new Mode({
@@ -1272,17 +1290,9 @@ new Mode({
 		keyboardsRotator    = document.querySelector( '.keyboards-rotator' ),
 		keyboard = document.querySelector( '.keyboard' ),
 		keyboardWidth = 99//  `calc( var( --size ) * ${ keyboardWidth })`
-		// initialTranslation = getCssTranslation( keyboardsTranslator )
 
 		let
 		translation = getCssTranslation( keyboardsTranslator )
-
-		// let
-		// sharedX = initialTranslation.x,
-		// sharedY = initialTranslation.y,
-		// sharedZ = initialTranslation.z
-
-		// console.log( sharedX, sharedY, sharedZ )
 
 
 		//  Now we can zero out the translation on our original keyboard
@@ -1293,6 +1303,7 @@ new Mode({
 		// tiltedOff()
 		keyboard.classList.add( 'popcorn' )
 		keyboard.isOriginal = true
+		keyboard.index = 0
 		this.keyboards = [ keyboard ]
 
 
@@ -1305,6 +1316,7 @@ new Mode({
 
 			const clone = keyboard.cloneNode( true )
 			clone.isClone = true
+			clone.index = i + 1
 			appendKeyAbilitiesToAllKeys( clone )
 			appendKeyboardAbilitiesTo( clone )
 			keyboard.parentNode.appendChild( clone )
@@ -1317,35 +1329,6 @@ new Mode({
 		}
 
 
-		function keyboardGlide(){
-
-			translation = getCssTranslation( keyboardsTranslator )
-			keyboardsTranslator.style.transform = `
-				translate3d( 
-					calc( var( --size ) * ${ this.tx } ),
-					${ translation.y }px,
-					${ translation.z }px
-				)`
-			translation = getCssTranslation( keyboardsTranslator )
-
-
-			if( this.tx + that.keyboardOffsets * keyboardWidth < keyboardWidth * -1.5 ){
-
-				that.keyboardOffsets ++
-				forEachElement( '.keyboard', function( keyboard ){
-
-					keyboard.classList.remove( 'fade-in')
-				})
-				that.keyboards[ 0 ].style.transform = `
-					translate3d( calc( var( --size ) * ${( that.keyboardOffsets + 2 ) * keyboardWidth } ), 0, 0 )`
-				that.keyboards[ 0 ].classList.add( 'fade-in' )
-				that.keyboards.push( that.keyboards.shift())
-			}
-		}
-		function beatToDistance( beats ){
-
-			return beats * 10
-		}
 
 
 		//  Setup our tweens.
@@ -1358,115 +1341,463 @@ new Mode({
 
 			new TWEEN.Tween({ 
 
-					rx:  45,
-					ry: -13,
-					rz:   0
-				})
-				.to({ 
+				rx:  45,
+				ry: -13,
+				rz:   0
+			})
+			.to({ 
 
-					rx:  80,
-					ry:   0,
-					rz: -90
+				rx:  80,
+				ry:   0,
+				rz: -90
 
-				}, beatToNorm( 16 ))
-				.easing( TWEEN.Easing.Cubic.InOut )
-				.onUpdate( function(){
+			}, beatToNorm( 16 ))
+			.easing( TWEEN.Easing.Cubic.InOut )
+			.onUpdate( function(){
 
-					keyboardsRotator.style.transform = `
-						rotateX( ${ this.rx }deg )
-						rotateY( ${ this.ry }deg )
-						rotateZ( ${ this.rz }deg )`
-				})
-				.start( beatToNorm( 0 )),
+				keyboardsRotator.style.transform = `
+					rotateX( ${ this.rx }deg )
+					rotateY( ${ this.ry }deg )
+					rotateZ( ${ this.rz }deg )`
+			})
+			.start( beatToNorm( 0 )),
 
 
 			//  Raise up the camera high.
 
 			new TWEEN.Tween({ tz: -5 })
-				.to({ tz: -50 }, beatToNorm( 8 ))
-				.easing( TWEEN.Easing.Cubic.InOut )
-				.onUpdate( function(){
+			.to({ tz: -50 }, beatToNorm( 8 ))
+			.easing( TWEEN.Easing.Cubic.InOut )
+			.onUpdate( function(){
 
-					translation = getCssTranslation( keyboardsTranslator )
-					keyboardsTranslator.style.transform = `
-						translate3d( 
-					 		${ translation.x }px,
-					 		${ translation.y }px,
-					 		calc( var( --size ) * ${ this.tz } )
-					 	)`
-					 translation = getCssTranslation( keyboardsTranslator )
-				})
-				.start( beatToNorm( 0 )),
+				translation = getCssTranslation( keyboardsTranslator )
+				keyboardsTranslator.style.transform = `
+					translate3d( 
+				 		${ translation.x }px,
+				 		${ translation.y }px,
+				 		calc( var( --size ) * ${ this.tz } )
+				 	)`
+				 translation = getCssTranslation( keyboardsTranslator )
+			})
+			.start( beatToNorm( 0 )),
 
 
 			//  Fade in our keyboard clones.
 
 			new TWEEN.Tween({ opacity: 0 })
-				.to({ opacity: 1 }, beatToNorm( 6 ))
-				.easing( TWEEN.Easing.Cubic.In )
-				.onUpdate( function(){
+			.to({ opacity: 1 }, beatToNorm( 6 ))
+			.easing( TWEEN.Easing.Cubic.In )
+			.onUpdate( function(){
 
-					that.keyboards[ 1 ].style.opacity = this.opacity
-				})
-				.start( beatToNorm( 6 )),
+				that.keyboards[ 1 ].style.opacity = this.opacity
+			})
+			.start( beatToNorm( 8 )),
 			
 			new TWEEN.Tween({ opacity: 0 })
-				.to({ opacity: 1 }, beatToNorm( 6 ))
-				.easing( TWEEN.Easing.Cubic.In )
-				.onUpdate( function(){
+			.to({ opacity: 1 }, beatToNorm( 6 ))
+			.easing( TWEEN.Easing.Cubic.In )
+			.onUpdate( function(){
 
-					that.keyboards[ 2 ].style.opacity = this.opacity
-				})
-				.start( beatToNorm( 8 )),
+				that.keyboards[ 2 ].style.opacity = this.opacity
+			})
+			.start( beatToNorm( 12 )),
 
 
 			//  Now pull the camera down close to the keyboards.
 
 			new TWEEN.Tween({ tz: -50 })
-				.to({ tz: 1 }, beatToNorm( 4 ))
-				.easing( TWEEN.Easing.Cubic.InOut )
-				.onUpdate( function(){
+			.to({ tz: -2 }, beatToNorm( 12 ))
+			.easing( TWEEN.Easing.Cubic.InOut )
+			.onStart( function(){
 
-					translation = getCssTranslation( keyboardsTranslator )
-					keyboardsTranslator.style.transform = `
-						translate3d( 
-					 		${ translation.x }px,
-					 		${ translation.y }px,
-					 		calc( var( --size ) * ${ this.tz } )
-					 	)`
-					 translation = getCssTranslation( keyboardsTranslator )
-				})
-				.start( beatToNorm( 12 )),
+				document
+				.querySelector( 'main' )
+				.classList
+				.remove( 'tilted' )
+			})
+			.onUpdate( function(){
 
-
-
-
-			//  Ramp UP keyboard glide.
-
-			new TWEEN.Tween({ tx: -5 })
-				.to({ tx: -5 - beatToDistance( 16 )}, beatToNorm( 16 ))
-				.easing( TWEEN.Easing.Cubic.In )
-				.onUpdate( keyboardGlide )
-				.start( beatToNorm( 10 )),
-
-
-			//  Steady keyboard glide.
-
-			new TWEEN.Tween({ tx: -5 - beatToDistance( 16 + 64 )})
-				.to({ tx: -5 - beatToDistance( 16 + 64 )}, beatToNorm( 64 ))
-				.onUpdate( keyboardGlide )
-				.start( beatToNorm( 26 )),
-
-
-			//  Ramp DOWN keyboard glide.
-
-			new TWEEN.Tween({ tx: -5 - beatToDistance( 16 + 64 + 16 )})
-				.to({ tx: -5 - beatToDistance( 16 + 64 + 16 )}, beatToNorm( 16 ))
-				.easing( TWEEN.Easing.Cubic.Out )
-				.onUpdate( keyboardGlide )
-				.start( beatToNorm( 90 ))
-
+				translation = getCssTranslation( keyboardsTranslator )
+				keyboardsTranslator.style.transform = `
+					translate3d( 
+				 		${ translation.x }px,
+				 		${ translation.y }px,
+				 		calc( var( --size ) * ${ this.tz } )
+				 	)`
+				 translation = getCssTranslation( keyboardsTranslator )
+			})
+			.start( beatToNorm( 8 ))
 		]
+
+
+
+
+		    ////////////////
+		   //            //
+		  //   Glide!   //
+		 //            //
+		////////////////
+
+
+		this.messagesReady = []
+		this.messagesSpent = [ '', '', '' ]
+
+		const
+		keyboardGlide = function(){
+
+			// if( this.n > 0 && this.n < 1 ){
+
+				translation = getCssTranslation( keyboardsTranslator )
+				keyboardsTranslator.style.transform = `
+					translate3d( 
+						calc( var( --size ) * ${ this.tx } ),
+						${ translation.y }px,
+						${ translation.z }px
+					)`
+				translation = getCssTranslation( keyboardsTranslator )
+
+
+				//  Do we need to pick a keyboard up from behind us
+				//  and lay it down at the head of the line?
+
+				if( this.tx + that.keyboardOffsets * keyboardWidth <= 
+					keyboardWidth * -1.5 ){
+
+
+					// console.log( '██████████████████████ New keyboard', Math.random() )
+
+					that.keyboardOffsets ++
+					forEachElement( '.keyboard', function( keyboard ){
+
+						keyboard.classList.remove( 'fade-in')
+					})
+					that.keyboards[ 0 ].style.transform = `
+						translate3d( calc( var( --size ) * ${( that.keyboardOffsets + 2 ) * keyboardWidth } ), 0, 0 )`
+					// that.keyboards[ 0 ].classList.add( 'fade-in' )
+					that.keyboards.push( that.keyboards.shift())
+
+					that.keyboards
+					.forEach( function( keyboard, i ){
+
+						keyboard.index = i
+					})
+
+
+					//  Do we have messages to erase?
+
+					if( that.messagesSpent.length ){
+
+						const message = that.messagesSpent.shift()
+						if( message.length ){
+						
+							drawGlyph( glyphs[ message[ 0 ]], { 
+
+								rootElement: that.keyboards[ 2 ],
+								offset: 4,
+								shouldErase: true
+							})
+							drawGlyph( glyphs[ message[ 1 ]], { 
+
+								rootElement: that.keyboards[ 2 ],
+								offset: 11,
+								shouldErase: true
+							})
+						}
+					}
+
+
+					//  Do we have messages to draw?
+
+					if( that.messagesReady.length ){
+
+						const message = that.messagesReady.shift()
+						drawGlyph( glyphs[ message[ 0 ]], {
+
+							rootElement: that.keyboards[ 2 ],
+							offset: 4
+						})
+						drawGlyph( glyphs[ message[ 1 ]], {
+
+							rootElement: that.keyboards[ 2 ],
+							offset: 11
+						})
+						that.messagesSpent.push( message )
+					}
+					else {
+
+						that.messagesSpent.push( '' )
+					}
+				}
+			// }
+		}
+
+		var 
+		glideCursorInBeats = 13,
+		glideCursorX = -5,//translation.x / window.size,
+		glideSpeed = 49.5//  1 beat = 1/2 keyboard.
+
+
+
+
+
+
+
+
+
+		// console.log( 'PRIOR TO TWEEN CREATION translation', translation )
+
+		function createGlideTween( 
+
+			cursorInBeats, 
+			segmentDurationInBeats,
+			fromX,
+			tweenMethod,
+			description ){
+
+			const toX = fromX - segmentDurationInBeats * glideSpeed * (
+
+				tweenMethod === TWEEN.Easing.Linear.None
+					? 1 : 1/4
+			)
+			that.tweens.push(
+
+				new TWEEN.Tween(
+
+					{ n: 0, tx: fromX }
+				)
+				.to(
+
+					{ n: 1, tx: toX },
+					beatToNorm( segmentDurationInBeats )
+				)
+				.easing( tweenMethod )
+				.onStart( function(){
+
+					// console.log( '\n\n\n\nSTARTED!', description )
+					translation = getCssTranslation( keyboardsTranslator )
+					// console.log( 'translation', translation, '\n\n\n\n' )
+				})
+				.onUpdate( keyboardGlide )
+				.onComplete( function(){
+
+					//  The fact that this would print for ever is very alarming to me.
+					// console.log( 'FINISHED w GLIDE TWEEN', description )
+				})
+				.start( beatToNorm( cursorInBeats ))
+			)
+			return {
+
+				glideCursorX: toX,
+				glideCursorInBeats: cursorInBeats + segmentDurationInBeats
+			}
+		}
+
+		var { glideCursorInBeats, glideCursorX } = createGlideTween( 
+ 
+			glideCursorInBeats,
+			8,
+			glideCursorX,
+			TWEEN.Easing.Cubic.In,
+			'Ramp it up.'
+		)
+		var { glideCursorInBeats, glideCursorX } = createGlideTween( 
+
+			glideCursorInBeats,
+			56,
+			glideCursorX,
+			TWEEN.Easing.Linear.None,
+			'Keep it steady'
+		)
+		var { glideCursorInBeats, glideCursorX } = createGlideTween( 
+
+			glideCursorInBeats,
+			16,
+			glideCursorX,
+			TWEEN.Easing.Cubic.Out,
+			'Slow it down.'
+		)
+
+
+
+		//  Angle shit so we can see the text better.
+
+		this.tweens.push(
+
+			new TWEEN.Tween({ 
+
+				rx:  80,
+				ry:   0,
+				rz: -90
+			})
+			.to({ 
+
+				rx:  60,
+				ry:   0,
+				rz: -90
+
+			}, beatToNorm( 16 ))
+			.easing( TWEEN.Easing.Cubic.InOut )
+			.onUpdate( function(){
+
+				keyboardsRotator.style.transform = `
+					rotateX( ${ this.rx }deg )
+					rotateY( ${ this.ry }deg )
+					rotateZ( ${ this.rz }deg )`
+			})
+			.start( beatToNorm( 24 ))
+		)
+
+
+
+		//  Now put it back.
+
+		this.tweens.push(
+
+			new TWEEN.Tween({ 
+
+				rx:  60,
+				ry:   0,
+				rz: -90
+			})
+			.to({ 
+
+				rx:  80,
+				ry:   0,
+				rz: -90
+
+			}, beatToNorm( 16 ))
+			.easing( TWEEN.Easing.Cubic.InOut )
+			.onUpdate( function(){
+
+				keyboardsRotator.style.transform = `
+					rotateX( ${ this.rx }deg )
+					rotateY( ${ this.ry }deg )
+					rotateZ( ${ this.rz }deg )`
+			})
+			.start( beatToNorm( 64 ))
+		)
+
+
+
+
+
+		//  Rotate back into place.
+
+		this.tweens.push(
+
+			new TWEEN.Tween({ 
+
+				rx:  80,
+				ry:   0,
+				rz: -90
+			})
+			.to({ 
+
+				rx: 0,
+				ry: 0,
+				rz: 0
+
+			}, beatToNorm( 16 ))
+			.easing( TWEEN.Easing.Cubic.InOut )
+			.onUpdate( function(){
+
+				keyboardsRotator.style.transform = `
+					rotateX( ${ this.rx }deg )
+					rotateY( ${ this.ry }deg )
+					rotateZ( ${ this.rz }deg )`
+			})
+			.start( 1 - beatToNorm( 24 ))
+		)
+
+
+
+		//  Fade keyboard clones out.
+
+		this.tweens.push(
+
+			new TWEEN.Tween({ opacity: 1 })
+			.to({ opacity: 0 }, beatToNorm( 6 ))
+			.easing( TWEEN.Easing.Cubic.In )
+			.onUpdate( function(){
+
+				that.keyboards[ 2 ].style.opacity = this.opacity
+			})
+			.start( 1 - beatToNorm( 22 ))
+		)
+		this.tweens.push(
+			
+			new TWEEN.Tween({ opacity: 1 })
+			.to({ opacity: 0 }, beatToNorm( 6 ))
+			.easing( TWEEN.Easing.Cubic.In )
+			.onUpdate( function(){
+
+				that.keyboards[ 1 ].style.opacity = this.opacity
+			})
+			.start( 1 - beatToNorm( 20 ))
+		)
+
+
+
+
+		//  x
+
+		this.tweens.push(
+
+			new TWEEN.Tween({ 
+
+				tx: ( glideCursorX % keyboardWidth ),// * -1,
+				ty: 5,
+				tz: 2
+			})
+			.to({ 
+
+				tx: 0,
+				ty: 0,
+				tz: 0 
+
+			}, beatToNorm( 4 ))
+			.easing( TWEEN.Easing.Cubic.InOut )
+			.onStart( function(){
+
+				// console.log( 'ABOUT TO TRANSLATE BACK INTO PLACE' )
+				// console.log( 'glideCursorX', glideCursorX )
+				// console.log( 'keyboardWidth', keyboardWidth )
+				// console.log( 'glideCursorX % keyboardWidth', glideCursorX % keyboardWidth )
+
+				translation = getCssTranslation( keyboardsTranslator )
+				// console.log( '!! translation', translation )
+
+
+				that.keyboards
+				.forEach( function( keyboard, i ){
+
+					// console.log( keyboard.isOriginal, i, i * keyboardWidth, keyboard )
+
+					keyboard.style.transform = `
+					translate3d( 
+				 		calc( var( --size ) * ${ i * keyboardWidth } ),
+				 		0px,
+				 		0px
+				 	)`
+
+				 	const t = getCssTranslation( keyboard )
+				 	// console.log( 'keyboard', i, t )
+				})
+			})
+			.onUpdate( function(){
+
+				// console.log( this.tx )
+				keyboardsTranslator.style.transform = `
+					translate3d( 
+				 		calc( var( --size ) * ${ this.tx } ),
+				 		calc( var( --size ) * ${ this.ty } ),
+				 		calc( var( --size ) * ${ this.tz } )
+				 	)`
+				translation = getCssTranslation( keyboardsTranslator )
+			})
+			.start( 1 - beatToNorm( 20 ))
+			// .start( 1 - beatToNorm( 12 ))
+		)
 	},
 	update: function(){
 		
@@ -1520,7 +1851,6 @@ new Mode({
 		keyboard.classList.remove( 
 
 			'popcorn',
-			'tilt-complete',
 			'fade-in'
 		)
 		setTimeout( function(){
@@ -1534,17 +1864,19 @@ new Mode({
 			keyboard.style.removeProperty( 'transform' )
 			keyboard.style.removeProperty( 'transition' )
 		})
-	
-		console.log(
-
-			'\n\n\n   IS OFF NOW --- OFF “POPCORN”',
-			'\nthis.keyboards[ 0 ].styletransform', this.keyboards[ 0 ].style.transform,
-			'\n'
-		)
-
-
 	}
 })
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1636,6 +1968,11 @@ function insertStreamFun( timeStart ){
 
 
 
+
+
+
+
+
 const glyphs = {
 
 ' ':`
@@ -1653,7 +1990,6 @@ A:`
 ███
 █ █
 `,
-
 B:`
 ███
 █ █
@@ -1661,16 +1997,13 @@ B:`
 █ █
 ███
 `,
-
-C:
-`
+C:`
 ███
 █
 █
 █
  ██
 `,
-
 D:`
 ██ 
 █ █
@@ -1678,7 +2011,6 @@ D:`
 █ █
 ██ 
 `,
-
 E:`
 ███
 █
@@ -1686,7 +2018,6 @@ E:`
 █
 ███
 `,
-
 F:`
 ███
 █
@@ -1694,16 +2025,17 @@ F:`
 ███
 █
 `,
-
-K:
-`
+//G
+//H
+//I
+//J
+K:`
 █ █
 █ █
 ██
 █ █
 █ █
 `,
-
 L:`
 █
 █
@@ -1711,7 +2043,7 @@ L:`
 █
 ███
 `,
-
+//M
 N:`
 ██ 
 █ █
@@ -1719,7 +2051,7 @@ N:`
 █ █
 █ █
 `,
-
+//O
 P:`
 ███
 █ █
@@ -1727,7 +2059,14 @@ P:`
 ███
 █
 `,
-
+//Q
+R:`
+███
+█ █
+█ █
+██
+█ █
+`,
 S:`
 ███
 █  
@@ -1735,16 +2074,21 @@ S:`
   █
 ███
 `,
-
-U:
-`
+T:`
+███
+ █ 
+ █
+ █
+ █
+`,
+U:`
 █ █
 █ █
 █ █
 █ █
  ██
 `,
-
+//V
 W:`
 ██
   █
@@ -1752,24 +2096,9 @@ W:`
   █
 ██
 `,//  yikes. W is the W-orst.
-
-W3:`
- ██
-█  
- █ 
-█  
- ██
-`,//  yikes. W is the W-orst.
-
-W2:`
-█ █
-███
-███
-█ █
-█ █
-`//  yikes. W is the W-orst.
-
-
+//X
+//Y
+//Z
 }
 
 function composeStringOfGlyphs( text ){
@@ -1797,7 +2126,7 @@ console.log(
 
 	'\n\n\n',
 	 composeStringOfGlyphs( 'BLACK SWAN' ),
-	'\n\nThursday, 01 October 2020.',
+	'\n\nFriday, 02 October 2020.',
 	'\n\nLive: https://stewartsmith.io/blackswan',
 	'\nRepo: https://github.com/stewdio/blackswan',
 	'\n\n\n\n\n'
@@ -1805,7 +2134,77 @@ console.log(
 
 
 
+//  Highest “reliable” offset is 11.
+//  Lowest “reliable” offset is 5.
+
+
+/*
+
+
+
+drawGlyphMessage(){
+	
+	//  Start on the most distant keyboard,
+	//  keyboards[ 2 ]
+
+
+
+
+	//  Each time a keyboard gets 
+	//  shuffled to the head of the line,
+	//  shift a message off the stack
+	//  and write it to that keyboard
+	//  until there are no messages left.
+
+	queuedMessages = [
+
+		[ 'FU' ],
+		[ 'CK' ],
+		[ 'ED' ],
+		[ 'UP' ]
+	]
+
+	queuedMessages = [
+
+		[ 'BL' ],
+		[ 'CK' ],
+		[ 'SW' ],
+		[ 'AN' ]
+	]
+	queuedMessages = [
+
+		[ 'SP' ],
+		[ 'AR' ],
+		[ 'EP' ],
+		[ 'AR' ],
+		[ 'TS' ]
+	]
+}
+
+
+drawGlyph( glyphs.F, { offset:  5 })
+drawGlyph( glyphs.U, { offset: 11 })
+drawGlyph( glyphs.C, { offset:  5 })
+drawGlyph( glyphs.K, { offset: 11 })
+drawGlyph( glyphs.E, { offset:  5 })
+drawGlyph( glyphs.D, { offset: 11 })
+drawGlyph( glyphs.U, { offset:  5 })
+drawGlyph( glyphs.P, { offset: 11 })
+
+
+
+
+
+*/
+
+
 function drawGlyph( glyph, params ){
+
+	if( typeof glyph !== 'string' ){
+
+		console.warn( 'Hey! That’s not a glyph!!', glyph, params )
+		return
+	}
 
 	if( params === undefined ) params = {}
 	if( params.rootElement === undefined ) params.rootElement = document.body
@@ -1825,16 +2224,25 @@ function drawGlyph( glyph, params ){
 			x = params.offset - r,
 			y = c
 
-			console.log( `[x='${ x }'][y='${ y }']` )
 			if( column === '█' ){
 				
-				forEachElement( 
+				forEachElement(
 
 					params.rootElement,
-					`[x='${ x }'][y='${ y }']`,
+					`.key[x='${ x }'][y='${ y }']`,
 					function( key ){
 
-						if( params.shouldErase ) key.disengage( 'drawGlyph' )
+						if( params.shouldErase ){
+
+							key.style.transition = 'none'
+							key.style.animation = 'none'
+							key.disengage( 'drawGlyph' )
+							setTimeout( function(){
+
+								key.style.removeProperty( 'transition' )
+								key.style.removeProperty( 'animation' )
+							})
+						}
 						else key.engage( 'drawGlyph' )
 					}
 				)
