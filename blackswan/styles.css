@@ -320,6 +320,10 @@ footer {
 
 #timeline {
 
+	/*background-color: hsl( 0, 90%, 35% );*/
+}
+.loaded {
+
 	background-color: hsl( 0, 90%, 35% );
 }
 #progress,

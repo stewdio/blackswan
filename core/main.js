@@ -447,14 +447,24 @@ const comp = Object.assign( [], {
 //   let duration = audioElement.duration;
 //   // The duration variable now holds the duration (in seconds) of the audio clip 
 // })
-
+/*
 comp.audio.addEventListener( 
 
 	'loadeddata',
 	 function( event ){
 
-	 	// console.log( 'buffered', comp.audio.buffered )
+	 	console.log( '\n\n\nEVENT: loadeddata, event' )
+	 	console.log( 'buffered', comp.audio.buffered )
+
+
 	 	const b = comp.audio.buffered
+
+	 	for( let i = 0; i < b.length; i ++ ){
+
+	 		console.log( i, b[ i ], b.start( i ), b.end( i ))
+	 	}
+
+
 	 	if( b.length === 1 ){
 		
 			// only one range?! so it’s all or nothing.
@@ -465,15 +475,16 @@ comp.audio.addEventListener(
 				// The one range starts at the beginning and ends at
 				// the end of the video, so the whole thing is loaded
 
-				// console.log( 'ENTIRE THING IS LOADED!' )
+				console.log( 'ENTIRE THING IS LOADED!' )
 				hasLoadedEntireSong = true
 			}
 		}
 	}
-)
+)*/
+/*
 comp.audio.addEventListener( 'canplaythrough', function( event ){
 
-	// console.log( '\n\n\nCAN PLAY THROUGH', event )
+	console.log( '\n\n\nEVENT: canplaythrough', event )
 
 
 	//  Why would we need this next line of code?!
@@ -482,21 +493,53 @@ comp.audio.addEventListener( 'canplaythrough', function( event ){
 	//  but it may not have been loaded yet.
 
 	// if( comp.isPlaying ) comp.play()
-/*
+	
+	// if( userHasInteracted &&//  Some platform require user interaction before playback is allowed.
+	// 	( 
+	// 		comp.isPlaying ||//  If we were seeking from a paused state then don’t autoplay.
+	// 		comp.hasPlayedSome !== true//  If this is a virgin play canplaythrough then autoplay.
+	// 	)) comp.play()
+	
+})*/
+comp.audio.addEventListener( 'progress', function( event ){
+
+	const b = this.buffered
+	if( b.length === 1 ){
+		
+		// only one range?! so it’s all or nothing.
+
+		if( b.start( 0 ) === 0 && 
+			b.end( 0 ) === comp.audio.duration ){
+			
+			// The one range starts at the beginning and ends at
+			// the end of the video, so the whole thing is loaded
+
+			// console.log( 'ENTIRE THING IS LOADED!' )
+			hasLoadedEntireSong = true
+		}
+	}
 
 
 
+	//  Remove all “loaded” DOM elements.
+
+	const timeline = document
+		.getElementById( 'timeline' )
+	Array.from(
+	
+		timeline
+		.querySelectorAll( '.loaded' )
+	
+	).forEach( function( child ){
+
+		// console.log( 'child?', child )
+		// console.log( 'child.parentNode?', child.parentNode )
+		// child.parentNode.remove( child )
+		child.remove()
+	})
 
 
-
-	if( userHasInteracted &&//  Some platform require user interaction before playback is allowed.
-		( 
-			comp.isPlaying ||//  If we were seeking from a paused state then don’t autoplay.
-			comp.hasPlayedSome !== true//  If this is a virgin play canplaythrough then autoplay.
-		)) comp.play()
-		*/
-})
-/*comp.audio.addEventListener( 'progress', function( event ){
+	//  Iterate througn each buffer chunk.
 
 	let loadedLengthInSeconds = 0
 	for( 
@@ -508,15 +551,36 @@ comp.audio.addEventListener( 'canplaythrough', function( event ){
 		i < totalChunks; 
 		i ++ ){
 
-		loadedLengthInSeconds += this.buffered.end( i ) - this.buffered.start( i )
+		const chunkDuration = this.buffered.end( i ) - this.buffered.start( i )
+		loadedLengthInSeconds += chunkDuration
+
+
+
+
+		const loadedEl = document.createElement( 'div' )
+		loadedEl.classList.add( 'loaded' )
+		loadedEl.style.left  = ( this.buffered.start( i ) / this.duration * 100 ) +'%'
+		loadedEl.style.width = ( chunkDuration / this.duration * 100 ) +'%'
+		timeline.prepend( loadedEl )
+
+
+
+		// console.log(
+
+		// 	'\n\n\nLoad buffer', i, 
+		// 	'\nFrom', this.buffered.start( i ),
+		// 	'\n  to', this.buffered.end( i ),
+		// 	'\nDuration', this.buffered.end( i ) - this.buffered.start( i ),
+		// 	'\n\n\n'
+		// )
 	}
 
 	const loadedNormalized = loadedLengthInSeconds / this.duration
 	
-	console.log( '\n\n\nloadedLengthInSeconds', loadedLengthInSeconds )
-	console.log( 'this.duration', this.duration )
-	console.log( 'loadedNormalized', loadedNormalized )
-	console.log( 'event', event )
+	// console.log( '\n\n\nEVENT progress', event )
+	// console.log( 'loadedLengthInSeconds', loadedLengthInSeconds )
+	// console.log( 'this.duration', this.duration )
+	// console.log( 'loadedNormalized', loadedNormalized )
 
 	//  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -526,15 +590,15 @@ comp.audio.addEventListener( 'canplaythrough', function( event ){
 	//  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-	if( loadedNormalized === 1 ){
+	// if( loadedNormalized === 1 ){
 
-		controlsEnable()
-		document
-		.getElementById( 'button-load' )
-		.style
-		.display = 'none'
-	}
-})*/
+	// 	controlsEnable()
+	// 	document
+	// 	.getElementById( 'button-load' )
+	// 	.style
+	// 	.display = 'none'
+	// }
+})
 
 
 //  CONVENIENCE METHODS
@@ -691,6 +755,11 @@ controlsHide = function(){
 
 	document
 	.getElementById( 'controls' )
+	.classList
+	.remove( 'show' )
+
+	document
+	.getElementById( 'timeline' )
 	.classList
 	.remove( 'show' )
 },
@@ -1397,6 +1466,28 @@ new Mode({
 window.addEventListener( 'DOMContentLoaded', function(){
 
 
+	//  Ug. iOS Safari. Again.
+	//  It places an “Action Bar” at the bottom of the screen
+	//  which entirely covers content there
+	//  but does not update the viewport’s “vh” variable.
+	//  So we need to do this ourselves.
+	//  https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
+
+	// function rescaleViewportHeight(){
+
+	// 	document
+	// 	.documentElement
+	// 	.style
+	// 	.setProperty( '--vh', `${ window.innerHeight * 0.01 }px` )
+	// }
+	// rescaleViewportHeight()
+	// window.addEventListener( 
+
+	// 	'resize',
+	// 	rescaleViewportHeight
+	// )
+
+
 	//  We’d like to hide the play controls
 	//  when the user hasn’t done anything
 	//  in a while. 
@@ -1479,6 +1570,10 @@ window.addEventListener( 'DOMContentLoaded', function(){
 		
 		event.preventDefault()
 
+		timelineElement
+		.classList
+		.add( 'show' )
+
 		const 
 		rectangle = timelineElement.getBoundingClientRect(),
 		x = getInteractionCoordinates( event ).x - rectangle.left
@@ -1499,6 +1594,12 @@ window.addEventListener( 'DOMContentLoaded', function(){
 				seekerMinutes +':'+ 
 				seekerSeconds.toString().padStart( 2, '0' )
 		}
+	},
+	hideSeeker = function(){
+
+		timelineElement
+		.classList
+		.remove( 'show' )
 	}
 
 
@@ -1508,6 +1609,9 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	timelineElement.addEventListener( 'mousedown',  seekByGui )
 	timelineElement.addEventListener( 'mouseover',  updateSeekerFromPointer )
 	timelineElement.addEventListener( 'mousemove',  updateSeekerFromPointer )
+	
+	timelineElement.addEventListener( 'touchend',   hideSeeker )
+	timelineElement.addEventListener( 'mouseleave', hideSeeker )
 
 	
 
