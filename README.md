@@ -59,7 +59,7 @@ Capitalist data brokers are also standing by to exchange your
 virtualized currency for aural stimulation.  
 
 [<img 
-	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/spotify@256.pngs" 
+	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/spotify@256.png" 
 	title="“The Eraser” on Spotify" 
 	width="64" 
 	height="64">](https://open.spotify.com/album/4QSIeDnAnGag2YZ5DjB2eB)
