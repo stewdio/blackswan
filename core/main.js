@@ -1012,13 +1012,14 @@ appendKeyAbilitiesTo = function( keyElement ){
 					'shift', 
 					'control', 
 					'option', 
-					'command' 
+					'command',
+					'period' 
 
 				].includes( keyboardTagName )){
 
 					this.keyboard.classList.add( keyboardTagName )
 					this.keyboard.stateAdd( keyboardTagName, requestor )
-					comp.log( `<${ keyboardTagName.toUpperCase() }>` )
+					comp.log( ` [${ keyboardTagName.toUpperCase() }] ` )
 				}
 /*
 

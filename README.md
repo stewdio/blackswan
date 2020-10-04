@@ -50,37 +50,37 @@ record.
 in various physical and spectral formats.
 
 [<img 
-	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/various-marks.svg#XL_Recordings" 
+	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/xl-recordings.png" 
 	title="XL Recordings" 
-	width="100" 
-	height="100">](https://xlrecordings.com/buy/thomyorke-theeraser)  
+	width="128" 
+	height="128">](https://xlrecordings.com/buy/thomyorke-theeraser)  
   
 Capitalist data brokers are also standing by to exchange your 
 virtualized currency for aural stimulation.  
 
 [<img 
-	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/various-marks.svg#Spotify" 
+	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/spotify.pngs" 
 	title="“The Eraser” on Spotify" 
-	width="50" 
-	height="50">](https://open.spotify.com/album/4QSIeDnAnGag2YZ5DjB2eB)
+	width="64" 
+	height="64">](https://open.spotify.com/album/4QSIeDnAnGag2YZ5DjB2eB)
 
 [<img 
-	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/various-marks.svg#Apple_Music" 
+	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/apple-music.png" 
 	title="“The Eraser” on Apple Music"
-	width="50" 
-	height="50">](https://music.apple.com/us/album/the-eraser/161162568)
+	width="64" 
+	height="64">](https://music.apple.com/us/album/the-eraser/161162568)
 
 [<img 
-	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/various-marks.svg#Google_Play_Music" 
+	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/google-play-music.png" 
 	title="“The Eraser” on Google Play Music" 
-	width="50" 
-	height="50">](https://play.google.com/store/music/album/The_Eraser?id=B5n7dgsji4qeky2ldz5bifk6lu4&hl)
+	width="64" 
+	height="64">](https://play.google.com/store/music/album/The_Eraser?id=B5n7dgsji4qeky2ldz5bifk6lu4&hl)
 
 [<img 
-	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/various-marks.svg#Amazon_Music" 
+	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/amazon-music.png" 
 	title="“The Eraser” on Amazon Music" 
-	width="50" 
-	height="50">](https://www.amazon.com/Eraser-Thom-Yorke/dp/B000FPYNR6)  
+	width="64" 
+	height="64">](https://www.amazon.com/Eraser-Thom-Yorke/dp/B000FPYNR6)  
   
 
 

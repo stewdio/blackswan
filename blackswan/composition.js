@@ -9,7 +9,7 @@ comp.beatsPerSecond =  60 / comp.beatsPerMinute
 Object.assign( comp.audio, {
 
 	src: 'media/thom-yorke-black-swan.m4a',
-	volume: 0.8,
+	volume: 1,//0.8,
 	playbackRate: 1//0.25
 })
 
