@@ -50,7 +50,7 @@ record.
 in various physical and spectral formats.
 
 [<img 
-	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/xl-recordings.png" 
+	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/xl-recordings@256.png" 
 	title="XL Recordings" 
 	width="128" 
 	height="128">](https://xlrecordings.com/buy/thomyorke-theeraser)  
@@ -59,25 +59,25 @@ Capitalist data brokers are also standing by to exchange your
 virtualized currency for aural stimulation.  
 
 [<img 
-	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/spotify.pngs" 
+	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/spotify@256.pngs" 
 	title="“The Eraser” on Spotify" 
 	width="64" 
 	height="64">](https://open.spotify.com/album/4QSIeDnAnGag2YZ5DjB2eB)
 
 [<img 
-	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/apple-music.png" 
+	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/apple-music@256.png" 
 	title="“The Eraser” on Apple Music"
 	width="64" 
 	height="64">](https://music.apple.com/us/album/the-eraser/161162568)
 
 [<img 
-	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/google-play-music.png" 
+	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/google-play-music@256.png" 
 	title="“The Eraser” on Google Play Music" 
 	width="64" 
 	height="64">](https://play.google.com/store/music/album/The_Eraser?id=B5n7dgsji4qeky2ldz5bifk6lu4&hl)
 
 [<img 
-	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/amazon-music.png" 
+	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/amazon-music@256.png" 
 	title="“The Eraser” on Amazon Music" 
 	width="64" 
 	height="64">](https://www.amazon.com/Eraser-Thom-Yorke/dp/B000FPYNR6)  
