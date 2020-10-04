@@ -1,6 +1,6 @@
 
 
-<img src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/stewart-smith-black-swan.jpg" title="Black Swan" width="300" height="300">  
+<img src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/stewart-smith-black-swan.jpg" title="Black Swan" width="512" height="512">  
 
 
 
@@ -42,7 +42,7 @@ featuring visual artwork by
 **Black Swan**—the song featured here—is the fourth track from this 
 record.
 
-<img src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/thom-yorke-the-eraser@768.jpg" title="Black Swan" width="300" height="300"> 
+<img src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/thom-yorke-the-eraser@768.jpg" title="Black Swan" width="512" height="512"> 
   
   
 **The Eraser** is available for 
@@ -61,23 +61,23 @@ virtualized currency for aural stimulation.
 [<img 
 	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/spotify@256.png" 
 	title="“The Eraser” on Spotify" 
-	width="64" 
-	height="64">](https://open.spotify.com/album/4QSIeDnAnGag2YZ5DjB2eB)
+	width="48" 
+	height="48">](https://open.spotify.com/album/4QSIeDnAnGag2YZ5DjB2eB)
 [<img 
 	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/apple-music@256.png" 
 	title="“The Eraser” on Apple Music"
-	width="64" 
-	height="64">](https://music.apple.com/us/album/the-eraser/161162568)
+	width="48" 
+	height="48">](https://music.apple.com/us/album/the-eraser/161162568)
 [<img 
 	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/google-play-music@256.png" 
 	title="“The Eraser” on Google Play Music" 
-	width="64" 
-	height="64">](https://play.google.com/store/music/album/The_Eraser?id=B5n7dgsji4qeky2ldz5bifk6lu4&hl)
+	width="48" 
+	height="48">](https://play.google.com/store/music/album/The_Eraser?id=B5n7dgsji4qeky2ldz5bifk6lu4&hl)
 [<img 
 	src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/amazon-music@256.png" 
 	title="“The Eraser” on Amazon Music" 
-	width="64" 
-	height="64">](https://www.amazon.com/Eraser-Thom-Yorke/dp/B000FPYNR6)  
+	width="48" 
+	height="48">](https://www.amazon.com/Eraser-Thom-Yorke/dp/B000FPYNR6)  
   
 
 
