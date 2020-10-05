@@ -1,6 +1,6 @@
 
 
-<img src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/stewart-smith-black-swan.jpg" title="Black Swan" width="512" height="512">  
+<img src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/stewart-smith-black-swan.jpg" title="Black Swan" width="512">  
 
 
 
@@ -42,7 +42,7 @@ featuring visual artwork by
 **Black Swan**—the song featured here—is the fourth track from this 
 record.
 
-<img src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/thom-yorke-the-eraser@768.jpg" title="Black Swan" width="512" height="512"> 
+<img src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/thom-yorke-the-eraser@768.jpg" title="Black Swan" width="512"> 
   
   
 **The Eraser** is available for 
