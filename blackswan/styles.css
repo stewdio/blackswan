@@ -40,9 +40,6 @@ body {
 
 
 
-
-
-
 	font-size:   24px;
 	line-height: 36px;
 	color: hsl( 0, 0%, 50% );
@@ -126,8 +123,10 @@ h2 svg {
 }
 #title {
 
-	top: 18vh;
-	color: rgba( 0, 0, 0, 0.7 );
+	top: 25vh;
+	/*color: rgba( 0, 0, 0, 0.7 );*/
+	color: hsl( 0, 0%, 100% );
+	text-shadow: 0px 0px calc( var( --size ) * 0.5 ) hsla( 0, 0%, 100%, 0.3 );
 	font-size:   calc( var( --size ) * 3 );
 	line-height: calc( var( --size ) * 3 );
 	letter-spacing: calc( var( --size ) * 1.8 );
@@ -148,13 +147,14 @@ h2 svg {
 #instructions {
 
 	top: 75vh;
-	color: white;
-	font-size:   calc( var( --size ) * 3 );
+	/*color: white;*/
+	color: hsla( 0, 0%, 100%, 75% );
+	font-size:   calc( var( --size ) * 2.5 );
 	line-height: calc( var( --size ) * 4 );
 }
 #instructions .lesser {
 
-	opacity: 0.4;
+	opacity: 0.5;
 }
 #title.playing, 
 #instructions.playing {
@@ -354,7 +354,8 @@ footer {
 }
 #progress-clock {
 
-	color: hsl( 0, 70%, 70% );
+	/*color: hsl( 0, 70%, 70% );*/
+	color: hsla( 0, 0%, 100%, 0.4 );
 }
 #seeker-head {
 
@@ -531,6 +532,25 @@ footer {
 	background-color: hsl( 0, 90%, 10% );
 	/*transition: none;*/
 }
+#fullscreen-container {
+
+	--curtain-left:  0%;
+	--curatin-right: 0%;
+	background: linear-gradient( 
+		
+		to right,
+		var( --color-background ) var( --curtain-left ),
+		#000 var( --curtain-left ),
+		#000 var( --curatin-right ),
+		var( --color-background ) var( --curatin-right )
+	);
+}
+#fullscreen-container.curtained {
+
+	--curtain-left:  50%;
+	--curatin-right: 75%;
+}
+
 
 
 
@@ -580,6 +600,12 @@ main.spin .key {
 	--background-hue:          0;
 	--background-saturation:  90%;
 	--background-lightness:    0%;
+	
+	--text-hue: 0;
+	--text-saturation: 20%;
+	--text-lightness: 75%;
+
+
 	transition: none;
 	animation:  none;
 	backface-visibility: visible;

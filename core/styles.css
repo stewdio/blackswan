@@ -812,6 +812,8 @@ section, footer {
 
 	position: absolute;
 	transform: translate( -50%, 180% );
+	font-size:   calc( var( --size ) * 2.5 );
+	letter-spacing: calc( var( --size ) * 0.08 );
 }
 #progress-clock {
 

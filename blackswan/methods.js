@@ -364,9 +364,10 @@ appendRiffBackside = function(){
 appendRiffedUp = function( text, options ){
 
 	if( typeof options !== 'string' ) options = ''
-	if( typeof text !== 'string' ) text = 'fuckedup'
+	if( typeof text !== 'string' || text === 'fuckedup' ) text = 'fuckedXp'
 
 	const durationPerCharacter = comp.beatsPerSecond * 2 / text.length
+	
 	let timeStart = comp.findLastBeat()
 
 	text
@@ -377,15 +378,26 @@ appendRiffedUp = function( text, options ){
 
 			timeStart + durationPerCharacter * i,
 			0,
-			function(){ keyToggle( letter.toUpperCase() )},
-			'Riffed up: '+ letter
+			function(){ 
+
+				// console.log( 'letter ON', letter )
+				if( letter === 'X' ) keyDisengage( 'U' )
+				else keyEngage( letter.toUpperCase() )
+			},
+			'Riffed up ON: '+ letter
 		)
 		insert(
 
 			timeStart + comp.beatsPerSecond * 4 + durationPerCharacter * i,
 			0,
-			function(){ keyToggle( letter.toUpperCase() )},
-			'Riffed up: '+ letter
+			function(){ 
+
+				// console.log( 'letter OFF', letter )
+				if( letter === 'u' ) keyEngage( 'U' )
+				else if( letter === 'X' ) keyDisengage( 'U' )
+				else keyDisengage( letter.toUpperCase() )
+			},
+			'Riffed up OFF: '+ letter
 		)
 	})
 	for( let i = 0; i < 2; i ++ ){
@@ -1264,6 +1276,166 @@ new Mode({
 
 
 
+//  3:05 – 3:24,
+//  3:24 – 3:44.
+
+new Mode({
+
+	name: 'curtain',
+	setup: function(){
+
+		const 
+		that = this,
+		container = document
+			.getElementById( 'fullscreen-container' )
+
+		let 
+		curtainLeft  = 0,
+		curtainRight = 0
+
+
+		//  Ok. We’re going to tween some background gradients.
+		//  And this is frustrating because we *should* be able to
+		//  just change the values of the CSS variables, like so:
+		//  container.style.setProperty( '--curtain-right', curtainRight +'%' )
+		//  But that doesn’t seem to trigger redraws!
+		//  So instead we have to actually reassign the whole gradient.
+
+		this.tweens = [
+
+
+			//  Shoot out the right side first.
+
+			new TWEEN.Tween({ x: 0 })
+			.to({ x: 100 }, 0.125 )
+			.easing( TWEEN.Easing.Cubic.Out )
+			.onUpdate( function(){
+
+				curtainRight = this.x
+				container.style.background = `
+					linear-gradient( 
+			
+						to ${ that.direction },
+						var( --color-background ) ${ curtainLeft }%,
+						#000 ${ curtainLeft }%,
+						#000 ${ curtainRight }%,
+						var( --color-background ) ${ curtainRight }%
+					)`
+			})
+			.start( 0 ),
+
+
+			//  Pull the left edge out to say hi.
+
+			new TWEEN.Tween({ x: 0 })
+			.to({ x: 33.3333 }, 0.125 )
+			.easing( TWEEN.Easing.Cubic.InOut )
+			.onUpdate( function(){
+
+				curtainLeft = this.x
+				container.style.background = `
+					linear-gradient( 
+			
+						to ${ that.direction },
+						var( --color-background ) ${ curtainLeft }%,
+						#000 ${ curtainLeft }%,
+						#000 ${ curtainRight }%,
+						var( --color-background ) ${ curtainRight }%
+					)`
+			})
+			.start( 0 ),
+
+
+			//  Then put it back.
+
+			new TWEEN.Tween({ x: 33.3333 })
+			.to({ x: 0 }, 0.25 )
+			.easing( TWEEN.Easing.Cubic.InOut )
+			.onUpdate( function(){
+
+				curtainLeft = this.x
+				container.style.background = `
+					linear-gradient( 
+			
+						to ${ that.direction },
+						var( --color-background ) ${ curtainLeft }%,
+						#000 ${ curtainLeft }%,
+						#000 ${ curtainRight }%,
+						var( --color-background ) ${ curtainRight }%
+					)`
+			})
+			.start( 0.125 ),
+
+
+			//  Finally, push the right edge all the way.
+
+			new TWEEN.Tween({ x: 0 })
+			.to({ x: 50 }, 0.125 )
+			.easing( TWEEN.Easing.Cubic.Out )
+			//.easing( TWEEN.Easing.Linear.None )
+			.onUpdate( function(){
+
+				curtainLeft = this.x
+				container.style.background = `
+					linear-gradient( 
+			
+						to ${ that.direction },
+						var( --color-background ) ${ curtainLeft }%,
+						#000 ${ curtainLeft }%,
+						#000 ${ curtainRight }%,
+						var( --color-background ) ${ curtainRight }%
+					)`
+			})
+			.start( 0.5 ),
+
+			new TWEEN.Tween({ x: 50 })
+			.to({ x: 100 }, 0.125 )
+			.easing( TWEEN.Easing.Cubic.In )
+			//.easing( TWEEN.Easing.Linear.None )
+			.onUpdate( function(){
+
+				curtainLeft = this.x
+				container.style.background = `
+					linear-gradient( 
+			
+						to ${ that.direction },
+						var( --color-background ) ${ curtainLeft }%,
+						#000 ${ curtainLeft }%,
+						#000 ${ curtainRight }%,
+						var( --color-background ) ${ curtainRight }%
+					)`
+			})
+			.start( 0.625 ),
+
+		]
+	},
+	update: function(){
+
+		if( comp.isPlaying ){
+
+			const
+			elapsedSeconds = comp.audio.currentTime - this.timeStart,
+			elapsedPercent = elapsedSeconds / this.durationInSeconds
+
+			this.tweens
+			.forEach( function( tween ){
+
+				tween.update( elapsedPercent )
+			})
+		}
+		if( comp.audio.currentTime >= this.timeStart + this.durationInSeconds ){
+
+			Mode.switchTo( 'idle' )
+		}
+	},
+	teardown: function(){
+
+		const container = document
+			.getElementById( 'fullscreen-container' )
+		container.style.removeProperty( 'background' )
+	}
+})
+
 
 
 
@@ -2033,7 +2205,7 @@ K:`
 █ █
 █ █
 ██
-█ █
+██
 █ █
 `,
 L:`
@@ -2595,6 +2767,36 @@ function makePosterArt4(){
 
 			//key.classList.add( 'press' )
 			keyEngage( key.getAttribute( 'data-name' ))
+		}
+	})
+}
+
+
+//  From a default state
+//  highlight all the keys for B, L, A, C, K, S, W, and N.
+
+function makePosterArt5(){
+
+	reset()
+	const keyboard = document.querySelector( '.keyboard' )
+	keyboard.classList.add( 'capslock' )
+
+	const keysToRemain = 
+	'FUCKEDP'.split( '' )
+	.map( function( letter ){
+
+		return 'key-'+ letter
+	})
+
+	keyboard.querySelectorAll( '.key' )
+	.forEach( function( key ){
+
+		key.classList.add( 'blank' )
+		const found = keysToRemain.some( e => Array.from( key.classList ).includes( e ))
+		if( found ){
+
+			//key.classList.add( 'press' )
+			keyEngage( key.getAttribute( 'data-name' ) )
 		}
 	})
 }

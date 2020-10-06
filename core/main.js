@@ -501,9 +501,13 @@ comp.audio.addEventListener( 'canplaythrough', function( event ){
 	// 	)) comp.play()
 	
 })*/
-comp.audio.addEventListener( 'progress', function( event ){
 
-	const b = this.buffered
+function onAudioLoadProgress( event ){
+
+	const 
+	a = comp.audio,
+	b = a.buffered
+
 	if( b.length === 1 ){
 		
 		// only one range?! so it’s all or nothing.
@@ -546,41 +550,40 @@ comp.audio.addEventListener( 'progress', function( event ){
 
 		let 
 		i = 0, 
-		totalChunks = this.buffered.length; 
+		totalChunks = b.length; 
 		
 		i < totalChunks; 
 		i ++ ){
 
-		const chunkDuration = this.buffered.end( i ) - this.buffered.start( i )
+		const chunkDuration = b.end( i ) - b.start( i )
 		loadedLengthInSeconds += chunkDuration
-
-
-
 
 		const loadedEl = document.createElement( 'div' )
 		loadedEl.classList.add( 'loaded' )
-		loadedEl.style.left  = ( this.buffered.start( i ) / this.duration * 100 ) +'%'
-		loadedEl.style.width = ( chunkDuration / this.duration * 100 ) +'%'
+		loadedEl.style.left  = ( b.start( i ) / a.duration * 100 ) +'%'
+		loadedEl.style.width = ( chunkDuration / a.duration * 100 ) +'%'
 		timeline.prepend( loadedEl )
 
+		if( verbosity >= 0.4 ) console.log(
 
-
-		// console.log(
-
-		// 	'\n\n\nLoad buffer', i, 
-		// 	'\nFrom', this.buffered.start( i ),
-		// 	'\n  to', this.buffered.end( i ),
-		// 	'\nDuration', this.buffered.end( i ) - this.buffered.start( i ),
-		// 	'\n\n\n'
-		// )
+			'\n\n\nLoad buffer', i, 
+			'\nFrom', b.start( i ),
+			'\n  to', b.end( i ),
+			'\nDuration', b.end( i ) - b.start( i ),
+			'\n\n\n'
+		)
 	}
 
-	const loadedNormalized = loadedLengthInSeconds / this.duration
+	const loadedNormalized = loadedLengthInSeconds / a.duration
 	
-	// console.log( '\n\n\nEVENT progress', event )
-	// console.log( 'loadedLengthInSeconds', loadedLengthInSeconds )
-	// console.log( 'this.duration', this.duration )
-	// console.log( 'loadedNormalized', loadedNormalized )
+	if( verbosity >= 0.4 ){
+
+		console.log( '\n\n\nEVENT', event )
+		console.log( 'loadedLengthInSeconds', loadedLengthInSeconds )
+		console.log( 'this.duration', a.duration )
+		console.log( 'loadedNormalized', loadedNormalized )	
+	}
+	
 
 	//  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -598,7 +601,12 @@ comp.audio.addEventListener( 'progress', function( event ){
 	// 	.style
 	// 	.display = 'none'
 	// }
-})
+}
+comp.audio.addEventListener( 'loadeddata', onAudioLoadProgress )
+comp.audio.addEventListener( 'progress', onAudioLoadProgress )
+comp.audio.addEventListener( 'canplaythrough', onAudioLoadProgress )
+
+
 
 
 //  CONVENIENCE METHODS
@@ -726,7 +734,7 @@ updateLocationHashFromTime = function(){
 let 
 controlsShouldHide = false,
 interfaceIdleSince = Date.now(),
-controlsShouldHideAfterSeconds = 2
+controlsShouldHideAfterSeconds = 3
 
 const
 controlsDisable = function(){
@@ -1074,6 +1082,8 @@ appendKeyAbilitiesTo = function( keyElement ){
 				if( name === 'delete' ) comp.log( '⌫'  )
 				if( name === 'return' ) comp.log( '\n' )
 				if( name === 'tab'    ) comp.log( '\t' )
+				if( name === 'period' ) comp.log( '.' )
+				if( name === 'space'  ) comp.log( ' ' )
 				const keyboardTagName = name.split( '-' )[ 0 ]
 				if([ 
 
@@ -1081,17 +1091,16 @@ appendKeyAbilitiesTo = function( keyElement ){
 					'shift', 
 					'control', 
 					'option', 
-					'command',
-					'period' 
+					'command'
 
 				].includes( keyboardTagName )){
 
 					this.keyboard.classList.add( keyboardTagName )
 					this.keyboard.stateAdd( keyboardTagName, requestor )
-					comp.log( ` [${ keyboardTagName.toUpperCase() }] ` )
+					comp.log( `&lt;${ keyboardTagName.toUpperCase() }&gt;` )
 				}
 /*
-
+s
 
 must write a separate mini-toggle-routine here that 
 turns capslock on OR off depending on current state.
@@ -1554,16 +1563,43 @@ window.addEventListener( 'DOMContentLoaded', function(){
 	},
 	seekByGui = function( event ){
 
-		//if( hasLoadedEntireSong || hasLoadedThisMoment( x )){
-		if( hasLoadedEntireSong ){
-		
-			event.preventDefault()
+		event.preventDefault()
 
-			const 
-			rectangle = timelineElement.getBoundingClientRect(),
-			x = getInteractionCoordinates( event ).x - rectangle.left
-			
-			comp.seek( x / timelineElement.clientWidth * comp.audio.duration )
+		const 
+		rectangle = timelineElement.getBoundingClientRect(),
+		x = getInteractionCoordinates( event ).x - rectangle.left,
+		n = x / timelineElement.clientWidth * comp.audio.duration,
+		buffered = comp.audio.buffered
+
+		if( verbosity >= 0.4 ) console.log( 'seeking n', n )
+		if( verbosity >= 0.4 ) console.log( 'buffered.length', buffered.length )
+
+		let thisChunkHasLoaded = false
+		for( 
+
+			let 
+			i = 0, 
+			totalChunks = buffered.length;			
+			i < totalChunks; 
+			i ++ ){
+
+			if( buffered.start( i ) <= n &&
+				n <= buffered.end( i )){
+
+				if( verbosity >= 0.7 ) console.log( 'HAS LOADED!', n, 'chunk start', buffered.start( i ), 'chunk end', buffered.end( i ))
+				thisChunkHasLoaded = true
+				break
+			}
+			if( n < buffered.start( i )){
+
+				if( verbosity >= 0.7 ) console.log( 'n < buffered.start( i )', n, buffered.start( i ))
+				break
+			}
+		}
+		if( verbosity >= 0.7 ) console.log( 'thisChunkHasLoaded', thisChunkHasLoaded ) 
+		if( thisChunkHasLoaded ){
+
+			comp.seek( n )
 		}
 	},
 	updateSeekerFromPointer = function( event ){

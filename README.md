@@ -1,6 +1,6 @@
 
 
-<img src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/stewart-smith-black-swan.jpg" title="Black Swan" width="512">  
+<img src="https://raw.githubusercontent.com/stewdio/blackswan/master/media/stewart-smith-black-swan.png" title="Black Swan" width="512">  
 
 
 

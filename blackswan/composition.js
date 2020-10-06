@@ -293,10 +293,34 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	tiltedOn()
 
+	const curtainBegin1 = comp.findLastBeat()
+	append( 0, function(){ 
+
+		Object.assign( Mode.all.curtain, {
+
+			timeStart: curtainBegin1,
+			durationInSeconds: comp.beatsPerSecond * 8,
+			direction: 'right'
+		})
+		Mode.switchTo( 'curtain' )
+	})
+
 	capslockOn()
-	appendRiffedUp( 'blackswan', 'riff bump-bump' )
+	appendRiffedUp( 'blackswn', 'riff bump-bump' )
 	capslockOff()
 	appendRiff( 8, 'bump-bump dead-or-alive' )
+
+	const curtainBegin2 = comp.findLastBeat()
+	append( 0, function(){ 
+
+		Object.assign( Mode.all.curtain, {
+
+			timeStart: curtainBegin2,
+			durationInSeconds: comp.beatsPerSecond * 8,
+			direction: 'left'
+		})
+		Mode.switchTo( 'curtain' )
+	})
 
 	capslockOn()
 	appendRiffedUp( 'fuckedup', 'riff bump-bump' )
@@ -314,15 +338,39 @@ window.addEventListener( 'DOMContentLoaded', function(){
 
 	tiltedOn()
 
+	const curtainBegin3 = comp.findLastBeat()
+	append( 0, function(){ 
+
+		Object.assign( Mode.all.curtain, {
+
+			timeStart: curtainBegin3,
+			durationInSeconds: comp.beatsPerSecond * 8,
+			direction: 'right'
+		})
+		Mode.switchTo( 'curtain' )
+	})
+
 	capslockOn()
-	appendRiffedUp( 'blackswans', 'riff bump-bump' )
+	appendRiffedUp( 'blackswns', 'riff bump-bump' )
 	capslockOff()
 	appendRiff( 8, 'bump-bump dead-or-alive' )
 
 	tiltedOn()
 
+	const curtainBegin4 = comp.findLastBeat()
+	append( 0, function(){ 
+
+		Object.assign( Mode.all.curtain, {
+
+			timeStart: curtainBegin4,
+			durationInSeconds: comp.beatsPerSecond * 8,
+			direction: 'top'
+		})
+		Mode.switchTo( 'curtain' )
+	})
+
 	capslockOn()
-	appendRiffedUp( 'spareparts', 'riff bump-bump' )
+	appendRiffedUp( 'sparet', 'riff bump-bump' )
 	capslockOff()
 	appendRiff( 8, 'bump-bump dead-or-alive' )
 
@@ -549,6 +597,7 @@ rotate into a surfboard. ripple it while popcorning?
 			// )
 			comp.generateReceipt()
 			comp.pause().seek( 0 )
+			controlsEnable()
 		}
 	)
 })

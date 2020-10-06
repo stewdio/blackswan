@@ -1,364 +1,361 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>“Black Swan” music video</title>
+		<title>Keyboard</title>
 		<meta charset="utf-8">
-		<meta name="viewport"             content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="description"          content="A browser-based music video for Thom Yorke’s song of the same name.">
-		<meta name="copyright"            content="Stewart Smith 2020">
-		
-		<meta name="twitter:card"         content="summary_large_image">
-		<meta name="twitter:site"         content="@stew_rtsmith">
-		<meta name="twitter:creator"      content="@stew_rtsmith">
-		<meta name="twitter:title"        content="Black Swan">
-		<meta name="twitter:description"  content="A browser-based music video for Thom Yorke’s song of the same name.">
-		<meta name="twitter:image"        content="http://stewartsmith.io/blackswan/media/blackswan.jpg">
-		
-		<meta property="og:type"          content="website">
-		<meta property="og:title"         content="Black Swan">
-		<meta property="og:description"   content="A browser-based music video for Thom Yorke’s song of the same name.">
-		<meta property="og:image"         content="http://stewartsmith.io/blackswan/media/blackswan.jpg">
-		<meta property="og:url"           content="http://stewartsmith.io/blackswan">
-		
-		<link rel="canonical" href="http://stewartsmith.io/blackswan">
-<!-- 		<link href="media/favicon-064.png" rel="icon" type="image/png">
-		<link href="media/favicon-144.png" rel="apple-touch-icon"> -->
-		
-		<link rel="stylesheet" href="styles/core.css">
-		<!-- <link rel="stylesheet" href="styles/blackswan.css"> -->
-		
-		<script src="scripts/core.js"></script>
-		<script src="scripts/blackswan-methods.js"></script>
-		<script src="scripts/blackswan-composition.js"></script>	
+		<link rel="stylesheet" href="core/styles.css">		
+		<script src="vendor/Moar/TaskList.js"></script>
+		<script src="vendor/Moar/Mode.js"></script>
+		<script src="vendor/Sole/Tween.js"></script>
+		<!-- <script src="vendor/Ricardo/stats.js"></script> -->
+		<script src="core/main.js"></script>
+		<!-- <script src="core/css-generator.js"></script> -->
 	</head>
 	<body>
-		<main>
-			<div id="fullscreen-container">
-				<div class="keyboard">
-					<div class="row">
-						<div class="key key-tick punctuation">
-							<div class="default">`</div>
-							<div class="shift">~</div>
-							<div class="option">`</div>
-							<div class="shift-option">`</div>
+		<div id="fullscreen-container">
+			<main>
+				<div class="keyboards-rotator">
+					<div class="keyboards-translator">
+						<div class="keyboard">
+							<div class="row">
+								<div data-name="backtick" class="key key-tick punctuation">
+									<div class="default">`</div>
+									<div class="shift">~</div>
+									<div class="option">`</div>
+									<div class="shift-option">`</div>
+								</div>
+								<div data-name="1" class="key key-1 digit">
+									<div class="default">1</div>
+									<div class="shift">!</div>
+									<div class="option">¡</div>
+									<div class="shift-option">⁄</div>
+								</div>
+								<div data-name="2" class="key key-2 digit">
+									<div class="default">2</div>
+									<div class="shift">@</div>
+									<div class="option">™</div>
+									<div class="shift-option">€</div>
+								</div>
+								<div data-name="3" class="key key-3 digit">
+									<div class="default">3</div>
+									<div class="shift">#</div>
+									<div class="option">£</div>
+									<div class="shift-option">‹</div>
+								</div>
+								<div data-name="4" class="key key-4 digit">
+									<div class="default">4</div>
+									<div class="shift">$</div>
+									<div class="option">¢</div>
+									<div class="shift-option">›</div>
+								</div>
+								<div data-name="5" class="key key-5 digit">
+									<div class="default">5</div>
+									<div class="shift">%</div>
+									<div class="option">∞</div>
+									<div class="shift-option">ﬁ</div>
+								</div>
+								<div data-name="6" class="key key-6 digit">
+									<div class="default">6</div>
+									<div class="shift">^</div>
+									<div class="option">§</div>
+									<div class="shift-option">ﬂ</div>
+								</div>
+								<div data-name="7" class="key key-7 digit">
+									<div class="default">7</div>
+									<div class="shift">&</div>
+									<div class="option">¶</div>
+									<div class="shift-option">‡</div>
+								</div>
+								<div data-name="8" class="key key-8 digit">
+									<div class="default">8</div>
+									<div class="shift">*</div>
+									<div class="option">•</div>
+									<div class="shift-option">°</div>
+								</div>
+								<div data-name="9" class="key key-9 digit">
+									<div class="default">9</div>
+									<div class="shift">(</div>
+									<div class="option">ª</div>
+									<div class="shift-option">·</div>
+								</div>
+								<div data-name="0" class="key key-0 digit">
+									<div class="default">0</div>
+									<div class="shift">)</div>
+									<div class="option">º</div>
+									<div class="shift-option">‚</div>
+								</div>
+								<div data-name="minus" class="key key-minus punctuation">
+									<div class="default">-</div>
+									<div class="shift">_</div>
+									<div class="option">–</div>
+									<div class="shift-option">—</div>
+								</div>
+								<div data-name="equal" class="key key-equal punctuation">
+									<div class="default">=</div>
+									<div class="shift">+</div>
+									<div class="option">≠</div>
+									<div class="shift-option">±</div>
+								</div>
+								<div data-name="delete" class="key key-delete dead word right">delete</div>
+							</div>
+							<div class="row">
+								<div data-name="tab" class="key key-tab dead word left">tab</div>
+								<div data-name="Q" class="key key-Q letter">
+									<div class="default">q</div>
+									<div class="shift">Q</div>
+									<div class="option">œ</div>
+									<div class="shift-option">Œ</div>
+								</div>
+								<div data-name="W" class="key key-W letter">
+									<div class="default">w</div>
+									<div class="shift">W</div>
+									<div class="option">∑</div>
+									<div class="shift-option">„</div>
+								</div>
+								<div data-name="E" class="key key-E letter">
+									<div class="default">e</div>
+									<div class="shift">E</div>
+									<div class="option">´</div>
+									<div class="shift-option">´</div>
+								</div>
+								<div data-name="R" class="key key-R letter">
+									<div class="default">r</div>
+									<div class="shift">R</div>
+									<div class="option">®</div>
+									<div class="shift-option">‰</div>
+								</div>
+								<div data-name="T" class="key key-T letter">
+									<div class="default">t</div>
+									<div class="shift">T</div>
+									<div class="option">†</div>
+									<div class="shift-option">ˇ</div>
+								</div>
+								<div data-name="Y" class="key key-Y letter">
+									<div class="default">y</div>
+									<div class="shift">Y</div>
+									<div class="option">¥</div>
+									<div class="shift-option">Á</div>
+								</div>
+								<div data-name="U" class="key key-U letter">
+									<div class="default">u</div>
+									<div class="shift">U</div>
+									<div class="option">¨</div>
+									<div class="shift-option">¨</div>
+								</div>
+								<div data-name="I" class="key key-I letter">
+									<div class="default">i</div>
+									<div class="shift">I</div>
+									<div class="option">ˆ</div>
+									<div class="shift-option">ˆ</div>
+								</div>
+								<div data-name="O" class="key key-O letter">
+									<div class="default">o</div>
+									<div class="shift">O</div>
+									<div class="option">ø</div>
+									<div class="shift-option">Ø</div>
+								</div>
+								<div data-name="P" class="key key-P letter">
+									<div class="default">p</div>
+									<div class="shift">P</div>
+									<div class="option">π</div>
+									<div class="shift-option">∏</div>
+								</div>
+								<div data-name="bracket-open" class="key key-bracket-open punctuation">
+									<div class="default">[</div>
+									<div class="shift">{</div>
+									<div class="option">“</div>
+									<div class="shift-option">”</div>
+								</div>
+								<div data-name="bracket-close" class="key key-bracket-close punctuation">
+									<div class="default">]</div>
+									<div class="shift">}</div>
+									<div class="option">‘</div>
+									<div class="shift-option">’</div>
+								</div>
+								<div data-name="slash-backward" class="key key-slash-backward punctuation">
+									<div class="default">\</div>
+									<div class="shift">|</div>
+									<div class="option">«</div>
+									<div class="shift-option">»</div>
+								</div>
+							</div>
+							<div class="row">
+								<div data-name="capslock" class="key key-capslock dead word left">
+									caps lock
+									<div class="capslock-indicator"></div>
+								</div>
+								<div data-name="A" class="key key-A letter">
+									<div class="default">a</div>
+									<div class="shift">A</div>
+									<div class="option">å</div>
+									<div class="shift-option">Å</div>
+								</div>
+								<div data-name="S" class="key key-S letter">
+									<div class="default">s</div>
+									<div class="shift">S</div>
+									<div class="option">ß</div>
+									<div class="shift-option">Í</div>
+								</div>
+								<div data-name="D" class="key key-D letter">
+									<div class="default">d</div>
+									<div class="shift">D</div>
+									<div class="option">∂</div>
+									<div class="shift-option">Î</div>
+								</div>
+								<div data-name="F" class="key key-F letter">
+									<div class="default">f</div>
+									<div class="shift">F</div>
+									<div class="option">ƒ</div>
+									<div class="shift-option">Ï</div>
+								</div>
+								<div data-name="G" class="key key-G letter">
+									<div class="default">g</div>
+									<div class="shift">G</div>
+									<div class="option">©</div>
+									<div class="shift-option">˝</div>
+								</div>
+								<div data-name="H" class="key key-H letter">
+									<div class="default">h</div>
+									<div class="shift">H</div>
+									<div class="option">˙</div>
+									<div class="shift-option">Ó</div>
+								</div>
+								<div data-name="J" class="key key-J letter">
+									<div class="default">j</div>
+									<div class="shift">J</div>
+									<div class="option">∆</div>
+									<div class="shift-option">Ô</div>
+								</div>
+								<div data-name="K" class="key key-K letter">
+									<div class="default">k</div>
+									<div class="shift">K</div>
+									<div class="option">˚</div>
+									<div class="shift-option"></div>
+								</div>
+								<div data-name="L" class="key key-L letter">
+									<div class="default">l</div>
+									<div class="shift">L</div>
+									<div class="option">¬</div>
+									<div class="shift-option">Ò</div>
+								</div>
+								<div data-name="semicolon" class="key key-semicolon punctuation">
+									<div class="default">;</div>
+									<div class="shift">:</div>
+									<div class="option">…</div>
+									<div class="shift-option">Ú</div>
+								</div>
+								<div data-name="quote" class="key key-quote punctuation">
+									<div class="default">’</div>
+									<div class="shift">”</div>
+									<div class="option">æ</div>
+									<div class="shift-option">Æ</div>
+								</div>
+								<div data-name="return" class="key key-return dead word right">return</div>
+							</div>
+							<div class="row">
+								<div data-name="shift-left" class="key key-shift-left key-shift dead word left">shift</div>
+								<div data-name="Z" class="key key-Z letter">
+									<div class="default">z</div>
+									<div class="shift">Z</div>
+									<div class="option">Ω</div>
+									<div class="shift-option">¸</div>
+								</div>
+								<div data-name="X" class="key key-X letter">
+									<div class="default">x</div>
+									<div class="shift">X</div>
+									<div class="option">≈</div>
+									<div class="shift-option">˛</div>
+								</div>
+								<div data-name="C" class="key key-C letter">
+									<div class="default">c</div>
+									<div class="shift">C</div>
+									<div class="option">ç</div>
+									<div class="shift-option">Ç</div>
+								</div>
+								<div data-name="V" class="key key-V letter">
+									<div class="default">v</div>
+									<div class="shift">V</div>
+									<div class="option">√</div>
+									<div class="shift-option">◊</div>
+								</div>
+								<div data-name="B" class="key key-B letter">
+									<div class="default">b</div>
+									<div class="shift">B</div>
+									<div class="option">∫</div>
+									<div class="shift-option">ı</div>
+								</div>
+								<div data-name="N" class="key key-N letter">
+									<div class="default">n</div>
+									<div class="shift">N</div>
+									<div class="option">˜</div>
+									<div class="shift-option">˜</div>
+								</div>
+								<div data-name="M" class="key key-M letter">
+									<div class="default">m</div>
+									<div class="shift">M</div>
+									<div class="option">µ</div>
+									<div class="shift-option">Â</div>
+								</div>
+								<div data-name=comma class="key key-comma punctuation">
+									<div class="default">,</div>
+									<div class="shift">&lt;</div>
+									<div class="option">≤</div>
+									<div class="shift-option">¯</div>
+								</div>
+								<div data-name=period class="key key-period punctuation">
+									<div class="default">.</div>
+									<div class="shift">&gt;</div>
+									<div class="option">≥</div>
+									<div class="shift-option">˘</div>
+								</div>
+								<div data-name="slash-forward" class="key key-slash-forward punctuation">
+									<div class="default">/</div>
+									<div class="shift">?</div>
+									<div class="option">÷</div>
+									<div class="shift-option">¿</div>
+								</div>
+								<div data-name="shift-right" class="key key-shift-right key-shift dead  word right">shift</div>
+							</div>
+							<div class="row">
+								<div data-name="fn" class="key key-function dead word left">fn</div>
+								<div data-name="control" class="key key-control dead word">control</div>
+								<div data-name="option-left" class="key key-option-left key-option dead word">option</div>
+								<div data-name="command-left" class="key key-command-left dead word">command</div>
+								<div data-name="space" class="key key-space punctuation">&nbsp;</div>
+								<div data-name="command-right" class="key key-command-right dead word">command</div>
+								<div data-name="option-right" class="key key-option-right key-option dead word">option</div>
+								<div data-name="arrow-left" class="key key-arrow-left dead arrow">&larr;</div>
+								<div class="arrow-up-down-container">
+									<div data-name="arrow-up" class="key key-arrow-up arrow dead">&uarr;</div>
+									<div data-name="arrow-down" class="key key-arrow-down arrow dead">&darr;</div>
+								</div>
+								<div data-name="arrow-right" class="key key-arrow-right arrow dead">&rarr;</div>
+							</div>
 						</div>
-						<div class="key key-1 digit">
-							<div class="default">1</div>
-							<div class="shift">!</div>
-							<div class="option">¡</div>
-							<div class="shift-option">⁄</div>
-						</div>
-						<div class="key key-2 digit">
-							<div class="default">2</div>
-							<div class="shift">@</div>
-							<div class="option">™</div>
-							<div class="shift-option">€</div>
-						</div>
-						<div class="key key-3 digit">
-							<div class="default">3</div>
-							<div class="shift">#</div>
-							<div class="option">£</div>
-							<div class="shift-option">‹</div>
-						</div>
-						<div class="key key-4 digit">
-							<div class="default">4</div>
-							<div class="shift">$</div>
-							<div class="option">¢</div>
-							<div class="shift-option">›</div>
-						</div>
-						<div class="key key-5 digit">
-							<div class="default">5</div>
-							<div class="shift">%</div>
-							<div class="option">∞</div>
-							<div class="shift-option">ﬁ</div>
-						</div>
-						<div class="key key-6 digit">
-							<div class="default">6</div>
-							<div class="shift">^</div>
-							<div class="option">§</div>
-							<div class="shift-option">ﬂ</div>
-						</div>
-						<div class="key key-7 digit">
-							<div class="default">7</div>
-							<div class="shift">&</div>
-							<div class="option">¶</div>
-							<div class="shift-option">‡</div>
-						</div>
-						<div class="key key-8 digit">
-							<div class="default">8</div>
-							<div class="shift">*</div>
-							<div class="option">•</div>
-							<div class="shift-option">°</div>
-						</div>
-						<div class="key key-9 digit">
-							<div class="default">9</div>
-							<div class="shift">(</div>
-							<div class="option">ª</div>
-							<div class="shift-option">·</div>
-						</div>
-						<div class="key key-0 digit">
-							<div class="default">0</div>
-							<div class="shift">)</div>
-							<div class="option">º</div>
-							<div class="shift-option">‚</div>
-						</div>
-						<div class="key key-minus punctuation">
-							<div class="default">-</div>
-							<div class="shift">_</div>
-							<div class="option">–</div>
-							<div class="shift-option">—</div>
-						</div>
-						<div class="key key-equal punctuation">
-							<div class="default">=</div>
-							<div class="shift">+</div>
-							<div class="option">≠</div>
-							<div class="shift-option">±</div>
-						</div>
-						<div class="key key-delete dead word right">delete</div>
-					</div>
-					<div class="row">
-						<div class="key key-tab dead word left">tab</div>
-						<div class="key key-Q letter">
-							<div class="default">q</div>
-							<div class="shift">Q</div>
-							<div class="option">œ</div>
-							<div class="shift-option">Œ</div>
-						</div>
-						<div class="key key-W letter">
-							<div class="default">w</div>
-							<div class="shift">W</div>
-							<div class="option">∑</div>
-							<div class="shift-option">„</div>
-						</div>
-						<div class="key key-E letter">
-							<div class="default">e</div>
-							<div class="shift">E</div>
-							<div class="option">´</div>
-							<div class="shift-option">´</div>
-						</div>
-						<div class="key key-R letter">
-							<div class="default">r</div>
-							<div class="shift">R</div>
-							<div class="option">®</div>
-							<div class="shift-option">‰</div>
-						</div>
-						<div class="key key-T letter">
-							<div class="default">t</div>
-							<div class="shift">T</div>
-							<div class="option">†</div>
-							<div class="shift-option">ˇ</div>
-						</div>
-						<div class="key key-Y letter">
-							<div class="default">y</div>
-							<div class="shift">Y</div>
-							<div class="option">¥</div>
-							<div class="shift-option">Á</div>
-						</div>
-						<div class="key key-U letter">
-							<div class="default">u</div>
-							<div class="shift">U</div>
-							<div class="option">¨</div>
-							<div class="shift-option">¨</div>
-						</div>
-						<div class="key key-I letter">
-							<div class="default">i</div>
-							<div class="shift">I</div>
-							<div class="option">ˆ</div>
-							<div class="shift-option">ˆ</div>
-						</div>
-						<div class="key key-O letter">
-							<div class="default">o</div>
-							<div class="shift">O</div>
-							<div class="option">ø</div>
-							<div class="shift-option">Ø</div>
-						</div>
-						<div class="key key-P letter">
-							<div class="default">p</div>
-							<div class="shift">P</div>
-							<div class="option">π</div>
-							<div class="shift-option">∏</div>
-						</div>
-						<div class="key key-bracket-open punctuation">
-							<div class="default">[</div>
-							<div class="shift">{</div>
-							<div class="option">“</div>
-							<div class="shift-option">”</div>
-						</div>
-						<div class="key key-bracket-close punctuation">
-							<div class="default">]</div>
-							<div class="shift">}</div>
-							<div class="option">‘</div>
-							<div class="shift-option">’</div>
-						</div>
-						<div class="key key-slash-backward punctuation">
-							<div class="default">\</div>
-							<div class="shift">|</div>
-							<div class="option">«</div>
-							<div class="shift-option">»</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="key key-caps-lock dead word left">
-							caps lock
-							<div class="caps-lock-indicator"></div>
-						</div>
-						<div class="key key-A letter">
-							<div class="default">a</div>
-							<div class="shift">A</div>
-							<div class="option">å</div>
-							<div class="shift-option">Å</div>
-						</div>
-						<div class="key key-S letter">
-							<div class="default">s</div>
-							<div class="shift">S</div>
-							<div class="option">ß</div>
-							<div class="shift-option">Í</div>
-						</div>
-						<div class="key key-D letter">
-							<div class="default">d</div>
-							<div class="shift">D</div>
-							<div class="option">∂</div>
-							<div class="shift-option">Î</div>
-						</div>
-						<div class="key key-F letter">
-							<div class="default">f</div>
-							<div class="shift">F</div>
-							<div class="option">ƒ</div>
-							<div class="shift-option">Ï</div>
-						</div>
-						<div class="key key-G letter">
-							<div class="default">g</div>
-							<div class="shift">G</div>
-							<div class="option">©</div>
-							<div class="shift-option">˝</div>
-						</div>
-						<div class="key key-H letter">
-							<div class="default">h</div>
-							<div class="shift">H</div>
-							<div class="option">˙</div>
-							<div class="shift-option">Ó</div>
-						</div>
-						<div class="key key-J letter">
-							<div class="default">j</div>
-							<div class="shift">J</div>
-							<div class="option">∆</div>
-							<div class="shift-option">Ô</div>
-						</div>
-						<div class="key key-K letter">
-							<div class="default">k</div>
-							<div class="shift">K</div>
-							<div class="option">˚</div>
-							<div class="shift-option"></div>
-						</div>
-						<div class="key key-L letter">
-							<div class="default">l</div>
-							<div class="shift">L</div>
-							<div class="option">¬</div>
-							<div class="shift-option">Ò</div>
-						</div>
-						<div class="key key-semicolon punctuation">
-							<div class="default">;</div>
-							<div class="shift">:</div>
-							<div class="option">…</div>
-							<div class="shift-option">Ú</div>
-						</div>
-						<div class="key key-quote punctuation">
-							<div class="default">’</div>
-							<div class="shift">”</div>
-							<div class="option">æ</div>
-							<div class="shift-option">Æ</div>
-						</div>
-						<div class="key key-return dead word right">return</div>
-					</div>
-					<div class="row">
-						<div class="key key-shift-left key-shift dead word left">shift</div>
-						<div class="key key-Z letter">
-							<div class="default">z</div>
-							<div class="shift">Z</div>
-							<div class="option">Ω</div>
-							<div class="shift-option">¸</div>
-						</div>
-						<div class="key key-X letter">
-							<div class="default">x</div>
-							<div class="shift">X</div>
-							<div class="option">≈</div>
-							<div class="shift-option">˛</div>
-						</div>
-						<div class="key key-C letter">
-							<div class="default">c</div>
-							<div class="shift">C</div>
-							<div class="option">ç</div>
-							<div class="shift-option">Ç</div>
-						</div>
-						<div class="key key-V letter">
-							<div class="default">v</div>
-							<div class="shift">V</div>
-							<div class="option">√</div>
-							<div class="shift-option">◊</div>
-						</div>
-						<div class="key key-B letter">
-							<div class="default">b</div>
-							<div class="shift">B</div>
-							<div class="option">∫</div>
-							<div class="shift-option">ı</div>
-						</div>
-						<div class="key key-N letter">
-							<div class="default">n</div>
-							<div class="shift">N</div>
-							<div class="option">˜</div>
-							<div class="shift-option">˜</div>
-						</div>
-						<div class="key key-M letter">
-							<div class="default">m</div>
-							<div class="shift">M</div>
-							<div class="option">µ</div>
-							<div class="shift-option">Â</div>
-						</div>
-						<div class="key key-comma punctuation">
-							<div class="default">,</div>
-							<div class="shift">&lt;</div>
-							<div class="option">≤</div>
-							<div class="shift-option">¯</div>
-						</div>
-						<div class="key key-period punctuation">
-							<div class="default">.</div>
-							<div class="shift">&gt;</div>
-							<div class="option">≥</div>
-							<div class="shift-option">˘</div>
-						</div>
-						<div class="key key-slash-forward punctuation">
-							<div class="default">/</div>
-							<div class="shift">?</div>
-							<div class="option">÷</div>
-							<div class="shift-option">¿</div>
-						</div>
-						<div class="key key-shift-right key-shift dead  word right">shift</div>
-					</div>
-					<div class="row">
-						<div class="key key-function dead word left">fn</div>
-						<div class="key key-control dead word">control</div>
-						<div class="key key-option-left key-option dead word">option</div>
-						<div class="key key-command-left dead word">command</div>
-						<div class="key key-space punctuation"></div>
-						<div class="key key-command-right dead word">command</div>
-						<div class="key key-option-right key-option dead word">option</div>
-						<div class="key key-arrow-left dead arrow">&larr;</div>
-						<div class="arrow-up-down-container">
-							<div class="key key-arrow-up arrow dead">&uarr;</div>
-							<div class="key key-arrow-down arrow dead">&darr;</div>
-						</div>
-						<div class="key key-arrow-right arrow dead">&rarr;</div>
 					</div>
 				</div>
 				<div id="controls-activator">
 					<div id="controls">
 						<div class="button" id="play-pause">
-							<div id="play">►</div>
-							<div id="pause">||</div>
+							<svg id="button-play" role="img" viewBox="0 0 600 600">
+								<title>Play</title>
+								<use href="#icon-play"></use>
+							</svg>
+							<svg id="button-pause" role="img" viewBox="0 0 600 600">
+								<title>Pause</title>
+								<use href="#icon-pause"></use>
+							</svg>
 						</div>
-						<div class="button" id="return-to-start">⇤</div>
+						<div class="button" id="button-restart">
+							<svg role="img" viewBox="0 0 600 600">
+								<title>Restart</title>
+								<use href="#icon-restart"></use>
+							</svg>
+						</div>
 						<div id="timeline">
+							<div class="loaded"></div>
 							<div id="progress">
 								<div id="progress-head"></div>
 								<div id="progress-clock">0:00.00</div>
@@ -367,10 +364,225 @@
 							<div id="seeker-clock">0:00.00</div>
 							<div id="overhang"></div>
 						</div>
-						<div class="button" id="toggle-fullscreen">⤢</div>
+						<div class="button" id="button-fullscreen">
+							<svg id="button-fullscreen-enter" role="img" viewBox="0 0 600 600">
+								<title>Enter fullscreen mode</title>
+								<use href="#icon-fullscreen-enter"></use>
+							</svg>
+							<svg id="button-fullscreen-exit" role="img" viewBox="0 0 600 600">
+								<title>Exit fullscreen mode</title>
+								<use href="#icon-fullscreen-exit"></use>
+							</svg>
+						</div>
 					</div>
 				</div>
-			</div>
-		</main>
+			</main>
+			<section id="eraser">			
+				<img id="eraser-album-cover" src="media/thom-yorke-the-eraser@1024.jpg" 
+					  alt="Cover art for Thom York’s “The Eraser” (2006) by Stanley Donwood."
+					title="Cover art for Thom York’s “The Eraser” (2006) by Stanley Donwood.">
+				<div class="section-description">
+					Released in July 2006, 
+					<a target="_blank" href="https://en.wikipedia.org/wiki/The_Eraser"><strong>The&nbsp;Eraser</strong></a> is
+					<a target="_blank" href="https://en.wikipedia.org/wiki/Radiohead">Radiohead</a> frontperson 
+					<a target="_blank" href="https://en.wikipedia.org/wiki/Thom_Yorke">Thom Yorke</a>’s
+					debut solo album, produced by
+					<a target="_blank" href="https://en.wikipedia.org/wiki/Nigel_Godrich">Nigel Godrich</a> 
+					and featuring visual artwork by 
+					<a target="_blank" href="https://en.wikipedia.org/wiki/Stanley_Donwood">Stanley Donwood</a>.
+					<strong>Black&nbsp;Swan</strong>—the song featured here—is the fourth track from this record.
+				</div>
+			</section>
+			<section id="purchase">
+				<div class="section-description">
+					<h2><svg role="img" viewBox="0 0 600 300">
+						<title>Purchase</title>
+						<use href="#title-purchase"></use>
+					</svg></h2>
+					<strong>The Eraser</strong> is available for
+					<a target="_blank" href="https://xlrecordings.com/buy/thomyorke-theeraser">purchase from XL&nbsp;Recordings</a>
+					in various physical and spectral formats.
+					Tap the brand mark below
+					to visit their virtual shop.
+					<br>
+					<a id="xl-link" target="_blank" 
+						href="https://xlrecordings.com/buy/thomyorke-theeraser"
+						title="“The Eraser” on XL Recordings"
+						><svg class="mark" viewBox="0 0 600 600" role="img">
+							<use href="#XL_Recordings"></use>
+							<!-- <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/various-marks.svg#XL_Recordings"></use> -->
+						</svg
+					></a>
+					<br>
+					Capitalist data brokers are also standing by 
+					to exchange your virtualized currency for aural stimulation.
+					<div id="data-brokers">
+						<a target="_blank" 
+							href="https://open.spotify.com/album/4QSIeDnAnGag2YZ5DjB2eB"
+							title="“The Eraser” on Spotify"
+							><svg class="mark" viewBox="0 0 600 600" role="img">
+								<use href="#Spotify"></use>
+								<!-- <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/various-marks.svg#Spotify"></use> -->
+							</svg>
+							<br>
+							Spotify
+							<br>
+							&nbsp;
+						</a
+						><a target="_blank" 
+							href="https://music.apple.com/us/album/the-eraser/161162568"
+							title="“The Eraser” on Apple Music"
+							><svg class="mark" viewBox="0 0 600 600" role="img">
+								<use href="#Apple_Music"></use>
+								<!-- <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/various-marks.svg#Apple_Music"></use> -->
+							</svg>
+							<br>
+							Apple
+							<br>
+							Music
+						</a
+						><a target="_blank" 
+							href="https://play.google.com/store/music/album/The_Eraser?id=B5n7dgsji4qeky2ldz5bifk6lu4&hl"
+							title="“The Eraser” on Google Play Music"
+							><svg class="mark" viewBox="0 0 600 600" role="img">
+								<use href="#Google_Play_Music"></use>
+								<!-- <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/various-marks.svg#Google_Play_Music"></use> -->
+							</svg>
+							<br>
+							Google
+							<br>
+							Play
+						</a
+						><a target="_blank" 
+							href="https://www.amazon.com/Eraser-Thom-Yorke/dp/B000FPYNR6"
+							title="“The Eraser” on Amazon Music"
+							><svg class="mark" viewBox="0 0 600 600" role="img">
+								<use href="#Amazon_Music"></use>
+								<!-- <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/various-marks.svg#Amazon_Music"></use> -->
+							</svg>
+							<br>
+							Amazon
+							<br>
+							Music
+						</a>
+					</div>
+				</div>
+			</section>
+			<section id="receipt">
+				<div class="section-description">
+					<h2><svg role="img" viewBox="0 0 600 300">
+						<title>Receipt</title>
+						<use href="#title-receipt"></use>
+					</svg></h2>
+					Upon each completion of the song,
+					a list of keyboard engagements 
+					will be displayed here.
+					This includes both the activations scripted for the animation
+					as well as your own keystrokes and pointer interactions.
+					You are part of the artwork.
+					This is your personal receipt for this experience.
+					It is unique and for your eyes only. 
+					<div id="receipt-content">NO DATA</div>
+				</div>
+			</section>
+			<section id="colophon">
+				<div class="section-description">
+					<h2><svg role="img" viewBox="0 0 600 300">
+						<title>Colophon</title>
+						<use href="#title-colophon"></use>
+					</svg></h2>
+					This interactive composition for <strong>Black&nbsp;Swan</strong> is a tribute 
+					to—and birthday present 
+					for—<a target="_blank" href="https://en.wikipedia.org/wiki/Thom_Yorke">Thom Yorke</a>
+					and
+					<a target="_blank" href="https://en.wikipedia.org/wiki/Stanley_Donwood">Stanley Donwood</a>
+					who share my birth month of October; the best month.
+					This is also an ode to 
+					<a target="_blank" href="https://en.wikipedia.org/wiki/Web_browser">Web browsers</a>.
+					It was created by myself,
+					<a target="_blank" href="https://stewartsmith">Stewart Smith</a>,
+					in Brooklyn, New York during the 
+					<a target="_blank" href="https://en.wikipedia.org/wiki/COVID-19_pandemic" title="This is fucked up.">COVID-19 pandemic</a> /
+					<a target="_blank" href="https://duckduckgo.com/?q=America%E2%80%99s+descent+into+fascism" title="This is fucked up.">America’s descent into fascism</a> / the
+					<a target="_blank" href="https://en.wikipedia.org/wiki/Anthropocene">Anthropocene</a>
+					<a target="_blank" href="https://en.wikipedia.org/wiki/Climate_change">climate crisis</a>.
+					“Fucked up”, as it were.
+					(If you are an American citizen, please 
+					<a target="_blank" href="https://vote.gov/">register to vote</a>
+					<a target="_blank" href="https://www.vote.org/voter-registration-deadlines/">right now</a>.)
+					<figure>
+						<img src="media/stewart-smith-black-swan-2006-clip.gif"
+							alt="A clip of Stewart’s 2006 sketch for a “Black Swan” music video; performed via Apple’s Keyboard Viewer application.">
+						<figcaption>
+							I originally sketched my concept for a 
+							“Black&nbsp;Swan” music video in 2006
+							as screen captures of live typographic performances using the
+							<a target="_blank" href="https://en.wikipedia.org/wiki/Mac_OS_X_Tiger">OS&nbsp;X&nbsp;10.4&nbsp;Tiger</a>
+							<a target="_blank" href="https://support.apple.com/guide/mac-help/use-the-keyboard-viewer-on-mac-mchlp1015/mac">Keyboard Viewer</a> application.
+							Keyboard Viewer, which replaced Apple’s old Key Caps program, 
+							highlights keys depressed by the user 
+							and displays available characters from the current keyboard palette. 
+							Sketches like the clip above 
+							were made by recording the screen
+							while typing along to the song
+							as it played back at half speed.
+							Byproduct “receipts” of the live performance were created 
+							by capturing the performed typing in
+							<a target="_blank" href="https://en.wikipedia.org/wiki/TextEdit">TextEdit</a>.
+							Have you ever hit a 14-year pause button on a personal project?
+						</figcaption>
+					</figure>
+					The code for this composition—primarily written in
+					<a target="_blank" href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a> and
+					<a target="_blank" href="https://en.wikipedia.org/wiki/CSS">Cascading Style Sheets</a>—is
+					©&nbsp;Copyright&nbsp;2020, <a target="_blank" href="https://stewartsmith">Stewart Smith</a>.
+					It is free, open-source,
+					and available for download and reuse from
+					<a target="_blank" href="https://github.com/stewdio/blackswan/">GitHub</a>.
+					(See 
+					<a target="_blank" href="https://github.com/stewdio/blackswan/blob/master/LICENSE.md">license</a> 
+					for details.)
+					It was created on my personal computing devices during personal time
+					and is not affiliated with any employers past or present. 
+					The audio is owned by 
+					<a target="_blank" href="https://xlrecordings.com/buy/thomyorke-theeraser">XL&nbsp;Recordings</a>
+					and is <em>not</em> available as part of this free code package.
+					Consider 
+					<a target="_blank" href="https://xlrecordings.com/buy/thomyorke-theeraser">purchasing it from them</a>.
+				</div>
+			</section>
+			<footer><img id="canute-and-sea" 
+				src="media/stanley-donwood-king-canute-and-the-sea.svg" 
+				alt="Portion of a woodcut by Stanley Donwood that illustrates King Canute failing to command the ocean."
+				title="We are all going to die."></footer>
+		</div>
+		<svg
+			version="1.1" xmlns="http://www.w3.org/2000/svg" 
+			xmlns:xlink="http://www.w3.org/1999/xlink" 
+			x="0px" y="0px"
+			viewBox="0 0 600 600" 
+			enable-background="new 0 0 600 600" 
+			xml:space="preserve"
+			style="display: none;">
+			<g id="icon-play">
+				<polygon points="400,298 400,302 251,400 246,396 246,204 251,200"/>
+			</g>
+			<g id="icon-pause">
+				<rect x="225" y="200" width="50" height="200"/>
+				<rect x="325" y="200" width="50" height="200"/>
+			</g>
+			<g id="icon-restart">
+				<rect x="210" y="210" width="40" height="180"/>
+				<polygon points="270,300 390,210 390,390"/>
+			</g>
+			<g id="icon-fullscreen-enter">
+				<path d="M348,400c0,0-98.315,0-146,0c-0.667-0.667-1.333-1.333-2-2l0-146l1-1l148,148"/>
+				<path d="M252,200c0,0,98.315,0,146,0c0.667,0.667,1.333,1.333,2,2l0,146l-1,1L251,201"/>
+			</g>
+			<g id="icon-fullscreen-exit">
+				<path d="M459,289c0,0-98.315,0-146,0c-0.667-0.667-1.333-1.333-2-2l0-146l1-1l148,148"/>
+				<path d="M142,310c0,0,98.315,0,146,0c0.667,0.667,1.333,1.333,2,2l0,146l-1,1L141,311"/>
+			</g>
+		</svg>
 	</body>
 </html>
