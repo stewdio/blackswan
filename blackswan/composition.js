@@ -466,7 +466,8 @@ rotate into a surfboard. ripple it while popcorning?
 			)
 			// Mode.all.popcorn.messagesReady =[ 'FU', 'CK', 'ED', 'UP' ]
 			//Mode.all.popcorn.messagesReady =[ 'KC', 'UF', 'KC', 'UF' ]
-			Mode.all.popcorn.messagesReady =[ 'PU', 'DE', 'KC', 'UF' ]
+			// Mode.all.popcorn.messagesReady =[ 'PU', 'DE', 'KC', 'UF' ]
+			Mode.all.popcorn.messagesReady =[ '02', '02', 'ET', 'OV' ]
 		},
 		'Glyphs: “FUCKEDUP”'
 	)
@@ -484,7 +485,8 @@ rotate into a surfboard. ripple it while popcorning?
 
 			// Mode.all.popcorn.messagesReady =[ 'FU', 'CK', 'ED', 'UP' ]
 			// Mode.all.popcorn.messagesReady =[ 'KC', 'UF', 'KC', 'UF' ]
-			Mode.all.popcorn.messagesReady =[ 'PU', 'DE', 'KC', 'UF' ]
+			// Mode.all.popcorn.messagesReady =[ 'PU', 'DE', 'KC', 'UF' ]
+			Mode.all.popcorn.messagesReady =[ '02', '02', 'ET', 'OV' ]
 		},
 		'Glyphs: “FUCKEDUP”'
 	)
